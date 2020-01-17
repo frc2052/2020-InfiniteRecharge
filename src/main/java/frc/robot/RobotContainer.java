@@ -65,7 +65,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(
       // Default to basic tank drive
       new RunCommand(
-        () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY()), 
+        () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY() ), 
         driveTrain
       )
     );
