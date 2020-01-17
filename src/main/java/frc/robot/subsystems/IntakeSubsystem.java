@@ -13,18 +13,27 @@ public class IntakeSubsystem extends SubsystemBase {
     private Solenoid upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
     private Solenoid downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
     private VictorSPX outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
-
+    private boolean armActive;
     public IntakeSubsystem() {
 
     }
-
+    public void armToggle(){
+        if(armActive){
+            armUp();
+        }
+        else{
+            armDown();
+        }
+    }
     public void armUp(){
         downSolenoid.set(false);
         upSolenoid.set(true);
+        armActive = false;
     }
     public void armDown(){
         upSolenoid.set(false);
         downSolenoid.set(true);
+        armActive = true;
     }
     public void intakeIn(){
         outerIntakeMotor.set(ControlMode.PercentOutput, 100);
@@ -32,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeOut(){
         outerIntakeMotor.set(ControlMode.PercentOutput, -100);
     }
-    public void intakeStop(){
+    public void intakeStop\(){
         outerIntakeMotor.set(ControlMode.PercentOutput, 0);
     }
     @Override
