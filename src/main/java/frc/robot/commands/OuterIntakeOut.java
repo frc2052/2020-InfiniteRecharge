@@ -1,3 +1,5 @@
+
+package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -21,5 +23,6 @@ public class OuterIntakeOut extends CommandBase {
     @Override
     public void initialize() {
         m_intakeSubsystem.intakeOut ();
+
     }
 }

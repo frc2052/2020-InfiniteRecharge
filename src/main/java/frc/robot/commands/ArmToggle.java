@@ -1,5 +1,6 @@
-import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -16,12 +17,11 @@ public class ArmToggle extends CommandBase {
     public ArmToggle(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
-        addRequirements(subsystem);
-
-    
+        addRequirements(subsystem);    
     }
     @Override
-        public void initialize() {
-            m_intakeSubsystem.armToggle();
-        }
+    public void initialize() {
+        m_intakeSubsystem.armToggle();
+    }
+
 }
