@@ -47,8 +47,12 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final DriveTrain driveTrain = new DriveTrain();
+
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
+  private final Joystick secondaryJoystick = new Joystick(2);
+
+  public boolean getShift(){return rightJoystick.getRawButton(2);}
 
 
   /**
@@ -74,6 +78,88 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //TODO : configure buttons for what drivers want
+    //left joystick
+    JoystickButton btnJL1 = new JoystickButton(leftJoystick, 1);
+    JoystickButton btnJL2 = new JoystickButton(leftJoystick, 2);
+    JoystickButton btnJL3 = new JoystickButton(leftJoystick, 3);
+    JoystickButton btnJL4 = new JoystickButton(leftJoystick, 4);
+    JoystickButton btnJL5 = new JoystickButton(leftJoystick, 5);
+    JoystickButton btnJL6 = new JoystickButton(leftJoystick, 6);
+    JoystickButton btnJL7 = new JoystickButton(leftJoystick, 7);
+    JoystickButton btnJL8 = new JoystickButton(leftJoystick, 8);
+    JoystickButton btnJL9 = new JoystickButton(leftJoystick, 9);
+    JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
+    JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
+    JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
+
+    btnJL1.whenPressed(() -> {});
+    btnJL2.whenPressed(() -> {}); 
+    btnJL3.whenPressed(() -> {}); 
+    btnJL4.whenPressed(() -> {}); 
+    btnJL5.whenPressed(() -> {}); 
+    btnJL6.whenPressed(() -> {}); 
+    btnJL7.whenPressed(() -> {}); 
+    btnJL8.whenPressed(() -> {}); 
+    btnJL9.whenPressed(() -> {}); 
+    btnJL10.whenPressed(() -> {}); 
+    btnJL11.whenPressed(() -> {}); 
+    btnJL12.whenPressed(() -> {}); 
+
+    //right joystick
+    JoystickButton btnJR1 = new JoystickButton(rightJoystick, 1);
+    JoystickButton btnJR2 = new JoystickButton(rightJoystick, 2);
+    JoystickButton btnJR3 = new JoystickButton(rightJoystick, 3);
+    JoystickButton btnJR4 = new JoystickButton(rightJoystick, 4);
+    JoystickButton btnJR5 = new JoystickButton(rightJoystick, 5);
+    JoystickButton btnJR6 = new JoystickButton(rightJoystick, 6);
+    JoystickButton btnJR7 = new JoystickButton(rightJoystick, 7);
+    JoystickButton btnJR8 = new JoystickButton(rightJoystick, 8);
+    JoystickButton btnJR9 = new JoystickButton(rightJoystick, 9);
+    JoystickButton btnJR10 = new JoystickButton(rightJoystick, 10);
+    JoystickButton btnJR11 = new JoystickButton(rightJoystick, 11);
+    JoystickButton btnJR12 = new JoystickButton(rightJoystick, 12);
+
+    btnJR1.whenPressed(() -> {});
+    btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
+    btnJR3.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
+    btnJR3.whenPressed(() -> {}); 
+    btnJR4.whenPressed(() -> {}); 
+    btnJR5.whenPressed(() -> {}); 
+    btnJR6.whenPressed(() -> {}); 
+    btnJR7.whenPressed(() -> {}); 
+    btnJR8.whenPressed(() -> {}); 
+    btnJR9.whenPressed(() -> {}); 
+    btnJR10.whenPressed(() -> {}); 
+    btnJR11.whenPressed(() -> {}); 
+    btnJR12.whenPressed(() -> {}); 
+
+    //secondary control panel
+    JoystickButton btnJSB1 = new JoystickButton(secondaryJoystick, 1);
+    JoystickButton btnJSB2 = new JoystickButton(secondaryJoystick, 2);
+    JoystickButton btnJSB3 = new JoystickButton(secondaryJoystick, 3);
+    JoystickButton btnJSB4 = new JoystickButton(secondaryJoystick, 4);
+    JoystickButton btnJSB5 = new JoystickButton(secondaryJoystick, 5);
+    JoystickButton btnJSB6 = new JoystickButton(secondaryJoystick, 6);
+    JoystickButton btnJSB7 = new JoystickButton(secondaryJoystick, 7);
+    JoystickButton btnJSB8 = new JoystickButton(secondaryJoystick, 8);
+    JoystickButton btnJSB9 = new JoystickButton(secondaryJoystick, 9);
+    JoystickButton btnJSB10 = new JoystickButton(secondaryJoystick, 10);
+    JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
+    JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
+
+    btnJSB1.whenPressed(() -> {});
+    btnJSB2.whenPressed(() -> {}); 
+    btnJSB3.whenPressed(() -> {}); 
+    btnJSB4.whenPressed(() -> {}); 
+    btnJSB5.whenPressed(() -> {}); 
+    btnJSB6.whenPressed(() -> {}); 
+    btnJSB7.whenPressed(() -> {}); 
+    btnJSB8.whenPressed(() -> {}); 
+    btnJSB9.whenPressed(() -> {}); 
+    btnJSB10.whenPressed(() -> {}); 
+    btnJSB11.whenPressed(() -> {}); 
+    btnJSB12.whenPressed(() -> {}); 
   }
 
 
