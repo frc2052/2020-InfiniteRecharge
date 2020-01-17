@@ -1,10 +1,11 @@
-import edu.wpi.first.wpilibj.templates.commandbased.subsystems.ExampleSubsystem;
-import edu.wpi.first.wpilibj2.command.CommandBase;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IntakeSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class OuterIntakeOut extends CommandBase {
+public class OuterIntakeIn extends CommandBase {
     private final IntakeSubsystem m_intakeSubsystem;
 
     /**
@@ -12,12 +13,13 @@ public class OuterIntakeOut extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public OuterIntakeOut(IntakeSubsystem subsystem) {
+    public OuterIntakeIn(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
-        public void initialize() {
-            m_intakeSubsystem.intakeIn();
-        }
+    }
+    @Override
+    public void initialize(){
+        m_intakeSubsystem.intakeIn();
     }
 }

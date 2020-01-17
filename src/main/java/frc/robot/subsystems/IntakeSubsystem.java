@@ -41,9 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeOut(){
         outerIntakeMotor.set(ControlMode.PercentOutput, -100);
     }
-    public void intakeStop\(){
-        outerIntakeMotor.set(ControlMode.PercentOutput, 0);
-    }
+    public void intakeStop(){ outerIntakeMotor.set(ControlMode.PercentOutput, 0); }
     @Override
     public void periodic() {
     // This method will be called once per scheduler run
