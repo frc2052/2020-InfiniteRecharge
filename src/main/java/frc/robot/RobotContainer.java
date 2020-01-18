@@ -182,17 +182,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
-      case LSGENERATOR3:
+      case LSG3:
         return leftGenerator3;
-      case LSSHOOT5:
+      case LSG5:
         return m_autoCommand;
-      case LSTRENCH2:
+      case LST2:
         return leftTrench2;
-      case RSTRENCH3:
+      case RST3:
         return rightTrench3;
-      case CSGENERATOR3:
+      case CSG3:
         return m_autoCommand;
-      case CSP:
+      case CS:
         return centerShootDrivePark;
       default:
         return m_autoCommand;
