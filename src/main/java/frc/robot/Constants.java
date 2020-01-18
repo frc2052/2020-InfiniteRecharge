@@ -55,4 +55,18 @@ public final class Constants {
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
     }
+    public static final class Shooter{
+        public static final int kShooterMotorID = 8;
+        public static final int kAngleMotorID = 9;
+        public static final int kCloseAnglePosition = 78 ;
+        public static final int kMiddleAnglePosition = 69;
+        public static final int kFarAnglePosition = 56;
+        public static final int kAngleTicsPerRotations = 4096;
+        public static final int kMaxAngleHeight = 100;
+        public static final int kMinAngleHeight = 0;
+        public static final double kEmergencyDownPower = -.25;
+        public static final double kEmergencyHoldPower = .1;
+        public static final double kEmergencyUpPower = .25;
+        public static final double kInchesPerRotation = 10;
+    }
 }
