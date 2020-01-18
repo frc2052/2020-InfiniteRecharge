@@ -52,8 +52,6 @@ public class RobotContainer {
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
-  public boolean getShift(){return rightJoystick.getRawButton(2);}
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
