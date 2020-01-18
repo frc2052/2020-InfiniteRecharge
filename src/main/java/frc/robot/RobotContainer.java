@@ -9,7 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.commands.ArmToggle;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.OuterIntakeIn;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -33,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -47,6 +50,7 @@ public class RobotContainer {
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final DriveTrain driveTrain = new DriveTrain();
+  private final IntakeSubsystem intake = new IntakeSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
@@ -122,7 +126,7 @@ public class RobotContainer {
 
     btnJR1.whenPressed(() -> {});
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR3.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
+    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
     btnJR3.whenPressed(() -> {}); 
     btnJR4.whenPressed(() -> {}); 
     btnJR5.whenPressed(() -> {}); 
@@ -148,10 +152,12 @@ public class RobotContainer {
     JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
     JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
 
-    btnJSB1.whenPressed(() -> {});
-    btnJSB2.whenPressed(() -> {}); 
-    btnJSB3.whenPressed(() -> {}); 
-    btnJSB4.whenPressed(() -> {}); 
+    btnJSB1.whenPressed(() -> intake.armToggle());
+    btnJSB2.whenPressed(() -> intake.intakeIn());
+    btnJSB2.whenReleased(() -> intake.intakeStop());
+    btnJSB3.whenPressed(() -> intake.intakeOut());
+    btnJSB3.whenReleased(() -> intake.intakeStop());
+    btnJSB4.whenPressed(() -> {});
     btnJSB5.whenPressed(() -> {}); 
     btnJSB6.whenPressed(() -> {}); 
     btnJSB7.whenPressed(() -> {}); 

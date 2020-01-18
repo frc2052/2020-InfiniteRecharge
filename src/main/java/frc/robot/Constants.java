@@ -50,4 +50,9 @@ public final class Constants {
 
         public static final double kTurnInPlaceSpeed = .75;
     }
+    public static final class Intake{
+        public static final int kUpIntakeSolenoidID = 2;
+        public static final int kDownIntakeSolenoidID = 3;
+        public static final int kOuterIntakeMotorID = 7;
+    }
 }
