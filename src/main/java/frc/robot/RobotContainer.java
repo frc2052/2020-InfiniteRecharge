@@ -36,6 +36,10 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.auto.*;
+import frc.robot.auto.AutoModeSelector.autos;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,10 +55,14 @@ public class RobotContainer {
 
   private final DriveTrain driveTrain = new DriveTrain();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
+
+  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision);
 
 
   /**
@@ -173,7 +181,21 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
+      case LSGENERATOR3:
+        return m_autoCommand;
+      case LSSHOOT5:
+        return m_autoCommand;
+      case LSTRENCH2:
+        return m_autoCommand;
+      case RSTRENCH3:
+        return m_autoCommand;
+      case CSGENERATOR3:
+        return m_autoCommand;
+      case CSP:
+        return centerShootDrivePark;
+      default:
+        return m_autoCommand;
+    }
   }
 }
