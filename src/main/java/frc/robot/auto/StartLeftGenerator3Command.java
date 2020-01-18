@@ -19,7 +19,7 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftGenerator3Command.
    */
-  public StartLeftGenerator3Command(DriveTrain driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+  public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);

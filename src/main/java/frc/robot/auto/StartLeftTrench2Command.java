@@ -18,7 +18,7 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftTrench2.
    */
-  public StartLeftTrench2Command(DriveTrain driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
