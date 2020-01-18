@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.Constants;
 
-public class DriveTrain extends SubsystemBase {
+public class DriveTrainSubystem extends SubsystemBase {
 
   private final WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
   private final VictorSPX leftSlave1 = new VictorSPX(Constants.DriveTrain.kDriveLeftSlaveId);
@@ -47,7 +47,7 @@ public class DriveTrain extends SubsystemBase {
   private DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
   private DifferentialDriveOdometry odometry;
 
-  public DriveTrain() {
+  public DriveTrainSubystem() {
     leftMaster.configFactoryDefault();
     leftSlave1.configFactoryDefault();
     leftSlave2.configFactoryDefault();
