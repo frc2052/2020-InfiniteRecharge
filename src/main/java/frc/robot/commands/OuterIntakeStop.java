@@ -6,7 +6,7 @@ import frc.robot.subsystems.IntakeSubsystem;
  * An example command that uses an example subsystem.
  */
 public class OuterIntakeStop extends CommandBase {
-    private final IntakeSubsystem m_intakeSubsystem;
+    private IntakeSubsystem m_intakeSubsystem;
 
     /**
      * Creates a new OuterIntakeStop.
@@ -20,7 +20,7 @@ public class OuterIntakeStop extends CommandBase {
     }
 
     @Override
-        public void initialize() {
+        public void execute() {
             m_intakeSubsystem.intakeStop ();
         }
 }
