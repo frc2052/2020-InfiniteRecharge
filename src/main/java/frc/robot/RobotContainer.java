@@ -63,6 +63,9 @@ public class RobotContainer {
   private final Joystick secondaryJoystick = new Joystick(2);
 
   private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision);
+  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision);
+  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision);
+  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision);
 
 
   /**
@@ -183,13 +186,13 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSGENERATOR3:
-        return m_autoCommand;
+        return leftGenerator3;
       case LSSHOOT5:
         return m_autoCommand;
       case LSTRENCH2:
-        return m_autoCommand;
+        return leftTrench2;
       case RSTRENCH3:
-        return m_autoCommand;
+        return rightTrench3;
       case CSGENERATOR3:
         return m_autoCommand;
       case CSP:
