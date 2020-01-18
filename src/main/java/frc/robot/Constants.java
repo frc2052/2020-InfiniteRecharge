@@ -55,4 +55,19 @@ public final class Constants {
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
     }
+    public static final class Elevator{
+       public static final int kClimberMotorID = 8;
+       public static final double kPercentOutputUp = .2;
+       public static final double kPercentOutputDown = -.2;
+       public static final int kElevatorTicksPerRot = 4096;
+       public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
+       public static final int kElevatorHeight = 63;
+       public static final int kElevatorMinHeight = 0;
+       public static final int kElevatorMaxHeight = 79;
+
+    }
+    public static final class ActiveBalance{
+        public static final int kActiveBalanceMotorID = 9;
+        public static final int kActiveBalanceMotor2ID = 10;
+    }
 }
