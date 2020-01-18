@@ -18,7 +18,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartRightTrench3Command.
    */
-  public StartRightTrench3Command(DriveTrain driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+  public StartRightTrench3Command(DriveTrainSubystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
     OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
     DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);

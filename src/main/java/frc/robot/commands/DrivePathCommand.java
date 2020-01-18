@@ -8,13 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubystem;
 
 public class DrivePathCommand extends CommandBase {
   /**
    * Creates a new DrivePathCommand.
    */
-  public DrivePathCommand(DriveTrain driveTrain, DrivePathEnum pathEnum) {
+  public DrivePathCommand(DriveTrainSubystem driveTrain, DrivePathEnum pathEnum) {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
