@@ -46,6 +46,7 @@ public class DrivePathCommand extends CommandBase {
     StartLeftGenerator3,
     StartLeftTrench2,
     StartLeftGenerator5,
+    LeftTrenchToMiddle
   }
 
 }
