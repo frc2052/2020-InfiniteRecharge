@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.commands.ArmToggle;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.OuterIntakeIn;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -34,7 +33,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -53,7 +52,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final DriveTrain driveTrain = new DriveTrain();
+  private final DriveTrainSubystem driveTrain = new DriveTrainSubystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
@@ -135,7 +134,7 @@ public class RobotContainer {
 
     btnJR1.whenPressed(() -> {});
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
+    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
     btnJR3.whenPressed(() -> {}); 
     btnJR4.whenPressed(() -> {}); 
     btnJR5.whenPressed(() -> {}); 

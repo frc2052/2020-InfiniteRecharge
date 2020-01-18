@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.*;
 
 public class CenterShootDriveParkCommand extends SequentialCommandGroup {
 
-  public CenterShootDriveParkCommand(DriveTrain driveTrain, ShooterSubsystem shooter, VisionSubsystem vision) {
+  public CenterShootDriveParkCommand(DriveTrainSubystem driveTrain, ShooterSubsystem shooter, VisionSubsystem vision) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     this.addCommands(new ShootAllCommand(shooter, vision));
