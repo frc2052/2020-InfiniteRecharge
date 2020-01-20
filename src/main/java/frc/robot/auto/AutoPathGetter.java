@@ -24,12 +24,16 @@ import frc.robot.Constants;
 import java.util.List;
 
 public class AutoPathGetter {
-    TrajectoryConfig config = new TrajectoryConfig(Constants.Autonomous.maxVelocity, Constants.Autonomous.maxAcceleration);
-    //TODO: potentially fix this later
     public Trajectory getTrajectory() {
+        var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts, Constants.DriveTrain.kvVoltSecondsPerMeter, Constants.DriveTrain.kaVoltSecondsSquaredPerMeter), Constants.DriveTrain.kinematics, 10);
+        
+        TrajectoryConfig config = new TrajectoryConfig(Constants.Autonomous.maxVelocity, Constants.Autonomous.maxAcceleration)
+            .setKinematics(Constants.DriveTrain.kinematics)
+            .addConstraint(autoVoltageConstraint);
+
         switch(AutoModeSelector.getSelectedAuto()) {
             case CS: 
-                Trajectory CS = TrajectoryGenerator.generateTrajectory(
+                final Trajectory CS = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
                     List.of(
                         new Translation2d(3.048, 0)
@@ -39,7 +43,7 @@ public class AutoPathGetter {
                 );
                 return CS;
             case CSG3: //B, C, D, E
-                Trajectory CSG3 = TrajectoryGenerator.generateTrajectory(
+                final Trajectory CSG3 = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
                     List.of(
                         new Translation2d(5.2324, -2.0066), 
@@ -50,7 +54,7 @@ public class AutoPathGetter {
                 );
                 return CSG3;
             case LSG3: // i, B, C, D
-                Trajectory LSG3 = TrajectoryGenerator.generateTrajectory(
+                final Trajectory LSG3 = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7018, new Rotation2d(0)),
                     List.of(
                         new Translation2d(5.2324, -2.0066), 
@@ -61,7 +65,7 @@ public class AutoPathGetter {
                 );
                 return LSG3;
             case LST2: //i, H, F, G
-                Trajectory LST2 = TrajectoryGenerator.generateTrajectory(
+                final Trajectory LST2 = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7018, new Rotation2d(0)),
                     List.of(
                         new Translation2d(6.35, -5.334), 
@@ -72,7 +76,7 @@ public class AutoPathGetter {
                 );
                 return LST2;
             case LSG5: //i, B, C, D, M, N, O
-                Trajectory LSG5 = TrajectoryGenerator.generateTrajectory(
+                final Trajectory LSG5 = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7018, new Rotation2d(0)),
                     List.of(
                         new Translation2d(5.2324, -2.0066), 
@@ -86,7 +90,7 @@ public class AutoPathGetter {
                 );
                 return LSG5;  
             case RST3: 
-                Trajectory RST3 = TrajectoryGenerator.generateTrajectory(
+                final Trajectory RST3 = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7272, new Rotation2d(0)),
                     List.of(
                         new Translation2d(6.1722, -1.7272) 
@@ -96,7 +100,7 @@ public class AutoPathGetter {
                 );
                 return RST3; 
             default:
-                Trajectory current = TrajectoryGenerator.generateTrajectory(
+                final Trajectory current = TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
                     List.of(
                         new Translation2d(3.048, 0)
