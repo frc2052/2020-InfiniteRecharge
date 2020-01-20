@@ -26,7 +26,7 @@ import java.util.List;
 public class AutoPathGetter {
     public Trajectory getTrajectory() {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts, Constants.DriveTrain.kvVoltSecondsPerMeter, Constants.DriveTrain.kaVoltSecondsSquaredPerMeter), Constants.DriveTrain.kinematics, 10);
-        
+
         TrajectoryConfig config = new TrajectoryConfig(Constants.Autonomous.maxVelocity, Constants.Autonomous.maxAcceleration)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint);
