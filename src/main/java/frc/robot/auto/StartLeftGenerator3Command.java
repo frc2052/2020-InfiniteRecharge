@@ -8,30 +8,36 @@
 package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
 import frc.robot.commands.DrivePathCommand.DrivePathEnum;
 import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj2.command.*;
 
-public class CenterShootDriveParkCommand extends SequentialCommandGroup {
-
-  public CenterShootDriveParkCommand(DriveTrainSubystem driveTrain, ShooterSubsystem shooter, VisionSubsystem vision) {
-    // Use addRequirements() here to declare subsystem dependencies.
-
-    this.addCommands(new ShootAllCommand(shooter, vision));
-    this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.StartCenterDriveBackPark));
+public class StartLeftGenerator3Command extends SequentialCommandGroup {
+  /**
+   * Creates a new StartLeftGenerator3Command.
+   */
+  public StartLeftGenerator3Command(DriveTrainSubystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+      this.addCommands(new ShootAllCommand(shooter, visionTracking));
+      OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
+      DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
+      ArmDownCommand armDownCmd = new ArmDownCommand(intake);
+      ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
+      this.addCommands(par1);
+      this.addCommands(new OuterIntakeStop(intake));
+      this.addCommands(new ShootAllCommand(shooter, visionTracking));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.

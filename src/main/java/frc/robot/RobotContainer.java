@@ -35,7 +35,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.subsystems.*;
+import frc.robot.auto.*;
+import frc.robot.auto.AutoModeSelector.autos;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -49,16 +53,21 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final DriveTrain driveTrain = new DriveTrain();
+  private final DriveTrainSubystem driveTrain = new DriveTrainSubystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final TurretSubsystem turret = new TurretSubsystem();
+
+  private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
-  public boolean getShift(){return rightJoystick.getRawButton(2);}
+  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision);
+  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision);
+  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision);
+  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision);
 
 
   /**
@@ -128,7 +137,7 @@ public class RobotContainer {
 
     btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
+    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
     btnJR3.whenPressed(() -> {}); 
     btnJR4.whenPressed(() -> {}); 
     btnJR5.whenPressed(() -> {}); 
@@ -177,7 +186,21 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
+      case LSGENERATOR3:
+        return leftGenerator3;
+      case LSSHOOT5:
+        return m_autoCommand;
+      case LSTRENCH2:
+        return leftTrench2;
+      case RSTRENCH3:
+        return rightTrench3;
+      case CSGENERATOR3:
+        return m_autoCommand;
+      case CSP:
+        return centerShootDrivePark;
+      default:
+        return m_autoCommand;
+    }
   }
 }
