@@ -7,7 +7,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -55,6 +57,7 @@ public final class Constants {
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
     }
+  
     public static final class Elevator{
        public static final int kClimberMotorID = 8;
        public static final double kPercentOutputUp = .2;
@@ -66,8 +69,14 @@ public final class Constants {
        public static final int kElevatorMaxHeight = 79;
 
     }
+  
     public static final class ActiveBalance{
         public static final int kActiveBalanceMotorID = 9;
         public static final int kActiveBalanceMotor2ID = 10;
+    }
+  
+    public static class Autonomous {
+        public static final double maxVelocity = 7 * 12;
+        public static final double maxAcceleration = 120;
     }
 }
