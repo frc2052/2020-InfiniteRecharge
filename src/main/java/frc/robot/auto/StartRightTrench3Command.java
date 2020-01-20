@@ -25,7 +25,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     ArmDownCommand armDownCmd = new ArmDownCommand(intake);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
     this.addCommands(par1);
-    this.addCommands(new OuterIntakeStop(intake));
+    this.addCommands(new OuterIntakeStopCommand(intake));
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
 
 
