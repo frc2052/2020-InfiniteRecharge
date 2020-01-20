@@ -9,10 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArmToggle;
+import frc.robot.Constants.Turret;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.OuterIntakeIn;
+import frc.robot.commands.OuterIntakeInCommand;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem.anglePresetEnum;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.List;
@@ -34,8 +35,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.DriveTrain;
-import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,6 +51,8 @@ public class RobotContainer {
 
   private final DriveTrain driveTrain = new DriveTrain();
   private final IntakeSubsystem intake = new IntakeSubsystem();
+  private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final TurretSubsystem turret = new TurretSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
@@ -124,7 +126,7 @@ public class RobotContainer {
     JoystickButton btnJR11 = new JoystickButton(rightJoystick, 11);
     JoystickButton btnJR12 = new JoystickButton(rightJoystick, 12);
 
-    btnJR1.whenPressed(() -> {});
+    btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //shift speeds
     btnJR3.whenPressed(() -> {}); 
@@ -160,12 +162,12 @@ public class RobotContainer {
     btnJSB4.whenPressed(() -> {});
     btnJSB5.whenPressed(() -> {}); 
     btnJSB6.whenPressed(() -> {}); 
-    btnJSB7.whenPressed(() -> {}); 
-    btnJSB8.whenPressed(() -> {}); 
-    btnJSB9.whenPressed(() -> {}); 
-    btnJSB10.whenPressed(() -> {}); 
-    btnJSB11.whenPressed(() -> {}); 
-    btnJSB12.whenPressed(() -> {}); 
+    btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
+    btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
+    btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
+    btnJSB10.whenPressed(() -> shooter.setTarget(anglePresetEnum.CLOSE)); 
+    btnJSB11.whenPressed(() -> shooter.setTarget(anglePresetEnum.MIDDLE)); 
+    btnJSB12.whenPressed(() -> shooter.setTarget(anglePresetEnum.FAR)); 
   }
 
 

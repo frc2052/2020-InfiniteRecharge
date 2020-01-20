@@ -16,6 +16,9 @@ public class VisionSubsystem extends SubsystemBase {
   public VisionSubsystem() {
 
   }
+  public void trackTarget(){
+    
+  }
 
   @Override
   public void periodic() {

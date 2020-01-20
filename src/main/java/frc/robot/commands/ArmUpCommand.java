@@ -6,7 +6,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 /**
  * An example command that uses an example subsystem.
  */
-public class ArmToggle extends CommandBase {
+public class ArmUpCommand extends CommandBase {
     private final IntakeSubsystem m_intakeSubsystem;
 
     /**
@@ -14,14 +14,22 @@ public class ArmToggle extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
-    public ArmToggle(IntakeSubsystem subsystem) {
+    public ArmUpCommand(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);    
     }
     @Override
     public void initialize() {
-        m_intakeSubsystem.armToggle();
+        m_intakeSubsystem.armUp();
+    }
+    @Override
+    public void execute() {
+  
+    }
+    @Override
+    public boolean isFinished(){
+        return true;
     }
 
 }
