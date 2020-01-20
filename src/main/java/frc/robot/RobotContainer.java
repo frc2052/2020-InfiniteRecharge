@@ -9,9 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ArmToggle;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.*;import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.List;
@@ -33,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.DriveTrainSubystem;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -52,7 +50,7 @@ public class RobotContainer {
 
   private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
-  private final DriveTrainSubystem driveTrain = new DriveTrainSubystem();
+  private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
@@ -183,18 +181,19 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
-      case LSGENERATOR3:
+      case LSG3:
         return leftGenerator3;
-      case LSSHOOT5:
+      case LSG5:
         return m_autoCommand;
-      case LSTRENCH2:
+      case LST2:
         return leftTrench2;
-      case RSTRENCH3:
+      case RST3:
         return rightTrench3;
-      case CSGENERATOR3:
+      case CSG3:
         return m_autoCommand;
-      case CSP:
+      case CS:
         return centerShootDrivePark;
       default:
         return m_autoCommand;
