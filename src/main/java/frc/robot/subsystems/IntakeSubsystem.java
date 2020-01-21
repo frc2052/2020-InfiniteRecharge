@@ -36,10 +36,10 @@ public class IntakeSubsystem extends SubsystemBase {
         armActive = true;
     }
     public void intakeIn(){
-        outerIntakeMotor.set(ControlMode.PercentOutput, 100);
+        outerIntakeMotor.set(ControlMode.PercentOutput, 1);
     }
     public void intakeOut(){
-        outerIntakeMotor.set(ControlMode.PercentOutput, -100);
+        outerIntakeMotor.set(ControlMode.PercentOutput, -1);
     }
     public void intakeStop(){
         outerIntakeMotor.set(ControlMode.PercentOutput, 0);
