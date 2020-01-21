@@ -37,12 +37,12 @@ public class AutoModeSelector {
     }
 
     public enum autos {
-        LSGENERATOR3("left start shoot generator 3"),
-        LSTRENCH2("left start shoot trench 2"),
-        LSSHOOT5("left start shoot 5"),
-        CSGENERATOR3("center start shoot generator 3"),
-        CSP("center start shoot drive park"),
-        RSTRENCH3("right start shoot trench 3");
+        CS("center start shoot drive park"),
+        CSG3("center start shoot generator 3"),
+        LSG3("left start shoot generator 3"),
+        LST2("left start shoot trench 2"),
+        LSG5("left start shoot generator 5"),
+        RST3("right start shoot trench 3");
 
         public String name;
 
