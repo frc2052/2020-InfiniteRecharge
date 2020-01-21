@@ -18,28 +18,11 @@ import frc.robot.commands.*;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import java.util.List;
-
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.RamseteController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.auto.*;
-import frc.robot.auto.AutoModeSelector.autos;
 
 
 /**
@@ -50,9 +33,6 @@ import frc.robot.auto.AutoModeSelector.autos;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
 
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -192,17 +172,17 @@ public class RobotContainer {
       case LSG3:
         return leftGenerator3;
       case LSG5:
-        return m_autoCommand;
+        return leftGenerator3; //not correct
       case LST2:
         return leftTrench2;
       case RST3:
         return rightTrench3;
       case CSG3:
-        return m_autoCommand;
+        return centerShootDrivePark; //not correct
       case CS:
         return centerShootDrivePark;
       default:
-        return m_autoCommand;
+        return centerShootDrivePark; //not correct, make don't move auto
     }
   }
 }

@@ -8,13 +8,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.auto.AutoPathGetter;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import frc.robot.Constants;
 
 public class DrivePathCommand extends CommandBase {
-  /**
-   * Creates a new DrivePathCommand.
-   */
-  public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
+ 
+  private final DriveTrainSubsystem m_driveTrainSubsystem;
+
+  public DrivePathCommand(DriveTrainSubsystem driveTrain) {
+    m_driveTrainSubsystem = driveTrain;
+
+    addRequirements(driveTrain);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -26,6 +35,23 @@ public class DrivePathCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    RamseteCommand ramseteCommand = new RamseteCommand(
+        AutoPathGetter.getSelectedTrajectory(),
+        m_driveTrainSubsystem::getPose,
+        new RamseteController(Constants.DriveTrain.kRamseteB, Constants.DriveTrain.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts,
+                                   Constants.DriveTrain.kvVoltSecondsPerMeter,
+                                   Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
+        Constants.DriveTrain.kinematics,
+        m_driveTrainSubsystem::getWheelSpeeds,
+        new PIDController(Constants.DriveTrain.kPDriveVel, 0, 0),
+        new PIDController(Constants.DriveTrain.kPDriveVel, 0, 0),
+        // RamseteCommand passes volts to the callback
+        m_driveTrainSubsystem::tankDriveVolts,
+        m_driveTrainSubsystem
+    );
+
+    ramseteCommand.andThen(() -> m_driveTrainSubsystem.tankDriveVolts(0, 0));
   }
 
   // Called once the command ends or is interrupted.

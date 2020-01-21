@@ -7,11 +7,9 @@
 
 package frc.robot.auto;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
-import frc.robot.commands.DrivePathCommand.DrivePathEnum;
 import frc.robot.subsystems.*;
 
 public class StartLeftTrench2Command extends SequentialCommandGroup {
@@ -21,12 +19,12 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
-      DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
+      DrivePathCommand path1 = new DrivePathCommand(driveTrain);
       ArmDownCommand armDownCmd = new ArmDownCommand(intake);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
-      this.addCommands(new DrivePathCommand(driveTrain,DrivePathEnum.LeftTrenchToMiddle));
+      this.addCommands(new DrivePathCommand(driveTrain));
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
   }
 
