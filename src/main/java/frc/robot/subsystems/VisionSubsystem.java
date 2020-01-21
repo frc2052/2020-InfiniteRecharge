@@ -18,6 +18,9 @@ public class VisionSubsystem extends SubsystemBase {
   public VisionSubsystem() {
 
   }
+  public void trackTarget(){
+    
+  }
 
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   NetworkTableEntry tx = table.getEntry("tx");

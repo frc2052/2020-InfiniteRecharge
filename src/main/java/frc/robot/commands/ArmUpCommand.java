@@ -23,5 +23,14 @@ public class ArmUpCommand extends CommandBase {
     public void initialize() {
         m_intakeSubsystem.armUp();
     }
+    @Override
+    public void execute() {
+  
+    }
+    @Override
+    public boolean isFinished(){
+        return true;
+    }
+
 
 }

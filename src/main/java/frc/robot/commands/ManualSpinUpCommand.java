@@ -8,15 +8,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
-public class ShootAllCommand extends CommandBase {
+public class ManualSpinUpCommand extends CommandBase {
+  private ShooterSubsystem m_ShooterSubsystem;
+
   /**
-   * Creates a new ShootAllCommand.
+   * Creates a new ManualSpinUpCommand.
    */
-  public ShootAllCommand(ShooterSubsystem shooter, VisionSubsystem visionSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  public ManualSpinUpCommand(ShooterSubsystem shooter) {
+    addRequirements(shooter);
+    m_ShooterSubsystem = shooter;
   }
 
   // Called when the command is initially scheduled.
@@ -27,6 +30,8 @@ public class ShootAllCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_ShooterSubsystem.setSpeed(Constants.Shooter.kShooterSpeedRPS);
+
   }
 
   // Called once the command ends or is interrupted.
