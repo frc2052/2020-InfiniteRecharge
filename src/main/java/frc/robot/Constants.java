@@ -79,7 +79,7 @@ public final class Constants {
         public static final int kTurrenMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
-
+    }
     public static class Autonomous {
         public static final double maxVelocity = 7 * 12;
         public static final double maxAcceleration = 120;
