@@ -9,17 +9,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.anglePresetEnum;
+import frc.robot.subsystems.HoodSubsystem;
+import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 
 public class AdjustAngleFarCommand extends CommandBase {
-  private ShooterSubsystem m_ShooterSubsystem;
+  private HoodSubsystem m_HoodSubsystem;
   /**
    * Creates a new AdjustAngleMiddleCommand.
    */
-  public AdjustAngleFarCommand(ShooterSubsystem subsystem) {
+  public AdjustAngleFarCommand(HoodSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_ShooterSubsystem = subsystem;
+    m_HoodSubsystem = subsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -31,7 +31,7 @@ public class AdjustAngleFarCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_ShooterSubsystem.setTarget(anglePresetEnum.FAR);
+    m_HoodSubsystem.setTarget(anglePresetEnum.FAR);
 
   }
 
@@ -43,6 +43,6 @@ public class AdjustAngleFarCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_ShooterSubsystem.getHeightInches() > Constants.Shooter.kFarAnglePosition - 2);
+    return (m_HoodSubsystem.getHeightInches() > Constants.Shooter.kFarAnglePosition - 2);
   }
 }

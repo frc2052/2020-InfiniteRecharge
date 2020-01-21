@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.Turret;
 import frc.robot.commands.OuterIntakeInCommand;
-import frc.robot.subsystems.ShooterSubsystem.anglePresetEnum;
+import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -34,6 +34,7 @@ public class RobotContainer {
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
+  private final HoodSubsystem hood = new HoodSubsystem();
   private final TurretSubsystem turret = new TurretSubsystem();
 
   private final VisionSubsystem vision = new VisionSubsystem();
@@ -152,9 +153,9 @@ public class RobotContainer {
     btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
     btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
     btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
-    btnJSB10.whenPressed(() -> shooter.setTarget(anglePresetEnum.CLOSE)); 
-    btnJSB11.whenPressed(() -> shooter.setTarget(anglePresetEnum.MIDDLE)); 
-    btnJSB12.whenPressed(() -> shooter.setTarget(anglePresetEnum.FAR)); 
+    btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
+    btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
+    btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
   }
 
 
