@@ -8,13 +8,13 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 public class DrivePathCommand extends CommandBase {
   /**
    * Creates a new DrivePathCommand.
    */
-  public DrivePathCommand(DriveTrain driveTrain, DrivePathEnum pathEnum) {
+  public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -46,6 +46,7 @@ public class DrivePathCommand extends CommandBase {
     StartLeftGenerator3,
     StartLeftTrench2,
     StartLeftGenerator5,
+    LeftTrenchToMiddle
   }
 
 }
