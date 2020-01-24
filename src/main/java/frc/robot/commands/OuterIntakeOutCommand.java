@@ -18,7 +18,6 @@ public class OuterIntakeOutCommand extends CommandBase {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);
-
     }
     @Override
     public void initialize() {

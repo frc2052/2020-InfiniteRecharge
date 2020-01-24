@@ -28,9 +28,8 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public void zeroSensor(){
-
     angleMotor.setSelectedSensorPosition(0, 0, 10);
-}
+  }
 
   public void setTarget(anglePresetEnum posEnum) {
 
@@ -41,27 +40,24 @@ public class HoodSubsystem extends SubsystemBase {
     int calcTarget = getAngleHeight(posEnum);
 
     setAndVerifyGoalInches(calcTarget);
+  }
 
-}
+  public double getHeightInches() {
 
-public double getHeightInches() {
+    int encoderPos = angleMotor.getSelectedSensorPosition(0);
 
-  int encoderPos = angleMotor.getSelectedSensorPosition(0);
+    double revolutions = encoderPos / (double)Constants.Shooter.kAngleTicsPerRotations;
+    double targetPos = revolutions * Constants.Shooter.kInchesPerRotation;
 
-  double revolutions = encoderPos / (double)Constants.Shooter.kAngleTicsPerRotations;
-  double targetPos = revolutions * Constants.Shooter.kInchesPerRotation;
+    return targetPos;
 
-  return targetPos;
+  }
 
-}
+  public void setCurrentPosAsTarget(){
+      setAndVerifyGoalInches((int)getHeightInches());
+  }
 
-public void setCurrentPosAsTarget(){
-
-    setAndVerifyGoalInches((int)getHeightInches());
-
-}
-
-private void setAndVerifyGoalInches(int newGoalInches){
+  private void setAndVerifyGoalInches(int newGoalInches){
 
     if (newGoalInches >  Constants.Shooter.kMaxAngleHeight) {
 
@@ -85,17 +81,14 @@ private void setAndVerifyGoalInches(int newGoalInches){
   }
 
 
-private boolean emergencyDownWasPressed = false; // variable makes it able to stop the motor only one time once it is let go
+  private boolean emergencyDownWasPressed = false; // variable makes it able to stop the motor only one time once it is let go
 
   public void StartEmergencyDown() {
-
     angleMotor.set(ControlMode.PercentOutput,Constants.Shooter.kEmergencyDownPower);
-
-}
+  }
 
   public void StopEmergencyMove(){
     angleMotor.set(ControlMode.PercentOutput, Constants.Shooter.kEmergencyHoldPower);
-
   }
 
   public void starEmergencyUp(){
