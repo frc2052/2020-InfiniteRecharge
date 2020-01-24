@@ -10,6 +10,7 @@ package frc.robot.auto;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.*;
+import frc.robot.commands.DrivePathCommand.DrivePathEnum;
 import frc.robot.subsystems.*;
 
 public class AutoLeftShoot5 extends SequentialCommandGroup {
@@ -19,7 +20,7 @@ public class AutoLeftShoot5 extends SequentialCommandGroup {
   public AutoLeftShoot5(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
     OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
-    DrivePathCommand path1 = new DrivePathCommand(driveTrain);
+    DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.CenterGenerator5);
     ArmDownCommand armDownCmd = new ArmDownCommand(intake);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
     this.addCommands(par1);
