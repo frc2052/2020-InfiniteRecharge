@@ -37,6 +37,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
+    //TODO: make these  strings constants
     SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
     SmartDashboard.putBoolean("Hood Override?", false);
