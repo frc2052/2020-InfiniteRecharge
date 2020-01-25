@@ -8,19 +8,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
 
-public class ManualSpinUpCommand extends CommandBase {
-  private ShooterSubsystem m_ShooterSubsystem;
+public class RunConveyorCommand extends CommandBase {
   boolean isManual;
 
-  /**
-   * Creates a new ManualSpinUpCommand.
-   */
-  public ManualSpinUpCommand(ShooterSubsystem shooter, boolean manual) {
-    addRequirements(shooter);
-    m_ShooterSubsystem = shooter;
+  public RunConveyorCommand(boolean manual) {
     isManual = manual;
   }
 
@@ -32,8 +24,8 @@ public class ManualSpinUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!isManual){
-      m_ShooterSubsystem.setSpeed(Constants.Shooter.kShooterSpeedRPS);
+    if(!isManual) {
+      
     }
   }
 

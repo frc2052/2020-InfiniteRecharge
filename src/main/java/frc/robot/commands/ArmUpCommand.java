@@ -14,6 +14,7 @@ public class ArmUpCommand extends CommandBase {
      *
      * @param subsystem The subsystem used by this command.
      */
+    
     public ArmUpCommand(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.

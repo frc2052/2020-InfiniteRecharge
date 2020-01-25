@@ -8,13 +8,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
 
-public class VisionShootCommand extends CommandBase {
-  /**
-   * Creates a new VisionShootCommand.
-   */
-  public VisionShootCommand() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class VisionTurretAdjustCommand extends CommandBase {
+  private VisionSubsystem vision;
+  private HoodSubsystem hood;
+  boolean isManual;
+
+  public VisionTurretAdjustCommand(VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem, boolean manual) {
+    vision = visionSubsystem;
+    hood = hoodSubsystem;
+    isManual = manual;
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +29,9 @@ public class VisionShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!isManual) {
+      
+    }
   }
 
   // Called once the command ends or is interrupted.
