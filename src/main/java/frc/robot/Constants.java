@@ -86,8 +86,14 @@ public final class Constants {
     }
 
     public static final class Vision {
-        public static final double limelightHeight = 20.0;
-        public static final int targetHeight = 249; //cm
-        public static final int mountingAngle = 0;
+        public static final double kCameraViewHorDegrees = 54.0;
+        public static final double kCameraViewVertDegrees = 41.0;
+        public static final double kCameraViewHorPixels = 320.0;
+        public static final double kCameraViewVertPixels = 240.0;
+        public static final double kCameraMaxViewHorDegrees = 180.0;
+
+        public static final double kCameraMountingAngleY = 12.5; // mounting angle of the camera     DEGREESEE
+        public static final double kCameraMountingHeight = 36.0; // height of camera off the ground  INCHES
+        public static final double kTargetHeight = 98.25;        // height of target off the ground  INCHES
     }
 }
