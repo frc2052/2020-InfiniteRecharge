@@ -49,41 +49,41 @@ public class DrivePathCommand extends CommandBase {
                       .addConstraint(autoVoltageConstraint);
 
       switch(selectedPath)  {
-        case StartCenterDriveBackPark:
+        case StartCenterDriveBackPark: //B, B, X
             Trajectory CS = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
               List.of(new Translation2d(3.048, 0)), new Pose2d(3.81, 0, new Rotation2d(0)), config); 
             return CS;
-        case StartCenterGenerator3:
+        case StartCenterGenerator3: //B, C, D, E
             Trajectory CSG3 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
               List.of(new Translation2d(5.2324, -2.0066), new Translation2d(6.1468, -2.0066)),
             new Pose2d(5.3086, -1.397, new Rotation2d(0)), config);
           return CSG3;
-        case StartLeftGenerator3:
+        case StartLeftGenerator3: //I, C, D, E
             Trajectory LSG3 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7018, new Rotation2d(0)),
               List.of(new Translation2d(5.2324, -2.0066), new Translation2d(6.1468, -2.0066)),
                 new Pose2d(5.3086, -1.397, new Rotation2d(0)), config);
             return LSG3;
-        case StartLeftGenerator5:
+        case StartLeftGenerator5: //I, C, D, E, M, N, O
             Trajectory LSG5 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7018, new Rotation2d(0)),
               List.of(new Translation2d(5.2324, -2.0066), new Translation2d(6.1468, -2.0066),
                 new Translation2d(5.3086, -1.397), new Translation2d(5.7658, -1.0922),
                 new Translation2d(6.223, -0.7874)),
               new Pose2d(6.5278, -0.508, new Rotation2d(0)), config);
             return LSG5;
-        case StartLeftTrench2:
+        case StartLeftTrench2: //I, H, F, G
             Trajectory LST2 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7018, new Rotation2d(0)),
               List.of(new Translation2d(6.35, -5.334), new Translation2d(6.5024, -5.08)),
             new Pose2d(6.35, -4.8514, new Rotation2d(0)), config);
           return LST2;
-        case StartRightTrench3Ball:
+        case StartRightTrench3Ball: //J, K, L
             Trajectory RST3 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7272, new Rotation2d(0)),
               List.of(new Translation2d(6.1722, -1.7272)), new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
           return RST3;
-        case LeftTrenchToMiddle: //TODO: fix these values
-            Trajectory LTM = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7272, new Rotation2d(0)),
-              List.of(new Translation2d(6.1722, -1.7272)), new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
+        case LeftTrenchToMiddle: //G, C, I 
+            Trajectory LTM = TrajectoryGenerator.generateTrajectory(new Pose2d(6.35, -4.8514, new Rotation2d(0)),
+              List.of(new Translation2d(5.2324, -1.9812)), new Pose2d(3.048, -1.7018, new Rotation2d(0)), config);
           return LTM;
-        default:
+        default: //B, B, X
             Trajectory DontMove = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
               List.of(new Translation2d(3.048, 0)), new Pose2d(3.81, 0, new Rotation2d(0)), config);
           return DontMove;
