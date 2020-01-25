@@ -96,5 +96,7 @@ public final class Constants {
         public static final int kConveyorMotorBottemRightID = 0;   
         public static final int kLifterFrontID = 0;   
         public static final int kLifterBackID = 0;
+        public static final boolean klifterdirection = true;
+        public static final boolean kconveyordirection = true;
     }
 }

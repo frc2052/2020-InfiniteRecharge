@@ -21,10 +21,10 @@ public class ConveyorSubsystem extends SubsystemBase {
   private final VictorSPX LifterFront = new VictorSPX(Constants.ConveyorSubsystem.kLifterFrontID);
   private final VictorSPX LifterBack = new VictorSPX(Constants.ConveyorSubsystem.kLifterBackID);
 public void declarations(){
-  LifterBack.setInverted(true);
-  LifterFront.setInverted(false);
-  ConveyorBottomLeft.setInverted(true);
-  ConveyorBottomRight.setInverted(true);
+  LifterBack.setInverted(Constants.ConveyorSubsystem.klifterdirection);
+  LifterFront.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
+  ConveyorBottomLeft.setInverted(Constants.ConveyorSubsystem.kconveyordirection);
+  ConveyorBottomRight.setInverted(!Constants.ConveyorSubsystem.kconveyordirection);
   LifterBack.setNeutralMode(NeutralMode.Coast);
   LifterFront.setNeutralMode(NeutralMode.Coast);
   ConveyorBottomLeft.setNeutralMode(NeutralMode.Coast);
