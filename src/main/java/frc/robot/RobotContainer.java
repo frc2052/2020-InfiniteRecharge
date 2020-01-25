@@ -193,12 +193,11 @@ public class RobotContainer {
         y = 619.25;
         break;
       case "Forward":
-        //TODO: Find location of robot if forward of line
-        y= 619.25;
+        y= 619.25 + 19;
         break;
       case "Back":
-        //TODO: Find location of ro robot if back of line
-        y = 619.25;
+
+        y = 619.25 - 19;
         break;
     }
 
