@@ -22,6 +22,7 @@ public class OuterIntakeInCommand extends CommandBase {
     }
     @Override
     public void execute() {
+        // TODO - make sure this line gets called at least once
         m_intakeSubsystem.intakeIn();
     }
 

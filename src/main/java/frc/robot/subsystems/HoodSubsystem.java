@@ -42,6 +42,7 @@ public class HoodSubsystem extends SubsystemBase {
     setAndVerifyGoalInches(calcTarget);
   }
 
+  // TODO: rename for 2020
   public double getHeightInches() {
 
     int encoderPos = angleMotor.getSelectedSensorPosition(0);
@@ -58,40 +59,28 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   private void setAndVerifyGoalInches(int newGoalInches){
-
     if (newGoalInches >  Constants.Shooter.kMaxAngleHeight) {
-
       goalAngleHeight = Constants.Shooter.kMaxAngleHeight;
-
-    }
-
-    else if (newGoalInches < Constants.Shooter.kMinAngleHeight) {
-
+    } else if (newGoalInches < Constants.Shooter.kMinAngleHeight) {
         System.out.println("INVALID ELEVATOR VALUE : " + newGoalInches);
-
         goalAngleHeight = Constants.Shooter.kMinAngleHeight;
-
-    }
-
-    else {
-
-        goalAngleHeight = newGoalInches;
-
+    } else {
+      goalAngleHeight = newGoalInches;
     }
   }
 
 
   private boolean emergencyDownWasPressed = false; // variable makes it able to stop the motor only one time once it is let go
 
-  public void StartEmergencyDown() {
+  public void startEmergencyDown() {
     angleMotor.set(ControlMode.PercentOutput,Constants.Shooter.kEmergencyDownPower);
   }
 
-  public void StopEmergencyMove(){
+  public void stopEmergencyMove(){
     angleMotor.set(ControlMode.PercentOutput, Constants.Shooter.kEmergencyHoldPower);
   }
 
-  public void starEmergencyUp(){
+  public void startEmergencyUp(){
     angleMotor.set(ControlMode.PercentOutput, Constants.Shooter.kEmergencyUpPower);
   }
 
@@ -105,6 +94,7 @@ public class HoodSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    // TODO update the names for 2020, reset when at < 0
     // This method will be called once per scheduler run
     if(getHeightInches() == 0){
         zeroSensor();
@@ -128,7 +118,7 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public enum anglePresetEnum{
-    CLOSE(),
+    CLOSE,
     MIDDLE,
     FAR,
   }
