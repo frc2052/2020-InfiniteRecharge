@@ -9,15 +9,19 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.DrivePathCommand.DrivePathEnum;
 import frc.robot.subsystems.*;
+
+import java.lang.invoke.DelegatingMethodHandle$Holder;
 
 public class StartLeftTrench2Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftTrench2.
    */
-  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking, Double delayTime) {
+      this.addCommands(new WaitCommand(delayTime));
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
@@ -27,11 +31,16 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
+
+
   }
 
-  // Called when the command is initially scheduled.
+
+
+    // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
