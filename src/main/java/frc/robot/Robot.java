@@ -7,7 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.auto.AutoModeSelector;
@@ -69,6 +72,14 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+
+     final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+
+      NetworkTableEntry pos =
+            tab.add("Position On Line", "Middle")
+                    .getEntry();
+
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
