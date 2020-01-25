@@ -90,4 +90,11 @@ public final class Constants {
         public static final int targetHeight = 249; //cm
         public static final int mountingAngle = 0;
     }
+
+    public static final class ConveyorSubsystem {      
+        public static final int kConveyorMotorBottemLeftID = 0;   
+        public static final int kConveyorMotorBottemRightID = 0;   
+        public static final int kLifterFrontID = 0;   
+        public static final int kLifterBackID = 0;
+    }
 }
