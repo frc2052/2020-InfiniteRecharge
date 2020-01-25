@@ -38,7 +38,7 @@ public class ShootAllCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    VisionTurretAdjustCommand visionTurret = new VisionTurretAdjustCommand(vision, hood, SmartDashboard.getBoolean("Shooter Override?", false));
+    VisionTurretAdjustCommand visionTurret = new VisionTurretAdjustCommand(vision, hood, SmartDashboard.getBoolean("Turret Override?", false));
     VisionHoodAdjustCommand visionHood = new VisionHoodAdjustCommand(vision, hood, SmartDashboard.getBoolean("Hood Override?", false));
     ManualSpinUpCommand spinUp = new ManualSpinUpCommand(shooter, SmartDashboard.getBoolean("Shooter Override?", false));
   
@@ -48,10 +48,8 @@ public class ShootAllCommand extends CommandBase {
         new WaitUntilCommand(() -> {
           return visionTurret.isFinished() && spinUp.isFinished() && visionHood.isFinished() ;
         }),
-
         new RunConveyorCommand(SmartDashboard.getBoolean("Conveyor Override?", false)
         ),
-        
         new PerpetualCommand(spinUp),
         new PerpetualCommand(visionHood),
         new PerpetualCommand(visionTurret)
