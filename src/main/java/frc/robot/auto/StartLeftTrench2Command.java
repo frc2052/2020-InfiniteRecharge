@@ -17,8 +17,8 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftTrench2.
    */
-  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
-      this.addCommands(new ShootAllCommand(shooter, visionTracking));
+  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood) {
+      this.addCommands(new ShootAllCommand(shooter, vision, hood));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
       ArmDownCommand armDownCmd = new ArmDownCommand(intake);
@@ -26,7 +26,7 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
-      this.addCommands(new ShootAllCommand(shooter, visionTracking));
+      this.addCommands(new ShootAllCommand(shooter, vision, hood));
   }
 
   // Called when the command is initially scheduled.

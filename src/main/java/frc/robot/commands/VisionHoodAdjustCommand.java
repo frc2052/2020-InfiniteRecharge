@@ -8,15 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.*;
 
-public class VisionAdjust extends CommandBase {
-  /**
-   * Creates a new VisionAdjust.
-   */
-  public VisionAdjust() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class VisionHoodAdjustCommand extends CommandBase {
+  private VisionSubsystem vision;
+  private HoodSubsystem hood;
+  boolean isManual;
+
+  public VisionHoodAdjustCommand(VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem, boolean manual) {
+    vision = visionSubsystem;
+    hood = hoodSubsystem;
+    isManual = manual;
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -25,6 +29,9 @@ public class VisionAdjust extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!isManual) {
+      
+    }
   }
 
   // Called once the command ends or is interrupted.

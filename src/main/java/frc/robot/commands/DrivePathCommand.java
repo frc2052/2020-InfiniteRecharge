@@ -29,6 +29,7 @@ public class DrivePathCommand extends CommandBase {
   private final DrivePathEnum m_choosenPath;
 
   public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
+    addRequirements(driveTrain);
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
   }

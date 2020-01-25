@@ -17,15 +17,15 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftGenerator3Command.
    */
-  public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
-      this.addCommands(new ShootAllCommand(shooter, visionTracking));
+  public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood) {
+      this.addCommands(new ShootAllCommand(shooter, vision, hood));
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
       ArmDownCommand armDownCmd = new ArmDownCommand(intake);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
-      this.addCommands(new ShootAllCommand(shooter, visionTracking));
+      this.addCommands(new ShootAllCommand(shooter, vision, hood));
   }
 
   // Called when the command is initially scheduled.

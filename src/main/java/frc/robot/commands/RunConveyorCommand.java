@@ -9,12 +9,11 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RunConveyor extends CommandBase {
-  /**
-   * Creates a new RunConveyor.
-   */
-  public RunConveyor() {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class RunConveyorCommand extends CommandBase {
+  boolean isManual;
+
+  public RunConveyorCommand(boolean manual) {
+    isManual = manual;
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +24,9 @@ public class RunConveyor extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!isManual) {
+      
+    }
   }
 
   // Called once the command ends or is interrupted.
