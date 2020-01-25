@@ -83,9 +83,9 @@ public class DrivePathCommand extends CommandBase {
             Trajectory LTM = TrajectoryGenerator.generateTrajectory(new Pose2d(6.35, -4.8514, new Rotation2d(0)),
               List.of(new Translation2d(5.2324, -1.9812)), new Pose2d(3.048, -1.7018, new Rotation2d(0)), config);
           return LTM;
-        default: //B, B, X
+        default: //B, B, B
             Trajectory DontMove = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
-              List.of(new Translation2d(3.048, 0)), new Pose2d(3.81, 0, new Rotation2d(0)), config);
+              List.of(new Translation2d(3.048, 0)), new Pose2d(3.048, 0, new Rotation2d(0)), config);
           return DontMove;
       }
   }
