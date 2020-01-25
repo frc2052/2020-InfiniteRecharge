@@ -7,8 +7,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.Constants.Turret;
 import frc.robot.commands.OuterIntakeInCommand;
 import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
@@ -30,6 +33,12 @@ import frc.robot.auto.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  private final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+
+  private NetworkTableEntry autoDelay =
+          tab.add("Auto Delay", 0)
+                  .getEntry();
+
 
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -43,10 +52,10 @@ public class RobotContainer {
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
-  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision);
-  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision);
-  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision);
-  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision);
+  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, autoDelay.getDouble(0));
+  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
+  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
+  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
 
 
   /**

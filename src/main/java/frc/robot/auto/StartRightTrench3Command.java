@@ -9,6 +9,7 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.*;
 import frc.robot.commands.DrivePathCommand.DrivePathEnum;
 import frc.robot.subsystems.*;
@@ -17,7 +18,8 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartRightTrench3Command.
    */
-  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking) {
+  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking, Double delayTime) {
+    this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
     OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
     DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);
@@ -26,11 +28,15 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     this.addCommands(par1);
     this.addCommands(new OuterIntakeStopCommand(intake));
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
+
+
   }
+
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
