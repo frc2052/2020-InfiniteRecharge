@@ -45,7 +45,6 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final HoodSubsystem hood = new HoodSubsystem();
   private final TurretSubsystem turret = new TurretSubsystem();
-
   private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
@@ -56,6 +55,7 @@ public class RobotContainer {
   private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
   private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
   private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
+
 
 
   /**
@@ -174,6 +174,44 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+
+    double x = 0;
+    double y = 619.25;
+
+    NetworkTableEntry pos =
+            tab.add("Position On Line", "Middle")
+                    .getEntry();
+    NetworkTableEntry isLR =
+            tab.add("Measuring from Left Or Right", "Right")
+                    .getEntry();
+    NetworkTableEntry measurement =
+            tab.add("Distance", "0")
+                    .getEntry();
+    switch (pos.getString("middle")){
+      case "Middle":
+        y = 619.25;
+        break;
+      case "Forward":
+        //TODO: Find location of robot if forward of line
+        y= 619.25;
+        break;
+      case "Back":
+        //TODO: Find location of ro robot if back of line
+        y = 619.25;
+        break;
+    }
+
+    switch (isLR.getString("Right")){
+      case "Right":
+        x = 203.25 - measurement.getDouble(0);
+        break;
+      case "Left":
+        x= measurement.getDouble(0);
+        break;
+    }
+    driveTrain.setOdometry(x, y);
+
 
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSG3:

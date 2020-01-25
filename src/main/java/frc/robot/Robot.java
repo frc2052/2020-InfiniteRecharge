@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.auto.AutoModeSelector;
+import frc.robot.subsystems.DriveTrainSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -73,11 +74,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
 
-     final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
 
-      NetworkTableEntry pos =
-            tab.add("Position On Line", "Middle")
-                    .getEntry();
+
 
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -85,6 +83,7 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+
     }
 
   
