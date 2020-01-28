@@ -65,8 +65,10 @@ public class MegaShooterCommand extends CommandBase {
       hoodOnTarget = true;
       if(manualHoodUp) {
         m_hood.startEmergencyUp();
+        manualHoodUp = false;
       } else if(manualHoodDown) {
         m_hood.startEmergencyDown();
+        manualHoodDown = false;
       } else {
         m_hood.stopEmergencyMove();
       }
@@ -84,8 +86,10 @@ public class MegaShooterCommand extends CommandBase {
       turretOnTarget = true;
       if(manualTurretLeft) {
         m_turret.turnTurret(-0.1);
+        manualTurretLeft = false;
       } if(manualTurretRight) {
         m_turret.turnTurret(0.1);
+        manualTurretRight = false;
       } else {
         m_turret.turnTurret(0);
       }
@@ -103,10 +107,18 @@ public class MegaShooterCommand extends CommandBase {
       double currentPowerPct = m_shooter.getSpeed();
       if(manualShooterIncrease) {
         currentPowerPct += 0.5;
+        if(currentPowerPct > 1) {
+          currentPowerPct = 1;
+        }
         m_shooter.setSpeed(currentPowerPct);
+        manualShooterIncrease = false;
       } else if (manualShooterDecrease) {
         currentPowerPct -= 0.5;
+        if(currentPowerPct < 0) {
+          currentPowerPct = 0;
+        }
         m_shooter.setSpeed(currentPowerPct);
+        manualShooterDecrease = false; 
       } else {
         m_shooter.setSpeed(currentPowerPct);
       }
