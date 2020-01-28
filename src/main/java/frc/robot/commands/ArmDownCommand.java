@@ -12,6 +12,7 @@ public class ArmDownCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
+
   public ArmDownCommand(IntakeSubsystem subsystem) {
       m_intakeSubsystem = subsystem;
       // Use addRequirements() here to declare subsystem dependencies.
@@ -19,13 +20,11 @@ public class ArmDownCommand extends CommandBase {
   }
   @Override
   public void initialize() {
-  }
-
-  @Override
-  public void execute() {
     m_intakeSubsystem.armDown();
+    m_intakeSubsystem.intakeIn();
 
   }
+
 
   @Override
   public boolean isFinished(){
