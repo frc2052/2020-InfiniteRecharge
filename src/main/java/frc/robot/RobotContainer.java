@@ -12,10 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.Constants.Turret;
-import frc.robot.commands.OuterIntakeInCommand;
 import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
-import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj.Joystick;
