@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -48,10 +49,11 @@ public class RobotContainer {
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
-  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, autoDelay.getDouble(0));
-  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
-  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
-  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, autoDelay.getDouble(0));
+  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, autoDelay.getDouble(0));
+  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
+  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
+  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
+
 
 
   /**
@@ -155,12 +157,21 @@ public class RobotContainer {
     btnJSB4.whenPressed(() -> {});
     btnJSB5.whenPressed(() -> {}); 
     btnJSB6.whenPressed(() -> {}); 
-    btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
-    btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
-    btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
-    btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
-    btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
-    btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
+    
+    if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
+      btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
+    }
+
+    if(SmartDashboard.getBoolean("Turret Override?", false) == true) {
+      btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
+      btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
+    }
+
+    if(SmartDashboard.getBoolean("Hood Override?", false) == true) {
+      btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
+      btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
+      btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
+    }
   }
 
 
@@ -170,6 +181,43 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+
+    double x = 0;
+    double y = 619.25;
+
+    NetworkTableEntry pos =
+            tab.add("Position On Line", "Middle")
+                    .getEntry();
+    NetworkTableEntry isLR =
+            tab.add("Measuring from Left Or Right", "Right")
+                    .getEntry();
+    NetworkTableEntry measurement =
+            tab.add("Distance", "0")
+                    .getEntry();
+    switch (pos.getString("middle")){
+      case "Middle":
+        y = 619.25;
+        break;
+      case "Forward":
+        y= 619.25 + 19;
+        break;
+      case "Back":
+
+        y = 619.25 - 19;
+        break;
+    }
+
+    switch (isLR.getString("Right")){
+      case "Right":
+        x = 203.25 - measurement.getDouble(0);
+        break;
+      case "Left":
+        x= measurement.getDouble(0);
+        break;
+    }
+    driveTrain.setOdometry(x, y);
+
 
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSG3:

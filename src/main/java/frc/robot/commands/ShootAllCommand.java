@@ -8,15 +8,26 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.*;
+import frc.robot.commands.*;
 
 public class ShootAllCommand extends CommandBase {
-  /**
-   * Creates a new ShootAllCommand.
-   */
-  public ShootAllCommand(ShooterSubsystem shooter, VisionSubsystem visionSubsystem) {
+  private ShooterSubsystem shooter;
+  private VisionSubsystem vision;
+  private HoodSubsystem hood;
+
+  //TODO: add conveyor to this
+  public ShootAllCommand(ShooterSubsystem shooterSubsystem, VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
+    shooter = shooterSubsystem;
+    vision = visionSubsystem;
+    hood = hoodSubsystem;
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +38,26 @@ public class ShootAllCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  }
+    VisionTurretAdjustCommand visionTurret = new VisionTurretAdjustCommand(vision, hood, SmartDashboard.getBoolean("Turret Override?", false));
+    VisionHoodAdjustCommand visionHood = new VisionHoodAdjustCommand(vision, hood, SmartDashboard.getBoolean("Hood Override?", false));
+    ManualSpinUpCommand spinUp = new ManualSpinUpCommand(shooter, SmartDashboard.getBoolean("Shooter Override?", false));
+  
+
+    ParallelDeadlineGroup shootAll = new ParallelDeadlineGroup(
+      new SequentialCommandGroup(
+        new WaitUntilCommand(() -> {
+          return visionTurret.isFinished() && spinUp.isFinished() && visionHood.isFinished() ;
+        }),
+        new RunConveyorCommand(SmartDashboard.getBoolean("Conveyor Override?", false)
+        ),
+        new PerpetualCommand(spinUp),
+        new PerpetualCommand(visionHood),
+        new PerpetualCommand(visionTurret)
+        ));
+      
+      shootAll.execute();
+    }
+
 
   // Called once the command ends or is interrupted.
   @Override

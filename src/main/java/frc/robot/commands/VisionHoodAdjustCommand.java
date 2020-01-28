@@ -8,22 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.*;
 
-public class ManualSpinUpCommand extends CommandBase {
-  private ShooterSubsystem m_ShooterSubsystem;
+public class VisionHoodAdjustCommand extends CommandBase {
+  private VisionSubsystem vision;
+  private HoodSubsystem hood;
   boolean isManual;
 
-  /**
-   * Creates a new ManualSpinUpCommand.
-   */
-  public ManualSpinUpCommand(ShooterSubsystem shooter, boolean manual) {
-    addRequirements(shooter);
-    m_ShooterSubsystem = shooter;
+  public VisionHoodAdjustCommand(VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem, boolean manual) {
+    vision = visionSubsystem;
+    hood = hoodSubsystem;
     isManual = manual;
   }
-
+  
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -32,8 +29,8 @@ public class ManualSpinUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!isManual){
-      m_ShooterSubsystem.setSpeed(Constants.Shooter.kShooterSpeedRPS);
+    if(!isManual) {
+      
     }
   }
 

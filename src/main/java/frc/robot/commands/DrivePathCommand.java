@@ -29,6 +29,7 @@ public class DrivePathCommand extends CommandBase {
   private final DrivePathEnum m_choosenPath;
 
   public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
+    addRequirements(driveTrain);
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
 
@@ -90,6 +91,10 @@ public class DrivePathCommand extends CommandBase {
             Trajectory LTM = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7272, new Rotation2d(0)),
               List.of(new Translation2d(6.1722, -1.7272)), new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
           return LTM;
+          case CenterGenerator5:
+            Trajectory CG5 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7272, new Rotation2d(0)),
+            List.of(new Translation2d(6.1722, -1.7272)), new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
+            return CG5;
         default:
             Trajectory DontMove = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
               List.of(new Translation2d(3.048, 0)), new Pose2d(3.81, 0, new Rotation2d(0)), config);
@@ -139,7 +144,8 @@ public class DrivePathCommand extends CommandBase {
     StartLeftGenerator3,
     StartLeftTrench2,
     StartLeftGenerator5,
-    LeftTrenchToMiddle
+    LeftTrenchToMiddle,
+    CenterGenerator5
   }
 
 }

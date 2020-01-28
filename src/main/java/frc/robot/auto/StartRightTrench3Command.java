@@ -18,15 +18,16 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartRightTrench3Command.
    */
+
   public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking, Double delayTime) {
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new ShootAllCommand(shooter, visionTracking));
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
     DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);
-    ArmDownCommand armDownCmd = new ArmDownCommand(intake);
-    ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
+    ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1);
     this.addCommands(par1);
     this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(new ShootAllCommand(shooter, visionTracking));
+    this.addCommands(new ShootAllCommand(shooter, vision, hood));
   }
+
 }
