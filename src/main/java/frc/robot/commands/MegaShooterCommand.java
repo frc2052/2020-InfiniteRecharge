@@ -22,20 +22,35 @@ public class MegaShooterCommand extends CommandBase {
   private boolean turretOnTarget = false;
   private boolean speedOnTarget = false;
 
-  private boolean hoodUp;
+  private boolean manualShooterIncrease;
+  private boolean manualShooterDecrease;
+  private boolean manualHoodUp;
+  private boolean manualHoodDown;
+  private boolean manualTurretLeft;
+  private boolean manualTurretRight;
+  private boolean shootPressed;
+  private boolean readyPressed;
+  private boolean conveyorDownPressed;
 
   public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor,
-                              boolean manualShooterIncrease, boolean manualShooterDecrease, 
-                              boolean manualHoodUp, boolean manualHoodDown,
-                              boolean manualTurretLeft, boolean manualTurretRight,
-                              boolean shootPressed, boolean readyPressed) {
+                              boolean shooterIncrease, boolean shooterDecrease, 
+                              boolean hoodUp, boolean hoodDown,
+                              boolean turretLeft, boolean turretRight,
+                              boolean shoot, boolean ready,
+                              boolean conveyorDown) {
     m_shooter = shooter;
     m_vision = vision;
     m_hood = hood;
     m_turret = turret;
     m_conveyor = conveyor;
 
-    hoodUp = manualHoodUp;
+    manualHoodUp = hoodUp;
+    manualHoodDown = hoodDown;
+    manualTurretLeft = turretLeft;
+    manualTurretRight = turretRight;
+    shootPressed = shoot;
+    readyPressed = ready;
+    conveyorDownPressed = conveyorDown;
 
     addRequirements(shooter, vision, hood, turret, conveyor);
   }
@@ -48,7 +63,7 @@ public class MegaShooterCommand extends CommandBase {
   public void executeHood() {
     if(SmartDashboard.getBoolean("Hood Override?", false)) {
       hoodOnTarget = true;
-      if(hoodUp) {
+      if(manualHoodUp) {
         m_hood.startEmergencyUp();
       } else if(manualHoodDown) {
         m_hood.startEmergencyDown();
@@ -58,9 +73,9 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       double hoodTargetAngle = 0;
       //calculate the hood angle from the vision system
-      //set hood angle 
-      double hoodCurrentAngle = 0; //get the current able
+      double hoodCurrentAngle = 0; //get the current angle
       hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
+      //turn turret to target angle 
     }
   }
 
@@ -77,13 +92,28 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       double turretCurrentAngle = 0; //get current turret angle from turret
       double turretTargetAngle = 0; //calculate target turret angle from vision
+      turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
+      //turn turret to target angle using motion magic
     }
   }
 
   public void executeShooter() {
     if(SmartDashboard.getBoolean("Shooter Override?", false)) {
       speedOnTarget = true;
-      currentPowerPct = m_shooter.getSpeed();
+      double currentPowerPct = m_shooter.getSpeed();
+      if(manualShooterIncrease) {
+        currentPowerPct += 0.5;
+        m_shooter.setSpeed(currentPowerPct);
+      } else if (manualShooterDecrease) {
+        currentPowerPct -= 0.5;
+        m_shooter.setSpeed(currentPowerPct);
+      } else {
+        m_shooter.setSpeed(currentPowerPct);
+      }
+    } else {
+      int targetSpeed = 0; //TODO: calculate targetSpeed in shooter 
+      speedOnTarget = Math.abs(m_shooter.getSpeed() - targetSpeed) < .5;
+      m_shooter.setSpeed(targetSpeed);
     }
   }
 
@@ -95,13 +125,19 @@ public class MegaShooterCommand extends CommandBase {
     if(shootPressed || readyPressed) {
       executeHood();
       executeTurret();
+      executeShooter();
       if(hoodOnTarget && turretOnTarget && speedOnTarget && shootPressed) {
-        //run conveyor
+        if(conveyorDownPressed == false) {
+          m_conveyor.lifterUp();
+        } else {
+          m_conveyor.lifterDown();
+        }
       } else {
-        //stop conveyor
+        m_conveyor.lifterStop();
       }
     } else {
-      //TODO: Stop all subsystems
+      m_shooter.setSpeed(0);
+      m_turret.turnTurret(0);
     }
   }
 

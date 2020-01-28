@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
-  // TODO is this RPM or RPS?
   private double RPM;
   private TalonSRX shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
   
@@ -27,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     RPM = sensorUnitsToRPM(shooterMotor.getSelectedSensorVelocity());
     return RPM;
   }
+
   public void setSpeed(double speed){
     shooterMotor.set(ControlMode.Velocity, speed * 4096);
   }
