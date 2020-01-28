@@ -18,9 +18,9 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftGenerator3Command.
    */
-  public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, Double delayTime) {
+  public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
 	  this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new ShootAllCommand(shooter, vision, hood));
+      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
 
       OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
@@ -29,7 +29,7 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
       
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
-      this.addCommands(new ShootAllCommand(shooter, vision, hood));
+      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
   }
 
 }
