@@ -21,9 +21,7 @@ public class ClimberSubsystem extends SubsystemBase {
   private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
   private int goalElevatorInches;
   private boolean runningInOpenLoop = false;
-  /**
-   * Creates a new ClimberSubsystem.
-   */
+ 
   public ClimberSubsystem() {
    
     climberMotor.setNeutralMode(NeutralMode.Brake);

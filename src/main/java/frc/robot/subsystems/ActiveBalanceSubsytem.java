@@ -17,9 +17,7 @@ import frc.robot.Constants;
 public class ActiveBalanceSubsytem extends SubsystemBase {
   private final WPI_TalonSRX ActiveBalanceMotor = new WPI_TalonSRX(Constants.ActiveBalance.kActiveBalanceMotorID);
   private final VictorSPX ActiveBalanceMotor2 = new VictorSPX(Constants.ActiveBalance.kActiveBalanceMotor2ID);
-  /**
-   * Creates a new ActiveBalanceSubsytem.
-   */
+ 
   public ActiveBalanceSubsytem() {
 
   }

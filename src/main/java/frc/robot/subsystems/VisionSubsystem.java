@@ -12,9 +12,7 @@ import frc.robot.Constants;
 import edu.wpi.first.networktables.*;
 
 public class VisionSubsystem extends SubsystemBase {
-  /**
-   * Creates a new VisionSubsystem.
-   */
+
   public VisionSubsystem() {
 
   }

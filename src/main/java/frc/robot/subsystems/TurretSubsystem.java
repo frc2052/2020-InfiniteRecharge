@@ -19,9 +19,7 @@ public class TurretSubsystem extends SubsystemBase {
   private TalonSRX turretMotor = new TalonSRX(Constants.Turret.kTurretMotorID);
   private int currentPos = 0;
   private double motorPower = 0;
-  /**
-   * Creates a new TurretSubsystem.
-   */
+ 
   public TurretSubsystem() {
     // TODO reset Talon to factory defaults
     turretMotor.setNeutralMode(NeutralMode.Brake);
