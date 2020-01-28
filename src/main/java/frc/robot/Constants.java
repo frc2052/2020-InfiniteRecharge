@@ -7,9 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
-import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -40,24 +38,26 @@ public final class Constants {
         public static final int kDriveLeftSlaveId = 5;
         public static final int kDriveLeftSlave2Id = 6;
 
-
         public static final int kVelocityControlSlot = 0;
         public static final int kCANBusConfigTimeoutMS = 10;
         public static final int kTicksPerRot = 1024;
         public static final double kEncoderGearRatio = (1.0/3)*(20.0/64);
         public static final double kDriveWheelCircumferenceInches = 6.0 * Math.PI;
 
+        public static final int kPDriveVel = 8;
+
         public static final int kShiftInSolenoidID = 0;
         public static final int kShiftOutSolenoidID = 1;
 
         public static final double kTurnInPlaceSpeed = .75;
     }
+
     public static final class Intake{
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
     }
-  
+
     public static final class Elevator{
        public static final int kClimberMotorID = 8;
        public static final double kPercentOutputUp = .2;
@@ -67,16 +67,53 @@ public final class Constants {
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
        public static final int kElevatorMaxHeight = 79;
-
     }
   
     public static final class ActiveBalance{
         public static final int kActiveBalanceMotorID = 9;
         public static final int kActiveBalanceMotor2ID = 10;
     }
+
+    public static final class Shooter{
+        public static final int kShooterMotorID = 8;
+        public static final int kAngleMotorID = 9;
+        public static final int kCloseAnglePosition = 5 ;
+        public static final int kMiddleAnglePosition = 10;
+        public static final int kFarAnglePosition = 15;
+        public static final int kAngleTicsPerRotations = 4096;
+        public static final int kMaxAngleHeight = 20;
+        public static final int kMinAngleHeight = 0;
+        public static final double kEmergencyDownPower = -.25;
+        public static final double kEmergencyUpPower = .25;
+        public static final double kInchesPerRotation = 5;
+        public static final double kShooterSpeedRPS = 5;
+    }
+  
+    public static final class Turret{
+        public static final int kTurretMotorID = 10;
+        public static final int kTurretMaxRight = 100;
+        public static final int kTurretMinLeft = -100;
+        public static final double kTurnLeftSpeed = -0.1;
+        public static final double kTurnRightSpeed = 0.1;
+    }
   
     public static class Autonomous {
         public static final double maxVelocity = 7 * 12;
         public static final double maxAcceleration = 120;
+    }
+
+    public static final class Vision {
+        public static final double limelightHeight = 20.0;
+        public static final int targetHeight = 249; //cm
+        public static final int mountingAngle = 0;
+    }
+
+    public static final class ConveyorSubsystem {      
+        public static final int kConveyorMotorBottemLeftID = 0;   
+        public static final int kConveyorMotorBottemRightID = 0;   
+        public static final int kLifterFrontID = 0;   
+        public static final int kLifterBackID = 0;
+        public static final boolean klifterdirection = true;
+        public static final boolean kconveyordirection = true;
     }
 }

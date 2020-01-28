@@ -8,15 +8,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
-public class ShootAllCommand extends CommandBase {
-  /**
-   * Creates a new ShootAllCommand.
-   */
-  public ShootAllCommand(ShooterSubsystem shooter, VisionSubsystem vision) {
-    // Use addRequirements() here to declare subsystem dependencies.
+public class RunConveyorCommand extends CommandBase {
+  boolean isManual;
+
+  public RunConveyorCommand(boolean manual) {
+    isManual = manual;
   }
 
   // Called when the command is initially scheduled.
@@ -27,6 +24,9 @@ public class ShootAllCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if(!isManual) {
+      
+    }
   }
 
   // Called once the command ends or is interrupted.

@@ -86,6 +86,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     odometry = new DifferentialDriveOdometry(getAngle());
   }
 
+  public void setOdometry(double x, double y){
+
+    Pose2d newPose = new Pose2d(x, y, getAngle());
+      odometry.resetPosition(newPose, getAngle());
+  }
+
   
   public void setHighGear(boolean highGear) {
     shifterOut.set(!highGear);
@@ -129,5 +135,5 @@ public class DriveTrainSubsystem extends SubsystemBase {
     );
   }
 
-  
+ 
 }
