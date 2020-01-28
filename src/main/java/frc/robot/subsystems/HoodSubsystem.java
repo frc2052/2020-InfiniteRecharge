@@ -77,7 +77,7 @@ public class HoodSubsystem extends SubsystemBase {
   }
 
   public void stopEmergencyMove(){
-    angleMotor.set(ControlMode.PercentOutput, Constants.Shooter.kEmergencyHoldPower);
+    angleMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void startEmergencyUp(){

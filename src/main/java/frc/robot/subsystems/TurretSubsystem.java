@@ -30,7 +30,6 @@ public class TurretSubsystem extends SubsystemBase {
   }
   public void turnTurret(double power){
     motorPower = power;
-    
   }
 
   @Override

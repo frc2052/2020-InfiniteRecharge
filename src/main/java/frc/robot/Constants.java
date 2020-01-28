@@ -68,7 +68,6 @@ public final class Constants {
         public static final int kMaxAngleHeight = 20;
         public static final int kMinAngleHeight = 0;
         public static final double kEmergencyDownPower = -.25;
-        public static final double kEmergencyHoldPower = .1;
         public static final double kEmergencyUpPower = .25;
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;

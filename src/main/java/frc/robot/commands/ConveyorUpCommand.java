@@ -17,7 +17,7 @@ public class ConveyorUpCommand extends CommandBase {
   public ConveyorUpCommand(ConveyorSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-subsystem.LifterUp();
+subsystem.lifterUp();
     addRequirements(subsystem);
   } 
 }
