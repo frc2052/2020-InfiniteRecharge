@@ -42,7 +42,6 @@ public class RobotContainer {
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final HoodSubsystem hood = new HoodSubsystem();
   private final TurretSubsystem turret = new TurretSubsystem();
-
   private final VisionSubsystem vision = new VisionSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);

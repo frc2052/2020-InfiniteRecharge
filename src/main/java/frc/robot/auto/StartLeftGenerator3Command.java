@@ -25,33 +25,10 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
       ArmDownCommand armDownCmd = new ArmDownCommand(intake);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
+      
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new ShootAllCommand(shooter, visionTracking));
-
   }
 
-
-
-    // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }
