@@ -23,6 +23,7 @@ public class TurretSubsystem extends SubsystemBase {
    * Creates a new TurretSubsystem.
    */
   public TurretSubsystem() {
+    // TODO reset Talon to factory defaults
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
@@ -35,13 +36,12 @@ public class TurretSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // TODO do we need to convert this to degrees?
     currentPos = turretMotor.getSelectedSensorPosition();
     if (currentPos > Constants.Turret.kTurretMaxRight && motorPower > 0){
       motorPower = 0;
-
-    } else if (currentPos < Constants.Turret.kTurrenMinLeft && motorPower < 0){
+    } else if (currentPos < Constants.Turret.kTurretMinLeft && motorPower < 0){
       motorPower = 0;
-
     }
     turretMotor.set(ControlMode.PercentOutput, motorPower);
   }

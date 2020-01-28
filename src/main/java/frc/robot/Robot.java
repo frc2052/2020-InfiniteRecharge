@@ -10,6 +10,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeSelector;
 
 /**
@@ -35,6 +37,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
+    SmartDashboard.putBoolean("Conveyor Override?", false);
+    SmartDashboard.putBoolean("Shooter Override?", false);
+    SmartDashboard.putBoolean("Hood Override?", false);
+    SmartDashboard.putBoolean("Turret Override?", false);
   }
 
   /**

@@ -76,7 +76,7 @@ public final class Constants {
     public static final class Turret{
         public static final int kTurretMotorID = 10;
         public static final int kTurretMaxRight = 100;
-        public static final int kTurrenMinLeft = -100;
+        public static final int kTurretMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
     }
@@ -95,5 +95,14 @@ public final class Constants {
         public static final double kCameraMountingAngleY = 12.5; // mounting angle of the camera     DEGREESEE
         public static final double kCameraMountingHeight = 36.0; // height of camera off the ground  INCHES
         public static final double kTargetHeight = 98.25;        // height of target off the ground  INCHES
+    }
+
+    public static final class ConveyorSubsystem {      
+        public static final int kConveyorMotorBottemLeftID = 0;   
+        public static final int kConveyorMotorBottemRightID = 0;   
+        public static final int kLifterFrontID = 0;   
+        public static final int kLifterBackID = 0;
+        public static final boolean klifterdirection = true;
+        public static final boolean kconveyordirection = true;
     }
 }

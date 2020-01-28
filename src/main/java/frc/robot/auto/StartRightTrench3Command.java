@@ -18,40 +18,17 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   /**
    * Creates a new StartRightTrench3Command.
    */
-  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem visionTracking, Double delayTime) {
-    this.addCommands(new WaitCommand(delayTime));
-    this.addCommands(new ShootAllCommand(shooter, visionTracking));
-    OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
+
+  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, Double  delayTime) {
+	this.addCommands(new WaitCommand(delayTime));
+    this.addCommands(new ShootAllCommand(shooter, vision, hood));    
+	OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
     DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);
     ArmDownCommand armDownCmd = new ArmDownCommand(intake);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
     this.addCommands(par1);
     this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(new ShootAllCommand(shooter, visionTracking));
-
-
+    this.addCommands(new ShootAllCommand(shooter, vision, hood));
   }
 
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-  }
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 }

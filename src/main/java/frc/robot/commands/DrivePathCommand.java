@@ -29,8 +29,11 @@ public class DrivePathCommand extends CommandBase {
   private final DrivePathEnum m_choosenPath;
 
   public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
+    addRequirements(driveTrain);
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
+
+    // TODO add requirements
   }
 
   // Called when the command is initially scheduled.
@@ -40,13 +43,18 @@ public class DrivePathCommand extends CommandBase {
 
   public Trajectory getTrajectory(DrivePathEnum selectedPath) {
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
-              new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts, Constants.DriveTrain.kvVoltSecondsPerMeter,
-                      Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
+              new SimpleMotorFeedforward(
+                Constants.DriveTrain.ksVolts, 
+                Constants.DriveTrain.kvVoltSecondsPerMeter,
+                Constants.DriveTrain.kaVoltSecondsSquaredPerMeter
+              ),
               Constants.DriveTrain.kinematics, 10);
 
-      TrajectoryConfig config = new TrajectoryConfig(Constants.Autonomous.maxVelocity,
-              Constants.Autonomous.maxAcceleration).setKinematics(Constants.DriveTrain.kinematics)
-                      .addConstraint(autoVoltageConstraint);
+      TrajectoryConfig config = new TrajectoryConfig(
+        Constants.Autonomous.maxVelocity,
+        Constants.Autonomous.maxAcceleration
+      ).setKinematics(Constants.DriveTrain.kinematics)
+        .addConstraint(autoVoltageConstraint);
 
       switch(selectedPath)  {
         case StartCenterDriveBackPark:
