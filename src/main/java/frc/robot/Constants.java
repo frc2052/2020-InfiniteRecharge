@@ -38,7 +38,6 @@ public final class Constants {
         public static final int kDriveLeftSlaveId = 5;
         public static final int kDriveLeftSlave2Id = 6;
 
-
         public static final int kVelocityControlSlot = 0;
         public static final int kCANBusConfigTimeoutMS = 10;
         public static final int kTicksPerRot = 1024;
@@ -58,6 +57,23 @@ public final class Constants {
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
     }
+
+    public static final class Elevator{
+       public static final int kClimberMotorID = 8;
+       public static final double kPercentOutputUp = .2;
+       public static final double kPercentOutputDown = -.2;
+       public static final int kElevatorTicksPerRot = 4096;
+       public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
+       public static final int kElevatorHeight = 63;
+       public static final int kElevatorMinHeight = 0;
+       public static final int kElevatorMaxHeight = 79;
+    }
+  
+    public static final class ActiveBalance{
+        public static final int kActiveBalanceMotorID = 9;
+        public static final int kActiveBalanceMotor2ID = 10;
+    }
+
     public static final class Shooter{
         public static final int kShooterMotorID = 8;
         public static final int kAngleMotorID = 9;
@@ -72,6 +88,7 @@ public final class Constants {
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;
     }
+  
     public static final class Turret{
         public static final int kTurretMotorID = 10;
         public static final int kTurretMaxRight = 100;
@@ -79,6 +96,7 @@ public final class Constants {
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
     }
+  
     public static class Autonomous {
         public static final double maxVelocity = 7 * 12;
         public static final double maxAcceleration = 120;
