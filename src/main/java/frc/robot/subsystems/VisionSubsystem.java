@@ -8,16 +8,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import edu.wpi.first.networktables.*;
 
 public class VisionSubsystem extends SubsystemBase {
   
   NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
 
-  private NetworkTableEntry tvI = table.getEntry("tv"); // wether there are any targets
-  private NetworkTableEntry txI = table.getEntry("tx"); // traget x
-  private NetworkTableEntry tyI = table.getEntry("ty"); // traget y
+  private NetworkTableEntry tvI = table.getEntry("tv"); // whether there are any targets
+  private NetworkTableEntry txI = table.getEntry("tx"); // target x
+  private NetworkTableEntry tyI = table.getEntry("ty"); // target y
   private NetworkTableEntry taI = table.getEntry("ta"); // can be used for distance sensing in the future
 
   private NetworkTableEntry pipelineI = table.getEntry("getpipe"); // pipeline
@@ -30,9 +29,9 @@ public class VisionSubsystem extends SubsystemBase {
   private NetworkTableEntry tshortI = table.getEntry("tshort"); // target shortest side
   private NetworkTableEntry tlongI = table.getEntry("tlong"); // target longest side
 
-  private double tv; // wether there are any targets
-  private double tx; // traget x
-  private double ty; // traget y
+  private double tv; // whether there are any targets
+  private double tx; // target x
+  private double ty; // target y
   private double ta; // can be used for distance sensing in the future (target area)
 
   private double pl; // pipeline
@@ -45,7 +44,7 @@ public class VisionSubsystem extends SubsystemBase {
   private double tshort; // target shortest side
   private double tlong; // target longest side
 
-  private boolean hasValidTarget; // wether or not there are any targets visible, < 1 = no target, 1 = target
+  private boolean hasValidTarget; // whether or not there are any targets visible, < 1 = no target, 1 = target
 
   public void updateLimelight() {
 
