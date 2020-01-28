@@ -35,12 +35,18 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
+    //TODO: Add values to be logged for the logger
+    //org.usfirst.frc.team1736.lib.Logging.CsvLogger.addLoggingFieldBoolean();
+    //org.usfirst.frc.team1736.lib.Logging.CsvLogger.addLoggingFieldDouble();
+    //Etc, other methods can be called
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
     SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
     SmartDashboard.putBoolean("Hood Override?", false);
     SmartDashboard.putBoolean("Turret Override?", false);
+
   }
 
   /**
@@ -76,6 +82,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -90,6 +97,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
   }
 
   @Override
@@ -98,6 +106,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -108,6 +118,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
   }
 
   @Override
@@ -121,5 +132,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
+
+    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
   }
 }
