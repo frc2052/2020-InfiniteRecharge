@@ -21,7 +21,7 @@ public class StartLeftShoot5 extends SequentialCommandGroup {
   public StartLeftShoot5(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
-    OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
+    ArmDownCommand intakeCmd = new ArmDownCommand(intake);
     DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.CenterGenerator5);
     ArmDownCommand armDownCmd = new ArmDownCommand(intake);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
