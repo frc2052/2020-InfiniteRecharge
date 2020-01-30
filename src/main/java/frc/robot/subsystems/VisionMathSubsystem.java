@@ -18,18 +18,19 @@ public class VisionMathSubsystem {
 
     private VisionSubsystem camSubsystem = new VisionSubsystem();
 
-    private final double shooterMotorSpeedAdjustment = 1.0;
-
-    private final double shooterMotorSpeedPerInch = 0.1;
-
     //this is based on a top down x & y cord system
     public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
-        return ((Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + ty)));
+        return ((Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + ty)));
     }
 
-    public double getShooterMotorSpeed() {
-        double distance = this.getDistanceToTargetInches(camSubsystem.getTy());
-        return (distance * shooterMotorSpeedPerInch) + shooterMotorSpeedAdjustment;
+    // hood y angle
+    public double getHoodAngleY() {
+        return 0.0;
+    }
+
+    // turret x angle
+    public double getTurretAngleX(tx) {
+        return tx;
     }
 
 }
