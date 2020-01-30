@@ -20,17 +20,17 @@ public class VisionMathSubsystem {
 
     //this is based on a top down x & y cord system
     public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
-        return ((Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + ty)));
+        return (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + camSubsystem.getTy()));
     }
 
-    // hood y angle
-    public double getHoodAngleY() {
-        return 0.0;
-    }
+    // // hood y angle
+    // public double getHoodAngleY() {
+    //     return 0.0;
+    // }
 
-    // turret x angle
-    public double getTurretAngleX(tx) {
-        return tx;
-    }
+    // // turret x angle
+    // public double getTurretAngleX(tx) {
+    //     return tx;
+    // }
 
 }
