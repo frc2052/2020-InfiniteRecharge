@@ -20,6 +20,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   private final VictorSPX ConveyorBottomRight = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemRightID);
   private final VictorSPX LifterFront = new VictorSPX(Constants.ConveyorSubsystem.kLifterFrontID);
   private final VictorSPX LifterBack = new VictorSPX(Constants.ConveyorSubsystem.kLifterBackID);
+  
 public void declarations(){
   LifterBack.setInverted(Constants.ConveyorSubsystem.klifterdirection);
   LifterFront.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
@@ -31,19 +32,19 @@ public void declarations(){
   ConveyorBottomRight.setNeutralMode(NeutralMode.Coast);
 }
   
-public void LifterUp (){
+public void lifterUp (){
   ConveyorBottomLeft.set(ControlMode.PercentOutput, 50);
   ConveyorBottomRight.set(ControlMode.PercentOutput, 50);
   LifterBack.set(ControlMode.PercentOutput, 50);
   LifterFront.set(ControlMode.PercentOutput, 50);
 }
-public void LifterDown (){
+public void lifterDown (){
   ConveyorBottomRight.set(ControlMode.PercentOutput, -50);
   ConveyorBottomLeft.set(ControlMode.PercentOutput, -50);
   LifterBack.set(ControlMode.PercentOutput, -50);
   LifterFront.set(ControlMode.PercentOutput, -50);
 }
-public void LifterStop (){
+public void lifterStop (){
   ConveyorBottomRight.set(ControlMode.PercentOutput, 0);
   ConveyorBottomLeft.set(ControlMode.PercentOutput, 0);
   LifterBack.set(ControlMode.PercentOutput, 0);

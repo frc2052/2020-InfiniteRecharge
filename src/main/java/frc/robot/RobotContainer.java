@@ -12,10 +12,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.Constants.Turret;
-import frc.robot.commands.OuterIntakeInCommand;
 import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
-import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -24,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.auto.*;
+import frc.robot.commands.*;
 
 
 /**
@@ -47,15 +45,29 @@ public class RobotContainer {
   private final HoodSubsystem hood = new HoodSubsystem();
   private final TurretSubsystem turret = new TurretSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
+  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
-  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, autoDelay.getDouble(0));
-  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
-  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
-  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, autoDelay.getDouble(0));
+  private boolean manualShooterIncrease;
+  private boolean manualShooterDecrease;
+  private boolean manualHoodUp;
+  private boolean manualHoodDown;
+  private boolean manualTurretLeft;
+  private boolean manualTurretRight;
+  private boolean shootPressed;
+  private boolean readyPressed;
+  private boolean conveyorDownPressed;
+
+  private final MegaShooterCommand megaShooterCommand  = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, manualShooterIncrease, manualShooterDecrease, manualHoodUp, manualHoodDown, manualTurretLeft, manualTurretRight, shootPressed, readyPressed, conveyorDownPressed);
+
+  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+
 
 
   /**
@@ -71,6 +83,11 @@ public class RobotContainer {
         () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY() ), 
         driveTrain
       )
+    );
+
+
+    shooter.setDefaultCommand(
+      megaShooterCommand
     );
   }
 
@@ -96,18 +113,28 @@ public class RobotContainer {
     JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
     JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
 
-    btnJL1.whenPressed(() -> {});
-    btnJL2.whenPressed(() -> {}); 
-    btnJL3.whenPressed(() -> {}); 
-    btnJL4.whenPressed(() -> {}); 
-    btnJL5.whenPressed(() -> {}); 
-    btnJL6.whenPressed(() -> {}); 
-    btnJL7.whenPressed(() -> {}); 
-    btnJL8.whenPressed(() -> {}); 
-    btnJL9.whenPressed(() -> {}); 
+    btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
+    btnJL2.whenPressed(() -> {manualShooterDecrease = true;}); 
+    btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
+    btnJL4.whenPressed(() -> {manualHoodDown = true;}); 
+    btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
+    btnJL6.whenPressed(() -> {manualTurretRight = true;}); 
+    btnJL7.whenPressed(() -> {shootPressed = true;}); 
+    btnJL8.whenPressed(() -> {readyPressed = true;}); 
+    btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
     btnJL10.whenPressed(() -> {}); 
     btnJL11.whenPressed(() -> {}); 
     btnJL12.whenPressed(() -> {}); 
+
+    btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
+    btnJL2.whenReleased(() -> {manualShooterDecrease = false;}); 
+    btnJL3.whenReleased(() -> {manualHoodUp = false;}); 
+    btnJL4.whenReleased(() -> {manualHoodDown = false;}); 
+    btnJL5.whenReleased(() -> {manualTurretLeft = false;}); 
+    btnJL6.whenReleased(() -> {manualTurretRight = false;}); 
+    btnJL7.whenReleased(() -> {shootPressed = false;}); 
+    btnJL8.whenReleased(() -> {readyPressed = false;}); 
+    btnJL9.whenReleased(() -> {conveyorDownPressed = false;}); 
 
     //right joystick
     JoystickButton btnJR1 = new JoystickButton(rightJoystick, 1);
@@ -183,6 +210,43 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+
+    double x = 0;
+    double y = 619.25;
+
+    NetworkTableEntry pos =
+            tab.add("Position On Line", "Middle")
+                    .getEntry();
+    NetworkTableEntry isLR =
+            tab.add("Measuring from Left Or Right", "Right")
+                    .getEntry();
+    NetworkTableEntry measurement =
+            tab.add("Distance", "0")
+                    .getEntry();
+    switch (pos.getString("middle")){
+      case "Middle":
+        y = 619.25;
+        break;
+      case "Forward":
+        y= 619.25 + 19;
+        break;
+      case "Back":
+
+        y = 619.25 - 19;
+        break;
+    }
+
+    switch (isLR.getString("Right")){
+      case "Right":
+        x = 203.25 - measurement.getDouble(0);
+        break;
+      case "Left":
+        x= measurement.getDouble(0);
+        break;
+    }
+    driveTrain.setOdometry(x, y);
+
 
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSG3:

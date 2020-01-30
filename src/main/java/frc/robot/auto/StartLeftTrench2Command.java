@@ -19,17 +19,17 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   /**
    * Creates a new StartLeftTrench2.
    */
-  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, Double delayTime) {
-	  this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new ShootAllCommand(shooter, vision, hood));
-      OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
+
+  public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
+      this.addCommands(new WaitCommand(delayTime));
+      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
+      ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
-      ArmDownCommand armDownCmd = new ArmDownCommand(intake);
-      ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
+      ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
-      this.addCommands(new ShootAllCommand(shooter, vision, hood));
+      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
 
   }
 }

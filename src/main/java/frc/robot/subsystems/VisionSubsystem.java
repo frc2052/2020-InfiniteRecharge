@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.*;
+import frc.robot.Constants;
 
 public class VisionSubsystem extends SubsystemBase {
   
@@ -73,7 +74,7 @@ public class VisionSubsystem extends SubsystemBase {
 
   public double getTv() {return this.tv;}
   public double getTx() {return this.tx;}
-  public double getTy() {return this.ty;}
+  public double getTy() {return ty;}
   public double getTa() {return this.ta;}
 
   public int getPl() {return (int)this.pl;}
@@ -116,6 +117,10 @@ public class VisionSubsystem extends SubsystemBase {
   public void setPipeline(int pipeline) {
     if(pipeline >= 0 && pipeline <= 9) // 10 pipelines
       pipelineI.setDouble((double) pipeline);     
+  }
+
+  public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
+    return (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + this.getTy()));
   }
 
 }

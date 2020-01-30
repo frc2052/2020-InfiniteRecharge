@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.lang.invoke.ConstantBootstraps;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -19,9 +21,7 @@ public class TurretSubsystem extends SubsystemBase {
   private TalonSRX turretMotor = new TalonSRX(Constants.Turret.kTurretMotorID);
   private int currentPos = 0;
   private double motorPower = 0;
-  /**
-   * Creates a new TurretSubsystem.
-   */
+ 
   public TurretSubsystem() {
     // TODO reset Talon to factory defaults
     turretMotor.setNeutralMode(NeutralMode.Brake);
@@ -30,7 +30,6 @@ public class TurretSubsystem extends SubsystemBase {
   }
   public void turnTurret(double power){
     motorPower = power;
-    
   }
 
   @Override
@@ -44,7 +43,28 @@ public class TurretSubsystem extends SubsystemBase {
       motorPower = 0;
     }
     turretMotor.set(ControlMode.PercentOutput, motorPower);
+    
   }
   
+  // takes angle and drives to encoder pos
+  public void driveToPos(double angle) {
+    double ticks;
+    if(angle <= Constants.Turret.kMaxAngle && angle >= Constants.Turret.kMinAngle) {
+      ticks = angle * Constants.Turret.kTicksPerDegree;
+    } else {
+      if(angle > Constants.Turret.kMaxAngle)
+        ticks = Constants.Turret.kMaxAngle * Constants.Turret.kTicksPerDegree;
+      else
+        ticks = Constants.Turret.kMinAngle * Constants.Turret.kTicksPerDegree;
+    }
+    turretMotor.set(ControlMode.MotionMagic, ticks);
+
+  }
+
+  public double getTurretDegree() {
+    double ticks = turretMotor.getSelectedSensorPosition(0);
+    return ticks / Constants.Turret.kTicksPerDegree;
+  }
+
 }
 

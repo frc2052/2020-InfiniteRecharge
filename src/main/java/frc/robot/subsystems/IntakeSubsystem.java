@@ -7,9 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  /**
-   * Creates a new ExampleSubsystem.
-   */
+    
     private Solenoid upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
     private Solenoid downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
     private VictorSPX outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
