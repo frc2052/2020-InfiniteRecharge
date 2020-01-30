@@ -90,7 +90,7 @@ public final class Constants {
     }
   
     public static final class Turret{
-        public static final int kTurretMotorID = 10;
+        public static final int kTurretMotorID = 11;
         public static final int kTurretMaxRight = 100;
         public static final int kTurretMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;

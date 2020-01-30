@@ -114,12 +114,12 @@ public class RobotContainer {
     JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
 
     btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
-    btnJL2.whenPressed(() -> {manualShooterDecrease = true;}); 
+    btnJL2.whenPressed(() -> {readyPressed = true;}); 
     btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
     btnJL4.whenPressed(() -> {manualHoodDown = true;}); 
     btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
     btnJL6.whenPressed(() -> {manualTurretRight = true;}); 
-    btnJL7.whenPressed(() -> {shootPressed = true;}); 
+    btnJL7.whenPressed(() -> {manualShooterDecrease = true; }); 
     btnJL8.whenPressed(() -> {readyPressed = true;}); 
     btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
     btnJL10.whenPressed(() -> {}); 
@@ -127,13 +127,13 @@ public class RobotContainer {
     btnJL12.whenPressed(() -> {}); 
 
     btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
-    btnJL2.whenReleased(() -> {manualShooterDecrease = false;}); 
+    btnJL2.whenReleased(() -> {readyPressed = false;}); 
     btnJL3.whenReleased(() -> {manualHoodUp = false;}); 
     btnJL4.whenReleased(() -> {manualHoodDown = false;}); 
     btnJL5.whenReleased(() -> {manualTurretLeft = false;}); 
     btnJL6.whenReleased(() -> {manualTurretRight = false;}); 
     btnJL7.whenReleased(() -> {shootPressed = false;}); 
-    btnJL8.whenReleased(() -> {readyPressed = false;}); 
+    btnJL8.whenReleased(() -> {manualShooterDecrease = false;}); 
     btnJL9.whenReleased(() -> {conveyorDownPressed = false;}); 
 
     //right joystick
