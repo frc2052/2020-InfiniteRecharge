@@ -96,6 +96,9 @@ public final class Constants {
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
 
+        public static final int kTurretMinEncoderPos = -8500;
+        public static final int kTurretMaxEncoderPos = 8500;
+
         public static final double kTicksPerDegree = 4096 / 90;
         public static final double kMaxAngle = 90;
         public static final double kMinAngle = -90;

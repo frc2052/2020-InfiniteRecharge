@@ -30,16 +30,15 @@ public class VisionTurretAdjustCommand extends CommandBase {
   @Override
   public void initialize() {
     m_IsFinished = false;
+    vision.setLEDMode(3);
     System.out.println("*******************************Vision Command Starting**************************************");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //vision.setLEDMode(3);
     vision.updateLimelight();
     if(vision.hasValidTarget()) {
-      double turretCurrentAngle = turret.getTurretDegree(); //get current turret angle from turret
       double turretTargetXAngle = vision.getTx(); //calculate target turret angle from vision
 
       
@@ -58,7 +57,7 @@ public class VisionTurretAdjustCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_IsFinished = true;
     turret.turnTurret(0);
-    //vision.setLEDMode(1);
+    vision.setLEDMode(1);
   }
 
   // Returns true when the command should end.

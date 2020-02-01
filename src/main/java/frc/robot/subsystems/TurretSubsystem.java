@@ -22,36 +22,15 @@ public class TurretSubsystem extends SubsystemBase {
   private TalonSRX turretMotor = new TalonSRX(Constants.Turret.kTurretMotorID);
   private int currentPos = 0;
   private double motorPower = 0;
+  
+  private boolean isLinedUp;
  
   public TurretSubsystem() {
     turretMotor.configFactoryDefault();
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-
-    // turretMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 10, 10);
-    // turretMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_10_MotionMagic, 10, 10);
-
-    // /* set the peak and nominal outputs */
-    // turretMotor.configNominalOutputForward(0, 10);
-    // turretMotor.configNominalOutputReverse(0, 10);
-    // turretMotor.configPeakOutputForward(.5, 10);
-    // turretMotor.configPeakOutputReverse(-.5, 10);
-
-    // /* set closed loop gains in slot0 - see documentation */
-    // turretMotor.selectProfileSlot(0, 0);
-    // turretMotor.config_kF(0, 0.2, 10); //1843
-    // turretMotor.config_kP(0, .8, 10);
-    // turretMotor.config_kI(0, 0, 10);
-    // turretMotor.config_kD(0, 0, 10);
-
-    // /* set acceleration and vcruise velocity - see documentation */
-    // turretMotor.configMotionCruiseVelocity((int)(5550 * .9), 10);
-    // turretMotor.configMotionAcceleration((int)(5550 * .9 * 2), 10);
-    /* zero the sensor */
     turretMotor.setSelectedSensorPosition(0, 0, 10);
   }
-
-  
 
   public void turnTurret(double power){
     //motorPower = power;
@@ -69,29 +48,37 @@ public class TurretSubsystem extends SubsystemBase {
     //   motorPower = 0;
     // }
     // turretMotor.set(ControlMode.PercentOutput, motorPower);
-    
+
+    if(turretMotor.getSelectedSensorVelocity() < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    } else if(turretMotor.getSelectedSensorVelocity() > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    }
   }
   
-  // takes angle and drives to encoder pos
+  // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
+    isLinedUp = false;
 
     System.out.println("****************** TARGET ANGLE: " + angle);
-
-    if(Math.abs(angle) < 0.2) {
-      turretMotor.set(ControlMode.PercentOutput, 0);
-   } else {
-    if (Math.abs(angle) >= 20) {
-      if(angle > 0) {
-        turretMotor.set(ControlMode.PercentOutput, 1);
+    if(turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos || turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
+        turretMotor.set(ControlMode.PercentOutput, 0);
       } else {
-        turretMotor.set(ControlMode.PercentOutput, -1);
+      if(Math.abs(angle) < 0.2) {
+        turretMotor.set(ControlMode.PercentOutput, 0);
+        isLinedUp = true;
+      } else {
+      if (Math.abs(angle) >= 20) {
+        if(angle > 0) {
+          turretMotor.set(ControlMode.PercentOutput, 1);
+        } else {
+          turretMotor.set(ControlMode.PercentOutput, -1);
+        }
+      } else if (Math.abs(angle) < 20) {
+          turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
       }
-    } else if (Math.abs(angle) < 20) {
-        turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
     }
    }
-
-    
 
     // if(angle <= Constants.Turret.kMaxAngle && angle >= Constants.Turret.kMinAngle) {
     //   ticks = angle * Constants.Turret.kTicksPerDegree;
@@ -105,14 +92,21 @@ public class TurretSubsystem extends SubsystemBase {
     // turretMotor.set(ControlMode.MotionMagic, ticks);
   }
 
+  public boolean getIsOnTarget() {
+    return isLinedUp;
+  }
+
+  public void setIsOnTarget(boolean isOnTarget) {
+    isOnTarget = isLinedUp;
+  }
+
   public double getTurretDegree() {
     double ticks = turretMotor.getSelectedSensorPosition(0);
     return ticks / Constants.Turret.kTicksPerDegree;
   }
 
   public void printEncoderPos() {
-    System.out.println(turretMotor.getSelectedSensorPosition());
+    System.out.println("******************************* TURRET ENCODER POS" + turretMotor.getSelectedSensorPosition());
   }
-
 }
 

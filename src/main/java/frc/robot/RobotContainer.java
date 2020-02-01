@@ -169,6 +169,7 @@ public class RobotContainer {
     btnJR4.whileHeld(visionTurretCommand);
     btnJR4.whenReleased(() -> visionTurretCommand.end(true)); 
     btnJR5.whenPressed(() -> turret.turnTurret(0.5)); 
+    btnJR5.whenReleased(() -> turret.turnTurret(0.0)); 
     btnJR6.whenPressed(() ->  driveTrain.setHighGear(true));
     btnJR6.whenReleased(() ->  driveTrain.setHighGear(false));  
     btnJR7.whenPressed(() -> {}); 

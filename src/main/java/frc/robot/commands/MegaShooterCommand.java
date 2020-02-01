@@ -96,7 +96,7 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       double turretCurrentAngle = m_turret.getTurretDegree(); //get current turret angle from turret
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
-      turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
+      turretOnTarget = m_turret.getIsOnTarget();
       m_turret.driveToPos(turretTargetAngle);//turn turret to target angle using motion magic
     }
   }
@@ -156,6 +156,7 @@ public class MegaShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_turret.setIsOnTarget(false);
   }
 
   // Returns true when the command should end.
