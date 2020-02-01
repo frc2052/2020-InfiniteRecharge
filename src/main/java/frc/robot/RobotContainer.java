@@ -47,9 +47,9 @@ public class RobotContainer {
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
 
-  private final Joystick leftJoystick = new Joystick(0);
+  //private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
-  private final Joystick secondaryJoystick = new Joystick(2);
+  //private final Joystick secondaryJoystick = new Joystick(2);
 
   private boolean manualShooterIncrease;
   private boolean manualShooterDecrease;
@@ -113,39 +113,39 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //TODO : configure buttons for what drivers want
     //left joystick
-    JoystickButton btnJL1 = new JoystickButton(leftJoystick, 1);
-    JoystickButton btnJL2 = new JoystickButton(leftJoystick, 2);
-    JoystickButton btnJL3 = new JoystickButton(leftJoystick, 3);
-    JoystickButton btnJL4 = new JoystickButton(leftJoystick, 4);
-    JoystickButton btnJL5 = new JoystickButton(leftJoystick, 5);
-    JoystickButton btnJL6 = new JoystickButton(leftJoystick, 6);
-    JoystickButton btnJL7 = new JoystickButton(leftJoystick, 7);
-    JoystickButton btnJL8 = new JoystickButton(leftJoystick, 8);
-    JoystickButton btnJL9 = new JoystickButton(leftJoystick, 9);
-    JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
-    JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
+    // JoystickButton btnJL1 = new JoystickButton(leftJoystick, 1);
+    // JoystickButton btnJL2 = new JoystickButton(leftJoystick, 2);
+    // JoystickButton btnJL3 = new JoystickButton(leftJoystick, 3);
+    // JoystickButton btnJL4 = new JoystickButton(leftJoystick, 4);
+    // JoystickButton btnJL5 = new JoystickButton(leftJoystick, 5);
+    // JoystickButton btnJL6 = new JoystickButton(leftJoystick, 6);
+    // JoystickButton btnJL7 = new JoystickButton(leftJoystick, 7);
+    // JoystickButton btnJL8 = new JoystickButton(leftJoystick, 8);
+    // JoystickButton btnJL9 = new JoystickButton(leftJoystick, 9);
+    // JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
+    // JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
 
-    btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
-    btnJL2.whenPressed(() -> {readyPressed = true;}); 
-    btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
-    btnJL4.whenPressed(() -> {manualTurretRight = true;}); 
-    btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
-    btnJL6.whenPressed(() -> {manualHoodDown = true; }); 
-    btnJL7.whenPressed(() -> {manualShooterDecrease = true; }); 
-    btnJL8.whenPressed(() -> {readyPressed = true;}); 
-    btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
-    btnJL10.whenPressed(() -> {}); 
-    btnJL11.whenPressed(() -> {}); 
+    // btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
+    // btnJL2.whenPressed(() -> {readyPressed = true;}); 
+    // btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
+    // btnJL4.whenPressed(() -> {manualTurretRight = true;}); 
+    // btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
+    // btnJL6.whenPressed(() -> {manualHoodDown = true; }); 
+    // btnJL7.whenPressed(() -> {manualShooterDecrease = true; }); 
+    // btnJL8.whenPressed(() -> {readyPressed = true;}); 
+    // btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
+    // btnJL10.whenPressed(() -> {}); 
+    // btnJL11.whenPressed(() -> {}); 
 
-    btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
-    btnJL2.whenReleased(() -> {readyPressed = false;}); 
-    btnJL3.whenReleased(() -> {manualHoodUp = false;}); 
-    btnJL4.whenReleased(() -> {manualHoodDown = false;}); 
-    btnJL5.whenReleased(() -> {manualTurretLeft = false;}); 
-    btnJL6.whenReleased(() -> {manualTurretRight = false;}); 
-    btnJL7.whenReleased(() -> {shootPressed = false;}); 
-    btnJL8.whenReleased(() -> {manualShooterDecrease = false;}); 
-    btnJL9.whenReleased(() -> {conveyorDownPressed = false;}); 
+    // btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
+    // btnJL2.whenReleased(() -> {readyPressed = false;}); 
+    // btnJL3.whenReleased(() -> {manualHoodUp = false;}); 
+    // btnJL4.whenReleased(() -> {manualHoodDown = false;}); 
+    // btnJL5.whenReleased(() -> {manualTurretLeft = false;}); 
+    // btnJL6.whenReleased(() -> {manualTurretRight = false;}); 
+    // btnJL7.whenReleased(() -> {shootPressed = false;}); 
+    // btnJL8.whenReleased(() -> {manualShooterDecrease = false;}); 
+    // btnJL9.whenReleased(() -> {conveyorDownPressed = false;}); 
 
     //right joystick
     JoystickButton btnJR1 = new JoystickButton(rightJoystick, 1);
@@ -161,57 +161,59 @@ public class RobotContainer {
     JoystickButton btnJR11 = new JoystickButton(rightJoystick, 11);
 
     btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
-    btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-    btnJR3.whenPressed(() -> turret.turnTurret(0.5)); 
+    btnJR2.whenPressed(() -> turret.printEncoderPos()); //Shift speeds
+    btnJR2.whenReleased(() -> {}); //stop shifting
+    btnJR3.whenPressed(() -> turret.turnTurret(-0.5)); 
     btnJR3.whenReleased(() -> turret.turnTurret(0.0)); 
-    btnJR4.whenPressed(visionTurretCommand); 
-    btnJR4.whenReleased(() -> {}); 
-    btnJR5.whenPressed(() -> {}); 
-    btnJR6.whenPressed(() -> {}); 
+    btnJR4.whenPressed(() -> visionTurretCommand.ready());
+    btnJR4.whileHeld(visionTurretCommand);
+    btnJR4.whenReleased(() -> visionTurretCommand.end(true)); 
+    btnJR5.whenPressed(() -> turret.turnTurret(0.5)); 
+    btnJR6.whenPressed(() ->  driveTrain.setHighGear(true));
+    btnJR6.whenReleased(() ->  driveTrain.setHighGear(false));  
     btnJR7.whenPressed(() -> {}); 
     btnJR8.whenPressed(() -> {}); 
     btnJR9.whenPressed(() -> {}); 
     btnJR10.whenPressed(() -> {}); 
     btnJR11.whenPressed(() -> {}); 
 
-    //secondary control panel
-    JoystickButton btnJSB1 = new JoystickButton(secondaryJoystick, 1);
-    JoystickButton btnJSB2 = new JoystickButton(secondaryJoystick, 2);
-    JoystickButton btnJSB3 = new JoystickButton(secondaryJoystick, 3);
-    JoystickButton btnJSB4 = new JoystickButton(secondaryJoystick, 4);
-    JoystickButton btnJSB5 = new JoystickButton(secondaryJoystick, 5);
-    JoystickButton btnJSB6 = new JoystickButton(secondaryJoystick, 6);
-    JoystickButton btnJSB7 = new JoystickButton(secondaryJoystick, 7);
-    JoystickButton btnJSB8 = new JoystickButton(secondaryJoystick, 8);
-    JoystickButton btnJSB9 = new JoystickButton(secondaryJoystick, 9);
-    JoystickButton btnJSB10 = new JoystickButton(secondaryJoystick, 10);
-    JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
-    JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
+    // //secondary control panel
+    // JoystickButton btnJSB1 = new JoystickButton(secondaryJoystick, 1);
+    // JoystickButton btnJSB2 = new JoystickButton(secondaryJoystick, 2);
+    // JoystickButton btnJSB3 = new JoystickButton(secondaryJoystick, 3);
+    // JoystickButton btnJSB4 = new JoystickButton(secondaryJoystick, 4);
+    // JoystickButton btnJSB5 = new JoystickButton(secondaryJoystick, 5);
+    // JoystickButton btnJSB6 = new JoystickButton(secondaryJoystick, 6);
+    // JoystickButton btnJSB7 = new JoystickButton(secondaryJoystick, 7);
+    // JoystickButton btnJSB8 = new JoystickButton(secondaryJoystick, 8);
+    // JoystickButton btnJSB9 = new JoystickButton(secondaryJoystick, 9);
+    // JoystickButton btnJSB10 = new JoystickButton(secondaryJoystick, 10);
+    // JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
+    // JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
 
-    btnJSB1.whenPressed(() -> intake.armToggle());
-    btnJSB2.whenPressed(() -> intake.intakeIn());
-    btnJSB2.whenReleased(() -> intake.intakeStop());
-    btnJSB3.whenPressed(() -> intake.intakeOut());
-    btnJSB3.whenReleased(() -> intake.intakeStop());
-    btnJSB4.whenPressed(() -> {});
-    btnJSB5.whenPressed(() -> {}); 
-    btnJSB6.whenPressed(() -> {}); 
+    // btnJSB1.whenPressed(() -> intake.armToggle());
+    // btnJSB2.whenPressed(() -> intake.intakeIn());
+    // btnJSB2.whenReleased(() -> intake.intakeStop());
+    // btnJSB3.whenPressed(() -> intake.intakeOut());
+    // btnJSB3.whenReleased(() -> intake.intakeStop());
+    // btnJSB4.whenPressed(() -> {});
+    // btnJSB5.whenPressed(() -> {}); 
+    // btnJSB6.whenPressed(() -> {}); 
     
-    if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
-      btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
-    }
+    // if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
+    //   btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
+    // }
 
-    if(SmartDashboard.getBoolean("Turret Override?", false) == true) {
-      btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
-      btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
-    }
+    // if(SmartDashboard.getBoolean("Turret Override?", false) == true) {
+    //   btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
+    //   btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
+    // }
 
-    if(SmartDashboard.getBoolean("Hood Override?", false) == true) {
-      btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
-      btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
-      btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
-    }
+    // if(SmartDashboard.getBoolean("Hood Override?", false) == true) {
+    //   btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
+    //   btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
+    //   btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
+    // }
   }
 
 

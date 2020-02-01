@@ -33,13 +33,17 @@ public class DrivePathCommand extends CommandBase {
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
 
-    // TODO add requirements
+    addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
+
+  // public double getStartingX() {
+    
+  // }
 
   public Trajectory getTrajectory(DrivePathEnum selectedPath) {
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(

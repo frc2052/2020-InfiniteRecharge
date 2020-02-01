@@ -14,9 +14,11 @@ public class AutoModeSelector {
     //TODO: finish this class once we have auto modes
 
     private static SendableChooser<autos> sendableChooserAutos;
+    private static SendableChooser<posOnLine> sendableChooserPosOnLine;
 
     public static void putToShuffleBoard() {
         sendableChooserAutos = new SendableChooser<autos>();
+        sendableChooserPosOnLine = new SendableChooser<posOnLine>();
         
         for(int i = 0; i < autos.values().length; i++) {
             autos mode = autos.values()[i];
@@ -27,7 +29,17 @@ public class AutoModeSelector {
             }
         }
 
-        SmartDashboard.putData("Possible Autos", sendableChooserAutos);
+        for(int i = 0; i < posOnLine.values().length; i++) {
+            posOnLine pos = posOnLine.values()[i];
+            if(i==0) {
+                sendableChooserPosOnLine.setDefaultOption(pos.name, pos);
+            }
+        }
+
+        SmartDashboard.putData("Autos", sendableChooserAutos);
+        SmartDashboard.putData("Position on Line", sendableChooserPosOnLine);
+        SmartDashboard.putBoolean("Measuring from the right?", false);
+        SmartDashboard.putNumber("Distance", 0.0);
     }
 
     public static autos getSelectedAuto() {
@@ -35,7 +47,23 @@ public class AutoModeSelector {
         return selectedAuto;
     }
 
+    public static posOnLine getPosOnLine() {
+        posOnLine selectedPos = sendableChooserPosOnLine.getSelected();
+        return selectedPos;
+    }
+
+    public static boolean getMeasurementDirection() {
+        boolean isRight = SmartDashboard.getBoolean("Measuring from the right?", false);
+        return isRight;
+    }
+
+    public static double getDistance() {
+        double distance = SmartDashboard.getNumber("Distance", 0.0);
+        return distance;
+    }
+
     public enum autos {
+        DM("don't move"),
         CS("center start shoot drive park"),
         CSG3("center start shoot generator 3"),
         LSG3("left start shoot generator 3"),
@@ -46,6 +74,18 @@ public class AutoModeSelector {
         public String name;
 
         autos(String name) {
+            this.name = name;
+        }
+    }
+
+    public enum posOnLine {
+        MIDDLE("Middle"),
+        FORWARD("Forward"),
+        BACK("Back");
+
+        public String name;
+        
+        posOnLine(String name) {
             this.name = name;
         }
     }

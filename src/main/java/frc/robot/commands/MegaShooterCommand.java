@@ -74,7 +74,7 @@ public class MegaShooterCommand extends CommandBase {
       }
     } else {
       double hoodTargetAngle = m_vision.getTy();
-      //calculate the hood angle from the vision system
+      //calculate the hood angle from the hood system
       double hoodCurrentAngle = 0; //get the current angle
       hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
       //turn turret to target angle 
@@ -97,7 +97,7 @@ public class MegaShooterCommand extends CommandBase {
       double turretCurrentAngle = m_turret.getTurretDegree(); //get current turret angle from turret
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
       turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
-      //m_turret.driveToPos(turretTargetAngle);//turn turret to target angle using motion magic
+      m_turret.driveToPos(turretTargetAngle);//turn turret to target angle using motion magic
     }
   }
 

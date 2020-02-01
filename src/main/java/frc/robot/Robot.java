@@ -40,12 +40,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    vision = new VisionSubsystem();
+    //vision.setLEDMode(1);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
     //TODO: make these  strings constants
-    SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
     SmartDashboard.putBoolean("Hood Override?", false);
     SmartDashboard.putBoolean("Turret Override?", false);
@@ -65,7 +66,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    
   }
 
   /**
@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /**
@@ -123,8 +124,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    vision = new VisionSubsystem();
-    vision.updateLimelight();
   }
 
   @Override

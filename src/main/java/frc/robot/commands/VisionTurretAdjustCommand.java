@@ -7,6 +7,8 @@
 
 package frc.robot.commands;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
@@ -14,6 +16,7 @@ import frc.robot.subsystems.*;
 public class VisionTurretAdjustCommand extends CommandBase {
   private VisionSubsystem vision;
   private TurretSubsystem turret;
+  private boolean m_IsFinished = false;
 
 
   public VisionTurretAdjustCommand(VisionSubsystem visionSubsystem, TurretSubsystem turretSubsystem) {
@@ -26,29 +29,46 @@ public class VisionTurretAdjustCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println(vision.getTv());
+    m_IsFinished = false;
+    System.out.println("*******************************Vision Command Starting**************************************");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //double turretCurrentAngle = turret.getTurretDegree(); //get current turret angle from turret
-    double turretTargetAngle = vision.getTx(); //calculate target turret angle from vision
-    //turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
-    //turret.driveToPos(turretTargetAngle);//turn turret to target angle using motion magic
-    //System.out.println(turretTargetAngle);
-    
-    
+    //vision.setLEDMode(3);
+    vision.updateLimelight();
+    if(vision.hasValidTarget()) {
+      double turretCurrentAngle = turret.getTurretDegree(); //get current turret angle from turret
+      double turretTargetXAngle = vision.getTx(); //calculate target turret angle from vision
+
+      
+      //turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
+      turret.driveToPos(turretTargetXAngle);//turn turret to target angle using motion magic
+      //System.out.println(turretTargetAngle);
+      System.out.println(turretTargetXAngle);
+    } else {
+      turret.turnTurret(0);
+      System.out.println("-----------------------No target");
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_IsFinished = true;
+    turret.turnTurret(0);
+    //vision.setLEDMode(1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_IsFinished;
   }
+
+  public void ready() {
+    m_IsFinished = false;
+  }
+
 }
