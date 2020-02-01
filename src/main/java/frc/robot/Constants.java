@@ -116,4 +116,13 @@ public final class Constants {
         public static final boolean klifterdirection = true;
         public static final boolean kconveyordirection = true;
     }
+
+    public static final class Hood {
+        public static final int kTicksPerRotation = 4096;
+        public static final double kHoodDownSpeed = -.10;
+        public static final double kHoodUpSpeed = .10;
+        //TODO manualy find max and min endcoder values 
+        public static final double kMinHoodHight = 69;
+        public static final double kMaxHoodHight = 69;
+    }
 }

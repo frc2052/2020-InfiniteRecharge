@@ -25,12 +25,12 @@ public class AdjustAngleCloseCommand extends CommandBase {
   @Override
   public void execute() {
     m_HoodSubsystem.setTarget(anglePresetEnum.CLOSE);
-
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
   }
 
   // Returns true when the command should end.
