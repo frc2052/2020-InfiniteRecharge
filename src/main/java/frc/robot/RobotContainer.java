@@ -39,13 +39,13 @@ public class RobotContainer {
                   .getEntry();
 
 
-  private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final HoodSubsystem hood = new HoodSubsystem();
-  private final TurretSubsystem turret = new TurretSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
-  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+  private DriveTrainSubsystem driveTrain = null;
+  private IntakeSubsystem intake = null;
+  private ShooterSubsystem shooter = null;
+  private HoodSubsystem hood = null;
+  private TurretSubsystem turret = null;
+  private VisionSubsystem vision = null;
+  private ConveyorSubsystem conveyor = null;
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
@@ -61,12 +61,13 @@ public class RobotContainer {
   private boolean readyPressed;
   private boolean conveyorDownPressed;
 
-  private final MegaShooterCommand megaShooterCommand  = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, manualShooterIncrease, manualShooterDecrease, manualHoodUp, manualHoodDown, manualTurretLeft, manualTurretRight, shootPressed, readyPressed, conveyorDownPressed);
+  private MegaShooterCommand megaShooterCommand = null;
+  private VisionTurretAdjustCommand visionTurretCommand = null;
 
-  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  // private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  // private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  // private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+  // private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
 
 
 
@@ -74,21 +75,33 @@ public class RobotContainer {
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+//    driveTrain = new DriveTrainSubsystem();
+//    intake = new IntakeSubsystem();
+//    shooter = new ShooterSubsystem();
+//    hood = new HoodSubsystem();
+    turret = new TurretSubsystem();
+    vision = new VisionSubsystem();
+//    conveyor = new ConveyorSubsystem();
+//    megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, manualShooterIncrease, manualShooterDecrease, manualHoodUp, manualHoodDown, manualTurretLeft, manualTurretRight, shootPressed, readyPressed, conveyorDownPressed);
+  
+    visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
+
     // Configure the button bindings
     configureButtonBindings();
 
-    driveTrain.setDefaultCommand(
-      // Default to basic tank drive
-      new RunCommand(
-        () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY() ), 
-        driveTrain
-      )
-    );
+    // driveTrain.setDefaultCommand(
+    //   // Default to basic tank drive
+    //   new RunCommand(
+    //     () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY() ), 
+    //     driveTrain
+    //   )
+    // );
 
 
-    shooter.setDefaultCommand(
-      megaShooterCommand
-    );
+    // shooter.setDefaultCommand(
+    //   megaShooterCommand
+    // );
   }
 
   /**
@@ -111,20 +124,18 @@ public class RobotContainer {
     JoystickButton btnJL9 = new JoystickButton(leftJoystick, 9);
     JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
     JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
-    JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
 
     btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
     btnJL2.whenPressed(() -> {readyPressed = true;}); 
     btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
-    btnJL4.whenPressed(() -> {manualHoodDown = true;}); 
+    btnJL4.whenPressed(() -> {manualTurretRight = true;}); 
     btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
-    btnJL6.whenPressed(() -> {manualTurretRight = true;}); 
+    btnJL6.whenPressed(() -> {manualHoodDown = true; }); 
     btnJL7.whenPressed(() -> {manualShooterDecrease = true; }); 
     btnJL8.whenPressed(() -> {readyPressed = true;}); 
     btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
     btnJL10.whenPressed(() -> {}); 
     btnJL11.whenPressed(() -> {}); 
-    btnJL12.whenPressed(() -> {}); 
 
     btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
     btnJL2.whenReleased(() -> {readyPressed = false;}); 
@@ -148,13 +159,14 @@ public class RobotContainer {
     JoystickButton btnJR9 = new JoystickButton(rightJoystick, 9);
     JoystickButton btnJR10 = new JoystickButton(rightJoystick, 10);
     JoystickButton btnJR11 = new JoystickButton(rightJoystick, 11);
-    JoystickButton btnJR12 = new JoystickButton(rightJoystick, 12);
 
     btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-    btnJR3.whenPressed(() -> {}); 
-    btnJR4.whenPressed(() -> {}); 
+    btnJR3.whenPressed(() -> turret.turnTurret(0.5)); 
+    btnJR3.whenReleased(() -> turret.turnTurret(0.0)); 
+    btnJR4.whenPressed(visionTurretCommand); 
+    btnJR4.whenReleased(() -> {}); 
     btnJR5.whenPressed(() -> {}); 
     btnJR6.whenPressed(() -> {}); 
     btnJR7.whenPressed(() -> {}); 
@@ -162,7 +174,6 @@ public class RobotContainer {
     btnJR9.whenPressed(() -> {}); 
     btnJR10.whenPressed(() -> {}); 
     btnJR11.whenPressed(() -> {}); 
-    btnJR12.whenPressed(() -> {}); 
 
     //secondary control panel
     JoystickButton btnJSB1 = new JoystickButton(secondaryJoystick, 1);
@@ -248,21 +259,21 @@ public class RobotContainer {
     driveTrain.setOdometry(x, y);
 
 
-    switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
-      case LSG3:
-        return leftGenerator3;
-      case LSG5:
-        return leftGenerator3; //not correct
-      case LST2:
-        return leftTrench2;
-      case RST3:
-        return rightTrench3;
-      case CSG3:
-        return centerShootDrivePark; //not correct
-      case CS:
-        return centerShootDrivePark;
-      default:
-        return centerShootDrivePark; //not correct, make don't move auto
-    }
+    // switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
+    //   case LSG3:
+    //     return leftGenerator3;
+    //   case LSG5:
+    //     return leftGenerator3; //not correct
+    //   case LST2:
+    //     return leftTrench2;
+    //   case RST3:
+    //     return rightTrench3;
+    //   case CSG3:
+    //     return centerShootDrivePark; //not correct
+    //   case CS:
+    //     return centerShootDrivePark;
+      // default:
+        return null; //not correct, make don't move auto
+    //}
   }
 }

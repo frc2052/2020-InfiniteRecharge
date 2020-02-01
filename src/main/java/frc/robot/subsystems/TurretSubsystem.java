@@ -29,20 +29,21 @@ public class TurretSubsystem extends SubsystemBase {
 
   }
   public void turnTurret(double power){
-    motorPower = power;
+    //motorPower = power;
+    turretMotor.set(ControlMode.PercentOutput, power);
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    // TODO do we need to convert this to degrees?
-    currentPos = turretMotor.getSelectedSensorPosition();
-    if (currentPos > Constants.Turret.kTurretMaxRight && motorPower > 0){
-      motorPower = 0;
-    } else if (currentPos < Constants.Turret.kTurretMinLeft && motorPower < 0){
-      motorPower = 0;
-    }
-    turretMotor.set(ControlMode.PercentOutput, motorPower);
+    // // This method will be called once per scheduler run
+    // // TODO do we need to convert this to degrees?
+    // currentPos = turretMotor.getSelectedSensorPosition();
+    // if (currentPos > Constants.Turret.kTurretMaxRight && motorPower > 0){
+    //   motorPower = 0;
+    // } else if (currentPos < Constants.Turret.kTurretMinLeft && motorPower < 0){
+    //   motorPower = 0;
+    // }
+    // turretMotor.set(ControlMode.PercentOutput, motorPower);
     
   }
   
@@ -58,7 +59,6 @@ public class TurretSubsystem extends SubsystemBase {
         ticks = Constants.Turret.kMinAngle * Constants.Turret.kTicksPerDegree;
     }
     turretMotor.set(ControlMode.MotionMagic, ticks);
-
   }
 
   public double getTurretDegree() {
