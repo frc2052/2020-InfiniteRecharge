@@ -39,8 +39,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // // This method will be called once per scheduler run
-    // // TODO do we need to convert this to degrees?
     // currentPos = turretMotor.getSelectedSensorPosition();
     // if (currentPos > Constants.Turret.kTurretMaxRight && motorPower > 0){
     //   motorPower = 0;

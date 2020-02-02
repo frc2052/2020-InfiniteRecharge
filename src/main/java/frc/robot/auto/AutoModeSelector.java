@@ -15,10 +15,12 @@ public class AutoModeSelector {
 
     private static SendableChooser<autos> sendableChooserAutos;
     private static SendableChooser<posOnLine> sendableChooserPosOnLine;
+    private static SendableChooser<directionMeasured> sendableChooserDirectionMeasured;
 
     public static void putToShuffleBoard() {
         sendableChooserAutos = new SendableChooser<autos>();
         sendableChooserPosOnLine = new SendableChooser<posOnLine>();
+        sendableChooserDirectionMeasured = new SendableChooser<directionMeasured>();
         
         for(int i = 0; i < autos.values().length; i++) {
             autos mode = autos.values()[i];
@@ -33,13 +35,25 @@ public class AutoModeSelector {
             posOnLine pos = posOnLine.values()[i];
             if(i==0) {
                 sendableChooserPosOnLine.setDefaultOption(pos.name, pos);
+            } else {
+                sendableChooserPosOnLine.addOption(pos.name, pos);
+            }
+        }
+
+        for(int i = 0; i < directionMeasured.values().length; i++) {
+            directionMeasured direction = directionMeasured.values()[i];
+            if(i == 0) {
+                sendableChooserDirectionMeasured.setDefaultOption(direction.name, direction);
+            } else {
+                sendableChooserDirectionMeasured.addOption(direction.name, direction);
             }
         }
 
         SmartDashboard.putData("Autos", sendableChooserAutos);
         SmartDashboard.putData("Position on Line", sendableChooserPosOnLine);
-        SmartDashboard.putBoolean("Measuring from the right?", false);
-        SmartDashboard.putNumber("Distance", 0.0);
+        SmartDashboard.putData("Measured from left or right?", sendableChooserDirectionMeasured);
+        SmartDashboard.putNumber("Distance from wall", 0.0);
+        SmartDashboard.putNumber("Distance off line", 0.0);
     }
 
     public static autos getSelectedAuto() {
@@ -52,13 +66,20 @@ public class AutoModeSelector {
         return selectedPos;
     }
 
-    public static boolean getMeasurementDirection() {
-        boolean isRight = SmartDashboard.getBoolean("Measuring from the right?", false);
-        return isRight;
+    public static directionMeasured getDirectionMeasured() {
+        directionMeasured selectedDirection = sendableChooserDirectionMeasured.getSelected();
+        return selectedDirection;
     }
 
-    public static double getDistance() {
-        double distance = SmartDashboard.getNumber("Distance", 0.0);
+    public static double getDistanceFromWall() {
+        double distance = SmartDashboard.getNumber("Distance from wall", 0.0);
+        distance /= 39.37; //converting to meters
+        return distance;
+    }
+
+    public static double getDistanceOffLine() {
+        double distance = SmartDashboard.getNumber("Distance off line", 0.0);
+        distance /= 39.37; //converting to meters
         return distance;
     }
 
@@ -90,4 +111,14 @@ public class AutoModeSelector {
         }
     }
 
+    public enum directionMeasured {
+        LEFT("Left"),
+        RIGHT("Right");
+
+        public String name;
+
+        directionMeasured(String name) {
+            this.name = name;
+        }
+    }
 }

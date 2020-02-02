@@ -22,11 +22,15 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import java.util.List;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.Constants;
+import frc.robot.auto.AutoModeSelector;
 
 
 public class DrivePathCommand extends CommandBase {
   private final DriveTrainSubsystem m_driveTrainSubsystem;
   private final DrivePathEnum m_choosenPath;
+
+  private double centerStartX = 3.048;
+  private double centerStartY = 0;
 
   public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
     addRequirements(driveTrain);
@@ -41,9 +45,33 @@ public class DrivePathCommand extends CommandBase {
   public void initialize() {
   }
 
-  // public double getStartingX() {
-    
-  // }
+  public double getStartingX() {
+    switch(AutoModeSelector.getPosOnLine()) {
+      case MIDDLE:
+        return centerStartX;
+      case FORWARD:
+        return centerStartX - AutoModeSelector.getDistanceOffLine();
+      case BACK:
+        return centerStartX + AutoModeSelector.getDistanceOffLine();
+      default:
+        return 0;
+    }
+  }
+  
+
+  public double getStartingY() {
+    double centerDistanceToLeftWall = 7.8;
+    double centerDistanceToRightWall = 3.5; //TODO: figure out correct values
+
+    switch(AutoModeSelector.getDirectionMeasured()) {
+      case LEFT:
+        return centerDistanceToLeftWall + AutoModeSelector.getDistanceFromWall();
+      case RIGHT:
+        return centerDistanceToRightWall - AutoModeSelector.getDistanceFromWall();
+      default:
+        return centerStartY;
+    }
+  }
 
   public Trajectory getTrajectory(DrivePathEnum selectedPath) {
       var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
