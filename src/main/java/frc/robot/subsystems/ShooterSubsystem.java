@@ -12,10 +12,11 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private double RPM;
+  //TODO: new up the objects in the constructor
   private TalonSRX shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
   
   public ShooterSubsystem() {
-    // TODO reset talon to defaults
+    // TODO reset motor controllers to defaults
     shooterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
   }
@@ -27,6 +28,7 @@ public class ShooterSubsystem extends SubsystemBase {
     return RPM;
   }
 
+  //TODO: do we need to set PID values to use velocity mode? Check documentation
   public void setSpeed(double speed){
     shooterMotor.set(ControlMode.Velocity, speed * 4096);
   }

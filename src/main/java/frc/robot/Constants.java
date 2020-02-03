@@ -32,11 +32,11 @@ public final class Constants {
         public static final double kRamseteZeta = 0.7;
 
         public static final int kDriveRightMasterId = 1;
-        public static final int kDriveRightSlaveId = 2;
-        public static final int kDriveRightSlave2Id = 3;
+        public static final int kDriveRightFollowerId = 2;
+        public static final int kDriveRightFollower2Id = 3;
         public static final int kDriveLeftMasterId = 4;
-        public static final int kDriveLeftSlaveId = 5;
-        public static final int kDriveLeftSlave2Id = 6;
+        public static final int kDriveLeftFollowerId = 5;
+        public static final int kDriveLeftFollower2Id = 6;
 
         public static final int kVelocityControlSlot = 0;
         public static final int kCANBusConfigTimeoutMS = 10;

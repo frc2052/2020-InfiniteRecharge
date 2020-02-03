@@ -33,7 +33,7 @@ public class DrivePathCommand extends CommandBase {
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
 
-    // TODO add requirements
+    //TODO: add requirements
   }
 
   // Called when the command is initially scheduled.
@@ -133,6 +133,7 @@ public class DrivePathCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //TODO: figure out how to know when really done
     return false;
   }
 

@@ -17,7 +17,11 @@ public class ConveyorUpCommand extends CommandBase {
   public ConveyorUpCommand(ConveyorSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-subsystem.lifterUp();
+    
+    //TODO: this probably needs to be moved to an initalize method
+    subsystem.lifterUp();
     addRequirements(subsystem);
   } 
+
+  //need to add a isFinished method that returns true
 }

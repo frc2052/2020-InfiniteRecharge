@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -34,11 +33,13 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
 
+  //TODO: Make the string for the shuffleboard key a constant
   private NetworkTableEntry autoDelay =
           tab.add("Auto Delay", 0)
                   .getEntry();
 
 
+  //TODO: remove final, new these up in the constructor
   private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
@@ -47,10 +48,12 @@ public class RobotContainer {
   private final VisionSubsystem vision = new VisionSubsystem();
   private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
 
+  //TODO: new these up where the buttons are configured
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
   private final Joystick secondaryJoystick = new Joystick(2);
 
+  //TODO: these variables probably are not needed
   private boolean manualShooterIncrease;
   private boolean manualShooterDecrease;
   private boolean manualHoodUp;
@@ -61,14 +64,14 @@ public class RobotContainer {
   private boolean readyPressed;
   private boolean conveyorDownPressed;
 
+  //TODO: don't pass button values here, create an update statement and pass them there
   private final MegaShooterCommand megaShooterCommand  = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, manualShooterIncrease, manualShooterDecrease, manualHoodUp, manualHoodDown, manualTurretLeft, manualTurretRight, shootPressed, readyPressed, conveyorDownPressed);
 
+  //TODO: don't new up the auto commands here, only new up the one that is selected when it is needed
   private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
   private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
   private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
   private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -85,7 +88,7 @@ public class RobotContainer {
       )
     );
 
-
+    //TODO: this should be like the drive train where the button values are passed as parameters
     shooter.setDefaultCommand(
       megaShooterCommand
     );
@@ -98,6 +101,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
+    //TODO : break this into 3 separate methods, one for each joystick 
     //TODO : configure buttons for what drivers want
     //left joystick
     JoystickButton btnJL1 = new JoystickButton(leftJoystick, 1);
@@ -187,6 +191,8 @@ public class RobotContainer {
     btnJSB5.whenPressed(() -> {}); 
     btnJSB6.whenPressed(() -> {}); 
     
+
+    //TODO: remove manual control of the shooter systems, this will be handled by the mega shooter
     if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
       btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
     }
@@ -197,9 +203,9 @@ public class RobotContainer {
     }
 
     if(SmartDashboard.getBoolean("Hood Override?", false) == true) {
-      btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
-      btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
-      btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
+      btnJSB10.whenPressed(() -> {}); 
+      btnJSB11.whenPressed(() -> {}); 
+      btnJSB12.whenPressed(() -> {}); 
     }
   }
 
@@ -247,7 +253,7 @@ public class RobotContainer {
     }
     driveTrain.setOdometry(x, y);
 
-
+    //TODO: new up the automode here, instead in the declaration
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSG3:
         return leftGenerator3;

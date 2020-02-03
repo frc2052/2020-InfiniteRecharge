@@ -32,6 +32,7 @@ public class MegaShooterCommand extends CommandBase {
   private boolean readyPressed;
   private boolean conveyorDownPressed;
 
+  //TODO: only subsystems should be passed on constructor, other variables should be called on an update method, similar to drivetrain
   public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor,
                               boolean shooterIncrease, boolean shooterDecrease, 
                               boolean hoodUp, boolean hoodDown,
@@ -43,6 +44,7 @@ public class MegaShooterCommand extends CommandBase {
     m_hood = hood;
     m_turret = turret;
     m_conveyor = conveyor;
+
 
     manualHoodUp = hoodUp;
     manualHoodDown = hoodDown;
@@ -64,13 +66,13 @@ public class MegaShooterCommand extends CommandBase {
     if(SmartDashboard.getBoolean("Hood Override?", false)) {
       hoodOnTarget = true;
       if(manualHoodUp) {
-        m_hood.startEmergencyUp();
+        m_hood.moveHoodUp();
         manualHoodUp = false;
       } else if(manualHoodDown) {
-        m_hood.startEmergencyDown();
+        m_hood.moveHoodDown();
         manualHoodDown = false;
       } else {
-        m_hood.stopEmergencyMove();
+        m_hood.stopHoodMovement();
       }
     } else {
       double hoodTargetAngle = 0;

@@ -15,11 +15,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ActiveBalanceSubsytem extends SubsystemBase {
+  //TODO: The active balancer only has one motor, confirm if a Talon or Victor with build team
+  //TODO: remove final, new up the objects in the constructor
   private final WPI_TalonSRX ActiveBalanceMotor = new WPI_TalonSRX(Constants.ActiveBalance.kActiveBalanceMotorID);
   private final VictorSPX ActiveBalanceMotor2 = new VictorSPX(Constants.ActiveBalance.kActiveBalanceMotor2ID);
  
   public ActiveBalanceSubsytem() {
-
+    //TODO reset motor controllers to factory defaults
+    //TODO set motor to break mode
   }
   public void ManualLeft() {
     ActiveBalanceMotor.set(ControlMode.PercentOutput,.2);

@@ -16,12 +16,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class TurretSubsystem extends SubsystemBase {
+  //TODO: remove final, new up the objects in the constructor
   private TalonSRX turretMotor = new TalonSRX(Constants.Turret.kTurretMotorID);
   private int currentPos = 0;
   private double motorPower = 0;
  
   public TurretSubsystem() {
-    // TODO reset Talon to factory defaults
+    // TODO reset motor controllers to factory defaults
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 

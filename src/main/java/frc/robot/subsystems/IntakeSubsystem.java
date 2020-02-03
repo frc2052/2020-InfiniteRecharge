@@ -8,13 +8,14 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     
-    private Solenoid upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
+  //TODO: new up the objects in the constructor
+  private Solenoid upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
     private Solenoid downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
     private VictorSPX outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
     private boolean isArmDown;
     
     public IntakeSubsystem() {
-
+        // TODO reset motor controllers to factory defaults
     }
     public void armToggle(){
         if(isArmDown){

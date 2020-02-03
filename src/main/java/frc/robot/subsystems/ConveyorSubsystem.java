@@ -16,12 +16,14 @@ import frc.robot.Constants;
 
 
 public class ConveyorSubsystem extends SubsystemBase {
+  //TODO: remove final, new up the objects in the constructor
   private final VictorSPX ConveyorBottomLeft = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemLeftID);  
   private final VictorSPX ConveyorBottomRight = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemRightID);
   private final VictorSPX LifterFront = new VictorSPX(Constants.ConveyorSubsystem.kLifterFrontID);
   private final VictorSPX LifterBack = new VictorSPX(Constants.ConveyorSubsystem.kLifterBackID);
   
 public void declarations(){
+  // TODO reset motor controllers to factory defaults
   LifterBack.setInverted(Constants.ConveyorSubsystem.klifterdirection);
   LifterFront.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
   ConveyorBottomLeft.setInverted(Constants.ConveyorSubsystem.kconveyordirection);

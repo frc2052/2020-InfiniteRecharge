@@ -18,6 +18,7 @@ public class ManualSpinUpCommand extends CommandBase {
   /**
    * Creates a new ManualSpinUpCommand.
    */
+  //TODO: is this command even needed anymore with the mega shooter
   public ManualSpinUpCommand(ShooterSubsystem shooter, boolean manual) {
     addRequirements(shooter);
     m_ShooterSubsystem = shooter;
