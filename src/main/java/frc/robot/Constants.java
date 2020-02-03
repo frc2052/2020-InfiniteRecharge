@@ -32,11 +32,11 @@ public final class Constants {
         public static final double kRamseteZeta = 0.7;
 
         public static final int kDriveRightMasterId = 1;
-        public static final int kDriveRightSlaveId = 2;
-        public static final int kDriveRightSlave2Id = 3;
+        public static final int kDriveRightFollowerId = 2;
+        public static final int kDriveRightFollower2Id = 3;
         public static final int kDriveLeftMasterId = 4;
-        public static final int kDriveLeftSlaveId = 5;
-        public static final int kDriveLeftSlave2Id = 6;
+        public static final int kDriveLeftFollowerId = 5;
+        public static final int kDriveLeftFollower2Id = 6;
 
         public static final int kVelocityControlSlot = 0;
         public static final int kCANBusConfigTimeoutMS = 10;
@@ -128,5 +128,14 @@ public final class Constants {
         public static final int kLifterBackID = 0;
         public static final boolean klifterdirection = true;
         public static final boolean kconveyordirection = true;
+    }
+
+    public static final class Hood {
+        public static final int kTicksPerRotation = 4096;
+        public static final double kHoodDownSpeed = -.10;
+        public static final double kHoodUpSpeed = .10;
+        //TODO manualy find max and min endcoder values 
+        public static final double kMinHoodHight = 69;
+        public static final double kMaxHoodHight = 69;
     }
 }

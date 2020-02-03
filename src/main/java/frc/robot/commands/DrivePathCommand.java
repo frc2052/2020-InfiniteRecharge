@@ -36,41 +36,12 @@ public class DrivePathCommand extends CommandBase {
     addRequirements(driveTrain);
     m_driveTrainSubsystem = driveTrain;
     m_choosenPath = pathEnum;
-
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-  }
-
-  public double getStartingX() {
-    switch(AutoModeSelector.getPosOnLine()) {
-      case MIDDLE:
-        return centerStartX;
-      case FORWARD:
-        return centerStartX - AutoModeSelector.getDistanceOffLine();
-      case BACK:
-        return centerStartX + AutoModeSelector.getDistanceOffLine();
-      default:
-        return 0;
-    }
-  }
-  
-
-  public double getStartingY() {
-    double centerDistanceToLeftWall = 7.8;
-    double centerDistanceToRightWall = 3.5; //TODO: figure out correct values
-
-    switch(AutoModeSelector.getDirectionMeasured()) {
-      case LEFT:
-        return centerDistanceToLeftWall + AutoModeSelector.getDistanceFromWall();
-      case RIGHT:
-        return centerDistanceToRightWall - AutoModeSelector.getDistanceFromWall();
-      default:
-        return centerStartY;
-    }
   }
 
   public Trajectory getTrajectory(DrivePathEnum selectedPath) {
@@ -165,6 +136,7 @@ public class DrivePathCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    //TODO: figure out how to know when really done
     return false;
   }
 

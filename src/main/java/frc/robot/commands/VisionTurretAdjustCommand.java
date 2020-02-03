@@ -65,9 +65,4 @@ public class VisionTurretAdjustCommand extends CommandBase {
   public boolean isFinished() {
     return m_IsFinished;
   }
-
-  public void ready() {
-    m_IsFinished = false;
-  }
-
 }

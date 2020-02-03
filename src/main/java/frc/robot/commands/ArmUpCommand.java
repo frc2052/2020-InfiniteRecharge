@@ -17,6 +17,7 @@ public class ArmUpCommand extends CommandBase {
 
     @Override
     public void initialize() {
+        //TODO: shouldn't this also stop the intake motors?
         m_intakeSubsystem.armUp();
     }
 

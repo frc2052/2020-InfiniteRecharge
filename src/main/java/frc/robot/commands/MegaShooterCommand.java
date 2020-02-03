@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MegaShooterCommand extends CommandBase {
@@ -32,25 +33,12 @@ public class MegaShooterCommand extends CommandBase {
   private boolean readyPressed;
   private boolean conveyorDownPressed;
 
-  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor,
-                              boolean shooterIncrease, boolean shooterDecrease, 
-                              boolean hoodUp, boolean hoodDown,
-                              boolean turretLeft, boolean turretRight,
-                              boolean shoot, boolean ready,
-                              boolean conveyorDown) {
+  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
     m_shooter = shooter;
     m_vision = vision;
     m_hood = hood;
     m_turret = turret;
     m_conveyor = conveyor;
-
-    manualHoodUp = hoodUp;
-    manualHoodDown = hoodDown;
-    manualTurretLeft = turretLeft;
-    manualTurretRight = turretRight;
-    shootPressed = shoot;
-    readyPressed = ready;
-    conveyorDownPressed = conveyorDown;
 
     addRequirements(shooter, vision, hood, turret, conveyor);
   }
@@ -60,17 +48,50 @@ public class MegaShooterCommand extends CommandBase {
   public void initialize() {
   }
 
+  public void update(JoystickButton shooterIncrease, JoystickButton shooterDecrease, 
+                      JoystickButton hoodUp, JoystickButton hoodDown, 
+                      JoystickButton turretLeft, JoystickButton turretRight, 
+                      JoystickButton ready, JoystickButton shoot, JoystickButton conveyorDown) {
+
+    shooterIncrease.whenPressed(() -> {manualShooterIncrease = true;});
+    shooterIncrease.whenReleased(() -> {manualShooterIncrease = false;});
+
+    shooterDecrease.whenPressed(() -> {manualShooterDecrease = true;});
+    shooterDecrease.whenReleased(() -> {manualShooterDecrease = false;});
+    
+    hoodUp.whenPressed(() -> {manualHoodUp = true;});
+    hoodUp.whenReleased(() -> {manualHoodUp = false;});
+
+    hoodDown.whenPressed(() -> {manualHoodDown = true;});
+    hoodDown.whenPressed(() -> {manualHoodDown = false;});
+
+    turretLeft.whenPressed(() -> {manualTurretLeft = true;});
+    turretLeft.whenReleased(() -> {manualTurretLeft = false;});
+
+    turretRight.whenPressed(() -> {manualTurretRight = true;});
+    turretRight.whenReleased(() -> {manualTurretRight = false;});
+
+    ready.whenPressed(() -> {readyPressed = true;});
+    ready.whenReleased(() -> {readyPressed = false;});
+
+    shoot.whenPressed(() -> {shootPressed = true;});
+    shoot.whenReleased(() -> {shootPressed = false;});
+
+    conveyorDown.whenPressed(() -> {conveyorDownPressed = true;});
+    conveyorDown.whenPressed(() -> {conveyorDownPressed = false;});  
+  }
+
   public void executeHood() {
     if(SmartDashboard.getBoolean("Hood Override?", false)) {
       hoodOnTarget = true;
       if(manualHoodUp) {
-        m_hood.startEmergencyUp();
+        m_hood.moveHoodUp();
         manualHoodUp = false;
       } else if(manualHoodDown) {
-        m_hood.startEmergencyDown();
+        m_hood.moveHoodDown();
         manualHoodDown = false;
       } else {
-        m_hood.stopEmergencyMove();
+        m_hood.stopHoodMovement();
       }
     } else {
       double hoodTargetAngle = m_vision.getTy();
