@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeSelector;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -29,6 +30,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  VisionSubsystem vision = null;
+
 
 
   /**
@@ -37,12 +40,13 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    vision = new VisionSubsystem();
+    vision.setLEDMode(1);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
     //TODO: make these  strings constants
-    SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
     SmartDashboard.putBoolean("Hood Override?", false);
     SmartDashboard.putBoolean("Turret Override?", false);
@@ -74,6 +78,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /**

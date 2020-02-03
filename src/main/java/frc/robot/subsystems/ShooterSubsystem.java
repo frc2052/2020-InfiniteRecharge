@@ -36,4 +36,5 @@ public class ShooterSubsystem extends SubsystemBase {
   public double sensorUnitsToRPM(double sensorVelocity) {
     return (sensorVelocity * 10 * 60)/ 4096; //sensor velocity gives ticks per 100 milliseconds, times by 10 to get seconds, times by 60 to get minutes, divide by encoder ticks per revolution
   }
+
 }

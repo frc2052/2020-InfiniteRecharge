@@ -90,11 +90,18 @@ public final class Constants {
     }
   
     public static final class Turret{
-        public static final int kTurretMotorID = 10;
+        public static final int kTurretMotorID = 11;
         public static final int kTurretMaxRight = 100;
         public static final int kTurretMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
+
+        public static final int kTurretMinEncoderPos = -8500;
+        public static final int kTurretMaxEncoderPos = 8500;
+
+        public static final double kTicksPerDegree = 4096 / 90;
+        public static final double kMaxAngle = 90;
+        public static final double kMinAngle = -90;
     }
   
     public static class Autonomous {
@@ -103,9 +110,15 @@ public final class Constants {
     }
 
     public static final class Vision {
-        public static final double limelightHeight = 20.0;
-        public static final int targetHeight = 249; //cm
-        public static final int mountingAngle = 0;
+        public static final double kCameraViewHorDegrees = 54.0;
+        public static final double kCameraViewVertDegrees = 41.0;
+        public static final double kCameraViewHorPixels = 320.0;
+        public static final double kCameraViewVertPixels = 240.0;
+        public static final double kCameraMaxViewHorDegrees = 180.0;
+
+        public static final double kCameraMountingAngleY = 12.5; // mounting angle of the camera     DEGREESEE
+        public static final double kCameraMountingHeight = 36.0; // height of camera off the ground  INCHES
+        public static final double kTargetHeight = 98.25;        // height of target off the ground  INCHES
     }
 
     public static final class ConveyorSubsystem {      

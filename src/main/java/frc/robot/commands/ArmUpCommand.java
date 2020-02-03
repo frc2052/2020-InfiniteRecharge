@@ -8,27 +8,24 @@ import frc.robot.subsystems.IntakeSubsystem;
  */
 public class ArmUpCommand extends CommandBase {
     private final IntakeSubsystem m_intakeSubsystem;
-
-    /**
-     * Creates a new ArmToggle.
-     *
-     * @param subsystem The subsystem used by this command.
-     */
     
     public ArmUpCommand(IntakeSubsystem subsystem) {
         m_intakeSubsystem = subsystem;
         // Use addRequirements() here to declare subsystem dependencies.
         addRequirements(subsystem);    
     }
+
     @Override
     public void initialize() {
         //TODO: shouldn't this also stop the intake motors?
         m_intakeSubsystem.armUp();
     }
+
     @Override
     public void execute() {
   
     }
+
     @Override
     public boolean isFinished(){
         return true;
