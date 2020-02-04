@@ -46,6 +46,7 @@ public class RobotContainer {
   private final TurretSubsystem turret = new TurretSubsystem();
   private final VisionSubsystem vision = new VisionSubsystem();
   private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+  private final ElevatorSubsystem elevator = new ElevatorSubsystem();
 
   private final Joystick leftJoystick = new Joystick(0);
   private final Joystick rightJoystick = new Joystick(1);
@@ -112,7 +113,7 @@ public class RobotContainer {
     JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
     JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
     JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
-
+    
     btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
     btnJL2.whenPressed(() -> {manualShooterDecrease = true;}); 
     btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
@@ -177,16 +178,17 @@ public class RobotContainer {
     JoystickButton btnJSB10 = new JoystickButton(secondaryJoystick, 10);
     JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
     JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
-
+    
     btnJSB1.whenPressed(() -> intake.armToggle());
     btnJSB2.whenPressed(() -> intake.intakeIn());
     btnJSB2.whenReleased(() -> intake.intakeStop());
     btnJSB3.whenPressed(() -> intake.intakeOut());
     btnJSB3.whenReleased(() -> intake.intakeStop());
     btnJSB4.whenPressed(() -> {});
-    btnJSB5.whenPressed(() -> {}); 
-    btnJSB6.whenPressed(() -> {}); 
-    
+    btnJSB5.whenPressed(() -> elevator.ManualDown()); 
+    btnJSB5.whenReleased(() -> elevator.ManualStop());
+    btnJSB6.whenPressed(() -> elevator.ManualUp()); 
+    btnJSB6.whenReleased(() -> elevator.ManualStop());
     if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
       btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
     }
