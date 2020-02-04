@@ -46,43 +46,6 @@ public class RobotContainer {
   private Joystick tankJoystick;
   private Joystick secondaryPanel;
 
-  JoystickButton btnJL1;
-  JoystickButton btnJL2;
-  JoystickButton btnJL3;
-  JoystickButton btnJL4;
-  JoystickButton btnJL5;
-  JoystickButton btnJL6;
-  JoystickButton btnJL7;
-  JoystickButton btnJL8;
-  JoystickButton btnJL9;
-  JoystickButton btnJL10;
-  JoystickButton btnJL11;
-
-  JoystickButton btnJR1;
-  JoystickButton btnJR2;
-  JoystickButton btnJR3;
-  JoystickButton btnJR4;
-  JoystickButton btnJR5;
-  JoystickButton btnJR6;
-  JoystickButton btnJR7;
-  JoystickButton btnJR8;
-  JoystickButton btnJR9;
-  JoystickButton btnJR10;
-  JoystickButton btnJR11;
-
-  JoystickButton btnJS1;
-  JoystickButton btnJS2;
-  JoystickButton btnJS3;
-  JoystickButton btnJS4;
-  JoystickButton btnJS5;
-  JoystickButton btnJS6;
-  JoystickButton btnJS7;
-  JoystickButton btnJS8;
-  JoystickButton btnJS9;
-  JoystickButton btnJS10;
-  JoystickButton btnJS11;
-  JoystickButton btnJS12;
-  
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
 
@@ -128,8 +91,8 @@ public class RobotContainer {
   public void configureTurnJoystick() {
     turnJoystick = new Joystick(0);
 
-    btnJL1 = new JoystickButton(turnJoystick, 1);
-    btnJL2 = new JoystickButton(turnJoystick, 2);
+    JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1);
+    JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2);
     JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3);
     JoystickButton btnJL4 = new JoystickButton(turnJoystick, 4);
     JoystickButton btnJL5 = new JoystickButton(turnJoystick, 5);
@@ -227,18 +190,18 @@ public class RobotContainer {
   public void configureSecondaryPanel() {
     secondaryPanel = new Joystick(2);
 
-    btnJS1 = new JoystickButton(secondaryPanel, 1);
-    btnJS2 = new JoystickButton(secondaryPanel, 2);
-    btnJS3 = new JoystickButton(secondaryPanel, 3);
-    btnJS4 = new JoystickButton(secondaryPanel, 4);
-    btnJS5 = new JoystickButton(secondaryPanel, 5);
-    btnJS6 = new JoystickButton(secondaryPanel, 6);
-    btnJS7 = new JoystickButton(secondaryPanel, 7);
-    btnJS8 = new JoystickButton(secondaryPanel, 8);
-    btnJS9 = new JoystickButton(secondaryPanel, 9);
-    btnJS10 = new JoystickButton(secondaryPanel, 10);
-    btnJS11 = new JoystickButton(secondaryPanel, 11);
-    btnJS12 = new JoystickButton(secondaryPanel, 12);
+    JoystickButton btnJS1 = new JoystickButton(secondaryPanel, 1);
+    JoystickButton btnJS2 = new JoystickButton(secondaryPanel, 2);
+    JoystickButton btnJS3 = new JoystickButton(secondaryPanel, 3);
+    JoystickButton btnJS4 = new JoystickButton(secondaryPanel, 4);
+    JoystickButton btnJS5 = new JoystickButton(secondaryPanel, 5);
+    JoystickButton btnJS6 = new JoystickButton(secondaryPanel, 6);
+    JoystickButton btnJS7 = new JoystickButton(secondaryPanel, 7);
+    JoystickButton btnJS8 = new JoystickButton(secondaryPanel, 8);
+    JoystickButton btnJS9 = new JoystickButton(secondaryPanel, 9);
+    JoystickButton btnJS10 = new JoystickButton(secondaryPanel, 10);
+    JoystickButton btnJS11 = new JoystickButton(secondaryPanel, 11);
+    JoystickButton btnJS12 = new JoystickButton(secondaryPanel, 12);
 
     btnJS1.whenPressed(() -> intake.armToggle());
     btnJS2.whenPressed(() -> intake.intakeIn());
