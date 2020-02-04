@@ -99,9 +99,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     shifterIn.set(highGear);
   }
 
-  //TODO: change this to arcade drive
-  public void tankDrive(double left, double right) {
-    drive.tankDrive(left, right);
+  public void arcadeDrive(double tank, double turn) {
+    drive.arcadeDrive(tank, turn);
   }
 
   public Rotation2d  getAngle() {

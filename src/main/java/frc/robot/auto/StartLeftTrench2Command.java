@@ -22,14 +22,14 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
 
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
       this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
-      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
 
   }
 }
