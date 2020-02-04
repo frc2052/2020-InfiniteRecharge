@@ -8,14 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-//import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -114,7 +109,7 @@ public class RobotContainer {
   public void megaShooterDefaultCommand() {
     shooter.setDefaultCommand(
       new RunCommand(
-        () -> megaShooterCommand.update(btnJL1, btnJL2, btnJL3, btnJL4, btnJL5, btnJL6, btnJL7, btnJL8, btnJL9)
+        () -> megaShooterCommand.update(turnJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3), turnJoystick.getRawButton(4), turnJoystick.getRawButton(5), turnJoystick.getRawButton(6), turnJoystick.getRawButton(7), turnJoystick.getRawButton(8), turnJoystick.getRawButton(9), turnJoystick.getRawButton(10))
       )
     );
   }
@@ -123,7 +118,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(
       // Default to basic tank drive
       new RunCommand(
-        () -> driveTrain.tankDrive(tankJoystick.getY(), turnJoystick.getY() ), 
+        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getY() ), 
         driveTrain
       )
     );
