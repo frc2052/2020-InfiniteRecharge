@@ -56,6 +56,7 @@ public final class Constants {
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
+        public static final double kIntakeSpeed = 0.7;
     }
 
     public static final class Elevator{
@@ -128,6 +129,7 @@ public final class Constants {
         public static final int kLifterBackID = 0;
         public static final boolean klifterdirection = true;
         public static final boolean kconveyordirection = true;
+        public static final double kConveyorSpeed = 0.5;
     }
 
     public static final class Hood {

@@ -8,33 +8,28 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ActiveBalanceSubsytem extends SubsystemBase {
-  //TODO: The active balancer only has one motor, confirm if a Talon or Victor with build team
-  //TODO: remove final, new up the objects in the constructor
-  private final WPI_TalonSRX ActiveBalanceMotor = new WPI_TalonSRX(Constants.ActiveBalance.kActiveBalanceMotorID);
-  private final VictorSPX ActiveBalanceMotor2 = new VictorSPX(Constants.ActiveBalance.kActiveBalanceMotor2ID);
+  private final VictorSPX activeBalanceMotor;
  
   public ActiveBalanceSubsytem() {
-    //TODO reset motor controllers to factory defaults
-    //TODO set motor to break mode
+    activeBalanceMotor = new VictorSPX(Constants.ActiveBalance.kActiveBalanceMotorID);
+    activeBalanceMotor.configFactoryDefault();
+    activeBalanceMotor.setNeutralMode(NeutralMode.Brake);
   }
   public void ManualLeft() {
-    ActiveBalanceMotor.set(ControlMode.PercentOutput,.2);
-    ActiveBalanceMotor2.set(ControlMode.PercentOutput,.2);
+    activeBalanceMotor.set(ControlMode.PercentOutput, .2);
   }
   public void ManualRight() {
-    ActiveBalanceMotor.set(ControlMode.PercentOutput,-.2);
-    ActiveBalanceMotor2.set(ControlMode.PercentOutput,-.2);
+    activeBalanceMotor.set(ControlMode.PercentOutput, -.2);
   }
   public void ManualStop() {
-    ActiveBalanceMotor.set(ControlMode.PercentOutput,0);
-    ActiveBalanceMotor2.set(ControlMode.PercentOutput,0);
+    activeBalanceMotor.set(ControlMode.PercentOutput, 0);
  }
   
 }

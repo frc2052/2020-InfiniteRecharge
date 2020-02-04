@@ -5,17 +5,19 @@ import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
+import frc.robot.Constants.ConveyorSubsystem;
 
 public class IntakeSubsystem extends SubsystemBase {
-    
-  //TODO: new up the objects in the constructor
-  private Solenoid upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
-    private Solenoid downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
-    private VictorSPX outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
-    private boolean isArmDown;
-    
+  private Solenoid upSolenoid;
+  private Solenoid downSolenoid;
+  private VictorSPX outerIntakeMotor;
+  private boolean isArmDown;
+
     public IntakeSubsystem() {
-        // TODO reset motor controllers to factory defaults
+        upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
+        downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
+        outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
+        outerIntakeMotor.configFactoryDefault();
     }
     public void armToggle(){
         if(isArmDown){
@@ -35,10 +37,10 @@ public class IntakeSubsystem extends SubsystemBase {
         isArmDown = true;
     }
     public void intakeIn(){
-        outerIntakeMotor.set(ControlMode.PercentOutput, 1);
+        outerIntakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kIntakeSpeed);
     }
     public void intakeOut(){
-        outerIntakeMotor.set(ControlMode.PercentOutput, -1);
+        outerIntakeMotor.set(ControlMode.PercentOutput, -Constants.Intake.kIntakeSpeed);
     }
     public void intakeStop(){
         outerIntakeMotor.set(ControlMode.PercentOutput, 0);
