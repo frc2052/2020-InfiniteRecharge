@@ -21,12 +21,11 @@ import frc.robot.Constants;
 //TODO Lemon Switches???
 
 public class HoodSubsystem extends SubsystemBase {
-  //TODO: new up the objects in the constructor
-  private TalonSRX angleMotor = new TalonSRX(Constants.Shooter.kAngleMotorID);
+  private TalonSRX angleMotor = null;
   private boolean runningInOpenLoop = true;
 
   public HoodSubsystem() {
-    // TODO reset motor controllers to factory defaults
+    angleMotor = new TalonSRX(Constants.Shooter.kAngleMotorID);
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
@@ -36,9 +35,8 @@ public class HoodSubsystem extends SubsystemBase {
     angleMotor.setSelectedSensorPosition(0, 0, 10);
   }
 
-  //TODO: rename this to manualMoveUp to indicate that it isn't normally used
   //Moves hood up at low incaments with a max postion checker
-  public void moveHoodUp(){ 
+  public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
     if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHight) {
       angleMotor.set(ControlMode.PercentOutput, 0);
@@ -47,9 +45,8 @@ public class HoodSubsystem extends SubsystemBase {
     }
   }
     
-  //TODO: rename this to manualMoveDown to indicate that it isn't normally used
   //Moves Hood Down at low incraments with a min postion checker 
-  public void moveHoodDown(){ //TODO check gear ratios to find better motor speed
+  public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
     if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHight) {
       angleMotor.set(ControlMode.PercentOutput, 0);
     } else {
@@ -57,17 +54,15 @@ public class HoodSubsystem extends SubsystemBase {
     }
   }
   
-  //TODO: rename this to manualStopHoodMovement to indicate that it isn't normally used
   //makes the motor stop
-  public void stopHoodMovement(){
+  public void manualStopHoodMovement(){
     angleMotor.set(ControlMode.PercentOutput, 0);
   }
   
-  //TODO: methods should start with a lower case letter
   //AimHood creates an endoder value that it calculates 
   //from a given angle and ticks per rotation then moves 
   //the motor to that encoder value baised on max and min constriants   
-  public void AimHood(int targetAngle ) { 
+  public void aimHood(int targetAngle ) { 
     //TODO: I think all the motion magic PID values will need to be set, check documentation
     int encoderValue = (targetAngle / 360) * Constants.Hood.kTicksPerRotation;
     if (encoderValue <= Constants.Hood.kMinHoodHight) {
