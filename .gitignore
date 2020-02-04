@@ -158,3 +158,9 @@ imgui.ini
 
 
 # End of https://www.gitignore.io/api/c++,java,linux,macos,gradle,windows,visualstudiocode
+.vscode/launch.json
+build.gradle
+.gitignore
+.vscode/settings.json
+.vscode/settings.json
+.vscode/launch.json
