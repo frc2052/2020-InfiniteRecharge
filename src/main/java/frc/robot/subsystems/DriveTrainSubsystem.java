@@ -28,17 +28,16 @@ import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-  //TODO: remove final, new up the objects in the constructor
-  private final WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
-  private final VictorSPX leftFollower1 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollowerId);
-  private final VictorSPX leftFollower2 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollower2Id);
+  private WPI_TalonSRX leftMaster;
+  private VictorSPX leftFollower1; 
+  private VictorSPX leftFollower2;
   
-  private final WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveRightMasterId);
-  private final VictorSPX rightFollower1 = new VictorSPX(Constants.DriveTrain.kDriveRightFollowerId);
-  private final VictorSPX rightFollower2 = new VictorSPX(Constants.DriveTrain.kDriveRightFollower2Id);
+  private final WPI_TalonSRX rightMaster;
+  private final VictorSPX rightFollower1;
+  private final VictorSPX rightFollower2;
   
-  private final Solenoid shifterIn = new Solenoid(Constants.DriveTrain.kShiftInSolenoidID);
-  private final Solenoid shifterOut = new Solenoid(Constants.DriveTrain.kShiftOutSolenoidID);
+  private final Solenoid shifterIn;
+  private final Solenoid shifterOut;
 
   private final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftMaster);
   private final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightMaster);
@@ -49,12 +48,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
+    leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
+    leftFollower1 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollowerId);
     leftFollower1.configFactoryDefault();
+    leftFollower2 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollower2Id);
     leftFollower2.configFactoryDefault();
+    rightMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
+    rightFollower1= new VictorSPX(Constants.DriveTrain.kDriveRightFollowerId);
     rightFollower1.configFactoryDefault();
+    rightFollower2 = new VictorSPX(Constants.DriveTrain.kDriveRightFollower2Id);
     rightFollower2.configFactoryDefault();
+    shifterIn = new Solenoid(Constants.DriveTrain.kShiftInSolenoidID);
+    shifterOut = new Solenoid(Constants.DriveTrain.kShiftOutSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
@@ -99,9 +106,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     shifterIn.set(highGear);
   }
 
-  //TODO: change this to arcade drive
-  public void tankDrive(double left, double right) {
-    drive.tankDrive(left, right);
+  public void arcadeDrive(double left, double right) {
+    drive.arcadeDrive(left, right);
   }
 
   public Rotation2d  getAngle() {

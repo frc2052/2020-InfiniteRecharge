@@ -138,4 +138,11 @@ public final class Constants {
         public static final double kMinHoodHight = 69;
         public static final double kMaxHoodHight = 69;
     }
+    
+    public static final class Robot {
+        public static final String shooterOverideString = "Shooter Override?";
+        public static final String hoodOverideString = "Hood Override?";
+        public static final String turretOverrideString = "Turret Overide?";
+
+    }
 }
