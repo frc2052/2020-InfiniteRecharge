@@ -23,7 +23,8 @@ public class VisionSubsystem extends SubsystemBase {
   private NetworkTableEntry pipelineI = table.getEntry("getpipe"); // pipeline
   private NetworkTableEntry ledModeI = table.getEntry("ledMode"); // led mode
   private NetworkTableEntry camModeI = table.getEntry("camMode"); // cam mode
-  
+  private NetworkTableEntry streamI = table.getEntry("stream"); // Secondary camera stream
+
   private NetworkTableEntry thorI = table.getEntry("thor"); // bounding box horizontal
   private NetworkTableEntry tvertI = table.getEntry("tvert"); // bounding box vertical
 
@@ -38,6 +39,7 @@ public class VisionSubsystem extends SubsystemBase {
   private double pl; // pipeline
   private double lm; // led mode
   private double cm; // cam mode
+  private double stream; // Secondary camera stream
 
   private double thor; // bounding box horizontal
   private double tvert; // bounding box vertical
@@ -57,6 +59,7 @@ public class VisionSubsystem extends SubsystemBase {
     this.pl = this.pipelineI.getDouble(0.0);
     this.lm = this.ledModeI.getDouble(0.0);
     this.cm = this.camModeI.getDouble(0.0);
+    this.stream = this.streamI.getDouble(0.0);
 
     this.thor = this.thorI.getDouble(0.0);
     this.tvert = this.tvertI.getDouble(0.0);
@@ -80,6 +83,7 @@ public class VisionSubsystem extends SubsystemBase {
   public int getPl() {return (int)this.pl;}
   public int getLm() {return (int)this.lm;}
   public int getCm() {return (int)this.cm;}
+  public int getStream() {return (int)this.stream;}
 
   public double getThor() {return this.thor;}
   public double getTvert() {return this.tvert;}
@@ -117,6 +121,16 @@ public class VisionSubsystem extends SubsystemBase {
   public void setPipeline(int pipeline) {
     if(pipeline >= 0 && pipeline <= 9) // 10 pipelines
       pipelineI.setDouble((double) pipeline);     
+  }
+
+  public void setStream(int stream) {
+    if(stream >= 0 && stream <= 2)
+      streamI.setDouble((double) stream);
+    /*
+    0 = Standard - Side-by-side streams if a webcam is attached to Limelight
+    1 = PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
+    2 = PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream
+    */
   }
 
   public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
