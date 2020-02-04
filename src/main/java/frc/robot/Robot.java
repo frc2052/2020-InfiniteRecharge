@@ -41,12 +41,19 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    VisionSubsystem m_vision = new VisionSubsystem();
+
     AutoModeSelector.putToShuffleBoard();
     //TODO: make these  strings constants
     SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
     SmartDashboard.putBoolean("Hood Override?", false);
     SmartDashboard.putBoolean("Turret Override?", false);
+    
+    m_vision.setCamMode(0);
+    m_vision.setLEDMode(0);
+    m_vision.setPipeline(0);
+    m_vision.setStream(0);
   }
 
   /**
