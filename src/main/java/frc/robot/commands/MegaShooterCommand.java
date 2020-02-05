@@ -70,13 +70,13 @@ public class MegaShooterCommand extends CommandBase {
     if(SmartDashboard.getBoolean("Hood Override?", false)) {
       hoodOnTarget = true;
       if(manualHoodUp) {
-        m_hood.moveHoodUp();
+        m_hood.manualMoveHoodUp();
         manualHoodUp = false;
       } else if(manualHoodDown) {
-        m_hood.moveHoodDown();
+        m_hood.manualMoveHoodDown();
         manualHoodDown = false;
       } else {
-        m_hood.stopHoodMovement();
+        m_hood.manualStopHoodMovement();
       }
     } else {
       double hoodTargetAngle = m_vision.getTy();
