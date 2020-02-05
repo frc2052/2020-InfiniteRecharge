@@ -7,42 +7,48 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
+import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.Timer;
 
-public class AdjustAngleFarCommand extends CommandBase {
-  private HoodSubsystem m_HoodSubsystem;
-  /**
-   * Creates a new AdjustAngleMiddleCommand.
-   */
-  public AdjustAngleFarCommand(HoodSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_HoodSubsystem = subsystem;
+public class AutoShooterCommand extends MegaShooterCommand {
+  private Timer timer = new Timer();
+  private boolean m_IsFinished = false;
+  
+  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
+    super(shooter, vision, hood, turret, conveyor);
   }
-
-  // Called when the command is initially scheduled.
+  
   @Override
   public void initialize() {
-
+    m_IsFinished = false;
+    timer.reset();
+    super.setShootPressed(true);
+    super.initialize();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_HoodSubsystem.setTarget(anglePresetEnum.FAR);
-
+    super.execute();
+    if(super.getIsReady() && timer.get() == 0) {
+      timer.start();
+    } 
+    if(timer.get() > 4) {
+      m_IsFinished = true;
+    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    super.setShootPressed(false);
+    super.end(interrupted);
+    m_IsFinished = true;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_HoodSubsystem.getHeightInches() > Constants.Shooter.kFarAnglePosition - 2);
+    return m_IsFinished;
   }
 }

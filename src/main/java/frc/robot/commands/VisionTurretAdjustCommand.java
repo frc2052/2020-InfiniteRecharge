@@ -12,36 +12,54 @@ import frc.robot.subsystems.*;
 
 public class VisionTurretAdjustCommand extends CommandBase {
   private VisionSubsystem vision;
-  private HoodSubsystem hood;
-  boolean isManual;
+  private TurretSubsystem turret;
+  private boolean m_IsFinished = false;
 
-  public VisionTurretAdjustCommand(VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem, boolean manual) {
+
+  public VisionTurretAdjustCommand(VisionSubsystem visionSubsystem, TurretSubsystem turretSubsystem) {
     vision = visionSubsystem;
-    hood = hoodSubsystem;
-    isManual = manual;
+    turret = turretSubsystem;
+
+    addRequirements(vision, turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_IsFinished = false;
+    vision.setLEDMode(3);
+    System.out.println("*******************************Vision Command Starting**************************************");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!isManual) {
+    vision.updateLimelight();
+    if(vision.hasValidTarget()) {
+      double turretTargetXAngle = vision.getTx(); //calculate target turret angle from vision
+
       
+      //turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
+      turret.driveToPos(turretTargetXAngle);//turn turret to target angle using motion magic
+      //System.out.println(turretTargetAngle);
+      System.out.println(turretTargetXAngle);
+    } else {
+      turret.turnTurret(0);
+      System.out.println("-----------------------No target");
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_IsFinished = true;
+    turret.turnTurret(0);
+    vision.setLEDMode(1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return m_IsFinished;
   }
 }

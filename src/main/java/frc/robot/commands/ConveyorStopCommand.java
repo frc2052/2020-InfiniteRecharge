@@ -17,7 +17,16 @@ public class ConveyorStopCommand extends CommandBase {
   public ConveyorStopCommand(ConveyorSubsystem subsystem) {
     m_subsystem = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-subsystem.lifterStop();
+        
     addRequirements(subsystem);
   } 
+
+  @Override
+  public void initialize(){
+    m_subsystem.lifterStop();
+  }
+  @Override
+  public boolean isFinished(){
+    return true;
+  }
 }

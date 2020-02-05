@@ -15,6 +15,7 @@ public class VisionHoodAdjustCommand extends CommandBase {
   private HoodSubsystem hood;
   boolean isManual;
 
+  //TODO is this even needed assuming the mega shooter works
   public VisionHoodAdjustCommand(VisionSubsystem visionSubsystem, HoodSubsystem hoodSubsystem, boolean manual) {
     vision = visionSubsystem;
     hood = hoodSubsystem;
