@@ -22,15 +22,11 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import java.util.List;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import frc.robot.Constants;
-import frc.robot.auto.AutoModeSelector;
 
 
 public class DrivePathCommand extends CommandBase {
   private final DriveTrainSubsystem m_driveTrainSubsystem;
   private final DrivePathEnum m_choosenPath;
-
-  private double centerStartX = 3.048;
-  private double centerStartY = 0;
 
   public DrivePathCommand(DriveTrainSubsystem driveTrain, DrivePathEnum pathEnum) {
     addRequirements(driveTrain);

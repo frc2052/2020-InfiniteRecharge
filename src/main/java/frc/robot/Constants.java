@@ -56,6 +56,7 @@ public final class Constants {
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
+        public static final double kIntakeSpeed = 0.7;
     }
 
     public static final class Elevator{
@@ -67,6 +68,8 @@ public final class Constants {
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
        public static final int kElevatorMaxHeight = 79;
+       public static final int kInIntakeSolenoidID = 7;
+       public static final int kOutIntakeSolenoidID = 6;
     }
   
     public static final class ActiveBalance{
@@ -128,6 +131,7 @@ public final class Constants {
         public static final int kLifterBackID = 0;
         public static final boolean klifterdirection = true;
         public static final boolean kconveyordirection = true;
+        public static final double kConveyorSpeed = 0.5;
     }
 
     public static final class Hood {
@@ -138,11 +142,10 @@ public final class Constants {
         public static final double kMinHoodHight = 69;
         public static final double kMaxHoodHight = 69;
     }
-    
-    public static final class Robot {
-        public static final String shooterOverideString = "Shooter Override?";
-        public static final String hoodOverideString = "Hood Override?";
-        public static final String turretOverrideString = "Turret Overide?";
-
+    public static final class SmartDashboard {
+        public static final String kHoodOverrideString = "Hood Override?";
+        public static final String kTurretOverrideString = "Turret Override?";
+        public static final String kShooterOverrideString = "Shooter Override?";
+        public static final String kConveyorOverrideString = "Conveyor Override?";
     }
 }

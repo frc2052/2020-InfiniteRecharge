@@ -32,6 +32,7 @@ public class MegaShooterCommand extends CommandBase {
   private boolean shootPressed;
   private boolean readyPressed;
   private boolean conveyorDownPressed;
+  private boolean conveyorUpPressed;
 
   public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
     m_shooter = shooter;
@@ -48,37 +49,21 @@ public class MegaShooterCommand extends CommandBase {
   public void initialize() {
   }
 
-  public void update(JoystickButton shooterIncrease, JoystickButton shooterDecrease, 
-                      JoystickButton hoodUp, JoystickButton hoodDown, 
-                      JoystickButton turretLeft, JoystickButton turretRight, 
-                      JoystickButton ready, JoystickButton shoot, JoystickButton conveyorDown) {
+  public void update(boolean shooterIncrease, boolean shooterDecrease, 
+                      boolean hoodUp, boolean hoodDown, 
+                      boolean turretLeft, boolean turretRight, 
+                      boolean ready, boolean shoot, boolean conveyorDown, boolean conveyorUp) {
 
-    shooterIncrease.whenPressed(() -> {manualShooterIncrease = true;});
-    shooterIncrease.whenReleased(() -> {manualShooterIncrease = false;});
-
-    shooterDecrease.whenPressed(() -> {manualShooterDecrease = true;});
-    shooterDecrease.whenReleased(() -> {manualShooterDecrease = false;});
     
-    hoodUp.whenPressed(() -> {manualHoodUp = true;});
-    hoodUp.whenReleased(() -> {manualHoodUp = false;});
-
-    hoodDown.whenPressed(() -> {manualHoodDown = true;});
-    hoodDown.whenPressed(() -> {manualHoodDown = false;});
-
-    turretLeft.whenPressed(() -> {manualTurretLeft = true;});
-    turretLeft.whenReleased(() -> {manualTurretLeft = false;});
-
-    turretRight.whenPressed(() -> {manualTurretRight = true;});
-    turretRight.whenReleased(() -> {manualTurretRight = false;});
-
-    ready.whenPressed(() -> {readyPressed = true;});
-    ready.whenReleased(() -> {readyPressed = false;});
-
-    shoot.whenPressed(() -> {shootPressed = true;});
-    shoot.whenReleased(() -> {shootPressed = false;});
-
-    conveyorDown.whenPressed(() -> {conveyorDownPressed = true;});
-    conveyorDown.whenPressed(() -> {conveyorDownPressed = false;});  
+    manualShooterIncrease = shooterIncrease;
+    manualShooterDecrease = shooterDecrease;
+    manualHoodUp = hoodUp;
+    manualHoodDown = hoodDown;
+    manualTurretLeft = turretLeft;
+    manualTurretRight = turretRight;
+    readyPressed = ready;
+    shootPressed = shoot;
+    conveyorDownPressed = conveyorDown;  
   }
 
   public void executeHood() {
@@ -164,6 +149,8 @@ public class MegaShooterCommand extends CommandBase {
         } else {
           m_conveyor.lifterDown();
         }
+      } else if(conveyorUpPressed && SmartDashboard.getBoolean("Conveyor Override?", false)) {
+          m_conveyor.lifterUp();
       } else {
         m_conveyor.lifterStop();
       }
@@ -171,6 +158,14 @@ public class MegaShooterCommand extends CommandBase {
       m_shooter.setSpeed(0);
       m_turret.turnTurret(0);
     }
+  }
+
+  public void setShootPressed(boolean isShoot) {
+    shootPressed = isShoot;
+  }
+
+  public boolean getIsReady() {
+    return hoodOnTarget && turretOnTarget && speedOnTarget;
   }
 
   // Called once the command ends or is interrupted.
