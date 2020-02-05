@@ -27,12 +27,10 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  
+  //TODO: move this shuffleboard stuff into the method that needs it.  Doesn't need to be at the class level
   private final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
-
-  private NetworkTableEntry autoDelay =
-          tab.add("Auto Delay", 0)
-                  .getEntry();
-
+  private NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
   private DriveTrainSubsystem driveTrain = null;
   private IntakeSubsystem intake = null;
@@ -41,6 +39,7 @@ public class RobotContainer {
   private TurretSubsystem turret = null;
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
+  private ElevatorSubsystem elevator = null;
 
   private Joystick turnJoystick;
   private Joystick tankJoystick;
@@ -106,7 +105,7 @@ public class RobotContainer {
     //buttons 1-9 are already in use in mega shooter
     btnJL1.whenPressed(() -> {});
     btnJL1.whenReleased(() -> {});
-
+    
     btnJL2.whenPressed(() -> {}); 
     btnJL2.whenReleased(() -> {});
 
@@ -130,7 +129,7 @@ public class RobotContainer {
 
     btnJL9.whenPressed(() -> {}); 
     btnJL9.whenReleased(() -> {}); 
-
+    
     btnJL10.whenPressed(() -> {}); 
     btnJL10.whenReleased(() -> {});
 

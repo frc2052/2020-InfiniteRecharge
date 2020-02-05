@@ -68,6 +68,8 @@ public final class Constants {
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
        public static final int kElevatorMaxHeight = 79;
+       public static final int kInIntakeSolenoidID = 7;
+       public static final int kOutIntakeSolenoidID = 6;
     }
   
     public static final class ActiveBalance{
