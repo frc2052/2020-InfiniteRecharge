@@ -39,12 +39,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private final Solenoid shifterIn;
   private final Solenoid shifterOut;
 
-  private final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftMaster);
-  private final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightMaster);
+  private final SpeedControllerGroup leftGroup;
+  private final SpeedControllerGroup rightGroup;
 
   private AHRS navX = null;
 
-  private DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
+  private DifferentialDrive drive;
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
@@ -83,7 +83,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightFollower2.follow(rightMaster);
     leftFollower1.follow(leftMaster);
     leftFollower2.follow(leftMaster);
-    
+
+    leftGroup = new SpeedControllerGroup(leftMaster);
+    rightGroup  = new SpeedControllerGroup(rightMaster);    
+    drive = new DifferentialDrive(leftGroup, rightGroup);
+
     try {
       navX = new AHRS(SPI.Port.kMXP);
       navX.enableLogging(true);

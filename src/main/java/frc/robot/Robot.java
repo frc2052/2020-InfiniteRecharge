@@ -41,9 +41,9 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
-    SmartDashboard.putBoolean(Constants.Robot.shooterOverideString, false);
-    SmartDashboard.putBoolean(Constants.Robot.hoodOverideString, false);
-    SmartDashboard.putBoolean(Constants.Robot.turretOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kShooterOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kHoodOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
   }
 
   /**
