@@ -12,18 +12,16 @@ import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private double RPM;
-  //TODO: new up the objects in the constructor
-  private TalonSRX shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
+  private TalonSRX shooterMotor;
   
   public ShooterSubsystem() {
-    // TODO reset motor controllers to defaults
+    shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
+    shooterMotor.configFactoryDefault();
     shooterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
   }
  
   public double getSpeed(){
-    // TODO check if this is 4096 or something else
-    // TODO put the RPM/RPS in a constant
     RPM = sensorUnitsToRPM(shooterMotor.getSelectedSensorVelocity());
     return RPM;
   }
