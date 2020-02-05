@@ -142,7 +142,6 @@ public final class Constants {
         public static final double kMinHoodHight = 69;
         public static final double kMaxHoodHight = 69;
     }
-
     public static final class SmartDashboard {
         public static final String kHoodOverrideString = "Hood Override?";
         public static final String kTurretOverrideString = "Turret Override?";
