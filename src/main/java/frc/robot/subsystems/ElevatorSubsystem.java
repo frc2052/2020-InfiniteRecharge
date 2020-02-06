@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
+    private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
     private Solenoid inSolenoid;
     private Solenoid outSolenoid;
     public ElevatorSubsystem() {
@@ -21,8 +21,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         climberMotor.setSelectedSensorPosition(0, 0, 10);
 
-        inSolenoid = new Solenoid(Constants.Elevator.kInIntakeSolenoidID);
-        outSolenoid = new Solenoid(Constants.Elevator.kOutIntakeSolenoidID);
+        inSolenoid = new Solenoid(Constants.Solenoids.kInIntakeSolenoidID);
+        outSolenoid = new Solenoid(Constants.Solenoids.kOutIntakeSolenoidID);
         
     }
     

@@ -26,10 +26,10 @@ public class ConveyorSubsystem extends SubsystemBase {
    */
   public ConveyorSubsystem() {
      
-    conveyorBottomLeft = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemLeftID);
-    conveyorBottomRight = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemRightID);
-    lifterFront = new VictorSPX(Constants.ConveyorSubsystem.kLifterFrontID);
-    lifterBack = new VictorSPX(Constants.ConveyorSubsystem.kLifterBackID);  
+    conveyorBottomLeft = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
+    conveyorBottomRight = new VictorSPX(Constants.Motors.kConveyorMotorBottemRightID);
+    lifterFront = new VictorSPX(Constants.Motors.kLifterMotorFrontID);
+    lifterBack = new VictorSPX(Constants.Motors.kLifterMotorBackID);  
     lifterBack.configFactoryDefault();
     lifterFront.configFactoryDefault();
     conveyorBottomLeft.configFactoryDefault();

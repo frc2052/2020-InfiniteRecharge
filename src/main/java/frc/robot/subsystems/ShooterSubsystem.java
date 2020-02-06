@@ -15,7 +15,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private TalonSRX shooterMotor;
   
   public ShooterSubsystem() {
-    shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
+    shooterMotor = new TalonSRX(Constants.Motors.kShooterMotorID);
     shooterMotor.configFactoryDefault();
     shooterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);

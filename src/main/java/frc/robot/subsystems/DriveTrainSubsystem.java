@@ -48,20 +48,20 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
-    leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
+    leftMaster = new WPI_TalonSRX(Constants.Motors.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
-    leftFollower1 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollowerId);
+    leftFollower1 = new VictorSPX(Constants.Motors.kDriveLeftFollowerId);
     leftFollower1.configFactoryDefault();
-    leftFollower2 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollower2Id);
+    leftFollower2 = new VictorSPX(Constants.Motors.kDriveLeftFollower2Id);
     leftFollower2.configFactoryDefault();
-    rightMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveRightMasterId);
+    rightMaster = new WPI_TalonSRX(Constants.Motors.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
-    rightFollower1= new VictorSPX(Constants.DriveTrain.kDriveRightFollowerId);
+    rightFollower1= new VictorSPX(Constants.Motors.kDriveRightFollowerId);
     rightFollower1.configFactoryDefault();
-    rightFollower2 = new VictorSPX(Constants.DriveTrain.kDriveRightFollower2Id);
+    rightFollower2 = new VictorSPX(Constants.Motors.kDriveRightFollower2Id);
     rightFollower2.configFactoryDefault();
-    shifterIn = new Solenoid(Constants.DriveTrain.kShiftInSolenoidID);
-    shifterOut = new Solenoid(Constants.DriveTrain.kShiftOutSolenoidID);
+    shifterIn = new Solenoid(Constants.Solenoids.kShiftInSolenoidID);
+    shifterOut = new Solenoid(Constants.Solenoids.kShiftOutSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);

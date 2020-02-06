@@ -203,13 +203,15 @@ public class RobotContainer {
     JoystickButton btnJS12 = new JoystickButton(secondaryPanel, 12);
 
     btnJS1.whenPressed(() -> intake.armToggle());
+
     btnJS2.whenPressed(() -> intake.intakeIn());
-
     btnJS2.whenReleased(() -> intake.intakeStop());
-    btnJS3.whenPressed(() -> intake.intakeOut());
 
+    btnJS3.whenPressed(() -> intake.intakeOut());
     btnJS3.whenReleased(() -> intake.intakeStop());
+
     btnJS4.whenPressed(() -> {});
+    btnJS4.whenReleased(() -> {});
 
     btnJS5.whenPressed(() -> {}); 
     btnJS5.whenReleased(() -> {});

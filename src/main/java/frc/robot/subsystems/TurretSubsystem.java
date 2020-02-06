@@ -22,7 +22,7 @@ public class TurretSubsystem extends SubsystemBase {
   private boolean isLinedUp;
  
   public TurretSubsystem() {
-    turretMotor = new TalonSRX(Constants.Turret.kTurretMotorID);
+    turretMotor = new TalonSRX(Constants.Motors.kTurretMotorID);
     turretMotor.configFactoryDefault();
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
