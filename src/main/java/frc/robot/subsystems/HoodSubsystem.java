@@ -13,114 +13,69 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import frc.robot.Constants;
 
+//CIOCCI VENTEREA
+//TODO find max and min values/heights for the hood manualy with the robot 
+//TODO Lemon Switches???
+
 public class HoodSubsystem extends SubsystemBase {
-  private TalonSRX angleMotor = new TalonSRX(Constants.Shooter.kAngleMotorID);
-  private int goalAngleHeight = 0;
-  private boolean runningInOpenLoop = false;
+  private TalonSRX angleMotor = null;
+  private boolean runningInOpenLoop = true;
 
   public HoodSubsystem() {
+    angleMotor = new TalonSRX(Constants.Motors.kAngleMotorID);
+    angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-    
   }
 
-  public void zeroSensor(){
+  public void zeroSensor(){ // to zero hood push it all the way down on the robot
     angleMotor.setSelectedSensorPosition(0, 0, 10);
   }
 
-  public void setTarget(anglePresetEnum posEnum) {
-
-    //sets goal to the correct inches according to the preset
-
-    runningInOpenLoop = false;
-
-    int calcTarget = getAngleHeight(posEnum);
-
-    setAndVerifyGoalInches(calcTarget);
-  }
-
-  // TODO: rename for 2020
-  public double getHeightInches() {
-
-    int encoderPos = angleMotor.getSelectedSensorPosition(0);
-
-    double revolutions = encoderPos / (double)Constants.Shooter.kAngleTicsPerRotations;
-    double targetPos = revolutions * Constants.Shooter.kInchesPerRotation;
-
-    return targetPos;
-
-  }
-
-  public void setCurrentPosAsTarget(){
-      setAndVerifyGoalInches((int)getHeightInches());
-  }
-
-  private void setAndVerifyGoalInches(int newGoalInches){
-    if (newGoalInches >  Constants.Shooter.kMaxAngleHeight) {
-      goalAngleHeight = Constants.Shooter.kMaxAngleHeight;
-    } else if (newGoalInches < Constants.Shooter.kMinAngleHeight) {
-        System.out.println("INVALID ELEVATOR VALUE : " + newGoalInches);
-        goalAngleHeight = Constants.Shooter.kMinAngleHeight;
+  //Moves hood up at low incaments with a max postion checker
+  public void manualMoveHoodUp(){ 
+    //TODO check gear ratios to find better motor speed
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHight) {
+      angleMotor.set(ControlMode.PercentOutput, 0);
     } else {
-      goalAngleHeight = newGoalInches;
+      angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodUpSpeed);
     }
   }
-
-
-  private boolean emergencyDownWasPressed = false; // variable makes it able to stop the motor only one time once it is let go
-
-  public void startEmergencyDown() {
-    angleMotor.set(ControlMode.PercentOutput,Constants.Shooter.kEmergencyDownPower);
+    
+  //Moves Hood Down at low incraments with a min postion checker 
+  public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHight) {
+      angleMotor.set(ControlMode.PercentOutput, 0);
+    } else {
+      angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodDownSpeed);
+    }
   }
-
-  public void stopEmergencyMove(){
+  
+  //makes the motor stop
+  public void manualStopHoodMovement(){
     angleMotor.set(ControlMode.PercentOutput, 0);
   }
-
-  public void startEmergencyUp(){
-    angleMotor.set(ControlMode.PercentOutput, Constants.Shooter.kEmergencyUpPower);
+  
+  //AimHood creates an endoder value that it calculates 
+  //from a given angle and ticks per rotation then moves 
+  //the motor to that encoder value baised on max and min constriants   
+  public void aimHood(int targetAngle ) { 
+    //TODO: I think all the motion magic PID values will need to be set, check documentation
+    int encoderValue = (targetAngle / 360) * Constants.Hood.kTicksPerRotation;
+    if (encoderValue <= Constants.Hood.kMinHoodHight) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodHight);
+    } else if (encoderValue >= Constants.Hood.kMaxHoodHight) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodHight);
+    } else angleMotor.set(ControlMode.MotionMagic, encoderValue); 
   }
 
-  public void setAngleAdjustmentUp(){
-    setAndVerifyGoalInches(goalAngleHeight + 10);
+//getCurrentAngle returns the current angle of the hood
+  public double getCurrentAngle() {
+    double currentTicks = angleMotor.getSelectedSensorPosition();
+    double currentAngle = (currentTicks / Constants.Hood.kTicksPerRotation) * 360;
+    return currentAngle;
   }
-
-  public void setAngleAdjustmentDown(){
-    setAndVerifyGoalInches(goalAngleHeight -10);
-  }
-
-  @Override
-  public void periodic() {
-    // TODO update the names for 2020, reset when at < 0
-    // This method will be called once per scheduler run
-    if(getHeightInches() == 0){
-        zeroSensor();
-    }
-    double rotation = goalAngleHeight/Constants.Shooter.kAngleTicsPerRotations;
-    int pos = (int) (rotation * Constants.Shooter.kAngleTicsPerRotations);
-    angleMotor.set(ControlMode.MotionMagic, pos);
-  }
-
-  public int getAngleHeight(anglePresetEnum anglePreset) {
-    switch(anglePreset){
-      case CLOSE:
-        return  Constants.Shooter.kCloseAnglePosition;
-      case MIDDLE:
-        return Constants.Shooter.kMiddleAnglePosition;
-      case FAR:
-        return Constants.Shooter.kFarAnglePosition;
-    }
-
-    return 0; 
-  }
-
-  public enum anglePresetEnum{
-    CLOSE,
-    MIDDLE,
-    FAR,
-  }
-
+  
 }

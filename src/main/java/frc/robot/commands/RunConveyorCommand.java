@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+//TODO: is this even needed, assuming megashooter command works
 public class RunConveyorCommand extends CommandBase {
   boolean isManual;
 

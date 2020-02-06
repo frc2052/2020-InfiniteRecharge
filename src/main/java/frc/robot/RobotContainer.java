@@ -8,14 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -32,177 +27,216 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
+  
+  //TODO: move this shuffleboard stuff into the method that needs it.  Doesn't need to be at the class level
   private final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+  private NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
-  private NetworkTableEntry autoDelay =
-          tab.add("Auto Delay", 0)
-                  .getEntry();
+  private DriveTrainSubsystem driveTrain = null;
+  private IntakeSubsystem intake = null;
+  private ShooterSubsystem shooter = null;
+  private HoodSubsystem hood = null;
+  private TurretSubsystem turret = null;
+  private VisionSubsystem vision = null;
+  private ConveyorSubsystem conveyor = null;
+  private ElevatorSubsystem elevator = null;
 
+  private Joystick turnJoystick;
+  private Joystick tankJoystick;
+  private Joystick secondaryPanel;
 
-  private final DriveTrainSubsystem driveTrain = new DriveTrainSubsystem();
-  private final IntakeSubsystem intake = new IntakeSubsystem();
-  private final ShooterSubsystem shooter = new ShooterSubsystem();
-  private final HoodSubsystem hood = new HoodSubsystem();
-  private final TurretSubsystem turret = new TurretSubsystem();
-  private final VisionSubsystem vision = new VisionSubsystem();
-  private final ConveyorSubsystem conveyor = new ConveyorSubsystem();
+  private MegaShooterCommand megaShooterCommand = null;
+  private VisionTurretAdjustCommand visionTurretCommand = null;
 
-  private final Joystick leftJoystick = new Joystick(0);
-  private final Joystick rightJoystick = new Joystick(1);
-  private final Joystick secondaryJoystick = new Joystick(2);
-
-  private boolean manualShooterIncrease;
-  private boolean manualShooterDecrease;
-  private boolean manualHoodUp;
-  private boolean manualHoodDown;
-  private boolean manualTurretLeft;
-  private boolean manualTurretRight;
-  private boolean shootPressed;
-  private boolean readyPressed;
-  private boolean conveyorDownPressed;
-
-  private final MegaShooterCommand megaShooterCommand  = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, manualShooterIncrease, manualShooterDecrease, manualHoodUp, manualHoodDown, manualTurretLeft, manualTurretRight, shootPressed, readyPressed, conveyorDownPressed);
-
-  private final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-  private final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
-
-
-
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
   public RobotContainer() {
-    // Configure the button bindings
-    configureButtonBindings();
+    driveTrain = new DriveTrainSubsystem();
+    intake = new IntakeSubsystem();
+    shooter = new ShooterSubsystem();
+    hood = new HoodSubsystem();
+    turret = new TurretSubsystem();
+    vision = new VisionSubsystem();
+    conveyor = new ConveyorSubsystem();
 
+    megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
+    visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
+
+    configureTurnJoystick();
+    configureTankJoystick();
+    configureSecondaryPanel();
+
+    driveDefaultCommand();
+    megaShooterDefaultCommand();
+  }
+
+  public void megaShooterDefaultCommand() {
+    shooter.setDefaultCommand(
+      new RunCommand(
+        () -> megaShooterCommand.update(turnJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3), turnJoystick.getRawButton(4), turnJoystick.getRawButton(5), turnJoystick.getRawButton(6), turnJoystick.getRawButton(7), turnJoystick.getRawButton(8), turnJoystick.getRawButton(9), turnJoystick.getRawButton(10))
+      )
+    );
+  }
+
+  public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
       // Default to basic tank drive
       new RunCommand(
-        () -> driveTrain.tankDrive(leftJoystick.getY(), rightJoystick.getY() ), 
+        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getY() ), 
         driveTrain
       )
     );
-
-
-    shooter.setDefaultCommand(
-      megaShooterCommand
-    );
   }
 
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
-  private void configureButtonBindings() {
-    //TODO : configure buttons for what drivers want
-    //left joystick
-    JoystickButton btnJL1 = new JoystickButton(leftJoystick, 1);
-    JoystickButton btnJL2 = new JoystickButton(leftJoystick, 2);
-    JoystickButton btnJL3 = new JoystickButton(leftJoystick, 3);
-    JoystickButton btnJL4 = new JoystickButton(leftJoystick, 4);
-    JoystickButton btnJL5 = new JoystickButton(leftJoystick, 5);
-    JoystickButton btnJL6 = new JoystickButton(leftJoystick, 6);
-    JoystickButton btnJL7 = new JoystickButton(leftJoystick, 7);
-    JoystickButton btnJL8 = new JoystickButton(leftJoystick, 8);
-    JoystickButton btnJL9 = new JoystickButton(leftJoystick, 9);
-    JoystickButton btnJL10 = new JoystickButton(leftJoystick, 10);
-    JoystickButton btnJL11 = new JoystickButton(leftJoystick, 11);
-    JoystickButton btnJL12 = new JoystickButton(leftJoystick, 12);
 
-    btnJL1.whenPressed(() -> {manualShooterIncrease = true;});
-    btnJL2.whenPressed(() -> {manualShooterDecrease = true;}); 
-    btnJL3.whenPressed(() -> {manualHoodUp = true;}); 
-    btnJL4.whenPressed(() -> {manualHoodDown = true;}); 
-    btnJL5.whenPressed(() -> {manualTurretLeft = true;}); 
-    btnJL6.whenPressed(() -> {manualTurretRight = true;}); 
-    btnJL7.whenPressed(() -> {shootPressed = true;}); 
-    btnJL8.whenPressed(() -> {readyPressed = true;}); 
-    btnJL9.whenPressed(() -> {conveyorDownPressed = true;}); 
+  public void configureTurnJoystick() {
+    turnJoystick = new Joystick(0);
+
+    JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1);
+    JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2);
+    JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3);
+    JoystickButton btnJL4 = new JoystickButton(turnJoystick, 4);
+    JoystickButton btnJL5 = new JoystickButton(turnJoystick, 5);
+    JoystickButton btnJL6 = new JoystickButton(turnJoystick, 6);
+    JoystickButton btnJL7 = new JoystickButton(turnJoystick, 7);
+    JoystickButton btnJL8 = new JoystickButton(turnJoystick, 8);
+    JoystickButton btnJL9 = new JoystickButton(turnJoystick, 9);
+    JoystickButton btnJL10 = new JoystickButton(turnJoystick, 10);
+    JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
+
+    //buttons 1-9 are already in use in mega shooter
+    btnJL1.whenPressed(() -> {});
+    btnJL1.whenReleased(() -> {});
+    
+    btnJL2.whenPressed(() -> {}); 
+    btnJL2.whenReleased(() -> {});
+
+    btnJL3.whenPressed(() -> {}); 
+    btnJL3.whenReleased(() -> {}); 
+
+    btnJL4.whenPressed(() -> {}); 
+    btnJL4.whenReleased(() -> {}); 
+
+    btnJL5.whenPressed(() -> {}); 
+    btnJL5.whenReleased(() -> {}); 
+
+    btnJL6.whenPressed(() -> {}); 
+    btnJL6.whenReleased(() -> {}); 
+
+    btnJL7.whenPressed(() -> {}); 
+    btnJL7.whenReleased(() -> {}); 
+
+    btnJL8.whenPressed(() -> {}); 
+    btnJL8.whenReleased(() -> {}); 
+
+    btnJL9.whenPressed(() -> {}); 
+    btnJL9.whenReleased(() -> {}); 
+    
     btnJL10.whenPressed(() -> {}); 
-    btnJL11.whenPressed(() -> {}); 
-    btnJL12.whenPressed(() -> {}); 
+    btnJL10.whenReleased(() -> {});
 
-    btnJL1.whenReleased(() -> {manualShooterIncrease = false;});
-    btnJL2.whenReleased(() -> {manualShooterDecrease = false;}); 
-    btnJL3.whenReleased(() -> {manualHoodUp = false;}); 
-    btnJL4.whenReleased(() -> {manualHoodDown = false;}); 
-    btnJL5.whenReleased(() -> {manualTurretLeft = false;}); 
-    btnJL6.whenReleased(() -> {manualTurretRight = false;}); 
-    btnJL7.whenReleased(() -> {shootPressed = false;}); 
-    btnJL8.whenReleased(() -> {readyPressed = false;}); 
-    btnJL9.whenReleased(() -> {conveyorDownPressed = false;}); 
+    btnJL11.whenPressed(() -> {});  
+    btnJL11.whenReleased(() -> {});
+  }
 
-    //right joystick
-    JoystickButton btnJR1 = new JoystickButton(rightJoystick, 1);
-    JoystickButton btnJR2 = new JoystickButton(rightJoystick, 2);
-    JoystickButton btnJR3 = new JoystickButton(rightJoystick, 3);
-    JoystickButton btnJR4 = new JoystickButton(rightJoystick, 4);
-    JoystickButton btnJR5 = new JoystickButton(rightJoystick, 5);
-    JoystickButton btnJR6 = new JoystickButton(rightJoystick, 6);
-    JoystickButton btnJR7 = new JoystickButton(rightJoystick, 7);
-    JoystickButton btnJR8 = new JoystickButton(rightJoystick, 8);
-    JoystickButton btnJR9 = new JoystickButton(rightJoystick, 9);
-    JoystickButton btnJR10 = new JoystickButton(rightJoystick, 10);
-    JoystickButton btnJR11 = new JoystickButton(rightJoystick, 11);
-    JoystickButton btnJR12 = new JoystickButton(rightJoystick, 12);
+  public void configureTankJoystick() {
+    tankJoystick = new Joystick(1);
+
+    JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1);
+    JoystickButton btnJR2 = new JoystickButton(tankJoystick, 2);
+    JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3);
+    JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4);
+    JoystickButton btnJR5 = new JoystickButton(tankJoystick, 5);
+    JoystickButton btnJR6 = new JoystickButton(tankJoystick, 6);
+    JoystickButton btnJR7 = new JoystickButton(tankJoystick, 7);
+    JoystickButton btnJR8 = new JoystickButton(tankJoystick, 8);
+    JoystickButton btnJR9 = new JoystickButton(tankJoystick, 9);
+    JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
+    JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
     btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
-    btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-    btnJR3.whenPressed(() -> {}); 
-    btnJR4.whenPressed(() -> {}); 
-    btnJR5.whenPressed(() -> {}); 
-    btnJR6.whenPressed(() -> {}); 
+    btnJR1.whenReleased(() -> {});
+
+    btnJR2.whenPressed(() -> turret.printEncoderPos()); //Shift speeds
+    btnJR2.whenReleased(() -> {}); //stop shifting
+
+    btnJR3.whenPressed(() -> turret.turnTurret(-0.5)); 
+    btnJR3.whenReleased(() -> turret.turnTurret(0.0)); 
+
+    btnJR4.whileHeld(visionTurretCommand);
+    btnJR4.whenReleased(() -> visionTurretCommand.end(true)); 
+
+    btnJR5.whenPressed(() -> turret.turnTurret(0.5)); 
+    btnJR5.whenReleased(() -> turret.turnTurret(0.0)); 
+
+    btnJR6.whenPressed(() ->  driveTrain.setHighGear(true));
+    btnJR6.whenReleased(() ->  driveTrain.setHighGear(false)); 
+
     btnJR7.whenPressed(() -> {}); 
+    btnJR7.whenReleased(() -> {});
+
     btnJR8.whenPressed(() -> {}); 
+    btnJR8.whenReleased(() -> {});
+
     btnJR9.whenPressed(() -> {}); 
+    btnJR9.whenReleased(() -> {});
+
     btnJR10.whenPressed(() -> {}); 
+    btnJR10.whenReleased(() -> {});
+
     btnJR11.whenPressed(() -> {}); 
-    btnJR12.whenPressed(() -> {}); 
-
-    //secondary control panel
-    JoystickButton btnJSB1 = new JoystickButton(secondaryJoystick, 1);
-    JoystickButton btnJSB2 = new JoystickButton(secondaryJoystick, 2);
-    JoystickButton btnJSB3 = new JoystickButton(secondaryJoystick, 3);
-    JoystickButton btnJSB4 = new JoystickButton(secondaryJoystick, 4);
-    JoystickButton btnJSB5 = new JoystickButton(secondaryJoystick, 5);
-    JoystickButton btnJSB6 = new JoystickButton(secondaryJoystick, 6);
-    JoystickButton btnJSB7 = new JoystickButton(secondaryJoystick, 7);
-    JoystickButton btnJSB8 = new JoystickButton(secondaryJoystick, 8);
-    JoystickButton btnJSB9 = new JoystickButton(secondaryJoystick, 9);
-    JoystickButton btnJSB10 = new JoystickButton(secondaryJoystick, 10);
-    JoystickButton btnJSB11 = new JoystickButton(secondaryJoystick, 11);
-    JoystickButton btnJSB12 = new JoystickButton(secondaryJoystick, 12);
-
-    btnJSB1.whenPressed(() -> intake.armToggle());
-    btnJSB2.whenPressed(() -> intake.intakeIn());
-    btnJSB2.whenReleased(() -> intake.intakeStop());
-    btnJSB3.whenPressed(() -> intake.intakeOut());
-    btnJSB3.whenReleased(() -> intake.intakeStop());
-    btnJSB4.whenPressed(() -> {});
-    btnJSB5.whenPressed(() -> {}); 
-    btnJSB6.whenPressed(() -> {}); 
-    
-    if(SmartDashboard.getBoolean("Shooter Override?", false) == true){
-      btnJSB7.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS)); 
-    }
-
-    if(SmartDashboard.getBoolean("Turret Override?", false) == true) {
-      btnJSB8.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnLeftSpeed)); 
-      btnJSB9.whenPressed(() -> turret.turnTurret(Constants.Turret.kTurnRightSpeed)); 
-    }
-
-    if(SmartDashboard.getBoolean("Hood Override?", false) == true) {
-      btnJSB10.whenPressed(() -> hood.setTarget(anglePresetEnum.CLOSE)); 
-      btnJSB11.whenPressed(() -> hood.setTarget(anglePresetEnum.MIDDLE)); 
-      btnJSB12.whenPressed(() -> hood.setTarget(anglePresetEnum.FAR)); 
-    }
+    btnJR11.whenReleased(() -> {});
   }
 
+  public void configureSecondaryPanel() {
+    secondaryPanel = new Joystick(2);
+
+    JoystickButton btnJS1 = new JoystickButton(secondaryPanel, 1);
+    JoystickButton btnJS2 = new JoystickButton(secondaryPanel, 2);
+    JoystickButton btnJS3 = new JoystickButton(secondaryPanel, 3);
+    JoystickButton btnJS4 = new JoystickButton(secondaryPanel, 4);
+    JoystickButton btnJS5 = new JoystickButton(secondaryPanel, 5);
+    JoystickButton btnJS6 = new JoystickButton(secondaryPanel, 6);
+    JoystickButton btnJS7 = new JoystickButton(secondaryPanel, 7);
+    JoystickButton btnJS8 = new JoystickButton(secondaryPanel, 8);
+    JoystickButton btnJS9 = new JoystickButton(secondaryPanel, 9);
+    JoystickButton btnJS10 = new JoystickButton(secondaryPanel, 10);
+    JoystickButton btnJS11 = new JoystickButton(secondaryPanel, 11);
+    JoystickButton btnJS12 = new JoystickButton(secondaryPanel, 12);
+
+    btnJS1.whenPressed(() -> intake.armToggle());
+
+    btnJS2.whenPressed(() -> intake.intakeIn());
+    btnJS2.whenReleased(() -> intake.intakeStop());
+
+    btnJS3.whenPressed(() -> intake.intakeOut());
+    btnJS3.whenReleased(() -> intake.intakeStop());
+
+    btnJS4.whenPressed(() -> {});
+    btnJS4.whenReleased(() -> {});
+
+    btnJS5.whenPressed(() -> {}); 
+    btnJS5.whenReleased(() -> {});
+
+    btnJS6.whenPressed(() -> {}); 
+    btnJS6.whenReleased(() -> {});
+
+    btnJS7.whenPressed(() -> {});
+    btnJS7.whenReleased(() -> {});
+
+    btnJS8.whenPressed(() -> {});
+    btnJS8.whenReleased(() -> {});
+
+    btnJS9.whenPressed(() -> {});
+    btnJS9.whenReleased(() -> {});
+    
+    btnJS10.whenPressed(() -> {});
+    btnJS10.whenReleased(() -> {});
+
+    btnJS11.whenPressed(() -> {});
+    btnJS11.whenReleased(() -> {});
+
+    btnJS12.whenPressed(() -> {});
+    btnJS12.whenReleased(() -> {});
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -247,22 +281,26 @@ public class RobotContainer {
     }
     driveTrain.setOdometry(x, y);
 
-
     switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
       case LSG3:
+        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
         return leftGenerator3;
       case LSG5:
-        return leftGenerator3; //not correct
+        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
+        return leftShoot5;
       case LST2:
+        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
         return leftTrench2;
       case RST3:
+        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
         return rightTrench3;
       case CSG3:
-        return centerShootDrivePark; //not correct
+        return null;
       case CS:
+        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0));
         return centerShootDrivePark;
       default:
-        return centerShootDrivePark; //not correct, make don't move auto
+        return null; 
     }
   }
 }
