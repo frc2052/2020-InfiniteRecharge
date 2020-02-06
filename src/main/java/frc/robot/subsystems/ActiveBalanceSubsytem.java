@@ -18,7 +18,7 @@ public class ActiveBalanceSubsytem extends SubsystemBase {
   private final VictorSPX activeBalanceMotor;
  
   public ActiveBalanceSubsytem() {
-    activeBalanceMotor = new VictorSPX(Constants.ActiveBalance.kActiveBalanceMotorID);
+    activeBalanceMotor = new VictorSPX(Constants.Motors.kActiveBalanceMotorID);
     activeBalanceMotor.configFactoryDefault();
     activeBalanceMotor.setNeutralMode(NeutralMode.Brake);
   }

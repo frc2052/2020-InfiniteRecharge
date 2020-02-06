@@ -21,7 +21,7 @@ import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
   //TODO: remove final, new up the objects in the constructor
-  private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
+  private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
   private int goalElevatorInches;
   private boolean runningInOpenLoop = false;
  

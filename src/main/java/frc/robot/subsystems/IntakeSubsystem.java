@@ -14,9 +14,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private boolean isArmDown;
 
     public IntakeSubsystem() {
-        upSolenoid = new Solenoid(Constants.Intake.kUpIntakeSolenoidID);
-        downSolenoid = new Solenoid(Constants.Intake.kDownIntakeSolenoidID);
-        outerIntakeMotor = new VictorSPX(Constants.Intake.kOuterIntakeMotorID);
+        upSolenoid = new Solenoid(Constants.Solenoids.kUpIntakeSolenoidID);
+        downSolenoid = new Solenoid(Constants.Solenoids.kDownIntakeSolenoidID);
+        outerIntakeMotor = new VictorSPX(Constants.Motors.kOuterIntakeMotorID);
         outerIntakeMotor.configFactoryDefault();
     }
     public void armToggle(){

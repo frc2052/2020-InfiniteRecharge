@@ -13,7 +13,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import frc.robot.Constants;
 
 //CIOCCI VENTEREA
@@ -25,7 +24,7 @@ public class HoodSubsystem extends SubsystemBase {
   private boolean runningInOpenLoop = true;
 
   public HoodSubsystem() {
-    angleMotor = new TalonSRX(Constants.Shooter.kAngleMotorID);
+    angleMotor = new TalonSRX(Constants.Motors.kAngleMotorID);
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
