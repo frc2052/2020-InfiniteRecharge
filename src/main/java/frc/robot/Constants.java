@@ -77,6 +77,13 @@ public final class Constants {
         public static final int kActiveBalanceMotor2ID = 10;
     }
 
+    public static final class WheelOfFortune{
+        public static final int controlPanelID = 20;
+        //TODO: find the correct id
+        public static final double motorPower = .10;
+
+    }
+
     public static final class Shooter{
         public static final int kShooterMotorID = 8;
         public static final int kAngleMotorID = 9;
