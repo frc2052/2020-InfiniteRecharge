@@ -11,8 +11,8 @@ import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
-    private Solenoid inSolenoid;
-    private Solenoid outSolenoid;
+    private Solenoid lockinSolenoid;
+    private Solenoid lockoutSolenoid;
     public ElevatorSubsystem() {
 
         climberMotor.setNeutralMode(NeutralMode.Brake);
@@ -21,8 +21,8 @@ public class ElevatorSubsystem extends SubsystemBase {
 
         climberMotor.setSelectedSensorPosition(0, 0, 10);
 
-        inSolenoid = new Solenoid(Constants.Elevator.kInIntakeSolenoidID);
-        outSolenoid = new Solenoid(Constants.Elevator.kOutIntakeSolenoidID);
+        lockinSolenoid = new Solenoid(Constants.Elevator.kInIntakeSolenoidID);
+        lockoutSolenoid = new Solenoid(Constants.Elevator.kOutIntakeSolenoidID);
         
     }
     
@@ -36,30 +36,39 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_override = Ispressed;
     }
 
+
     public void ManualUp() {
         pistonIn();
         double currentHeight = this.getHeightInches();
-        if (currentHeight < Constants.Elevator.kElevatorMaxHeight)
+        if (currentHeight < Constants.Elevator.kElevatorMaxHeight || m_override)
+        
         {
             climberMotor.set(ControlMode.PercentOutput, .2);
         }
         else 
         {
-            climberMotor.set(ControlMode.PercentOutput, 0);}
+            climberMotor.set(ControlMode.PercentOutput, 0);
         }
-    public void pistonOut(){
-        inSolenoid.set(false);
-        outSolenoid.set(true);
+         
     }
+    public void pistonOut(){
+        lockinSolenoid.set(false);
+        lockoutSolenoid.set(true);
+    }    
     public void pistonIn(){
-        inSolenoid.set(true);
-        outSolenoid.set(false);
+        lockinSolenoid.set(true);
+        lockinSolenoid.set(false);
+        lockoutSolenoid.set(true);
+    }
+    public void pistonStop(){
+        lockinSolenoid.set(true);
+        lockoutSolenoid.set(false);
     }
    
     public void ManualDown() {
         pistonIn();
             double currentHeight = this.getHeightInches();
-            if (currentHeight > Constants.Elevator.kElevatorMinHeight)
+            if (currentHeight > Constants.Elevator.kElevatorMinHeight || m_override)
             {
                 climberMotor.set(ControlMode.PercentOutput, -.2);
             }
