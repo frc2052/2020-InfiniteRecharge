@@ -21,7 +21,7 @@ public class TurretSubsystem extends SubsystemBase {
   private double motorPower = 0;
  
   public TurretSubsystem() {
-    // TODO reset Talon to factory defaults
+    turretMotor.configFactoryDefault();
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
 
