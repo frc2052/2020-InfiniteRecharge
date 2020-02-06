@@ -30,7 +30,7 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
       //colSense.configureColorSensor(ColorSensorV3.ColorSensorResolution.kColorSensorRes16bit);
     }
 
-    public void turnWheelForwards(){
+    public void turnWheelRight(){
         mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
     }
 
@@ -50,4 +50,3 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
 
 
 }
-
