@@ -34,7 +34,7 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
         mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
     }
 
-    public  void turnWheelLeft(){
+    public void turnWheelLeft(){
         mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
     }
 
