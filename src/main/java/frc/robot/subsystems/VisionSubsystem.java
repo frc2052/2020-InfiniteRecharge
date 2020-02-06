@@ -136,5 +136,5 @@ public class VisionSubsystem extends SubsystemBase {
   public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
     return (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + this.getTy()));
   }
-
+  
 }

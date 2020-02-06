@@ -28,42 +28,50 @@ import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-  private final WPI_TalonSRX leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
-  private final VictorSPX leftSlave1 = new VictorSPX(Constants.DriveTrain.kDriveLeftSlaveId);
-  private final VictorSPX leftSlave2 = new VictorSPX(Constants.DriveTrain.kDriveLeftSlave2Id);
+  private WPI_TalonSRX leftMaster;
+  private VictorSPX leftFollower1; 
+  private VictorSPX leftFollower2;
   
-  private final WPI_TalonSRX rightMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveRightMasterId);
-  private final VictorSPX rightSlave1 = new VictorSPX(Constants.DriveTrain.kDriveRightSlaveId);
-  private final VictorSPX rightSlave2 = new VictorSPX(Constants.DriveTrain.kDriveRightSlave2Id);
+  private final WPI_TalonSRX rightMaster;
+  private final VictorSPX rightFollower1;
+  private final VictorSPX rightFollower2;
   
-  private final Solenoid shifterIn = new Solenoid(Constants.DriveTrain.kShiftInSolenoidID);
-  private final Solenoid shifterOut = new Solenoid(Constants.DriveTrain.kShiftOutSolenoidID);
+  private final Solenoid shifterIn;
+  private final Solenoid shifterOut;
 
-  private final SpeedControllerGroup leftGroup = new SpeedControllerGroup(leftMaster);
-  private final SpeedControllerGroup rightGroup = new SpeedControllerGroup(rightMaster);
+  private final SpeedControllerGroup leftGroup;
+  private final SpeedControllerGroup rightGroup;
 
   private AHRS navX = null;
 
-  private DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);
+  private DifferentialDrive drive;
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
+    leftMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
-    leftSlave1.configFactoryDefault();
-    leftSlave2.configFactoryDefault();
+    leftFollower1 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollowerId);
+    leftFollower1.configFactoryDefault();
+    leftFollower2 = new VictorSPX(Constants.DriveTrain.kDriveLeftFollower2Id);
+    leftFollower2.configFactoryDefault();
+    rightMaster = new WPI_TalonSRX(Constants.DriveTrain.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
-    rightSlave1.configFactoryDefault();
-    rightSlave2.configFactoryDefault();
+    rightFollower1= new VictorSPX(Constants.DriveTrain.kDriveRightFollowerId);
+    rightFollower1.configFactoryDefault();
+    rightFollower2 = new VictorSPX(Constants.DriveTrain.kDriveRightFollower2Id);
+    rightFollower2.configFactoryDefault();
+    shifterIn = new Solenoid(Constants.DriveTrain.kShiftInSolenoidID);
+    shifterOut = new Solenoid(Constants.DriveTrain.kShiftOutSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
   
     rightMaster.setInverted(false);
-    rightSlave1.setInverted(false);
-    rightSlave2.setInverted(false);
+    rightFollower1.setInverted(false);
+    rightFollower2.setInverted(false);
     leftMaster.setInverted(true);
-    leftSlave1.setInverted(true);
-    leftSlave2.setInverted(true);
+    leftFollower1.setInverted(true);
+    leftFollower2.setInverted(true);
 
     rightMaster.setSensorPhase(true);
     leftMaster.setSensorPhase(true);
@@ -71,11 +79,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightMaster.setNeutralMode(NeutralMode.Brake);
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
-    rightSlave1.follow(rightMaster);
-    rightSlave2.follow(rightMaster);
-    leftSlave1.follow(leftMaster);
-    leftSlave2.follow(leftMaster);
-    
+    rightFollower1.follow(rightMaster);
+    rightFollower2.follow(rightMaster);
+    leftFollower1.follow(leftMaster);
+    leftFollower2.follow(leftMaster);
+
+    leftGroup = new SpeedControllerGroup(leftMaster);
+    rightGroup  = new SpeedControllerGroup(rightMaster);    
+    drive = new DifferentialDrive(leftGroup, rightGroup);
+
     try {
       navX = new AHRS(SPI.Port.kMXP);
       navX.enableLogging(true);
@@ -98,8 +110,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
     shifterIn.set(highGear);
   }
 
-  public void tankDrive(double left, double right) {
-    drive.tankDrive(left, right);
+  public void arcadeDrive(double tank, double turn) {
+    drive.arcadeDrive(tank, turn);
   }
 
   public Rotation2d  getAngle() {
@@ -116,8 +128,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-      (leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-      (rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio
+      //(leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
+      //(rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio
     );
   }
 
@@ -128,11 +140,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    odometry.update(
-      getAngle(),
-      (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-      (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio  
-    );
+    // odometry.update(
+    //   getAngle(),
+    //   (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
+    //   (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio  
+    // );
   }
 
  

@@ -7,16 +7,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.auto.AutoModeSelector;
+<<<<<<< HEAD
 import frc.robot.subsystems.DriveTrainSubsystem;
+=======
+>>>>>>> master
 import frc.robot.subsystems.VisionSubsystem;
 
 /**
@@ -30,6 +29,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  VisionSubsystem vision = null;
+
 
 
   /**
@@ -38,12 +39,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    vision = new VisionSubsystem();
+    vision.setLEDMode(1);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     VisionSubsystem m_vision = new VisionSubsystem();
 
     AutoModeSelector.putToShuffleBoard();
+<<<<<<< HEAD
     //TODO: make these  strings constants
     SmartDashboard.putBoolean("Conveyor Override?", false);
     SmartDashboard.putBoolean("Shooter Override?", false);
@@ -54,6 +58,11 @@ public class Robot extends TimedRobot {
     m_vision.setLEDMode(0);
     m_vision.setPipeline(0);
     m_vision.setStream(0);
+=======
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kShooterOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kHoodOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
+>>>>>>> master
   }
 
   /**
@@ -77,10 +86,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+    //TODO: Cancel all scheduled commands here just incase any are already running
   }
 
   @Override
   public void disabledPeriodic() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /**
@@ -88,20 +99,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-
-
-
-
-
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-
-    }
-
-  
+    }  
   }
 
   /**

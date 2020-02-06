@@ -32,11 +32,11 @@ public final class Constants {
         public static final double kRamseteZeta = 0.7;
 
         public static final int kDriveRightMasterId = 1;
-        public static final int kDriveRightSlaveId = 2;
-        public static final int kDriveRightSlave2Id = 3;
+        public static final int kDriveRightFollowerId = 2;
+        public static final int kDriveRightFollower2Id = 3;
         public static final int kDriveLeftMasterId = 4;
-        public static final int kDriveLeftSlaveId = 5;
-        public static final int kDriveLeftSlave2Id = 6;
+        public static final int kDriveLeftFollowerId = 5;
+        public static final int kDriveLeftFollower2Id = 6;
 
         public static final int kVelocityControlSlot = 0;
         public static final int kCANBusConfigTimeoutMS = 10;
@@ -56,6 +56,7 @@ public final class Constants {
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
         public static final int kOuterIntakeMotorID = 7;
+        public static final double kIntakeSpeed = 0.7;
     }
 
     public static final class Elevator{
@@ -67,6 +68,8 @@ public final class Constants {
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
        public static final int kElevatorMaxHeight = 79;
+       public static final int kInIntakeSolenoidID = 7;
+       public static final int kOutIntakeSolenoidID = 6;
     }
   
     public static final class ActiveBalance{
@@ -95,6 +98,9 @@ public final class Constants {
         public static final int kTurretMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
+
+        public static final int kTurretMinEncoderPos = -8500;
+        public static final int kTurretMaxEncoderPos = 8500;
 
         public static final double kTicksPerDegree = 4096 / 90;
         public static final double kMaxAngle = 90;
@@ -125,5 +131,21 @@ public final class Constants {
         public static final int kLifterBackID = 0;
         public static final boolean klifterdirection = true;
         public static final boolean kconveyordirection = true;
+        public static final double kConveyorSpeed = 0.5;
+    }
+
+    public static final class Hood {
+        public static final int kTicksPerRotation = 4096;
+        public static final double kHoodDownSpeed = -.10;
+        public static final double kHoodUpSpeed = .10;
+        //TODO manualy find max and min endcoder values 
+        public static final double kMinHoodHight = 69;
+        public static final double kMaxHoodHight = 69;
+    }
+    public static final class SmartDashboard {
+        public static final String kHoodOverrideString = "Hood Override?";
+        public static final String kTurretOverrideString = "Turret Override?";
+        public static final String kShooterOverrideString = "Shooter Override?";
+        public static final String kConveyorOverrideString = "Conveyor Override?";
     }
 }
