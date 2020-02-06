@@ -57,14 +57,24 @@ public class DrivePathCommand extends CommandBase {
 
       switch(selectedPath)  {
         case StartCenterDriveBackPark:
-            Trajectory CS = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
-              List.of(new Translation2d(3.048, 0)), new Pose2d(3.81, 0, new Rotation2d(0)), config); 
-            return CS;
+            return TrajectoryGenerator.generateTrajectory(
+              /* start */ new Pose2d(3.048, 0, new Rotation2d(0)),
+              /* waypoints */ List.of(
+                new Translation2d(3.048, 0)
+              ),
+              /* end */ new Pose2d(3.81, 0, new Rotation2d(0)
+            ), config); 
+            
         case StartCenterGenerator3:
-            Trajectory CSG3 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, 0, new Rotation2d(0)),
-              List.of(new Translation2d(5.2324, -2.0066), new Translation2d(6.1468, -2.0066)),
-            new Pose2d(5.3086, -1.397, new Rotation2d(0)), config);
-          return CSG3;
+            return TrajectoryGenerator.generateTrajectory(
+              /* start */ new Pose2d(3.048, 0, new Rotation2d(0)),
+              /* waypoints */ List.of(
+                new Translation2d(5.2324, -2.0066), 
+                new Translation2d(6.1468, -2.0066)
+              ),
+              /* end */ new Pose2d(5.3086, -1.397, new Rotation2d(0)
+            ), config);
+
         case StartLeftGenerator3:
             Trajectory LSG3 = TrajectoryGenerator.generateTrajectory(new Pose2d(3.048, -1.7018, new Rotation2d(0)),
               List.of(new Translation2d(5.2324, -2.0066), new Translation2d(6.1468, -2.0066)),
