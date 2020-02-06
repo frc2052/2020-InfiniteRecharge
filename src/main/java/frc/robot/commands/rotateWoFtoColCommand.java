@@ -22,7 +22,7 @@ public class rotateWoFtoColCommand extends CommandBase {
 
     @Override
     public void execute() {
-        wheelOfFortuneSubsystem.turnWheelForwards();
+        wheelOfFortuneSubsystem.turnWheelRight();
     }
 
     @Override
