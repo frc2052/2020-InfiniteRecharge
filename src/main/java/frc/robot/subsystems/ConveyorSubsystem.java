@@ -18,14 +18,14 @@ import frc.robot.Constants;
 public class ConveyorSubsystem extends SubsystemBase {
   private VictorSPX conveyorBottomLeft;
   private VictorSPX conveyorBottomRight;
+  //TODO: there is only one lifter motor now
   private VictorSPX lifterFront;
   private VictorSPX lifterBack;
   
   /**
    * Creates a new Conveyor.
    */
-  public ConveyorSubsystem() {
-     
+  public ConveyorSubsystem() {     
     conveyorBottomLeft = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
     conveyorBottomRight = new VictorSPX(Constants.Motors.kConveyorMotorBottemRightID);
     lifterFront = new VictorSPX(Constants.Motors.kLifterMotorFrontID);
