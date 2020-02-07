@@ -80,6 +80,7 @@ public class MegaShooterCommand extends CommandBase {
       }
     } else {
       double hoodTargetAngle = m_vision.getTy();
+      //TODO: this is going to need more math
       //calculate the hood angle from the hood system
       double hoodCurrentAngle = 0; //get the current angle
       hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
@@ -140,6 +141,7 @@ public class MegaShooterCommand extends CommandBase {
   @Override
   public void execute() {
     if(shootPressed || readyPressed) {
+      //TODO: Turn light on
       executeHood();
       executeTurret();
       executeShooter();
@@ -155,6 +157,7 @@ public class MegaShooterCommand extends CommandBase {
         m_conveyor.lifterStop();
       }
     } else {
+      //TODO: Turn light off
       m_shooter.setSpeed(0);
       m_turret.turnTurret(0);
     }
@@ -171,12 +174,13 @@ public class MegaShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    //TODO: shouldn't this stop all the motors?
     m_turret.setIsOnTarget(false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return false;  //never "done" because it is the default command
   }
 }

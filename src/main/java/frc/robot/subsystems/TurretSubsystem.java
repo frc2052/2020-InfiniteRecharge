@@ -91,6 +91,7 @@ public class TurretSubsystem extends SubsystemBase {
     return isLinedUp;
   }
 
+  //TODO: what is this for?
   public void setIsOnTarget(boolean isOnTarget) {
     isOnTarget = isLinedUp;
   }
