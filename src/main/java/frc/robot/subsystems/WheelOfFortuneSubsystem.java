@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.WheelOfFortune;;
+import frc.robot.Constants.WheelOfFortune;
 import com.revrobotics.ColorSensorV3;
 
 
