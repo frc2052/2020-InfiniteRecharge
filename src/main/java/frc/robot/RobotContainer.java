@@ -27,10 +27,6 @@ import frc.robot.commands.*;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  
-  //TODO: move this shuffleboard stuff into the method that needs it.  Doesn't need to be at the class level
-  private final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
-  private NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
   private DriveTrainSubsystem driveTrain = null;
   private IntakeSubsystem intake = null;
@@ -40,6 +36,7 @@ public class RobotContainer {
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
   private ElevatorSubsystem elevator = null;
+  private ActiveBalanceSubsytem activeBalance = null;
 
   private Joystick turnJoystick;
   private Joystick tankJoystick;
@@ -58,7 +55,7 @@ public class RobotContainer {
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
     elevator = new ElevatorSubsystem();
-    
+    activeBalance = new ActiveBalanceSubsytem();
 
     megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
@@ -76,7 +73,7 @@ public class RobotContainer {
   public void megaShooterDefaultCommand() {
     shooter.setDefaultCommand(
       new RunCommand(
-        () -> megaShooterCommand.update(turnJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3), turnJoystick.getRawButton(4), turnJoystick.getRawButton(5), turnJoystick.getRawButton(6), turnJoystick.getRawButton(7), turnJoystick.getRawButton(8), turnJoystick.getRawButton(9), turnJoystick.getRawButton(10))
+        () -> megaShooterCommand.update(secondaryPanel.getRawButton(5), secondaryPanel.getRawButton(3), secondaryPanel.getRawButton(2), secondaryPanel.getRawButton(8), secondaryPanel.getRawButton(9), secondaryPanel.getRawButton(10), tankJoystick.getRawButton(3), tankJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3))
       )
     );
   }
@@ -110,17 +107,17 @@ public class RobotContainer {
     //buttons 1-9 are already in use in mega shooter
     btnJL1.whileHeld(pixyCamManualDriveCommand);
     
-    btnJL2.whenPressed(() -> {}); 
-    btnJL2.whenReleased(() -> {});
+    btnJL2.whenPressed(() -> conveyor.lifterDown()); //replace this in megashooter to test it
+    btnJL2.whenReleased(() -> conveyor.lifterStop());
 
-    btnJL3.whenPressed(() -> {}); 
-    btnJL3.whenReleased(() -> {}); 
+    btnJL3.whenPressed(() -> conveyor.lifterUp()); 
+    btnJL3.whenReleased(() -> conveyor.lifterStop()); 
 
-    btnJL4.whenPressed(() -> {}); 
-    btnJL4.whenReleased(() -> {}); 
+    btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
+    btnJL4.whenReleased(() -> activeBalance.manualStop()); 
 
-    btnJL5.whenPressed(() -> {}); 
-    btnJL5.whenReleased(() -> {}); 
+    btnJL5.whenPressed(() -> activeBalance.manualRight()); 
+    btnJL5.whenReleased(() -> activeBalance.manualStop()); 
 
     btnJL6.whenPressed(() -> {}); 
     btnJL6.whenReleased(() -> {}); 
@@ -156,23 +153,23 @@ public class RobotContainer {
     JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
     JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
-    btnJR1.whenPressed(() -> shooter.setSpeed(Constants.Shooter.kShooterSpeedRPS));
+    btnJR1.whenPressed(() -> {}); //shoot in megashooter
     btnJR1.whenReleased(() -> {});
 
-    btnJR2.whenPressed(() -> turret.printEncoderPos()); //Shift speeds
-    btnJR2.whenReleased(() -> {}); //stop shifting
+    btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
+    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
 
-    btnJR3.whenPressed(() -> turret.turnTurret(-0.5)); 
-    btnJR3.whenReleased(() -> turret.turnTurret(0.0)); 
+    btnJR3.whenPressed(() -> {}); //ready in megashooter
+    btnJR3.whenReleased(() -> {}); 
 
-    btnJR4.whileHeld(visionTurretCommand);
-    btnJR4.whenReleased(() -> visionTurretCommand.end(true)); 
+    btnJR4.whileHeld(() -> {});
+    btnJR4.whenReleased(() -> {}); 
 
-    btnJR5.whenPressed(() -> turret.turnTurret(0.5)); 
-    btnJR5.whenReleased(() -> turret.turnTurret(0.0)); 
+    btnJR5.whenPressed(() -> {}); 
+    btnJR5.whenReleased(() -> {}); 
 
-    btnJR6.whenPressed(() ->  driveTrain.setHighGear(true));
-    btnJR6.whenReleased(() ->  driveTrain.setHighGear(false)); 
+    btnJR6.whenPressed(() ->  {});
+    btnJR6.whenReleased(() ->  {}); 
 
     btnJR7.whenPressed(() -> {}); 
     btnJR7.whenReleased(() -> {});
@@ -208,38 +205,42 @@ public class RobotContainer {
 
     btnJS1.whenPressed(() -> intake.armToggle());
 
-    btnJS2.whenPressed(() -> intake.intakeIn());
-    btnJS2.whenReleased(() -> intake.intakeStop());
+    btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
+    btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS3.whenPressed(() -> intake.intakeOut());
-    btnJS3.whenReleased(() -> intake.intakeStop());
+    btnJS3.whenPressed(() -> {}); //manual shooter speed down
+    btnJS3.whenReleased(() -> {});
 
-    btnJS4.whenPressed(() -> elevator.ManualUp());
-    btnJS4.whenReleased(() -> elevator.ManualStop());
+    btnJS4.whenPressed(() -> {});
+    btnJS4.whenReleased(() -> {});
 
-    btnJS5.whenPressed(() -> elevator.ManualDown()); 
-    btnJS5.whenReleased(() -> elevator.ManualStop());
+    btnJS5.whenPressed(() -> {});  //manual shooter speed up
+    btnJS5.whenReleased(() -> {}); 
 
-    btnJS6.whenPressed(() -> elevator.SetOverride(true)); 
-    btnJS6.whenReleased(() -> elevator.SetOverride(false));
+    btnJS6.whenPressed(() -> intake.intakeIn()); 
+    btnJS6.whenReleased(() -> intake.intakeStop());
 
-    btnJS7.whenPressed(() -> {});
-    btnJS7.whenReleased(() -> {});
+    btnJS7.whenPressed(() -> intake.intakeOut()); 
+    btnJS7.whenReleased(() -> intake.intakeStop());
 
-    btnJS8.whenPressed(() -> {});
-    btnJS8.whenReleased(() -> {});
+    btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); //add to megashooter once we can test that it works
+    btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS9.whenPressed(() -> {});
-    btnJS9.whenReleased(() -> {});
+    btnJS9.whenPressed(() -> turret.turnTurret(-0.5)); //add to megashooter
+    btnJS9.whenReleased(() -> turret.turnTurret(0));
     
-    btnJS10.whenPressed(() -> {});
-    btnJS10.whenReleased(() -> {});
+    btnJS10.whenPressed(() -> turret.turnTurret(0.5));
+    btnJS10.whenReleased(() -> turret.turnTurret(0));
 
-    btnJS11.whenPressed(() -> {});
-    btnJS11.whenReleased(() -> {});
+    btnJS11.whenPressed(() -> elevator.manualDown());
+    btnJS11.whenReleased(() -> elevator.manualStop());
 
-    btnJS12.whenPressed(() -> {});
-    btnJS12.whenReleased(() -> {});
+    btnJS12.whenPressed(() -> elevator.manualUp());
+    btnJS12.whenReleased(() -> elevator.manualStop());
+
+    if(secondaryPanel.getY() < -.25) {
+      elevator.setOverride(true);
+    }
   }
 
   /**
@@ -249,6 +250,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+    final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
     double x = 0;
     double y = 619.25;
@@ -285,7 +287,7 @@ public class RobotContainer {
     }
     driveTrain.setOdometry(x, y);
 
-    switch(AutoModeSelector.getSelectedAuto()) { //TODO: update this list once we have more autos
+    switch(AutoModeSelector.getSelectedAuto()) { 
       case LSG3:
         StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0));
         return leftGenerator3;

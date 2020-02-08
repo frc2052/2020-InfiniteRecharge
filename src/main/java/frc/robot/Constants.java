@@ -24,8 +24,8 @@ public final class Constants {
         public static final int kShiftOutSolenoidID = 1;
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
-        public static final int kInIntakeSolenoidID = 5;
-       public static final int kOutIntakeSolenoidID = 6;
+       public static final int kElevatorLockSolenoidID = 4;
+       public static final int kElevatorUnLockSolenoidID = 5;
     }
 
     public static final class Motors {
@@ -38,13 +38,12 @@ public final class Constants {
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kActiveBalanceMotorID = 9;
-        public static final int kActiveBalanceMotor2ID = 10;
-        public static final int kShooterMotorID = 11;
-        public static final int kAngleMotorID = 12;
-        public static final int kTurretMotorID = 13;
-        public static final int kConveyorMotorBottemLeftID = 14;   
-        public static final int kConveyorMotorBottemRightID = 15;   
-        public static final int kLifterMotorID = 16;   
+        public static final int kShooterMotorID = 10;
+        public static final int kAngleMotorID = 11;
+        public static final int kTurretMotorID = 12;
+        public static final int kConveyorMotorBottemLeftID = 13;   
+        public static final int kConveyorMotorBottemRightID = 14;   
+        public static final int kLifterMotorID = 15;   
     }
 
 
@@ -84,6 +83,13 @@ public final class Constants {
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
        public static final int kElevatorMaxHeight = 79;
+    }
+
+    public static final class WheelOfFortune{
+        public static final int controlPanelID = 20;
+        //TODO: find the correct id
+        public static final double motorPower = .10;
+
     }
 
     public static final class Shooter{
