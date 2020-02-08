@@ -67,7 +67,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
-    //TODO: Cancel all scheduled commands here just incase any are already running
+    CommandScheduler.getInstance().cancelAll();
   }
 
   @Override

@@ -56,6 +56,7 @@ public class RobotContainer {
     turret = new TurretSubsystem();
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
+    elevator = new ElevatorSubsystem();
 
     megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
@@ -210,14 +211,14 @@ public class RobotContainer {
     btnJS3.whenPressed(() -> intake.intakeOut());
     btnJS3.whenReleased(() -> intake.intakeStop());
 
-    btnJS4.whenPressed(() -> {});
-    btnJS4.whenReleased(() -> {});
+    btnJS4.whenPressed(() -> elevator.ManualUp());
+    btnJS4.whenReleased(() -> elevator.ManualStop());
 
-    btnJS5.whenPressed(() -> {}); 
-    btnJS5.whenReleased(() -> {});
+    btnJS5.whenPressed(() -> elevator.ManualDown()); 
+    btnJS5.whenReleased(() -> elevator.ManualStop());
 
-    btnJS6.whenPressed(() -> {}); 
-    btnJS6.whenReleased(() -> {});
+    btnJS6.whenPressed(() -> elevator.SetOverride(true)); 
+    btnJS6.whenReleased(() -> elevator.SetOverride(false));
 
     btnJS7.whenPressed(() -> {});
     btnJS7.whenReleased(() -> {});

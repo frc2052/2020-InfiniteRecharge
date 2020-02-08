@@ -44,8 +44,7 @@ public final class Constants {
         public static final int kTurretMotorID = 13;
         public static final int kConveyorMotorBottemLeftID = 14;   
         public static final int kConveyorMotorBottemRightID = 15;   
-        public static final int kLifterMotorFrontID = 16;   
-        public static final int kLifterMotorBackID = 17;
+        public static final int kLifterMotorID = 16;   
     }
 
 
@@ -142,8 +141,8 @@ public final class Constants {
         public static final double kHoodDownSpeed = -.10;
         public static final double kHoodUpSpeed = .10;
         //TODO manualy find max and min endcoder values 
-        public static final double kMinHoodHight = 69;
-        public static final double kMaxHoodHight = 69;
+        public static final double kMinHoodHeight = 69;
+        public static final double kMaxHoodHeight = 69;
     }
     
     public static final class SmartDashboard {
