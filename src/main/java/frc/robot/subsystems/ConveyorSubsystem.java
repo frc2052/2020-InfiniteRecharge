@@ -16,47 +16,41 @@ import frc.robot.Constants;
 
 
 public class ConveyorSubsystem extends SubsystemBase {
-  private final VictorSPX ConveyorBottomLeft = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemLeftID);  
-  private final VictorSPX ConveyorBottomRight = new VictorSPX(Constants.ConveyorSubsystem.kConveyorMotorBottemRightID);
-  private final VictorSPX LifterFront = new VictorSPX(Constants.ConveyorSubsystem.kLifterFrontID);
-  private final VictorSPX LifterBack = new VictorSPX(Constants.ConveyorSubsystem.kLifterBackID);
+  private VictorSPX conveyorBottomLeftMotor;
+  private VictorSPX conveyorBottomRightMotor;
+  private VictorSPX lifterMotor;
   
-public void declarations(){
-  LifterBack.setInverted(Constants.ConveyorSubsystem.klifterdirection);
-  LifterFront.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
-  ConveyorBottomLeft.setInverted(Constants.ConveyorSubsystem.kconveyordirection);
-  ConveyorBottomRight.setInverted(!Constants.ConveyorSubsystem.kconveyordirection);
-  LifterBack.setNeutralMode(NeutralMode.Coast);
-  LifterFront.setNeutralMode(NeutralMode.Coast);
-  ConveyorBottomLeft.setNeutralMode(NeutralMode.Coast);
-  ConveyorBottomRight.setNeutralMode(NeutralMode.Coast);
-}
+  public ConveyorSubsystem() {     
+    conveyorBottomLeftMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
+    conveyorBottomRightMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemRightID);
+    lifterMotor = new VictorSPX(Constants.Motors.kLifterMotorID);
+    lifterMotor.configFactoryDefault();
+    conveyorBottomLeftMotor.configFactoryDefault();
+    conveyorBottomRightMotor.configFactoryDefault();
   
-public void lifterUp (){
-  ConveyorBottomLeft.set(ControlMode.PercentOutput, 50);
-  ConveyorBottomRight.set(ControlMode.PercentOutput, 50);
-  LifterBack.set(ControlMode.PercentOutput, 50);
-  LifterFront.set(ControlMode.PercentOutput, 50);
-}
-public void lifterDown (){
-  ConveyorBottomRight.set(ControlMode.PercentOutput, -50);
-  ConveyorBottomLeft.set(ControlMode.PercentOutput, -50);
-  LifterBack.set(ControlMode.PercentOutput, -50);
-  LifterFront.set(ControlMode.PercentOutput, -50);
-}
-public void lifterStop (){
-  ConveyorBottomRight.set(ControlMode.PercentOutput, 0);
-  ConveyorBottomLeft.set(ControlMode.PercentOutput, 0);
-  LifterBack.set(ControlMode.PercentOutput, 0);
-  LifterFront.set(ControlMode.PercentOutput, 0);
-}
+    lifterMotor.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
+    conveyorBottomLeftMotor.setInverted(Constants.ConveyorSubsystem.kconveyordirection);
+    conveyorBottomRightMotor.setInverted(!Constants.ConveyorSubsystem.kconveyordirection);
 
-
+    lifterMotor.setNeutralMode(NeutralMode.Coast);
+    conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Coast);
+    conveyorBottomRightMotor.setNeutralMode(NeutralMode.Coast);
+     
+  }
   
-
-
-/**
-   * Creates a new Convayer.
-   */
-   public ConveyorSubsystem() {}
+  public void lifterUp (){
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+    lifterMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+  }
+  public void lifterDown (){
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+    lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+  }
+  public void lifterStop (){
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);
+    lifterMotor.set(ControlMode.PercentOutput, 0);
+  }
 }

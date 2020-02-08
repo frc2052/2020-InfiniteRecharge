@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoModeSelector {
-    //TODO: finish this class once we have auto modes
 
     private static SendableChooser<autos> sendableChooserAutos;
 
@@ -27,7 +26,7 @@ public class AutoModeSelector {
             }
         }
 
-        SmartDashboard.putData("Possible Autos", sendableChooserAutos);
+        SmartDashboard.putData("Autos", sendableChooserAutos);
     }
 
     public static autos getSelectedAuto() {
@@ -36,6 +35,7 @@ public class AutoModeSelector {
     }
 
     public enum autos {
+        DM("don't move"),
         CS("center start shoot drive park"),
         CSG3("center start shoot generator 3"),
         LSG3("left start shoot generator 3"),
@@ -50,4 +50,26 @@ public class AutoModeSelector {
         }
     }
 
+    public enum posOnLine {
+        MIDDLE("Middle"),
+        FORWARD("Forward"),
+        BACK("Back");
+
+        public String name;
+        
+        posOnLine(String name) {
+            this.name = name;
+        }
+    }
+
+    public enum directionMeasured {
+        LEFT("Left"),
+        RIGHT("Right");
+
+        public String name;
+
+        directionMeasured(String name) {
+            this.name = name;
+        }
+    }
 }

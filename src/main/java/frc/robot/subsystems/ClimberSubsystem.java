@@ -5,6 +5,8 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
+//TODO: The elevator will probably go up and down slowly. Confirm speed with build team. All this complexity can probably be simplified if it goes slow. Ask Scott
+
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -17,13 +19,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class ClimberSubsystem extends SubsystemBase {
-  private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
+//TODO: probably not needed anymore
+public class ClimberSubsystem extends SubsystemBase {  
+  private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
   private int goalElevatorInches;
   private boolean runningInOpenLoop = false;
  
-  public ClimberSubsystem() {
-   
+  public ClimberSubsystem() {   
+    // TODO reset motor controllers to factory defaults
     climberMotor.setNeutralMode(NeutralMode.Brake);
     climberMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     climberMotor.setInverted(true);

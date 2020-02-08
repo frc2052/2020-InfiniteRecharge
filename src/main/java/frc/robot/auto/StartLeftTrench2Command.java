@@ -11,25 +11,25 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.DrivePathCommand.DrivePathEnum;
+import frc.robot.auto.TrajectoryFactory;
+import frc.robot.auto.TrajectoryFactory.DrivePathEnum;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+
 import frc.robot.subsystems.*;
 
 
 public class StartLeftTrench2Command extends SequentialCommandGroup {
-  /**
-   * Creates a new StartLeftTrench2.
-   */
+  public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
       this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
-      DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
-      ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1);
+      RamseteCommand ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
+      ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
-      this.addCommands(new DrivePathCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
-      this.addCommands(new MegaShooterCommand(shooter, vision, hood, turret, conveyor, false, false, false, false, false, false, false, false, false));
-
+      this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
   }
 }
