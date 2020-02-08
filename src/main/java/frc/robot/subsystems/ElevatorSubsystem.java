@@ -10,54 +10,57 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
+    private final WPI_TalonSRX climberMotor;
     private Solenoid inSolenoid;
     private Solenoid outSolenoid;
+
     public ElevatorSubsystem() {
+        climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
 
         climberMotor.setNeutralMode(NeutralMode.Brake);
         climberMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
         climberMotor.setInverted(true);
-
         climberMotor.setSelectedSensorPosition(0, 0, 10);
 
         inSolenoid = new Solenoid(Constants.Solenoids.kInIntakeSolenoidID);
-        outSolenoid = new Solenoid(Constants.Solenoids.kOutIntakeSolenoidID);
-        
+        outSolenoid = new Solenoid(Constants.Solenoids.kOutIntakeSolenoidID);    
     }
-    
-    
 
+    private boolean isOverride;
 
-    private boolean m_override;
-
-    public void SetOverride(boolean Ispressed)
+    public void SetOverride(boolean isPressed)
     {
-        m_override = Ispressed;
+        isOverride = isPressed;
+    }
+
+    public void pistonOut() {
+        inSolenoid.set(false);
+        outSolenoid.set(true);
+    }
+
+    public void pistonIn() {
+        inSolenoid.set(true);
+        outSolenoid.set(false);
     }
 
     public void ManualUp() {
         pistonIn();
-        double currentHeight = this.getHeightInches();
-        if (currentHeight < Constants.Elevator.kElevatorMaxHeight)
-        {
+        if(isOverride == false) {
+            double currentHeight = this.getHeightInches();
+            if (currentHeight < Constants.Elevator.kElevatorMaxHeight) {
+                climberMotor.set(ControlMode.PercentOutput, .2);
+            }
+            else {
+                climberMotor.set(ControlMode.PercentOutput, 0);
+            }
+        } else {
             climberMotor.set(ControlMode.PercentOutput, .2);
         }
-        else 
-        {
-            climberMotor.set(ControlMode.PercentOutput, 0);}
-        }
-    public void pistonOut(){
-        inSolenoid.set(false);
-        outSolenoid.set(true);
-    }
-    public void pistonIn(){
-        inSolenoid.set(true);
-        outSolenoid.set(false);
     }
    
     public void ManualDown() {
         pistonIn();
+        if(isOverride == false) {
             double currentHeight = this.getHeightInches();
             if (currentHeight > Constants.Elevator.kElevatorMinHeight)
             {
@@ -67,7 +70,9 @@ public class ElevatorSubsystem extends SubsystemBase {
             {
                 climberMotor.set(ControlMode.PercentOutput, 0);
             }
-    
+        } else {
+            climberMotor.set(ControlMode.PercentOutput, -.2);
+        }
     }
 
     public void ManualStop() {

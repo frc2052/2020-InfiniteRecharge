@@ -64,13 +64,15 @@ public class TurretSubsystem extends SubsystemBase {
         isLinedUp = true;
       } else {
       if (Math.abs(angle) >= 20) {
+        isLinedUp = false;
         if(angle > 0) {
           turretMotor.set(ControlMode.PercentOutput, 1);
         } else {
           turretMotor.set(ControlMode.PercentOutput, -1);
         }
       } else if (Math.abs(angle) < 20) {
-          turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
+        isLinedUp = false;
+        turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
       }
     }
    }
@@ -89,11 +91,6 @@ public class TurretSubsystem extends SubsystemBase {
 
   public boolean getIsOnTarget() {
     return isLinedUp;
-  }
-
-  //TODO: what is this for?
-  public void setIsOnTarget(boolean isOnTarget) {
-    isOnTarget = isLinedUp;
   }
 
   public double getTurretDegree() {

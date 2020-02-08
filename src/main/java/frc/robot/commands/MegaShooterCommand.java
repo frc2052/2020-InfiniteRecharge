@@ -84,7 +84,7 @@ public class MegaShooterCommand extends CommandBase {
       //calculate the hood angle from the hood system
       double hoodCurrentAngle = 0; //get the current angle
       hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
-      //turn turret to target angle 
+      //turn hood to target angle 
     }
   }
 
@@ -103,7 +103,7 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
       turretOnTarget = m_turret.getIsOnTarget();
-      m_turret.driveToPos(turretTargetAngle);//turn turret to target angle using motion magic
+      m_turret.driveToPos(turretTargetAngle);//turn turret to target angle
     }
   }
 
@@ -141,7 +141,7 @@ public class MegaShooterCommand extends CommandBase {
   @Override
   public void execute() {
     if(shootPressed || readyPressed) {
-      //TODO: Turn light on
+      m_vision.setLEDMode(0);
       executeHood();
       executeTurret();
       executeShooter();
@@ -157,7 +157,7 @@ public class MegaShooterCommand extends CommandBase {
         m_conveyor.lifterStop();
       }
     } else {
-      //TODO: Turn light off
+      m_vision.setLEDMode(1);
       m_shooter.setSpeed(0);
       m_turret.turnTurret(0);
     }
@@ -174,8 +174,11 @@ public class MegaShooterCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //TODO: shouldn't this stop all the motors?
-    m_turret.setIsOnTarget(false);
+    m_hood.manualStopHoodMovement();
+    m_conveyor.lifterStop();
+    m_shooter.setSpeed(0);
+    m_turret.turnTurret(0);
+    
   }
 
   // Returns true when the command should end.

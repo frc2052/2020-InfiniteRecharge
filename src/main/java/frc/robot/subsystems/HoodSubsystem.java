@@ -37,7 +37,7 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHight) {
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHeight) {
       angleMotor.set(ControlMode.PercentOutput, 0);
     } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodUpSpeed);
@@ -46,7 +46,7 @@ public class HoodSubsystem extends SubsystemBase {
     
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHight) {
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHeight) {
       angleMotor.set(ControlMode.PercentOutput, 0);
     } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodDownSpeed);
@@ -64,10 +64,10 @@ public class HoodSubsystem extends SubsystemBase {
   public void aimHood(int targetAngle ) { 
     //TODO: I think all the motion magic PID values will need to be set, check documentation
     int encoderValue = (targetAngle / 360) * Constants.Hood.kTicksPerRotation;
-    if (encoderValue <= Constants.Hood.kMinHoodHight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodHight);
-    } else if (encoderValue >= Constants.Hood.kMaxHoodHight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodHight);
+    if (encoderValue <= Constants.Hood.kMinHoodHeight) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodHeight);
+    } else if (encoderValue >= Constants.Hood.kMaxHoodHeight) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodHeight);
     } else angleMotor.set(ControlMode.MotionMagic, encoderValue); 
   }
 
