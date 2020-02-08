@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.revrobotics.ColorSensorV3;
 
-import java.awt.*;
-
 
 public class WheelOfFortuneSubsystem extends SubsystemBase {
 
@@ -26,27 +24,21 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
       mainMotor.setNeutralMode(NeutralMode.Brake);
 
       colSense = new ColorSensorV3(I2C.Port.kOnboard);
+
       //TODO: Configure Color Sensor
       //colSense.configureColorSensor(ColorSensorV3.ColorSensorResolution.kColorSensorRes16bit);
     }
 
-    public void turnWheelRight(){
+    public void turnWheelRight() {
+        mainMotor.set(ControlMode.PercentOutput, -Constants.WheelOfFortune.motorPower);
+    }
+
+    public void turnWheelLeft() {
         mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
     }
 
-    public void turnWheelLeft(){
-        mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
-    }
-
-    public Color getColorSensor(){
+    public Color getColorSensor() {
         return colSense.getColor();
     }
-
-    public int getProximitySensor(){
-        return colSense.getProximity();
-    }
-
-
-
 
 }
