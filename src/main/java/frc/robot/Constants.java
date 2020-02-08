@@ -38,13 +38,12 @@ public final class Constants {
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kActiveBalanceMotorID = 9;
-        public static final int kActiveBalanceMotor2ID = 10;
-        public static final int kShooterMotorID = 11;
-        public static final int kAngleMotorID = 12;
-        public static final int kTurretMotorID = 13;
-        public static final int kConveyorMotorBottemLeftID = 14;   
-        public static final int kConveyorMotorBottemRightID = 15;   
-        public static final int kLifterMotorID = 16;   
+        public static final int kShooterMotorID = 10;
+        public static final int kAngleMotorID = 11;
+        public static final int kTurretMotorID = 12;
+        public static final int kConveyorMotorBottemLeftID = 13;   
+        public static final int kConveyorMotorBottemRightID = 14;   
+        public static final int kLifterMotorID = 15;   
     }
 
 
