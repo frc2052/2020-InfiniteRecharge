@@ -157,4 +157,14 @@ public final class Constants {
         public static final String kShooterOverrideString = "Shooter Override?";
         public static final String kConveyorOverrideString = "Conveyor Override?";
     }
+    public static final class PixyCamDriveConstants {
+
+        public static final int minMidPixelRange = 125;
+        public static final int maxMidPixelRange = 175;
+        public static final int minClosePixelRange = 75;
+        public static final int maxClosePixelRange = 225;
+        public static final double turnSpeed = .5;
+        public static final double pixyCamDriveForwardSpeed = -.6;
+
+    }
 }
