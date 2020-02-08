@@ -25,7 +25,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
-  VisionSubsystem vision = null;
+  private VisionSubsystem vision = null;
 
 
 

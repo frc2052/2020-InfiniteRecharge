@@ -56,6 +56,7 @@ public class TurretSubsystem extends SubsystemBase {
     isLinedUp = false;
 
     System.out.println("****************** TARGET ANGLE: " + angle);
+    //todo: make it be able to go back after going over/under the max/min
     if(turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos || turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
         turretMotor.set(ControlMode.PercentOutput, 0);
       } else {

@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;

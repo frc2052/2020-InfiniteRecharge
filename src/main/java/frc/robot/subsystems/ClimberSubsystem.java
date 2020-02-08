@@ -6,7 +6,6 @@
 /*----------------------------------------------------------------------------*/
 
 //TODO: The elevator will probably go up and down slowly. Confirm speed with build team. All this complexity can probably be simplified if it goes slow. Ask Scott
-
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -56,11 +55,11 @@ public class ClimberSubsystem extends SubsystemBase {
     climberMotor.setSelectedSensorPosition(0, 0, 10);
   }
   public void ManualUp() {
-    climberMotor.set(ControlMode.PercentOutput,.2);
+    climberMotor.set(ControlMode.PercentOutput, Constants.Elevator.kManualPercent);
   }
 
   public void ManualDown() {
-    climberMotor.set(ControlMode.PercentOutput,-.2);
+    climberMotor.set(ControlMode.PercentOutput,-Constants.Elevator.kManualPercent);
   }
 
   public void ManualStop () {

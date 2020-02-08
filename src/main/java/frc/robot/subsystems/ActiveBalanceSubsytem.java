@@ -23,13 +23,12 @@ public class ActiveBalanceSubsytem extends SubsystemBase {
     activeBalanceMotor.setNeutralMode(NeutralMode.Brake);
   }
   public void manualLeft() {
-    activeBalanceMotor.set(ControlMode.PercentOutput, .2);
+    activeBalanceMotor.set(ControlMode.PercentOutput, Constants.ActiveBalanceConstants.kActiveBalanceSpeed);
   }
   public void manualRight() {
-    activeBalanceMotor.set(ControlMode.PercentOutput, -.2);
+    activeBalanceMotor.set(ControlMode.PercentOutput, -Constants.ActiveBalanceConstants.kActiveBalanceSpeed);
   }
   public void manualStop() {
     activeBalanceMotor.set(ControlMode.PercentOutput, 0);
  }
-  
 }

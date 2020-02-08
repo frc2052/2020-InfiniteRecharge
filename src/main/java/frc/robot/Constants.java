@@ -78,6 +78,7 @@ public final class Constants {
     public static final class Elevator{
        public static final double kPercentOutputUp = .2;
        public static final double kPercentOutputDown = -.2;
+       public static final double kManualPercent = .2;
        public static final int kElevatorTicksPerRot = 4096;
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
@@ -158,13 +159,14 @@ public final class Constants {
         public static final String kConveyorOverrideString = "Conveyor Override?";
     }
     public static final class PixyCamDriveConstants {
-
         public static final int minMidPixelRange = 125;
         public static final int maxMidPixelRange = 175;
         public static final int minClosePixelRange = 75;
         public static final int maxClosePixelRange = 225;
         public static final double turnSpeed = .5;
         public static final double pixyCamDriveForwardSpeed = -.6;
-
+    }
+    public static final class ActiveBalanceConstants {
+        public static final double kActiveBalanceSpeed = 0.2;
     }
 }
