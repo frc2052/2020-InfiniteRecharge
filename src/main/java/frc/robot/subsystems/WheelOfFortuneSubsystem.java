@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.WheelOfFortune;
+import frc.robot.Constants;
 import com.revrobotics.ColorSensorV3;
 
 
@@ -19,7 +19,7 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
 
 
     private WheelOfFortuneSubsystem() {
-      mainMotor = new TalonSRX(WheelOfFortune.kControlPanelID);
+      mainMotor = new TalonSRX(Constants.WheelOfFortune.kControlPanelID);
       mainMotor.configFactoryDefault();
       mainMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -30,11 +30,11 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
     }
 
     public void turnWheelRight() {
-        mainMotor.set(ControlMode.PercentOutput, -WheelOfFortune.kMotorPower);
+        mainMotor.set(ControlMode.PercentOutput, -Constants.WheelOfFortune.kMotorPower);
     }
 
     public void turnWheelLeft() {
-        mainMotor.set(ControlMode.PercentOutput, WheelOfFortune.kMotorPower);
+        mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.kMotorPower);
     }
     public void wheelStop(){
         mainMotor.set(ControlMode.PercentOutput, 0.0);
