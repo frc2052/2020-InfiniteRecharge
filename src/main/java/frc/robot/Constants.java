@@ -24,8 +24,8 @@ public final class Constants {
         public static final int kShiftOutSolenoidID = 1;
         public static final int kUpIntakeSolenoidID = 2;
         public static final int kDownIntakeSolenoidID = 3;
-        public static final int kInIntakeSolenoidID = 5;
-       public static final int kOutIntakeSolenoidID = 6;
+       public static final int kElevatorLockSolenoidID = 4;
+       public static final int kElevatorUnLockSolenoidID = 5;
     }
 
     public static final class Motors {
