@@ -16,7 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
 
 //CIOCCI VENTEREA
-//TODO find max and min values/heights for the hood manualy with the robot 
+//TODO find max and min values/heights for the hood manually with the robot 
 //TODO Lemon Switches???
 
 public class HoodSubsystem extends SubsystemBase {
