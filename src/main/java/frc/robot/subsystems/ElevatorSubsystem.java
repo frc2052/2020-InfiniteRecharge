@@ -13,6 +13,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     private final WPI_TalonSRX climberMotor = new WPI_TalonSRX(Constants.Elevator.kClimberMotorID);
     private Solenoid lockinSolenoid;
     private Solenoid lockoutSolenoid;
+    private boolean isLocked = false;
     public ElevatorSubsystem() {
 
         climberMotor.setNeutralMode(NeutralMode.Brake);
@@ -36,38 +37,35 @@ public class ElevatorSubsystem extends SubsystemBase {
         m_override = Ispressed;
     }
 
+    public void lockElevator(){
+        isLocked = true;
+        lockinSolenoid.set(false);
+        lockoutSolenoid.set(true);
+    }   
+
+    public void unlockElevator(){
+        isLocked = false;
+        lockinSolenoid.set(true);
+        lockoutSolenoid.set(false);
+    }
 
     public void ManualUp() {
-        pistonIn();
         double currentHeight = this.getHeightInches();
-        if (currentHeight < Constants.Elevator.kElevatorMaxHeight || m_override)
-        
-        {
+        if (isLocked) {
+            climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to drive if lock engaged
+        } else if (currentHeight < Constants.Elevator.kElevatorMaxHeight || m_override){
             climberMotor.set(ControlMode.PercentOutput, .2);
-        }
-        else 
-        {
+        } else {
             climberMotor.set(ControlMode.PercentOutput, 0);
         }
          
     }
-    public void pistonOut(){
-        lockinSolenoid.set(false);
-        lockoutSolenoid.set(true);
-    }    
-    public void pistonIn(){
-        lockinSolenoid.set(true);
-        lockinSolenoid.set(false);
-        lockoutSolenoid.set(true);
-    }
-    public void pistonStop(){
-        lockinSolenoid.set(true);
-        lockoutSolenoid.set(false);
-    }
    
     public void ManualDown() {
-        pistonIn();
             double currentHeight = this.getHeightInches();
+            if (isLocked) {
+                climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to go down if lock engaged
+            }
             if (currentHeight > Constants.Elevator.kElevatorMinHeight || m_override)
             {
                 climberMotor.set(ControlMode.PercentOutput, -.2);
@@ -81,7 +79,6 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void ManualStop() {
         climberMotor.set(ControlMode.PercentOutput, 0);
-        pistonOut();
     }
 
     public double getHeightInches() {
@@ -91,29 +88,5 @@ public class ElevatorSubsystem extends SubsystemBase {
         return inches;
     }
 
-    // private void setAndVerifyGoalInches(int newGoalInches) {
-    //     if (newGoalInches > Constants.Elevator.kElevatorMaxHeight) {
-    //     } else if (newGoalInches < Constants.Elevator.kElevatorMinHeight) {
-    //         System.out.println("INVALID ELEVATOR VALUE : " + newGoalInches);
-    //     } else {
-    //     }
-
-    // }
-
-    // public int getHeightInchesForPreset(ElevatorPresetEnum posEnum) {
-    //     switch (posEnum) {
-    //     case LOW:
-    //         return Constants.Elevator.kElevatorMinHeight;
-    //     case LEVEL:
-    //         return (Constants.Elevator.kElevatorHeight);
-    //     case HIGH:
-    //         return (int) (Constants.Elevator.kElevatorMaxHeight);
-    //     }
-    //     return 0;
-    // }
-
-    // public void setTarget(ElevatorPresetEnum posEnum) {
-    //     int calcTarget = getHeightInchesForPreset(posEnum);
-    //             setAndVerifyGoalInches(calcTarget);
-    //         }
+    
 }
