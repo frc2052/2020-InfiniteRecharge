@@ -19,7 +19,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
       climberMotor.setNeutralMode(NeutralMode.Brake);
       climberMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-      climberMotor.setInverted(true);
+      climberMotor.setInverted(false);
       climberMotor.setSelectedSensorPosition(0, 0, 10);
 
       lockinSolenoid = new Solenoid(Constants.Solenoids.kElevatorLockSolenoidID);
@@ -44,6 +44,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualUp() {
+        System.out.print("Elevator Height: " + this.getHeightInches());
         double currentHeight = this.getHeightInches();
         if (isLocked) {
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to drive if lock engaged
@@ -55,16 +56,20 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
    
     public void manualDown() {
+        System.out.print("Elevator Height: " + this.getHeightInches());
         double currentHeight = this.getHeightInches();
         if (isLocked) {
+            System.out.println("Elevator Locked");;
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to go down if lock engaged
         }
         else if (currentHeight > Constants.Elevator.kElevatorMinHeight || isOverride)
         {
+            System.out.println("ElevatorGoing Down");;
             climberMotor.set(ControlMode.PercentOutput, -.2);
         }
         else 
         {
+            System.out.println("Elevator Stop");;
             climberMotor.set(ControlMode.PercentOutput, 0);
         }
     }

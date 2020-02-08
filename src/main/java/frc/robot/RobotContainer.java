@@ -44,6 +44,7 @@ public class RobotContainer {
 
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
+  private ManualSpinUpCommand manualSpinUp = null;
   private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
 
   public RobotContainer() {
@@ -59,6 +60,7 @@ public class RobotContainer {
 
     megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
+    manualSpinUp = new ManualSpinUpCommand(shooter);
 
     configureTurnJoystick();
     configureTankJoystick();
@@ -73,7 +75,8 @@ public class RobotContainer {
   public void megaShooterDefaultCommand() {
     shooter.setDefaultCommand(
       new RunCommand(
-        () -> megaShooterCommand.update(secondaryPanel.getRawButton(5), secondaryPanel.getRawButton(3), secondaryPanel.getRawButton(2), secondaryPanel.getRawButton(8), secondaryPanel.getRawButton(9), secondaryPanel.getRawButton(10), tankJoystick.getRawButton(3), tankJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3))
+        () -> megaShooterCommand.update(secondaryPanel.getRawButton(5), secondaryPanel.getRawButton(3), secondaryPanel.getRawButton(2), secondaryPanel.getRawButton(8), secondaryPanel.getRawButton(9), secondaryPanel.getRawButton(10), tankJoystick.getRawButton(3), tankJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3)),
+        shooter
       )
     );
   }
@@ -105,7 +108,7 @@ public class RobotContainer {
     JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
 
     //buttons 1-9 are already in use in mega shooter
-    btnJL1.whileHeld(pixyCamManualDriveCommand);
+//    btnJL1.whileHeld(pixyCamManualDriveCommand);
     
     btnJL2.whenPressed(() -> conveyor.lifterDown()); //replace this in megashooter to test it
     btnJL2.whenReleased(() -> conveyor.lifterStop());
@@ -153,17 +156,15 @@ public class RobotContainer {
     JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
     JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
-    btnJR1.whenPressed(() -> {}); //shoot in megashooter
-    btnJR1.whenReleased(() -> {});
+    btnJR1.whileHeld(manualSpinUp); //shoot in megashooter
 
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
 
-    btnJR3.whenPressed(() -> {}); //ready in megashooter
+    btnJR3.whenPressed(() -> turret.printEncoderPos()); //ready in megashooter
     btnJR3.whenReleased(() -> {}); 
 
-    btnJR4.whileHeld(() -> {});
-    btnJR4.whenReleased(() -> {}); 
+    btnJR4.whileHeld(visionTurretCommand);
 
     btnJR5.whenPressed(() -> {}); 
     btnJR5.whenReleased(() -> {}); 
@@ -211,8 +212,8 @@ public class RobotContainer {
     btnJS3.whenPressed(() -> {}); //manual shooter speed down
     btnJS3.whenReleased(() -> {});
 
-    btnJS4.whenPressed(() -> {});
-    btnJS4.whenReleased(() -> {});
+    btnJS4.whenPressed(() -> elevator.setOverride(true));
+    btnJS4.whenReleased(() -> elevator.setOverride(false));
 
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
@@ -238,9 +239,15 @@ public class RobotContainer {
     btnJS12.whenPressed(() -> elevator.manualUp());
     btnJS12.whenReleased(() -> elevator.manualStop());
 
-    if(secondaryPanel.getY() < -.25) {
+
+    if(secondaryPanel.getY() < -.5) {
       elevator.setOverride(true);
     }
+
+    if(secondaryPanel.getX() < -.5) {
+      conveyor.preLoad();
+    }
+
   }
 
   /**
