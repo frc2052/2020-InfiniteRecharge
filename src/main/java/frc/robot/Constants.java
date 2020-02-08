@@ -85,6 +85,13 @@ public final class Constants {
        public static final int kElevatorMaxHeight = 79;
     }
 
+    public static final class WheelOfFortune{
+        public static final int controlPanelID = 20;
+        //TODO: find the correct id
+        public static final double motorPower = .10;
+
+    }
+
     public static final class Shooter{
         public static final int kCloseAnglePosition = 5 ;
         public static final int kMiddleAnglePosition = 10;
