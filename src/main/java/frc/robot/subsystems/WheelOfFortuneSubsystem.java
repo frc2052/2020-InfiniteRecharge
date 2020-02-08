@@ -36,6 +36,9 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
     public void turnWheelLeft() {
         mainMotor.set(ControlMode.PercentOutput, WheelOfFortune.kMotorPower);
     }
+    public void wheelStop(){
+        mainMotor.set(ControlMode.PercentOutput, 0.0);
+    }
 
     public Color getColorSensor() {
         return colSense.getColor();
