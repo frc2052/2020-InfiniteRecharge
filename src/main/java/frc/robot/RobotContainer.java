@@ -47,6 +47,7 @@ public class RobotContainer {
 
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
+  private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
 
   public RobotContainer() {
     driveTrain = new DriveTrainSubsystem();
@@ -57,6 +58,7 @@ public class RobotContainer {
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
     elevator = new ElevatorSubsystem();
+    
 
     megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
@@ -64,6 +66,8 @@ public class RobotContainer {
     configureTurnJoystick();
     configureTankJoystick();
     configureSecondaryPanel();
+
+    pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
     megaShooterDefaultCommand();
@@ -81,7 +85,7 @@ public class RobotContainer {
     driveTrain.setDefaultCommand(
       // Default to basic tank drive
       new RunCommand(
-        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getY() ), 
+        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getX() ), 
         driveTrain
       )
     );
@@ -104,8 +108,7 @@ public class RobotContainer {
     JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
 
     //buttons 1-9 are already in use in mega shooter
-    btnJL1.whenPressed(() -> {});
-    btnJL1.whenReleased(() -> {});
+    btnJL1.whileHeld(pixyCamManualDriveCommand);
     
     btnJL2.whenPressed(() -> {}); 
     btnJL2.whenReleased(() -> {});
