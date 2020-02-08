@@ -28,7 +28,7 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     private boolean isOverride;
 
-    public void SetOverride(boolean isPressed)
+    public void setOverride(boolean isPressed)
     {
         isOverride = isPressed;
     }
@@ -43,7 +43,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         outSolenoid.set(false);
     }
 
-    public void ManualUp() {
+    public void manualUp() {
         pistonIn();
         if(isOverride == false) {
             double currentHeight = this.getHeightInches();
@@ -58,7 +58,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
     }
    
-    public void ManualDown() {
+    public void manualDown() {
         pistonIn();
         if(isOverride == false) {
             double currentHeight = this.getHeightInches();
@@ -75,7 +75,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
     }
 
-    public void ManualStop() {
+    public void manualStop() {
         climberMotor.set(ControlMode.PercentOutput, 0);
         pistonOut();
     }

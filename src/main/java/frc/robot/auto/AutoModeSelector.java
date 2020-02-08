@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoModeSelector {
-    //TODO: finish this class once we have auto modes
 
     private static SendableChooser<autos> sendableChooserAutos;
 
