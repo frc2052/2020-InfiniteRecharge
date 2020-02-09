@@ -86,9 +86,9 @@ public final class Constants {
     }
 
     public static final class WheelOfFortune{
-        public static final int controlPanelID = 20;
+        public static final int kControlPanelID = 20;
         //TODO: find the correct id
-        public static final double motorPower = .10;
+        public static final double kMotorPower = .10;
 
     }
 

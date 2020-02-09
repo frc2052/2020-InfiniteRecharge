@@ -19,7 +19,7 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
 
 
     private WheelOfFortuneSubsystem() {
-      mainMotor = new TalonSRX(Constants.WheelOfFortune.controlPanelID);
+      mainMotor = new TalonSRX(Constants.WheelOfFortune.kControlPanelID);
       mainMotor.configFactoryDefault();
       mainMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -30,11 +30,14 @@ public class WheelOfFortuneSubsystem extends SubsystemBase {
     }
 
     public void turnWheelRight() {
-        mainMotor.set(ControlMode.PercentOutput, -Constants.WheelOfFortune.motorPower);
+        mainMotor.set(ControlMode.PercentOutput, -Constants.WheelOfFortune.kMotorPower);
     }
 
     public void turnWheelLeft() {
-        mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.motorPower);
+        mainMotor.set(ControlMode.PercentOutput, Constants.WheelOfFortune.kMotorPower);
+    }
+    public void wheelStop(){
+        mainMotor.set(ControlMode.PercentOutput, 0.0);
     }
 
     public Color getColorSensor() {
