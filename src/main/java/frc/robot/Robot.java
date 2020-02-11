@@ -47,6 +47,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboard.kHoodOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboard.kConveyorOverrideString, false);
+    SmartDashboard.putNumber(Constants.SmartDashboard.kShootTimeString, 3);
   }
 
   /**

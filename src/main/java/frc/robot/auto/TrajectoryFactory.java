@@ -122,6 +122,12 @@ public class TrajectoryFactory {
                         List.of(
                             new Translation2d(6.1722, -1.7272)), 
                     new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
+            case AutoFeed:
+                return TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(3.048, -1.7272, new Rotation2d(0)),
+                        List.of(
+                            new Translation2d(6.1722, -1.7272)), 
+                    new Pose2d(8.001, -1.7272, new Rotation2d(0)), config);
           default:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
@@ -140,7 +146,8 @@ public class TrajectoryFactory {
       StartLeftTrench2,
       StartLeftGenerator5,
       LeftTrenchToMiddle,
-      CenterGenerator5
+      CenterGenerator5,
+      AutoFeed
     }
 
 }
