@@ -42,6 +42,8 @@ public class RobotContainer {
   private Joystick tankJoystick;
   private Joystick secondaryPanel;
 
+  private ShooterControls shooterControls= null;
+
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
   private ManualSpinUpCommand manualSpinUp = null;
@@ -58,34 +60,40 @@ public class RobotContainer {
     elevator = new ElevatorSubsystem();
     activeBalance = new ActiveBalanceSubsytem();
 
-    megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor);
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
+
+    driveTrain.resetEncoders();
+    elevator.resetEncoder();
 
     configureTurnJoystick();
     configureTankJoystick();
     configureSecondaryPanel();
 
+    shooterControls = new ShooterControls(turnJoystick, tankJoystick, secondaryPanel);
+
+    megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, shooterControls);
+
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
     megaShooterDefaultCommand();
+
   }
 
   public void megaShooterDefaultCommand() {
     shooter.setDefaultCommand(
       new RunCommand(
-        () -> megaShooterCommand.update(secondaryPanel.getRawButton(5), secondaryPanel.getRawButton(3), secondaryPanel.getRawButton(2), secondaryPanel.getRawButton(8), secondaryPanel.getRawButton(9), secondaryPanel.getRawButton(10), tankJoystick.getRawButton(3), tankJoystick.getTrigger(), turnJoystick.getRawButton(2), turnJoystick.getRawButton(3)),
-        shooter
+        () -> megaShooterCommand.execute(),
+        shooter, vision, hood, turret, conveyor
       )
     );
   }
 
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
-      // Default to basic tank drive
       new RunCommand(
-        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getX() ), 
+        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getX() * 0.5), 
         driveTrain
       )
     );
@@ -248,6 +256,11 @@ public class RobotContainer {
       conveyor.preLoad();
     }
 
+  }
+
+  public void putToSmartDashboard() {
+    driveTrain.putToSmartDashboard();
+    elevator.printEncoderPos();
   }
 
   /**

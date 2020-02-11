@@ -32,7 +32,7 @@ public class ManualSpinUpCommand extends CommandBase {
   @Override
   public void execute() {
     System.out.println("Shooter Execute");
-    m_ShooterSubsystem.testShooterPct(.6);
+    m_ShooterSubsystem.testShooterPct(1);
   }
 
   // Called once the command ends or is interrupted.

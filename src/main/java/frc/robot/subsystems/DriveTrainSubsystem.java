@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
@@ -123,6 +124,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return odometry.getPoseMeters();
   }
 
+  public void putToSmartDashboard() {
+    SmartDashboard.putNumber("Right Encoder", rightMaster.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Encoder", leftMaster.getSelectedSensorPosition());
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
       //(leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
@@ -133,6 +139,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMaster.setVoltage(leftVolts);
     rightMaster.setVoltage(rightVolts);
+  }
+
+  public void resetEncoders() {
+    rightMaster.setSelectedSensorPosition(0);
+    leftMaster.setSelectedSensorPosition(0);
   }
 
   @Override

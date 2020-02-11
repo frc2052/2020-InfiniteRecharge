@@ -15,7 +15,7 @@ public class AutoShooterCommand extends MegaShooterCommand {
   private boolean m_IsFinished = false;
   
   public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
-    super(shooter, vision, hood, turret, conveyor);
+    super(shooter, vision, hood, turret, conveyor, null);
   }
   
   @Override

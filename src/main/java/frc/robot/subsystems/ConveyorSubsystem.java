@@ -39,9 +39,9 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
   
   public void lifterUp (){
-    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
-    conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
-    lifterMotor.set(ControlMode.PercentOutput, -1);
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -.4);
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.6);
+    lifterMotor.set(ControlMode.PercentOutput, -.4);
   }
 
   public void lifterDown (){

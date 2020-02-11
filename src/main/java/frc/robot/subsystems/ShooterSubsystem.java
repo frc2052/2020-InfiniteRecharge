@@ -6,29 +6,37 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
   private double RPM;
-  private TalonSRX shooterMotor;
+  private TalonSRX shooterMasterMotor;
+  private VictorSPX shooterFollowerMotor;
   
   public ShooterSubsystem() {
-    shooterMotor = new TalonSRX(Constants.Motors.kShooterMasterMotorID);
-    shooterMotor.configFactoryDefault();
-    shooterMotor.setNeutralMode(NeutralMode.Coast);
-    shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    shooterMasterMotor = new TalonSRX(Constants.Motors.kShooterMasterMotorID);
+    shooterMasterMotor.configFactoryDefault();
+    shooterMasterMotor.setNeutralMode(NeutralMode.Coast);
+    shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+
+    shooterFollowerMotor = new VictorSPX(Constants.Motors.kShooterFollowerMotorID);
+    shooterFollowerMotor.configFactoryDefault();
+    shooterFollowerMotor.setNeutralMode(NeutralMode.Coast);
+
+    shooterFollowerMotor.follow(shooterMasterMotor);
   }
  
   public double getSpeed(){
-    RPM = sensorUnitsToRPM(shooterMotor.getSelectedSensorVelocity());
+    RPM = sensorUnitsToRPM(shooterMasterMotor.getSelectedSensorVelocity());
     return RPM;
   }
 
   //TODO: do we need to set PID values to use velocity mode? Check documentation
   public void setSpeed(double speed){
-    shooterMotor.set(ControlMode.Velocity, speed * 4096);
+    shooterMasterMotor.set(ControlMode.Velocity, speed * 4096);
   }
 
   public double sensorUnitsToRPM(double sensorVelocity) {
@@ -36,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void testShooterPct(double pct) {
-    shooterMotor.set(ControlMode.PercentOutput, pct);
+    shooterMasterMotor.set(ControlMode.PercentOutput, pct);
   }
 
 }

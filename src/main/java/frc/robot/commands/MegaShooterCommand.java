@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.ShooterControls;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -19,27 +20,20 @@ public class MegaShooterCommand extends CommandBase {
   private TurretSubsystem m_turret;
   private ConveyorSubsystem m_conveyor;
 
+  private ShooterControls shooterControls;
+
   private boolean hoodOnTarget = false;
   private boolean turretOnTarget = false;
   private boolean speedOnTarget = false;
 
-  private boolean manualShooterIncrease;
-  private boolean manualShooterDecrease;
-  private boolean manualHoodUp;
-  private boolean manualHoodDown;
-  private boolean manualTurretLeft;
-  private boolean manualTurretRight;
-  private boolean shootPressed;
-  private boolean readyPressed;
-  private boolean conveyorDownPressed;
-  private boolean conveyorUpPressed;
-
-  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
+  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, ShooterControls controls) {
     m_shooter = shooter;
     m_vision = vision;
     m_hood = hood;
     m_turret = turret;
     m_conveyor = conveyor;
+
+    shooterControls = controls;
 
     addRequirements(shooter, vision, hood, turret, conveyor);
   }
@@ -49,30 +43,14 @@ public class MegaShooterCommand extends CommandBase {
   public void initialize() {
   }
 
-  public void update(boolean shooterIncrease, boolean shooterDecrease, 
-                      boolean hoodUp, boolean hoodDown, 
-                      boolean turretLeft, boolean turretRight, 
-                      boolean ready, boolean shoot, boolean conveyorDown, boolean conveyorUp) {
-
-    manualShooterIncrease = shooterIncrease;
-    manualShooterDecrease = shooterDecrease;
-    manualHoodUp = hoodUp;
-    manualHoodDown = hoodDown;
-    manualTurretLeft = turretLeft;
-    manualTurretRight = turretRight;
-    readyPressed = ready;
-    shootPressed = shoot;
-    conveyorDownPressed = conveyorDown;  
-  }
-
   public void executeHood() {
     m_vision.updateLimelight();
 
     if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, false)) {
       hoodOnTarget = true;
-      if(manualHoodUp) {
+      if(shooterControls.getManualHoodUp()) {
         m_hood.manualMoveHoodUp();
-      } else if(manualHoodDown) {
+      } else if(shooterControls.getManualHoodDown()) {
         m_hood.manualMoveHoodDown();
       } else {
         m_hood.manualStopHoodMovement();
@@ -92,9 +70,9 @@ public class MegaShooterCommand extends CommandBase {
 
     if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false)){
       turretOnTarget = true;
-      if(manualTurretLeft) {
+      if(shooterControls.getManualTurretLeft()) {
         m_turret.turnTurret(-0.1);
-      } if(manualTurretRight) {
+      } if(shooterControls.getManualTurretRight()) {
         m_turret.turnTurret(0.1);
       } else {
         m_turret.turnTurret(0);
@@ -112,13 +90,13 @@ public class MegaShooterCommand extends CommandBase {
     if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, false)) {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeed();
-      if(manualShooterIncrease) {
+      if(shooterControls.getShooterIncrease()) {
         currentPowerPct += 0.5;
         if(currentPowerPct > 1) {
           currentPowerPct = 1;
         }
         m_shooter.setSpeed(currentPowerPct);
-      } else if (manualShooterDecrease) {
+      } else if (shooterControls.getShooterDecrease()) {
         currentPowerPct -= 0.5;
         if(currentPowerPct < 0) {
           currentPowerPct = 0;
@@ -139,18 +117,18 @@ public class MegaShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(shootPressed || readyPressed) {
+    if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
       m_vision.setLEDMode(0);
       executeHood();
       executeTurret();
       executeShooter();
-      if(hoodOnTarget && turretOnTarget && speedOnTarget && shootPressed) {
-        if(conveyorDownPressed == false) {
+      if(hoodOnTarget && turretOnTarget && speedOnTarget && shooterControls.getShootPressed()) {
+        if(shooterControls.getManualConveyorDown() == false) {
           m_conveyor.lifterUp();
         } else {
           m_conveyor.lifterDown();
         }
-      } else if(conveyorUpPressed && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
+      } else if(shooterControls.getManualConveyorUp() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
           m_conveyor.lifterUp();
       } else {
         m_conveyor.lifterStop();
@@ -163,7 +141,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void setShootPressed(boolean isShoot) {
-    shootPressed = isShoot;
+    //shootPressed = isShoot;
   }
 
   public boolean getIsReady() {
