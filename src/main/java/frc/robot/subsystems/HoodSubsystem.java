@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //CIOCCI VENTEREA
 //TODO find max and min values/heights for the hood manually with the robot 
@@ -37,20 +38,28 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHeight) {
-      angleMotor.set(ControlMode.PercentOutput, 0);
-    } else {
+    // if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHeight) {
+    //   angleMotor.set(ControlMode.PercentOutput, 0);
+    // } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodUpSpeed);
-    }
+    //}
+  }
+
+  public void resetEncoder() {
+    angleMotor.setSelectedSensorPosition(0);
+  }
+
+  public void putEncoderToShuffleboard() {
+    SmartDashboard.putNumber("Hood encoder", angleMotor.getSelectedSensorPosition());
   }
     
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHeight) {
-      angleMotor.set(ControlMode.PercentOutput, 0);
-    } else {
+    // if (angleMotor.getSelectedSensorPosition() <= Constants.Hood.kMinHoodHeight) {
+    //   angleMotor.set(ControlMode.PercentOutput, 0);
+    // } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodDownSpeed);
-    }
+    // }
   }
   
   //makes the motor stop

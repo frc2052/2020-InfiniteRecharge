@@ -73,7 +73,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftFollower2.setInverted(false);
 
     rightMaster.setSensorPhase(true);
-    leftMaster.setSensorPhase(true);
+    leftMaster.setSensorPhase(false);
 
     rightMaster.setNeutralMode(NeutralMode.Brake);
     leftMaster.setNeutralMode(NeutralMode.Brake);

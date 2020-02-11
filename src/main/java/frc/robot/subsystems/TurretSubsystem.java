@@ -56,12 +56,14 @@ public class TurretSubsystem extends SubsystemBase {
     isLinedUp = false;
     //System.out.println(turretMotor.getSelectedSensorPosition());
     printEncoderPos();
-    //System.out.println("****************** TARGET ANGLE: " + angle);
+    System.out.println("****************** TARGET ANGLE: " + angle);
     if(angle < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
       //too far to the negative can't keep going
+      System.out.println("TOO FAR NEGATIVE");
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else if (angle > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
       //too far to the positive can't keep going
+      System.out.println("TOO FAR POSITIVE");
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else {
       if(Math.abs(angle) < 0.2) {
