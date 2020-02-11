@@ -19,7 +19,10 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartLeftGenerator3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
-	    this.addCommands(new WaitCommand(delayTime));
+      
+      this.addCommands(new BumpCommand(driveTrain));
+      
+      this.addCommands(new WaitCommand(delayTime));
       this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       RamseteCommand ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
@@ -27,6 +30,7 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
+      
   }
 
 }
