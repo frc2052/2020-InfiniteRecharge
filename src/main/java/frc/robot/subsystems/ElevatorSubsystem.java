@@ -49,13 +49,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualUp() {
-        System.out.print("Elevator Height: " + this.getHeightInches());
+        //System.out.print("Elevator Height: " + this.getHeightInches());
         double currentHeight = climberMotor.getSelectedSensorPosition();
         if (isLocked) {
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to drive if lock engaged
+            System.out.println("Elevator is locked");
         } else if (currentHeight < Constants.Elevator.kElevatorMaxHeight || isOverride){
+            System.out.println("Going Up");
             climberMotor.set(ControlMode.PercentOutput, .2);
         } else {
+            System.out.println("WENT TOO FAR" + climberMotor.getSelectedSensorPosition() + "MAX HEIGHT" + Constants.Elevator.kElevatorMaxHeight);
             climberMotor.set(ControlMode.PercentOutput, 0);
         }
     }

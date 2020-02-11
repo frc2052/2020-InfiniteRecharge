@@ -82,7 +82,7 @@ public final class Constants {
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
-       public static final int kElevatorMaxHeight = 2600;
+       public static final int kElevatorMaxHeight = 26000;
     }
 
     public static final class WheelOfFortune{
@@ -146,11 +146,11 @@ public final class Constants {
 
     public static final class Hood {
         public static final int kTicksPerRotation = 4096;
-        public static final double kHoodDownSpeed = -.10;
-        public static final double kHoodUpSpeed = .10;
+        public static final double kHoodDownSpeed = -.20;
+        public static final double kHoodUpSpeed = .20;
         //TODO manualy find max and min endcoder values 
-        public static final double kMinHoodHeight = 69;
-        public static final double kMaxHoodHeight = 69;
+        public static final double kMinHoodTicks = 0;
+        public static final double kMaxHoodTicks = 146700;
     }
     
     public static final class SmartDashboard {

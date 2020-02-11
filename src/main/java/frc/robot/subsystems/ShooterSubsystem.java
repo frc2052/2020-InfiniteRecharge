@@ -15,6 +15,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private double RPM;
   private TalonSRX shooterMasterMotor;
   private VictorSPX shooterFollowerMotor;
+
+  private double lastShootPct;
   
   public ShooterSubsystem() {
     shooterMasterMotor = new TalonSRX(Constants.Motors.kShooterMasterMotorID);
@@ -29,13 +31,18 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterFollowerMotor.follow(shooterMasterMotor);
   }
  
-  public double getSpeed(){
+  public double getVelocity(){
     RPM = sensorUnitsToRPM(shooterMasterMotor.getSelectedSensorVelocity());
     return RPM;
   }
 
+  public double getSpeedPct() {
+    return lastShootPct;
+  }
+
   //TODO: do we need to set PID values to use velocity mode? Check documentation
-  public void setSpeed(double speed){
+  public void setShooterVelocity(double speed){
+    lastShootPct = 0;
     shooterMasterMotor.set(ControlMode.Velocity, speed * 4096);
   }
 
@@ -43,8 +50,9 @@ public class ShooterSubsystem extends SubsystemBase {
     return (sensorVelocity * 10 * 60)/ 4096; //sensor velocity gives ticks per 100 milliseconds, times by 10 to get seconds, times by 60 to get minutes, divide by encoder ticks per revolution
   }
 
-  public void testShooterPct(double pct) {
+  public void setShooterPct(double pct) {
     shooterMasterMotor.set(ControlMode.PercentOutput, pct);
+    lastShootPct = pct;
   }
 
 }
