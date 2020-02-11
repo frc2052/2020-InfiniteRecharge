@@ -147,8 +147,8 @@ public final class Constants {
         public static final double kHoodDownSpeed = -.20;
         public static final double kHoodUpSpeed = .20;
         //TODO manualy find max and min endcoder values 
-        public static final double kMinHoodHeight = 69;
-        public static final double kMaxHoodHeight = 69;
+        public static final double kMinHoodTicks = 0;
+        public static final double kMaxHoodTicks = 146700;
     }
     
     public static final class SmartDashboard {
