@@ -48,6 +48,7 @@ public class RobotContainer {
   private VisionTurretAdjustCommand visionTurretCommand = null;
   private ManualSpinUpCommand manualSpinUp = null;
   private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
+  private SmartIntakeCommand smartIntakeCommand = null;
 
   public RobotContainer() {
     driveTrain = new DriveTrainSubsystem();
@@ -59,6 +60,7 @@ public class RobotContainer {
     conveyor = new ConveyorSubsystem();
     elevator = new ElevatorSubsystem();
     activeBalance = new ActiveBalanceSubsytem();
+    smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
@@ -226,8 +228,7 @@ public class RobotContainer {
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
 
-    btnJS6.whenPressed(() -> intake.intakeIn()); 
-    btnJS6.whenReleased(() -> intake.intakeStop());
+    btnJS6.whileHeld(smartIntakeCommand); 
 
     btnJS7.whenPressed(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());

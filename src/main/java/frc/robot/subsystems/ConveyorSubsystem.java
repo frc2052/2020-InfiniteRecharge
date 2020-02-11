@@ -20,7 +20,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   private VictorSPX conveyorBottomRightMotor;
   private VictorSPX lifterMotor;
   
-  public ConveyorSubsystem() {     
+  public ConveyorSubsystem() {   
     conveyorBottomLeftMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
     conveyorBottomRightMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemRightID);
     lifterMotor = new VictorSPX(Constants.Motors.kLifterMotorID);
@@ -60,6 +60,8 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .2);
     conveyorBottomRightMotor.set(ControlMode.PercentOutput, .2);
   }
+
+
 
 
 
