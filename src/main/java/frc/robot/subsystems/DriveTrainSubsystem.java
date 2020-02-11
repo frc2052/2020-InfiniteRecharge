@@ -112,6 +112,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
     drive.arcadeDrive(tank, turn);
   }
 
+  public void curvatureDrive(double tank, double turn, boolean quickTurn) {
+    drive.curvatureDrive(tank, turn, quickTurn);
+  }
+
   public Rotation2d  getAngle() {
     if (navX == null) {
       return Rotation2d.fromDegrees(0.0);

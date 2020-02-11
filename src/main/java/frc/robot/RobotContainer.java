@@ -91,7 +91,7 @@ public class RobotContainer {
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
       new RunCommand(
-        () -> driveTrain.arcadeDrive(tankJoystick.getY(), turnJoystick.getX() * 0.5), 
+        () -> driveTrain.curvatureDrive(tankJoystick.getY(), turnJoystick.getX(), turnJoystick.getRawButton(3)), 
         driveTrain
       )
     );

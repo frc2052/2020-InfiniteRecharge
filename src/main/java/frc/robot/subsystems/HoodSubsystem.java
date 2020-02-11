@@ -73,10 +73,10 @@ public class HoodSubsystem extends SubsystemBase {
   public void aimHood(int targetAngle ) { 
     //TODO: I think all the motion magic PID values will need to be set, check documentation
     int encoderValue = (targetAngle / 360) * Constants.Hood.kTicksPerRotation;
-    if (encoderValue <= Constants.Hood.kMinHoodHeight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodHeight);
-    } else if (encoderValue >= Constants.Hood.kMaxHoodHeight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodHeight);
+    if (encoderValue <= Constants.Hood.kMinHoodTicks) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodTicks);
+    } else if (encoderValue >= Constants.Hood.kMaxHoodTicks) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodTicks);
     } else angleMotor.set(ControlMode.MotionMagic, encoderValue); 
   }
 
