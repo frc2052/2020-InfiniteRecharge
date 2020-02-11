@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -19,7 +20,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       climberMotor = new WPI_TalonSRX(Constants.Motors.kClimberMotorID);
       climberMotor.setNeutralMode(NeutralMode.Brake);
       climberMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-      climberMotor.setInverted(true);
+      climberMotor.setInverted(false);
       climberMotor.setSelectedSensorPosition(0, 0, 10);
 
       lockinSolenoid = new Solenoid(Constants.Solenoids.kElevatorLockSolenoidID);
@@ -43,8 +44,13 @@ public class ElevatorSubsystem extends SubsystemBase {
         lockoutSolenoid.set(true);
     }
 
+    public void printEncoderPos() {
+        SmartDashboard.putNumber("Elevator Encoder Pos", climberMotor.getSelectedSensorPosition());
+    }
+
     public void manualUp() {
-        double currentHeight = this.getHeightInches();
+        System.out.print("Elevator Height: " + this.getHeightInches());
+        double currentHeight = climberMotor.getSelectedSensorPosition();
         if (isLocked) {
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to drive if lock engaged
         } else if (currentHeight < Constants.Elevator.kElevatorMaxHeight || isOverride){
@@ -55,18 +61,27 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
    
     public void manualDown() {
-        double currentHeight = this.getHeightInches();
+        System.out.print("Elevator Height: " + this.getHeightInches());
+        double currentHeight = climberMotor.getSelectedSensorPosition(0);;
         if (isLocked) {
+            System.out.println("Elevator Locked");;
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to go down if lock engaged
         }
         else if (currentHeight > Constants.Elevator.kElevatorMinHeight || isOverride)
         {
+            System.out.println("ElevatorGoing Down");;
             climberMotor.set(ControlMode.PercentOutput, -.2);
         }
         else 
         {
+            System.out.println("Elevator Stop");;
             climberMotor.set(ControlMode.PercentOutput, 0);
         }
+    }
+
+    public void resetEncoder() {
+        //2600
+        climberMotor.setSelectedSensorPosition(0);
     }
 
     public void manualStop() {

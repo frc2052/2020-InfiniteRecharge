@@ -24,7 +24,7 @@ public class HoodSubsystem extends SubsystemBase {
   private boolean runningInOpenLoop = true;
 
   public HoodSubsystem() {
-    angleMotor = new TalonSRX(Constants.Motors.kAngleMotorID);
+    angleMotor = new TalonSRX(Constants.Motors.kHoodMotorID);
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);

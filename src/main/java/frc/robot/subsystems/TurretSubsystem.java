@@ -54,39 +54,33 @@ public class TurretSubsystem extends SubsystemBase {
   // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
     isLinedUp = false;
-
-    System.out.println("****************** TARGET ANGLE: " + angle);
-    if(turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos || turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
-        turretMotor.set(ControlMode.PercentOutput, 0);
-      } else {
+    //System.out.println(turretMotor.getSelectedSensorPosition());
+    printEncoderPos();
+    //System.out.println("****************** TARGET ANGLE: " + angle);
+    if(angle < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
+      //too far to the negative can't keep going
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    } else if (angle > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
+      //too far to the positive can't keep going
+      turretMotor.set(ControlMode.PercentOutput, 0);
+    } else {
       if(Math.abs(angle) < 0.2) {
         turretMotor.set(ControlMode.PercentOutput, 0);
         isLinedUp = true;
       } else {
-      if (Math.abs(angle) >= 20) {
-        isLinedUp = false;
-        if(angle > 0) {
-          turretMotor.set(ControlMode.PercentOutput, 1);
-        } else {
-          turretMotor.set(ControlMode.PercentOutput, -1);
+        if (Math.abs(angle) >= 20) {
+          isLinedUp = false;
+          if(angle > 0) {
+            turretMotor.set(ControlMode.PercentOutput, .75);
+          } else {
+            turretMotor.set(ControlMode.PercentOutput, -.75);
+          }
+        } else if (Math.abs(angle) < 20) {
+          isLinedUp = false;
+          turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
         }
-      } else if (Math.abs(angle) < 20) {
-        isLinedUp = false;
-        turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
       }
     }
-   }
-
-    // if(angle <= Constants.Turret.kMaxAngle && angle >= Constants.Turret.kMinAngle) {
-    //   ticks = angle * Constants.Turret.kTicksPerDegree;
-    // } else {
-    //   if(angle > Constants.Turret.kMaxAngle)
-    //     ticks = Constants.Turret.kMaxAngle * Constants.Turret.kTicksPerDegree;
-    //   else
-    //     ticks = Constants.Turret.kMinAngle * Constants.Turret.kTicksPerDegree;
-    // }
-    // System.out.println("-----------------------------------Current: " + turretMotor.getSelectedSensorPosition() + "    Target: " + ticks);
-    // turretMotor.set(ControlMode.MotionMagic, ticks);
   }
 
   public boolean getIsOnTarget() {

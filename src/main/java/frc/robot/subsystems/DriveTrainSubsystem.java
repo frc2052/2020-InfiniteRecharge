@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
@@ -36,8 +37,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private final VictorSPX rightFollower1;
   private final VictorSPX rightFollower2;
   
-  private final Solenoid shifterIn;
-  private final Solenoid shifterOut;
+  private final Solenoid shifter;
 
   private final SpeedControllerGroup leftGroup;
   private final SpeedControllerGroup rightGroup;
@@ -60,8 +60,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightFollower1.configFactoryDefault();
     rightFollower2 = new VictorSPX(Constants.Motors.kDriveRightFollower2Id);
     rightFollower2.configFactoryDefault();
-    shifterIn = new Solenoid(Constants.Solenoids.kShiftInSolenoidID);
-    shifterOut = new Solenoid(Constants.Solenoids.kShiftOutSolenoidID);
+    shifter = new Solenoid(Constants.Solenoids.kShifterSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
@@ -69,9 +68,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightMaster.setInverted(false);
     rightFollower1.setInverted(false);
     rightFollower2.setInverted(false);
-    leftMaster.setInverted(true);
-    leftFollower1.setInverted(true);
-    leftFollower2.setInverted(true);
+    leftMaster.setInverted(false);
+    leftFollower1.setInverted(false);
+    leftFollower2.setInverted(false);
 
     rightMaster.setSensorPhase(true);
     leftMaster.setSensorPhase(true);
@@ -88,12 +87,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightGroup  = new SpeedControllerGroup(rightMaster);    
     drive = new DifferentialDrive(leftGroup, rightGroup);
 
-    try {
-      navX = new AHRS(SPI.Port.kMXP);
-      navX.enableLogging(true);
-    } catch (Exception e) {
-      DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
-    }
+    // try {
+    //   navX = new AHRS(SPI.Port.kMXP);
+    //   navX.enableLogging(true);
+    // } catch (Exception e) {
+    //   DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
+    // }
 
     odometry = new DifferentialDriveOdometry(getAngle());
   }
@@ -106,8 +105,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   
   public void setHighGear(boolean highGear) {
-    shifterOut.set(!highGear);
-    shifterIn.set(highGear);
+    shifter.set(!highGear);
   }
 
   public void arcadeDrive(double tank, double turn) {
@@ -126,6 +124,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
     return odometry.getPoseMeters();
   }
 
+  public void putToSmartDashboard() {
+    SmartDashboard.putNumber("Right Encoder", rightMaster.getSelectedSensorPosition());
+    SmartDashboard.putNumber("Left Encoder", leftMaster.getSelectedSensorPosition());
+  }
+
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
       //(leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
@@ -136,6 +139,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     leftMaster.setVoltage(leftVolts);
     rightMaster.setVoltage(rightVolts);
+  }
+
+  public void resetEncoders() {
+    rightMaster.setSelectedSensorPosition(0);
+    leftMaster.setSelectedSensorPosition(0);
   }
 
   @Override

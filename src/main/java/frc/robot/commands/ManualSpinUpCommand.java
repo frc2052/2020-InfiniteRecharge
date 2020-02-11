@@ -13,16 +13,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 public class ManualSpinUpCommand extends CommandBase {
   private ShooterSubsystem m_ShooterSubsystem;
-  boolean isManual;
 
   /**
    * Creates a new ManualSpinUpCommand.
    */
   //TODO: is this command even needed anymore with the mega shooter
-  public ManualSpinUpCommand(ShooterSubsystem shooter, boolean manual) {
+  public ManualSpinUpCommand(ShooterSubsystem shooter) {
     addRequirements(shooter);
     m_ShooterSubsystem = shooter;
-    isManual = manual;
   }
 
   // Called when the command is initially scheduled.
@@ -33,14 +31,15 @@ public class ManualSpinUpCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(!isManual){
-      m_ShooterSubsystem.setSpeed(Constants.Shooter.kShooterSpeedRPS);
-    }
+    System.out.println("Shooter Execute");
+    m_ShooterSubsystem.testShooterPct(1);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Shooter End");
+    m_ShooterSubsystem.testShooterPct(0);
   }
 
   // Returns true when the command should end.

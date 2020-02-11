@@ -20,12 +20,11 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 public final class Constants {
 
     public static final class Solenoids {
-        public static final int kShiftInSolenoidID = 0;
-        public static final int kShiftOutSolenoidID = 1;
-        public static final int kUpIntakeSolenoidID = 2;
-        public static final int kDownIntakeSolenoidID = 3;
-       public static final int kElevatorLockSolenoidID = 4;
-       public static final int kElevatorUnLockSolenoidID = 5;
+        public static final int kShifterSolenoidID = 4;
+        public static final int kUpIntakeSolenoidID = 0;
+        public static final int kDownIntakeSolenoidID = 1;
+        public static final int kElevatorLockSolenoidID = 2;
+        public static final int kElevatorUnLockSolenoidID = 3;
     }
 
     public static final class Motors {
@@ -37,13 +36,14 @@ public final class Constants {
         public static final int kDriveLeftFollower2Id = 6;
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
-        public static final int kActiveBalanceMotorID = 9;
-        public static final int kShooterMotorID = 10;
-        public static final int kAngleMotorID = 11;
+        public static final int kShooterMasterMotorID = 9;
+        public static final int kShooterFollowerMotorID = 10;
+        public static final int kHoodMotorID = 11;
         public static final int kTurretMotorID = 12;
         public static final int kConveyorMotorBottemLeftID = 13;   
         public static final int kConveyorMotorBottemRightID = 14;   
         public static final int kLifterMotorID = 15;   
+        public static final int kActiveBalanceMotorID = 16;
     }
 
 
@@ -82,7 +82,7 @@ public final class Constants {
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
-       public static final int kElevatorMaxHeight = 79;
+       public static final int kElevatorMaxHeight = 2600;
     }
 
     public static final class WheelOfFortune{
@@ -111,8 +111,8 @@ public final class Constants {
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
 
-        public static final int kTurretMinEncoderPos = -8500;
-        public static final int kTurretMaxEncoderPos = 8500;
+        public static final int kTurretMinEncoderPos = -4000;
+        public static final int kTurretMaxEncoderPos = 16000;
 
         public static final double kTicksPerDegree = 4096 / 90;
         public static final double kMaxAngle = 90;
@@ -138,8 +138,8 @@ public final class Constants {
 
     public static final class ConveyorSubsystem {      
         public static final boolean klifterdirection = true;
-        public static final boolean kconveyordirection = true;
-        public static final double kConveyorSpeed = 0.5;
+        public static final boolean kConveyorDirection = true;
+        public static final double kConveyorSpeed = -0.5;
     }
 
     public static final class Hood {
