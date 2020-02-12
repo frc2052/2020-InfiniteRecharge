@@ -133,10 +133,7 @@ public final class Constants {
 
         public static final double kCameraMountingAngleY = 28; // mounting angle of the camera     DEGREESEE
         public static final double kCameraMountingHeight = 37.5; // height of camera off the ground  INCHES
-        public static final double kTargetHeight = 89.5; //98 //81  // height of target off the ground  INCHES
-        //distance away from camera is 110 ish
-        //60.5
-        //57.59
+        public static final double kTargetHeight = 89.5;// height of target off the ground  INCHES  top is 98 bottom is 81
     }
 
     public static final class ConveyorSubsystem {      

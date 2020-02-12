@@ -72,7 +72,7 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
         else if (currentHeight > Constants.Elevator.kElevatorMinHeight || isOverride)
         {
-            System.out.println("ElevatorGoing Down");;
+            System.out.println("Elevator Going Down");;
             climberMotor.set(ControlMode.PercentOutput, -.7);
         }
         else 
@@ -83,7 +83,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        //2600
         climberMotor.setSelectedSensorPosition(0);
     }
 
