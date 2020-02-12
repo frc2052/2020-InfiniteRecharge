@@ -25,7 +25,7 @@ public class SmartIntakeCommand extends CommandBase {
     ballSensor = new DigitalInput(Constants.ConveyorSubsystem.kBallSensorID);
     m_conveyorSubsystem = conveyorSubsystem;
     m_intakeSubsystem = intakeSubsystem;
-    addRequirements(conveyorSubsystem);
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.

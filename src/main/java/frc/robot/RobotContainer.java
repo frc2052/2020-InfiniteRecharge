@@ -66,6 +66,8 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
+    vision.setLEDMode(3);
+
     driveTrain.resetEncoders();
     elevator.resetEncoder();
     hood.resetEncoder();
@@ -220,13 +222,16 @@ public class RobotContainer {
     btnJS3.whenPressed(() -> {}); //manual shooter speed down
     btnJS3.whenReleased(() -> {});
 
-    btnJS4.whenPressed(() -> elevator.setOverride(true));
-    btnJS4.whenReleased(() -> elevator.setOverride(false));
+    btnJS4.whenPressed(() -> conveyor.preLoad());
+    btnJS4.whenReleased(() -> conveyor.lifterStop());
 
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
 
-    btnJS6.whileHeld(smartIntakeCommand); 
+    //btnJS6.whileHeld(smartIntakeCommand); 
+
+    btnJS6.whenPressed(() -> intake.intakeIn());
+    btnJS6.whenReleased(() -> intake.intakeStop());
 
     btnJS7.whenPressed(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());
@@ -261,6 +266,7 @@ public class RobotContainer {
     driveTrain.putToSmartDashboard();
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
+    vision.putDistanceToSmartDashboard();
   }
 
   /**

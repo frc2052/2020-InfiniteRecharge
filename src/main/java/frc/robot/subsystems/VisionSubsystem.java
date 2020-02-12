@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class VisionSubsystem extends SubsystemBase {
@@ -119,8 +120,17 @@ public class VisionSubsystem extends SubsystemBase {
       pipelineI.setDouble((double) pipeline);     
   }
 
-  public double getDistanceToTargetInches(double ty) { // find distance based on ta and distance ratio INCHES
-    return (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Constants.Vision.kCameraMountingAngleY + this.getTy()));
+  public double getDistanceToTargetInches() { // find distance based on ta and distance ratio INCHES
+    //System.out.println("TY*******" + this.getTy());
+    double distance = 0;
+    updateLimelight();
+    distance =  (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Math.toRadians(Constants.Vision.kCameraMountingAngleY + this.getTy())));
+    //System.out.println("DISTANCE*****" + distance );
+    return distance;
+  }
+
+  public void putDistanceToSmartDashboard() {
+    SmartDashboard.putNumber("Distance from target", getDistanceToTargetInches());
   }
   
 }

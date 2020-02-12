@@ -131,9 +131,12 @@ public final class Constants {
         public static final double kCameraViewVertPixels = 240.0;
         public static final double kCameraMaxViewHorDegrees = 180.0;
 
-        public static final double kCameraMountingAngleY = 12.5; // mounting angle of the camera     DEGREESEE
-        public static final double kCameraMountingHeight = 36.0; // height of camera off the ground  INCHES
-        public static final double kTargetHeight = 98.25;        // height of target off the ground  INCHES
+        public static final double kCameraMountingAngleY = 28; // mounting angle of the camera     DEGREESEE
+        public static final double kCameraMountingHeight = 37.5; // height of camera off the ground  INCHES
+        public static final double kTargetHeight = 89.5; //98 //81  // height of target off the ground  INCHES
+        //distance away from camera is 110 ish
+        //60.5
+        //57.59
     }
 
     public static final class ConveyorSubsystem {      
