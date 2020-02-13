@@ -103,6 +103,8 @@ public final class Constants {
         public static final double kEmergencyUpPower = .25;
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;
+
+        public static final double kShooterF = (.9 * 1023) / 29900;
     }
   
     public static final class Turret{

@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -29,6 +30,17 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterFollowerMotor.setNeutralMode(NeutralMode.Coast);
 
     shooterFollowerMotor.follow(shooterMasterMotor);
+
+    shooterMasterMotor.setSensorPhase(true);
+
+    shooterMasterMotor.config_kF(0, Constants.Shooter.kShooterF, 10);
+    shooterMasterMotor.config_kP(0, 0, 10);
+    shooterMasterMotor.config_kI(0, 0, 10);
+    shooterMasterMotor.config_kD(0, 0, 10);
+  }
+
+  public void putToSmartDashboard() {
+    SmartDashboard.putNumber("Shooter Velocity", shooterMasterMotor.getSelectedSensorVelocity());
   }
  
   public double getVelocity(){
@@ -43,7 +55,8 @@ public class ShooterSubsystem extends SubsystemBase {
   //TODO: do we need to set PID values to use velocity mode? Check documentation
   public void setShooterVelocity(double speed){
     lastShootPct = 0;
-    shooterMasterMotor.set(ControlMode.Velocity, speed * 4096);
+    System.out.println("SHOOTER VELOCTITY MODE--" +  shooterMasterMotor.getSelectedSensorVelocity() + "  TARGET VELOCITY--" + speed);
+    shooterMasterMotor.set(ControlMode.Velocity, speed);
   }
 
   public double sensorUnitsToRPM(double sensorVelocity) {

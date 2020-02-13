@@ -121,12 +121,8 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public double getDistanceToTargetInches() { // find distance based on ta and distance ratio INCHES
-    //System.out.println("TY*******" + this.getTy());
-    double distance = 0;
     updateLimelight();
-    distance =  (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Math.toRadians(Constants.Vision.kCameraMountingAngleY + this.getTy())));
-    //System.out.println("DISTANCE*****" + distance );
-    return distance;
+    return (Constants.Vision.kTargetHeight - Constants.Vision.kCameraMountingHeight) / (Math.tan(Math.toRadians(Constants.Vision.kCameraMountingAngleY + this.getTy())));
   }
 
   public void putDistanceToSmartDashboard() {

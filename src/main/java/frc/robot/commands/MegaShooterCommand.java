@@ -59,7 +59,7 @@ public class MegaShooterCommand extends CommandBase {
         m_hood.manualStopHoodMovement();
       }
     } else {
-      double hoodTargetAngle = m_vision.getTy();
+      double hoodTargetAngle = m_vision.getDistanceToTargetInches();
       //TODO: this is going to need more math
       //calculate the hood angle from the hood system
       double hoodCurrentAngle = m_hood.getCurrentAngle();

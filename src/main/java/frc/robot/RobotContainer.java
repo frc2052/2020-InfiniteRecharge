@@ -66,7 +66,7 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
-    vision.setLEDMode(3);
+    vision.setLEDMode(1);
 
     driveTrain.resetEncoders();
     elevator.resetEncoder();
@@ -126,8 +126,8 @@ public class RobotContainer {
     // btnJL3.whenPressed(() -> conveyor.lifterUp()); 
     // btnJL3.whenReleased(() -> conveyor.lifterStop()); 
 
-    btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
-    btnJL4.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL4.whileHeld(() -> shooter.setShooterVelocity(30000)); //activeBalance.manualLeft()
+    // btnJL4.whenReleased(() -> shooter.setShooterPct(0)); //activeBalance.manualStop()
 
     btnJL5.whenPressed(() -> activeBalance.manualRight()); 
     btnJL5.whenReleased(() -> activeBalance.manualStop()); 
@@ -267,6 +267,7 @@ public class RobotContainer {
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
     vision.putDistanceToSmartDashboard();
+    shooter.putToSmartDashboard();
   }
 
   /**
