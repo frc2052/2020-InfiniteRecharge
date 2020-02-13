@@ -66,6 +66,8 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
+    vision.setLEDMode(1);
+
     driveTrain.resetEncoders();
     elevator.resetEncoder();
     hood.resetEncoder();
@@ -124,8 +126,8 @@ public class RobotContainer {
     // btnJL3.whenPressed(() -> conveyor.lifterUp()); 
     // btnJL3.whenReleased(() -> conveyor.lifterStop()); 
 
-    btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
-    btnJL4.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL4.whileHeld(() -> shooter.setShooterVelocity(30000)); //activeBalance.manualLeft()
+    // btnJL4.whenReleased(() -> shooter.setShooterPct(0)); //activeBalance.manualStop()
 
     btnJL5.whenPressed(() -> activeBalance.manualRight()); 
     btnJL5.whenReleased(() -> activeBalance.manualStop()); 
@@ -220,13 +222,16 @@ public class RobotContainer {
     btnJS3.whenPressed(() -> {}); //manual shooter speed down
     btnJS3.whenReleased(() -> {});
 
-    btnJS4.whenPressed(() -> elevator.setOverride(true));
-    btnJS4.whenReleased(() -> elevator.setOverride(false));
+    btnJS4.whenPressed(() -> conveyor.preLoad());
+    btnJS4.whenReleased(() -> conveyor.lifterStop());
 
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
 
-    btnJS6.whileHeld(smartIntakeCommand); 
+    //btnJS6.whileHeld(smartIntakeCommand); 
+
+    btnJS6.whenPressed(() -> intake.intakeIn());
+    btnJS6.whenReleased(() -> intake.intakeStop());
 
     btnJS7.whenPressed(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());
@@ -261,6 +266,8 @@ public class RobotContainer {
     driveTrain.putToSmartDashboard();
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
+    vision.putDistanceToSmartDashboard();
+    shooter.putToSmartDashboard();
   }
 
   /**

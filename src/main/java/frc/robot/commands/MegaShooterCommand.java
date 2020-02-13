@@ -13,6 +13,7 @@ import frc.robot.IShooterControls;
 import frc.robot.ShooterControls;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 public class MegaShooterCommand extends CommandBase {
   private ShooterSubsystem m_shooter;
@@ -46,7 +47,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeHood() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, true)) {
       hoodOnTarget = true;
       if(shooterControls.getManualHoodUp()) {
         System.out.println("HOOD UP");
@@ -58,7 +59,7 @@ public class MegaShooterCommand extends CommandBase {
         m_hood.manualStopHoodMovement();
       }
     } else {
-      double hoodTargetAngle = m_vision.getTy();
+      double hoodTargetAngle = m_vision.getDistanceToTargetInches();
       //TODO: this is going to need more math
       //calculate the hood angle from the hood system
       double hoodCurrentAngle = m_hood.getCurrentAngle();
@@ -68,7 +69,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeTurret() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false)){
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, true)){
       //System.out.println("MANUAL TURRET ENABLED");
       turretOnTarget = true;
       if(shooterControls.getManualTurretLeft()) {
@@ -93,7 +94,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, true)) {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
@@ -120,6 +121,46 @@ public class MegaShooterCommand extends CommandBase {
     }
   }
 
+  public void executeConveyor() {
+    if(shooterControls.getManualConveyorDown()) {
+      m_conveyor.lifterDown();
+    } else {
+      if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
+        feedConveyor();
+      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
+        feedConveyor();
+      } else {
+        m_conveyor.lifterStop();
+      }
+    }
+  }
+
+  Timer timer;
+  public double conveyorSpeed = .75;
+
+  public void feedConveyor() {
+    m_conveyor.setLifterSpeed(-1);
+
+    if(timer == null) {
+      timer = new Timer();
+      timer.start();
+    }
+    double time = timer.get();
+    if(time %  5 < 2) {
+      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
+      m_conveyor.setRightSideSpeed(-conveyorSpeed);
+    } else if( time % 5 < 2.5) {
+      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
+      m_conveyor.setRightSideSpeed(conveyorSpeed);
+    } else if(time % 5 < 4.5) {
+      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
+      m_conveyor.setRightSideSpeed(-conveyorSpeed);
+    } else {
+      m_conveyor.setLeftSideSpeed(conveyorSpeed);
+      m_conveyor.setRightSideSpeed(-conveyorSpeed);
+    }
+  }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -128,27 +169,18 @@ public class MegaShooterCommand extends CommandBase {
     //System.out.println("TURRET OVERRIDE=" + SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false));
 
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
-      m_vision.setLEDMode(0);
+      //m_vision.setLEDMode(0);
       m_vision.updateLimelight();
       executeHood();
       executeTurret();
       executeShooter();
-      if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
-        if(!shooterControls.getManualConveyorDown()) {
-          m_conveyor.lifterUp();
-        } else {
-          m_conveyor.lifterDown();
-        }
-      } else if(shooterControls.getManualConveyorUp() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
-          m_conveyor.lifterUp();
-      } else {
-        m_conveyor.lifterStop();
-      }
+      executeConveyor();
     } else {
-      m_vision.setLEDMode(1);
+      //m_vision.setLEDMode(1);
       m_vision.updateLimelight();
       m_shooter.setShooterPct(0);
       m_turret.turnTurret(0);
+      m_conveyor.lifterStop();
     }
   }
 

@@ -50,6 +50,9 @@ public class TrajectoryFactory {
         return ramseteCommand;
     }
 
+    public double toMeters(double inches) {
+        return inches / 39.5;
+    }
 
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(

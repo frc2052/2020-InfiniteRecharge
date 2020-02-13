@@ -63,4 +63,8 @@ public class ShooterControls implements IShooterControls{
         return turnJoystick.getRawButton(2);
     }
 
+    public boolean getLoadConveyor() {
+        return secondaryPanel.getRawButton(4);
+    }
+
 }

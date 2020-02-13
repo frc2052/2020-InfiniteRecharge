@@ -39,8 +39,8 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
   
   public void lifterUp (){
-    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -.4);
-    conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.6);
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .5);
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.5);
     lifterMotor.set(ControlMode.PercentOutput, -.4);
   }
 
@@ -48,6 +48,18 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
     conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
     lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+  }
+
+  public void setLeftSideSpeed(double speed) {
+    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setRightSideSpeed(double speed) {
+    conveyorBottomRightMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void setLifterSpeed(double speed) {
+    lifterMotor.set(ControlMode.PercentOutput, speed);
   }
 
   public void lifterStop (){

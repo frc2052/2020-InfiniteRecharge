@@ -29,6 +29,7 @@ public class HoodSubsystem extends SubsystemBase {
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    angleMotor.configClearPositionOnLimitR(true, 10);
   }
 
   public void zeroSensor(){ // to zero hood push it all the way down on the robot
