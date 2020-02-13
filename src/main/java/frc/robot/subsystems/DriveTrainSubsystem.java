@@ -73,7 +73,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftFollower2.setInverted(false);
 
     rightMaster.setSensorPhase(true);
-    leftMaster.setSensorPhase(true);
+    leftMaster.setSensorPhase(false);
 
     rightMaster.setNeutralMode(NeutralMode.Brake);
     leftMaster.setNeutralMode(NeutralMode.Brake);
@@ -109,7 +109,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double tank, double turn) {
+    System.out.println("Arcade Turn Value: " + turn);
     drive.arcadeDrive(tank, turn);
+  }
+
+  public void curvatureDrive(double tank, double turn, boolean quickTurn) {
+    System.out.println("Curvature Turn Value: " + turn);
+    drive.curvatureDrive(tank, turn, quickTurn);
   }
 
   public Rotation2d  getAngle() {

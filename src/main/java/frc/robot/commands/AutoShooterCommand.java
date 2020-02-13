@@ -7,22 +7,25 @@
 
 package frc.robot.commands;
 
+import frc.robot.IShooterControls;
+import frc.robot.auto.AutoShooterControls;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
 
 public class AutoShooterCommand extends MegaShooterCommand {
   private Timer timer = new Timer();
   private boolean m_IsFinished = false;
-  
-  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor) {
-    super(shooter, vision, hood, turret, conveyor, null);
+  private AutoShooterControls autoControls;
+
+  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls) {
+    super(shooter, vision, hood, turret, conveyor, controls);
+    autoControls = controls;
   }
   
   @Override
   public void initialize() {
     m_IsFinished = false;
     timer.reset();
-    super.setShootPressed(true);
     super.initialize();
   }
 
@@ -41,7 +44,7 @@ public class AutoShooterCommand extends MegaShooterCommand {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    super.setShootPressed(false);
+    autoControls.setShootPressed(false);
     super.end(interrupted);
     m_IsFinished = true;
   }

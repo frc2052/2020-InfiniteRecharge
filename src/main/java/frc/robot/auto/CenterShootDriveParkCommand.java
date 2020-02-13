@@ -15,15 +15,10 @@ import edu.wpi.first.wpilibj2.command.*;
 public class CenterShootDriveParkCommand extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
-  public CenterShootDriveParkCommand(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime) {
-    
+  public CenterShootDriveParkCommand(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {    
     this.addCommands(new BumpCommand(driveTrain));
-    
-    // Use addRequirements() here to declare subsystem dependencies.
     this.addCommands(new WaitCommand(delayTime));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls));
     this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartCenterDriveBackPark));
-
   }
-
 }

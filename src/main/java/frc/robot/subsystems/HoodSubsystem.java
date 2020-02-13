@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //CIOCCI VENTEREA
 //TODO find max and min values/heights for the hood manually with the robot 
@@ -28,6 +29,7 @@ public class HoodSubsystem extends SubsystemBase {
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    angleMotor.configClearPositionOnLimitR(true, 10);
   }
 
   public void zeroSensor(){ // to zero hood push it all the way down on the robot
@@ -37,20 +39,20 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHeight) {
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodTicks) {
       angleMotor.set(ControlMode.PercentOutput, 0);
-    } else {
+     } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodUpSpeed);
     }
   }
-    
+
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
-    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMinHoodHeight) {
-      angleMotor.set(ControlMode.PercentOutput, 0);
-    } else {
+    // if (angleMotor.getSelectedSensorPosition() <= Constants.Hood.kMinHoodHeight) {
+    //   angleMotor.set(ControlMode.PercentOutput, 0);
+    // } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodDownSpeed);
-    }
+    // }
   }
   
   //makes the motor stop
@@ -64,11 +66,19 @@ public class HoodSubsystem extends SubsystemBase {
   public void aimHood(int targetAngle ) { 
     //TODO: I think all the motion magic PID values will need to be set, check documentation
     int encoderValue = (targetAngle / 360) * Constants.Hood.kTicksPerRotation;
-    if (encoderValue <= Constants.Hood.kMinHoodHeight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodHeight);
-    } else if (encoderValue >= Constants.Hood.kMaxHoodHeight) {
-      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodHeight);
+    if (encoderValue <= Constants.Hood.kMinHoodTicks) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMinHoodTicks);
+    } else if (encoderValue >= Constants.Hood.kMaxHoodTicks) {
+      angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodTicks);
     } else angleMotor.set(ControlMode.MotionMagic, encoderValue); 
+  }
+
+  public void resetEncoder() {
+    angleMotor.setSelectedSensorPosition(0);
+  }
+
+  public void putEncoderToShuffleboard() {
+    SmartDashboard.putNumber("Hood encoder", angleMotor.getSelectedSensorPosition());
   }
 
 //getCurrentAngle returns the current angle of the hood
