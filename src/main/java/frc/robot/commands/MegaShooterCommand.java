@@ -37,7 +37,7 @@ public class MegaShooterCommand extends CommandBase {
 
     shooterControls = controls;
 
-    addRequirements(shooter, hood, turret, conveyor);
+    addRequirements(shooter, hood, turret);
   }
 
   // Called when the command is initially scheduled.
