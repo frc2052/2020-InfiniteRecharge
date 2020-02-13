@@ -20,7 +20,7 @@ public class BumpCommand extends CommandBase {
   private DriveTrainSubsystem driveTrain;
 
   public BumpCommand(DriveTrainSubsystem drive) {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kAutoBumpString, true)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kAutoBumpString, false)) {
         driveTrain = drive;
         addRequirements(driveTrain);
         bumpTimer = new Timer();
@@ -30,16 +30,25 @@ public class BumpCommand extends CommandBase {
 
   @Override
   public void initialize() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kAutoBumpString, true)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kAutoBumpString, false) && driveTrain != null && bumpTimer != null) {
       driveTrain.arcadeDrive(.5, 0);
       bumpTimer.start();
-      
+    }
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    if(driveTrain != null) {
+      driveTrain.arcadeDrive(0,0);
+    }
+    if(bumpTimer != null) {
+      bumpTimer.stop();
     }
   }
 
   @Override
   public boolean isFinished() {
-      return (bumpTimer.get() >= 1.0);
+    return bumpTimer == null || (bumpTimer.get() >= .5);
   }
 
 }
