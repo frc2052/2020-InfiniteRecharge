@@ -160,6 +160,7 @@ public final class Constants {
         public static final String kTurretOverrideString = "Turret Override?";
         public static final String kShooterOverrideString = "Shooter Override?";
         public static final String kConveyorOverrideString = "Conveyor Override?";
+        public static final String kAutoBumpString = "Auto Bump?";
     }
     public static final class PixyCamDriveConstants {
 

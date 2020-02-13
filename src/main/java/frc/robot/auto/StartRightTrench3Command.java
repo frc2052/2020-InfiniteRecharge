@@ -20,6 +20,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
+    this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls));    
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
@@ -29,5 +30,4 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     this.addCommands(new OuterIntakeStopCommand(intake));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls));
   }
-
 }
