@@ -81,7 +81,7 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    megaShooterDefaultCommand();
+    //megaShooterDefaultCommand();
 
   }
 
@@ -226,7 +226,9 @@ public class RobotContainer {
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
 
+    // btnJS6.whenPressed(() -> intake.intakeIn()); 
     btnJS6.whileHeld(smartIntakeCommand); 
+    btnJS6.whenReleased(() -> intake.intakeStop());
 
     btnJS7.whenPressed(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());

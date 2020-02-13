@@ -29,6 +29,7 @@ public class HoodSubsystem extends SubsystemBase {
     angleMotor.configFactoryDefault();
     angleMotor.setNeutralMode(NeutralMode.Brake);
     angleMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
+    angleMotor.configClearPositionOnLimitR(true, 10);
   }
 
   public void zeroSensor(){ // to zero hood push it all the way down on the robot
@@ -38,21 +39,13 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
-    // if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodHeight) {
-    //   angleMotor.set(ControlMode.PercentOutput, 0);
-    // } else {
+    if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodTicks) {
+      angleMotor.set(ControlMode.PercentOutput, 0);
+     } else {
       angleMotor.set(ControlMode.PercentOutput, Constants.Hood.kHoodUpSpeed);
-    //}
+    }
   }
 
-  public void resetEncoder() {
-    angleMotor.setSelectedSensorPosition(0);
-  }
-
-  public void putEncoderToShuffleboard() {
-    SmartDashboard.putNumber("Hood encoder", angleMotor.getSelectedSensorPosition());
-  }
-    
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
     // if (angleMotor.getSelectedSensorPosition() <= Constants.Hood.kMinHoodHeight) {
@@ -78,6 +71,14 @@ public class HoodSubsystem extends SubsystemBase {
     } else if (encoderValue >= Constants.Hood.kMaxHoodTicks) {
       angleMotor.set(ControlMode.MotionMagic, Constants.Hood.kMaxHoodTicks);
     } else angleMotor.set(ControlMode.MotionMagic, encoderValue); 
+  }
+
+  public void resetEncoder() {
+    angleMotor.setSelectedSensorPosition(0);
+  }
+
+  public void putEncoderToShuffleboard() {
+    SmartDashboard.putNumber("Hood encoder", angleMotor.getSelectedSensorPosition());
   }
 
 //getCurrentAngle returns the current angle of the hood

@@ -25,7 +25,7 @@ public class SmartIntakeCommand extends CommandBase {
     ballSensor = new DigitalInput(Constants.ConveyorSubsystem.kBallSensorID);
     m_conveyorSubsystem = conveyorSubsystem;
     m_intakeSubsystem = intakeSubsystem;
-    addRequirements(conveyorSubsystem);
+    addRequirements(intakeSubsystem, conveyorSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,12 +36,14 @@ public class SmartIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    while (!ballSensor.get()) {
-      m_intakeSubsystem.intakeIn();
+    if (ballSensor.get()) {
       m_conveyorSubsystem.preLoad();
-    } 
-    m_conveyorSubsystem.lifterStop();
+    } else {
+      m_conveyorSubsystem.lifterStop();
+    }
     m_intakeSubsystem.intakeIn();
+    System.out.println("ballSensor " + ballSensor.get());
+    
   }
 
   // Called once the command ends or is interrupted.

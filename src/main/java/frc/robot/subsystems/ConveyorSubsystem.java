@@ -19,6 +19,10 @@ public class ConveyorSubsystem extends SubsystemBase {
   private VictorSPX conveyorBottomLeftMotor;
   private VictorSPX conveyorBottomRightMotor;
   private VictorSPX lifterMotor;
+
+  private boolean wantPreload;
+  private boolean wantConveyorUp;
+  private boolean wantConveyorDown;
   
   public ConveyorSubsystem() {   
     conveyorBottomLeftMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
@@ -56,12 +60,26 @@ public class ConveyorSubsystem extends SubsystemBase {
     lifterMotor.set(ControlMode.PercentOutput, 0);
   }
 
-  public void preLoad() {
-    conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .2);
-    conveyorBottomRightMotor.set(ControlMode.PercentOutput, .2);
+  // public void preLoad() {
+  //   lifterMotor.set(ControlMode.PercentOutput, -.2);
+  // }
+
+  @Override
+  public void periodic() {
+    if(wantConveyorUp) {
+      lifterMotor.set(ControlMode.PercentOutput, -.4);
+    } else if(wantPreload) {
+      lifterMotor.set(ControlMode.PercentOutput, -.2);
+    } else if(wantConveyorDown) {
+      lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+    } else {
+      lifterMotor.set(ControlMode.PercentOutput, 0);
+    }
+
+    if(wantConveyorUp) {
+      
+    }
   }
-
-
 
 
 
