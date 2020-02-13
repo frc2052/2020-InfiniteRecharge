@@ -37,9 +37,9 @@ public class SmartIntakeCommand extends CommandBase {
   @Override
   public void execute() {
     if (ballSensor.get()) {
-      m_conveyorSubsystem.preLoad();
+      m_conveyorSubsystem.setWantPreload(true);
     } else {
-      m_conveyorSubsystem.lifterStop();
+      m_conveyorSubsystem.setWantPreload(false);
     }
     m_intakeSubsystem.intakeIn();
     System.out.println("ballSensor " + ballSensor.get());
@@ -50,7 +50,7 @@ public class SmartIntakeCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_intakeSubsystem.intakeStop();
-    m_conveyorSubsystem.lifterStop();  
+    m_conveyorSubsystem.setWantPreload(false);  
   }
 
   // Returns true when the command should end.

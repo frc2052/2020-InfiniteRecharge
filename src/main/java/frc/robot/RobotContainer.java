@@ -253,10 +253,6 @@ public class RobotContainer {
       elevator.setOverride(true);
     }
 
-    if(secondaryPanel.getX() < -.5) {
-      conveyor.preLoad();
-    }
-
   }
 
   public void putToSmartDashboard() {
