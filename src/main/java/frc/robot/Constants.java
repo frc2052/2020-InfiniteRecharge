@@ -50,11 +50,11 @@ public final class Constants {
     public static final class DriveTrain{
         public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(.7112);
 
-        // TODO - Find the real values. DO NOT RUN THE ROBOT WITH THESE
+       
         // See: http://docs.wpilib.org/en/latest/docs/software/wpilib-tools/robot-characterization/characterization-routine.html
-        public static final double ksVolts = 0.22;
-        public static final double kvVoltSecondsPerMeter = 1.98;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+        public static final double ksVolts = 0.53;
+        public static final double kvVoltSecondsPerMeter = 4.89;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.559;
         
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
