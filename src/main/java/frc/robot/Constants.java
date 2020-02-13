@@ -141,7 +141,7 @@ public final class Constants {
     public static final class ConveyorSubsystem {      
         public static final boolean klifterdirection = true;
         public static final boolean kConveyorDirection = true;
-        public static final double kConveyorSpeed = -0.5;
+        public static final double kConveyorSpeed = 0.75;
         //Todo: find the actual port
         public static final int kBallSensorID = 0;
     }

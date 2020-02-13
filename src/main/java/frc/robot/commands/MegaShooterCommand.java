@@ -123,41 +123,16 @@ public class MegaShooterCommand extends CommandBase {
 
   public void executeConveyor() {
     if(shooterControls.getManualConveyorDown()) {
-      m_conveyor.lifterDown();
+      m_conveyor.setWantUp(true);
     } else {
+      m_conveyor.setWantDown(false);
       if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
-        feedConveyor();
+        m_conveyor.setWantUp(true);
       } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
-        feedConveyor();
+        m_conveyor.setWantUp(true);
       } else {
-        m_conveyor.lifterStop();
+        m_conveyor.setWantUp(false);
       }
-    }
-  }
-
-  Timer timer;
-  public double conveyorSpeed = .75;
-
-  public void feedConveyor() {
-    m_conveyor.setLifterSpeed(-1);
-
-    if(timer == null) {
-      timer = new Timer();
-      timer.start();
-    }
-    double time = timer.get();
-    if(time %  5 < 2) {
-      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
-      m_conveyor.setRightSideSpeed(-conveyorSpeed);
-    } else if( time % 5 < 2.5) {
-      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
-      m_conveyor.setRightSideSpeed(conveyorSpeed);
-    } else if(time % 5 < 4.5) {
-      m_conveyor.setLeftSideSpeed(-conveyorSpeed);
-      m_conveyor.setRightSideSpeed(-conveyorSpeed);
-    } else {
-      m_conveyor.setLeftSideSpeed(conveyorSpeed);
-      m_conveyor.setRightSideSpeed(-conveyorSpeed);
     }
   }
 
@@ -180,7 +155,8 @@ public class MegaShooterCommand extends CommandBase {
       m_vision.updateLimelight();
       m_shooter.setShooterPct(0);
       m_turret.turnTurret(0);
-      m_conveyor.lifterStop();
+      m_conveyor.setWantUp(false);
+      m_conveyor.setWantDown(false);
     }
   }
 
@@ -193,7 +169,8 @@ public class MegaShooterCommand extends CommandBase {
   public void end(boolean interrupted) {
     System.out.print("Mega Shooter Stopped");
     m_hood.manualStopHoodMovement();
-    m_conveyor.lifterStop();
+    m_conveyor.setWantDown(false);
+    m_conveyor.setWantUp(false);
     m_shooter.setShooterPct(0);
     m_turret.turnTurret(0);    
   }
