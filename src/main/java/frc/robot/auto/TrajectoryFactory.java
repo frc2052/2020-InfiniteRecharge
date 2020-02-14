@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 
-
 public class TrajectoryFactory {
     private DriveTrainSubsystem m_driveTrainSubsystem;
 
@@ -49,10 +48,6 @@ public class TrajectoryFactory {
         ramseteCommand.andThen(() -> m_driveTrainSubsystem.tankDriveVolts(0, 0));
         
         return ramseteCommand;
-    }
-
-    public double toMeters(double inches) {
-        return inches / 39.5;
     }
 
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {

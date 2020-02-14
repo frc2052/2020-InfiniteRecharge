@@ -88,7 +88,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     if(wantConveyorUp) {
-      lifterMotor.set(ControlMode.PercentOutput, -.4);
+      lifterMotor.set(ControlMode.PercentOutput, -1);
     } else if(wantPreload) {
       lifterMotor.set(ControlMode.PercentOutput, -.2);
     } else if(wantConveyorDown) {

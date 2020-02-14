@@ -29,6 +29,12 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setSelectedSensorPosition(0, 0, 10);
   }
 
+
+  public void resetEncoder() {
+    turretMotor.setSelectedSensorPosition(0);
+  }
+
+
   public void turnTurret(double power){
     //motorPower = power;
     turretMotor.set(ControlMode.PercentOutput, power);
@@ -66,10 +72,12 @@ public class TurretSubsystem extends SubsystemBase {
       System.out.println("TOO FAR POSITIVE");
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else {
-      if(Math.abs(angle) < 0.2) {
+      System.out.println("TURRENT ANGLE OFFSET: " + angle);
+      if(Math.abs(angle) < 2) {
         turretMotor.set(ControlMode.PercentOutput, 0);
         isLinedUp = true;
       } else {
+        angle = -angle;
         if (Math.abs(angle) >= 20) {
           isLinedUp = false;
           if(angle > 0) {
@@ -77,9 +85,9 @@ public class TurretSubsystem extends SubsystemBase {
           } else {
             turretMotor.set(ControlMode.PercentOutput, -.75);
           }
-        } else if (Math.abs(angle) < 20) {
+        } else if (Math.abs(angle) < 10) {
           isLinedUp = false;
-          turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
+          turretMotor.set(ControlMode.PercentOutput, (angle * 0.10));
         }
       }
     }

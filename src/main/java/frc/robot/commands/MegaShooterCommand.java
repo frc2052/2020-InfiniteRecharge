@@ -59,11 +59,13 @@ public class MegaShooterCommand extends CommandBase {
         m_hood.manualStopHoodMovement();
       }
     } else {
-      double hoodTargetAngle = m_vision.getDistanceToTargetInches();
-      //TODO: this is going to need more math
+      double hoodTargetTicks = m_hood.calculateTicksByDistance(m_vision.getDistanceToTargetInches());
       //calculate the hood angle from the hood system
-      double hoodCurrentAngle = m_hood.getCurrentAngle();
-      hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
+      double hoodCurrentTicks = m_hood.getCurrentTicks();
+      m_hood.driveToEncoderPos(hoodTargetTicks);
+//      System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
+//      System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
+      hoodOnTarget = m_hood.isOnTarget(); // Math.abs(hoodTargetTicks - hoodCurrentTicks) < 5000;
       //turn hood to target angle 
     }
   }
@@ -73,7 +75,7 @@ public class MegaShooterCommand extends CommandBase {
       //System.out.println("MANUAL TURRET ENABLED");
       turretOnTarget = true;
       if(shooterControls.getManualTurretLeft()) {
-        System.out.print("TURNING LEFT");
+        //System.out.print("TURNING LEFT");
         m_turret.turnTurret(0.5);
       } else if(shooterControls.getManualTurretRight()) {
         //System.out.println("TURNING RIGHT");
@@ -83,13 +85,14 @@ public class MegaShooterCommand extends CommandBase {
         m_turret.turnTurret(0);
       }
     } else if(m_vision.hasValidTarget()){
-      //System.out.println("AUTOMATIC MODE, HAS TARGET");
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
+      //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
       m_turret.driveToPos(turretTargetAngle);//turn turret to target angle
     } else {
-      System.out.print("NO TARGET");
+      //System.out.print("NO TARGET");
       m_turret.turnTurret(0);
+      turretOnTarget = false;
     }
   }
 
@@ -115,15 +118,16 @@ public class MegaShooterCommand extends CommandBase {
         m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
-      int targetSpeed = 0; //TODO: calculate targetSpeed in shooter 
-      speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
-      //m_shooter.setSpeed(targetSpeed);
+      int targetSpeed = 30000; //TODO: calculate targetSpeed in shooter 
+      // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
+      m_shooter.setShooterVelocity(targetSpeed);
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .95;
     }
   }
 
   public void executeConveyor() {
     if(shooterControls.getManualConveyorDown()) {
-      m_conveyor.setWantUp(true);
+      m_conveyor.setWantDown(true);
     } else {
       m_conveyor.setWantDown(false);
       if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
@@ -157,10 +161,13 @@ public class MegaShooterCommand extends CommandBase {
       m_turret.turnTurret(0);
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);
+      m_hood.manualStopHoodMovement();
     }
   }
 
   public boolean getIsReady() {
+    System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
+    
     return hoodOnTarget && turretOnTarget && speedOnTarget;
   }
 

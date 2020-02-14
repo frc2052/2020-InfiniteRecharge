@@ -114,7 +114,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void curvatureDrive(double tank, double turn, boolean quickTurn) {
-    System.out.println("Curvature Turn Value: " + turn);
+    //System.out.println("Curvature Turn Value: " + turn);
     drive.curvatureDrive(tank, turn, quickTurn);
   }
 

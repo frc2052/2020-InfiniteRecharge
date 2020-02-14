@@ -66,9 +66,7 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
-    driveTrain.resetEncoders();
-    elevator.resetEncoder();
-    hood.resetEncoder();
+    vision.setLEDMode(3);
 
     configureTurnJoystick();
     configureTankJoystick();
@@ -81,8 +79,15 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    //megaShooterDefaultCommand();
+    megaShooterDefaultCommand();
 
+  }
+
+  public void resetEncoders() {
+    driveTrain.resetEncoders();
+    elevator.resetEncoder();
+    hood.resetEncoder();
+    turret.resetEncoder();
   }
 
   public void megaShooterDefaultCommand() {
@@ -93,7 +98,7 @@ public class RobotContainer {
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
       new RunCommand(
-        () -> driveTrain.curvatureDrive(tankJoystick.getY(), turnJoystick.getX(), turnJoystick.getRawButton(3)), 
+        () -> driveTrain.curvatureDrive(tankJoystick.getY(), -turnJoystick.getX(), turnJoystick.getRawButton(3)), 
         driveTrain
       )
     );
@@ -118,11 +123,11 @@ public class RobotContainer {
     //buttons 1-9 are already in use in mega shooter
 //    btnJL1.whileHeld(pixyCamManualDriveCommand);
     
-    // btnJL2.whenPressed(() -> conveyor.lifterDown()); //replace this in megashooter to test it
-    // btnJL2.whenReleased(() -> conveyor.lifterStop());
+    btnJL2.whenPressed(() -> conveyor.setWantUp(true)); //replace this in megashooter to test it
+    btnJL2.whenReleased(() -> conveyor.setWantUp(false));
 
-    // btnJL3.whenPressed(() -> conveyor.lifterUp()); 
-    // btnJL3.whenReleased(() -> conveyor.lifterStop()); 
+    // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
+    // btnJL3.whenReleased(() -> conveyor.setWantUp(false));
 
     btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
     btnJL4.whenReleased(() -> activeBalance.manualStop()); 
@@ -165,6 +170,8 @@ public class RobotContainer {
     JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
     // btnJR1.whileHeld(manualSpinUp); //shoot in megashooter
+    // btnJR1.whenPressed(() -> shooter.setShooterVelocity(30000 )); //29900b
+    // btnJR1.whenReleased(() -> shooter.setShooterVelocity(0));
 
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
@@ -214,8 +221,8 @@ public class RobotContainer {
 
     btnJS1.whenPressed(() -> intake.armToggle());
 
-    // btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
-    // btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
+    btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
     btnJS3.whenPressed(() -> {}); //manual shooter speed down
     btnJS3.whenReleased(() -> {});
@@ -226,15 +233,15 @@ public class RobotContainer {
     btnJS5.whenPressed(() -> {});  //manual shooter speed up
     btnJS5.whenReleased(() -> {}); 
 
-    // btnJS6.whenPressed(() -> intake.intakeIn()); 
-    btnJS6.whileHeld(smartIntakeCommand); 
+    btnJS6.whileHeld(() -> intake.intakeIn()); 
+    //btnJS6.whileHeld(smartIntakeCommand); 
     btnJS6.whenReleased(() -> intake.intakeStop());
 
-    btnJS7.whenPressed(() -> intake.intakeOut()); 
+    btnJS7.whileHeld(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());
 
-    // btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); //add to megashooter once we can test that it works
-    // btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); 
+    btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
 
     // btnJS9.whenPressed(() -> turret.turnTurret(-0.5)); //add to megashooter
     // btnJS9.whenReleased(() -> turret.turnTurret(0));
@@ -259,6 +266,7 @@ public class RobotContainer {
     driveTrain.putToSmartDashboard();
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
+    vision.putDistanceToSmartDashboard();
   }
 
   /**
