@@ -79,7 +79,7 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    megaShooterDefaultCommand();
+    // setMegaShooterDefaultCommand();
 
   }
 
@@ -90,9 +90,13 @@ public class RobotContainer {
     turret.resetEncoder();
   }
 
-  public void megaShooterDefaultCommand() {
+  public void setMegaShooterDefaultCommand(boolean isTeleop) {
     System.out.println("INITIALIZED mEGASHOOTER COMMAND");
-    shooter.setDefaultCommand(megaShooterCommand);
+    if(isTeleop) {
+      shooter.setDefaultCommand(megaShooterCommand);
+    } else {
+      shooter.setDefaultCommand(null);
+    }
   }
 
   public void driveDefaultCommand() {
@@ -123,17 +127,17 @@ public class RobotContainer {
     //buttons 1-9 are already in use in mega shooter
 //    btnJL1.whileHeld(pixyCamManualDriveCommand);
     
-    btnJL2.whenPressed(() -> conveyor.setWantUp(true)); //replace this in megashooter to test it
-    btnJL2.whenReleased(() -> conveyor.setWantUp(false));
+    // btnJL2.whenPressed(() -> conveyor.setWantUp(true)); //replace this in megashooter to test it
+    // btnJL2.whenReleased(() -> conveyor.setWantUp(false));
 
     // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
     // btnJL3.whenReleased(() -> conveyor.setWantUp(false));
 
-    btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
-    btnJL4.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
+    // btnJL4.whenReleased(() -> activeBalance.manualStop()); 
 
-    btnJL5.whenPressed(() -> activeBalance.manualRight()); 
-    btnJL5.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL5.whenPressed(() -> activeBalance.manualRight()); 
+    // btnJL5.whenReleased(() -> activeBalance.manualStop()); 
 
     btnJL6.whenPressed(() -> {}); 
     btnJL6.whenReleased(() -> {}); 
@@ -179,7 +183,7 @@ public class RobotContainer {
     // btnJR3.whenPressed(() -> turret.printEncoderPos()); //ready in megashooter
     // btnJR3.whenReleased(() -> {}); 
 
-    btnJR4.whileHeld(visionTurretCommand);
+    //btnJR4.whileHeld(visionTurretCommand);
 
     btnJR5.whenPressed(() -> {}); 
     btnJR5.whenReleased(() -> {}); 
@@ -224,17 +228,15 @@ public class RobotContainer {
     btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
     btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS3.whenPressed(() -> {}); //manual shooter speed down
-    btnJS3.whenReleased(() -> {});
+    btnJS3.whenPressed(() -> elevator.unlockElevator()); 
 
     btnJS4.whenPressed(() -> elevator.setOverride(true));
     btnJS4.whenReleased(() -> elevator.setOverride(false));
 
-    btnJS5.whenPressed(() -> {});  //manual shooter speed up
-    btnJS5.whenReleased(() -> {}); 
+    btnJS5.whenPressed(() -> elevator.lockElevator());  //manual shooter speed up
 
-    btnJS6.whileHeld(() -> intake.intakeIn()); 
-    //btnJS6.whileHeld(smartIntakeCommand); 
+    //btnJS6.whileHeld(() -> intake.intakeIn()); 
+    btnJS6.whileHeld(smartIntakeCommand); 
     btnJS6.whenReleased(() -> intake.intakeStop());
 
     btnJS7.whileHeld(() -> intake.intakeOut()); 

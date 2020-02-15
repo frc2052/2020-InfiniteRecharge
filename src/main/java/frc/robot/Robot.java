@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboard.kConveyorOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboard.kAutoBumpString, false);
+    SmartDashboard.putNumber(Constants.SmartDashboard.kTimeToShoot, 0);
   }
 
   /**
@@ -89,7 +90,9 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }  
+    }
+    
+    m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**
@@ -108,6 +111,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setMegaShooterDefaultCommand(true);
   }
 
   /**
@@ -115,6 +119,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
   }
 
   @Override

@@ -59,6 +59,7 @@ public class TurretSubsystem extends SubsystemBase {
   
   // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
+    angle = -angle;
     isLinedUp = false;
     //System.out.println(turretMotor.getSelectedSensorPosition());
     printEncoderPos();
@@ -77,7 +78,6 @@ public class TurretSubsystem extends SubsystemBase {
         turretMotor.set(ControlMode.PercentOutput, 0);
         isLinedUp = true;
       } else {
-        angle = -angle;
         if (Math.abs(angle) >= 20) {
           isLinedUp = false;
           if(angle > 0) {
@@ -85,9 +85,19 @@ public class TurretSubsystem extends SubsystemBase {
           } else {
             turretMotor.set(ControlMode.PercentOutput, -.75);
           }
-        } else if (Math.abs(angle) < 10) {
+        } else if (Math.abs(angle) < 20) {
           isLinedUp = false;
-          turretMotor.set(ControlMode.PercentOutput, (angle * 0.10));
+          double targetSpeed = angle * .05;
+
+          // if(Math.abs(targetSpeed) < Constants.Turret.kMinTurretSpeed) {
+          //   if (targetSpeed < 0) {
+          //     targetSpeed = -Constants.Turret.kMinTurretSpeed;
+          //   } else {
+          //     targetSpeed = Constants.Turret.kMinTurretSpeed;
+          //   }
+          // }
+
+          turretMotor.set(ControlMode.PercentOutput, (targetSpeed ));
         }
       }
     }
@@ -95,6 +105,10 @@ public class TurretSubsystem extends SubsystemBase {
 
   public boolean getIsOnTarget() {
     return isLinedUp;
+  }
+
+  public int getEncoderPos() {
+    return turretMotor.getSelectedSensorPosition();
   }
 
   public double getTurretDegree() {

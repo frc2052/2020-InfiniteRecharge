@@ -17,9 +17,9 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class MegaShooterCommand extends CommandBase {
   private ShooterSubsystem m_shooter;
-  private VisionSubsystem m_vision;
+  protected VisionSubsystem m_vision; //autoShooter needs access
   private HoodSubsystem m_hood;
-  private TurretSubsystem m_turret;
+  protected TurretSubsystem m_turret; //autoShooter needs access
   private ConveyorSubsystem m_conveyor;
 
   private IShooterControls shooterControls;
@@ -71,20 +71,16 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeTurret() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, true)){
-      //System.out.println("MANUAL TURRET ENABLED");
+    if(shooterControls.getManualTurretLeft()) {
+      //System.out.print("TURNING LEFT");
+      m_turret.turnTurret(0.5);
+    } else if(shooterControls.getManualTurretRight()) {
+      //System.out.println("TURNING RIGHT");
+      m_turret.turnTurret(-0.5);
+    } else if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false)){
       turretOnTarget = true;
-      if(shooterControls.getManualTurretLeft()) {
-        //System.out.print("TURNING LEFT");
-        m_turret.turnTurret(0.5);
-      } else if(shooterControls.getManualTurretRight()) {
-        //System.out.println("TURNING RIGHT");
-        m_turret.turnTurret(-0.5);
-      } else {
-        //System.out.println("NO TURN SIGNAL");
-        m_turret.turnTurret(0);
-      }
-    } else if(m_vision.hasValidTarget()){
+      m_turret.turnTurret(0);
+    } else if(m_vision.hasValidTarget()){  //not in manual mode
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
@@ -97,7 +93,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, true)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, false)) {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
@@ -115,10 +111,11 @@ public class MegaShooterCommand extends CommandBase {
         System.out.println("DECREASING SHOOTER" + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       } else {
+        //System.out.println("Pct Shooter " + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
-      int targetSpeed = 30000; //TODO: calculate targetSpeed in shooter 
+      double targetSpeed = 30000 ;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
       speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .95;
@@ -166,7 +163,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public boolean getIsReady() {
-    System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
+    //System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
     
     return hoodOnTarget && turretOnTarget && speedOnTarget;
   }

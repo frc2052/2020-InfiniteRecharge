@@ -56,6 +56,7 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
+    System.out.println("Manual UP");
     if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodTicks) {
       angleMotor.set(ControlMode.PercentOutput, 0);
      } else {
@@ -66,6 +67,7 @@ public class HoodSubsystem extends SubsystemBase {
 
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
+    System.out.println("Manual Down");
     // if (angleMotor.getSelectedSensorPosition() <= Constants.Hood.kMinHoodHeight) {
     //   angleMotor.set(ControlMode.PercentOutput, 0);
     // } else {
@@ -76,7 +78,8 @@ public class HoodSubsystem extends SubsystemBase {
   
   //makes the motor stop
   public void manualStopHoodMovement(){
-    System.out.println("MANUAL STOP");
+    //System.out.println("MANUAL STOP");
+    System.out.println("STOP 1");
     angleMotor.set(ControlMode.PercentOutput, 0);
     m_IsOnTarget = false;
   }
@@ -120,21 +123,37 @@ public class HoodSubsystem extends SubsystemBase {
       // }
       // double power = pct * .2;
 
+      double difference = ticks - currentTicks;
+
       double power = 0;
-      if (Math.abs(ticks - currentTicks) < 10000) {
+      if (Math.abs(difference) < 5000) {
+        System.out.println("ON TARGET");
         power = 0; 
         m_IsOnTarget = true;
-      }else if (ticks > currentTicks) {
-        power = .2;
-        m_IsOnTarget = false;
-      } else if (ticks < currentTicks) {
-        power = -.2;
-        m_IsOnTarget = false;
+      }else {
+//        if(Math.abs(difference) > 20000) {
+          if (ticks > currentTicks) {
+            System.out.println("TRYING TO GO FORWARDS");
+            power = .25;
+            m_IsOnTarget = false;
+          } else if (ticks < currentTicks) {
+            System.out.println("TRYING TO GO BACKWARDS");
+            power = -.25;
+            m_IsOnTarget = false;
+          }
+        // } else {
+        //   m_IsOnTarget = false;
+          
+        //   power = (difference/20000) * Constants.Hood.kMaxHoodSpeed;
+        //   if(power < Constants.Hood.kMinHoodSpeed) {
+        //     power = Constants.Hood.kMinHoodSpeed;
+        //   }
+        // }
       }
-      
+      System.out.println("POWER ======" + power);
 //      System.out.println("POWERING HOOD " + power + "  Current: " + currentTicks + " Target: " + ticks + " RAW " + angleMotor.getSelectedSensorPosition());
       angleMotor.set(ControlMode.PercentOutput, power);
-
+    }
       // if(Math.abs(ticks - currentTicks) < 1000) {
       //   System.out.println("HOOD CLOSE " + currentTicks + " " + ticks);
       //   angleMotor.set(ControlMode.PercentOutput, 0);
@@ -150,7 +169,6 @@ public class HoodSubsystem extends SubsystemBase {
       //     angleMotor.set(ControlMode.PercentOutput, 0);
       //   }
       // }
-    }
   }
 
   private boolean m_IsOnTarget = false;
