@@ -145,14 +145,14 @@ public class MegaShooterCommand extends CommandBase {
     //System.out.println("TURRET OVERRIDE=" + SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false));
 
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
-      //m_vision.setLEDMode(0);
+      m_vision.setLEDMode(3);
       m_vision.updateLimelight();
       executeHood();
       executeTurret();
       executeShooter();
       executeConveyor();
     } else {
-      //m_vision.setLEDMode(1);
+      m_vision.setLEDMode(1);
       m_vision.updateLimelight();
       m_shooter.setShooterPct(0);
       m_turret.turnTurret(0);

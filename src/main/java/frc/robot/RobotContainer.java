@@ -66,7 +66,7 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
-    vision.setLEDMode(3);
+    vision.setLEDMode(1);
 
     configureTurnJoystick();
     configureTankJoystick();
@@ -269,6 +269,7 @@ public class RobotContainer {
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
     vision.putDistanceToSmartDashboard();
+    turret.printEncoderPos();
   }
 
   /**
@@ -317,26 +318,30 @@ public class RobotContainer {
 
     autoShooterControls = new AutoShooterControls();
 
-    switch(AutoModeSelector.getSelectedAuto()) { 
-      case LSG3:
-        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftGenerator3;
-      case LSG5:
-        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftShoot5;
-      case LST2:
-        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftTrench2;
-      case RST3:
-        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return rightTrench3;
-      case CSG3:
-        return null;
-      case CS:
-        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return centerShootDrivePark;
-      default:
-        return null; 
-    }
+    return null;
+
+    // switch(AutoModeSelector.getSelectedAuto()) { 
+    //   case DM:
+    //     return null;
+    //   case LSG3:
+    //     StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftGenerator3;
+    //   case LSG5:
+    //     StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftShoot5;
+    //   case LST2:
+    //     StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftTrench2;
+    //   case RST3:
+    //     StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return rightTrench3;
+    //   case CSG3:
+    //     return null;
+    //   case CS:
+    //     CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return centerShootDrivePark;
+    //   default:
+    //     return null; 
+    // }
   }
 }
