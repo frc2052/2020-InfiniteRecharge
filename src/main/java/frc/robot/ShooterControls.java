@@ -56,7 +56,7 @@ public class ShooterControls implements IShooterControls{
     }
 
     public boolean getManualConveyorDown() {
-        return secondaryPanel.getX() > .5;
+        return secondaryPanel.getX() < -.5;
     }
 
 
