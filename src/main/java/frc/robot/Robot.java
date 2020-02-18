@@ -92,7 +92,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
     
-    m_robotContainer.setMegaShooterDefaultCommand(false);
+    //m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**

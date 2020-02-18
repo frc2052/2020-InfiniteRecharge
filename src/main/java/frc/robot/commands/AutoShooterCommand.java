@@ -37,13 +37,14 @@ public class AutoShooterCommand extends MegaShooterCommand {
     timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboard.kTimeToShoot, 0);
 
     if(timeToShoot == 0) {
-      timeToShoot = 4;
+      timeToShoot = 10;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //executeHood();
     executeTurret();
     super.execute();
     if(super.getIsReady() && timer.get() == 0) {
@@ -83,4 +84,9 @@ public class AutoShooterCommand extends MegaShooterCommand {
       }
     }
   }
+
+  // @Override
+  // public void executeHood() {
+  //   m_hood.driveToEncoderPos(100000);
+  // }
 }

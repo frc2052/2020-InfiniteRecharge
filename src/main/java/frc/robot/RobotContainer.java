@@ -278,47 +278,49 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
-    final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
+    // final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+    // final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
-    double x = 0;
-    double y = 619.25;
+    // double x = 0;
+    // double y = 619.25;
 
-    NetworkTableEntry pos =
-            tab.add("Position On Line", "Middle")
-                    .getEntry();
-    NetworkTableEntry isLR =
-            tab.add("Measuring from Left Or Right", "Right")
-                    .getEntry();
-    NetworkTableEntry measurement =
-            tab.add("Distance", "0")
-                    .getEntry();
-    switch (pos.getString("middle")){
-      case "Middle":
-        y = 619.25;
-        break;
-      case "Forward":
-        y= 619.25 + 19;
-        break;
-      case "Back":
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
+    // switch (pos.getString("middle")){
+    //   case "Middle":
+    //     y = 619.25;
+    //     break;
+    //   case "Forward":
+    //     y= 619.25 + 19;
+    //     break;
+    //   case "Back":
 
-        y = 619.25 - 19;
-        break;
-    }
+    //     y = 619.25 - 19;
+    //     break;
+    // }
 
-    switch (isLR.getString("Right")){
-      case "Right":
-        x = 203.25 - measurement.getDouble(0);
-        break;
-      case "Left":
-        x= measurement.getDouble(0);
-        break;
-    }
-    driveTrain.setOdometry(x, y);
+    // switch (isLR.getString("Right")){
+    //   case "Right":
+    //     x = 203.25 - measurement.getDouble(0);
+    //     break;
+    //   case "Left":
+    //     x= measurement.getDouble(0);
+    //     break;
+    // }
+    // driveTrain.setOdometry(x, y);
 
     autoShooterControls = new AutoShooterControls();
 
-    return null;
+
+    //return null;
+    return new AutoShoot(shooter, vision, hood, turret, conveyor, autoShooterControls);
 
     // switch(AutoModeSelector.getSelectedAuto()) { 
     //   case DM:

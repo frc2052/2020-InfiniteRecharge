@@ -46,12 +46,13 @@ public class AutoShooterControls implements IShooterControls {
         return false;
     }
 
+    private boolean isShootPressed = true;
+
     @Override
     public boolean getShootPressed() {
         return isShootPressed;
     }
 
-    private boolean isShootPressed = false;
     public void setShootPressed(boolean isPressed){
         isShootPressed = isPressed;
     }
