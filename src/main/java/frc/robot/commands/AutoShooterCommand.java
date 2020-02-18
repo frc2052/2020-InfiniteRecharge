@@ -34,7 +34,7 @@ public class AutoShooterCommand extends MegaShooterCommand {
     timer.reset();
     super.initialize();
 
-    timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboard.kTimeToShoot, 0);
+    timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
 
     if(timeToShoot == 0) {
       timeToShoot = 10;

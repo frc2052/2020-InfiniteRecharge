@@ -41,12 +41,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kShooterOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kHoodOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kConveyorOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kAutoBumpString, false);
-    SmartDashboard.putNumber(Constants.SmartDashboard.kTimeToShoot, 0);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
   }
 
   /**
