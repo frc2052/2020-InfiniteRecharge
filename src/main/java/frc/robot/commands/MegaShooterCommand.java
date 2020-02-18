@@ -47,17 +47,8 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeHood() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false)) {
       hoodOnTarget = true;
-      if(shooterControls.getManualHoodUp()) {
-        System.out.println("HOOD UP");
-        m_hood.manualMoveHoodUp();
-      } else if(shooterControls.getManualHoodDown()) {
-        m_hood.manualMoveHoodDown();
-        System.out.println("HOOD DOWN");
-      } else {
-        m_hood.manualStopHoodMovement();
-      }
     } else {
       double hoodTargetTicks = m_hood.calculateTicksByDistance(m_vision.getDistanceToTargetInches());
       //calculate the hood angle from the hood system
@@ -71,13 +62,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeTurret() {
-    if(shooterControls.getManualTurretLeft()) {
-      //System.out.print("TURNING LEFT");
-      m_turret.turnTurret(0.5);
-    } else if(shooterControls.getManualTurretRight()) {
-      //System.out.println("TURNING RIGHT");
-      m_turret.turnTurret(-0.5);
-    } else if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false)){
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false)){
       turretOnTarget = true;
       m_turret.turnTurret(0);
     } else if(m_vision.hasValidTarget()){  //not in manual mode
@@ -85,7 +70,7 @@ public class MegaShooterCommand extends CommandBase {
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
       m_turret.driveToPos(turretTargetAngle);//turn turret to target angle
-    } else {
+    } else { //not in manual mode, doesn't see target
       //System.out.print("NO TARGET");
       m_turret.turnTurret(0);
       turretOnTarget = false;
@@ -93,7 +78,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false)) {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
@@ -127,9 +112,9 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(true);
     } else {
       m_conveyor.setWantDown(false);
-      if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
+      if(getIsReady() && shooterControls.getShootPressed()) {
         m_conveyor.setWantUp(true);
-      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
+      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed()) {
         m_conveyor.setWantUp(true);
       } else {
         m_conveyor.setWantUp(false);
@@ -137,12 +122,33 @@ public class MegaShooterCommand extends CommandBase {
     }
   }
 
+  public void executeTrims() {
+    if(shooterControls.getManualTurretLeft()) {
+      //System.out.print("TURNING LEFT");
+      m_turret.turnTurret(0.5);
+    } else if(shooterControls.getManualTurretRight()) {
+      //System.out.println("TURNING RIGHT");
+      m_turret.turnTurret(-0.5);
+    } else if(!shooterControls.getShootPressed() && !shooterControls.getReadyPressed()) {
+      m_turret.turnTurret(0);
+    }
+
+    if(shooterControls.getManualHoodUp()) {
+      //System.out.println("HOOD UP");
+      m_hood.manualMoveHoodUp();
+    } else if(shooterControls.getManualHoodDown()) {
+      m_hood.manualMoveHoodDown();
+      //System.out.println("HOOD DOWN");
+    } else if(!shooterControls.getShootPressed() && !shooterControls.getReadyPressed()) {
+      m_hood.manualStopHoodMovement();
+    }
+
+  }
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //System.out.println("MEGASHOOTER EXECUTE");
-
-    //System.out.println("TURRET OVERRIDE=" + SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false));
+    executeTrims();
 
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
       m_vision.setLEDMode(3);

@@ -164,11 +164,10 @@ public final class Constants {
         public static final double kMinHoodSpeed = .18;
     }
     
-    public static final class SmartDashboard {
+    public static final class SmartDashboardStrings {
         public static final String kHoodOverrideString = "Hood Override?";
         public static final String kTurretOverrideString = "Turret Override?";
         public static final String kShooterOverrideString = "Shooter Override?";
-        public static final String kConveyorOverrideString = "Conveyor Override?";
         public static final String kAutoBumpString = "Auto Bump?";
         public static final String kTimeToShoot = "Auto time to shoot?";
     }
