@@ -41,11 +41,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kShooterOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kHoodOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kTurretOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kConveyorOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboard.kAutoBumpString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
   }
 
   /**
@@ -83,12 +83,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    m_robotContainer.resetEncoders();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-    }  
+    }
+    
+    //m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**
@@ -107,6 +110,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setMegaShooterDefaultCommand(true);
   }
 
   /**
@@ -114,10 +118,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    
   }
 
   @Override
   public void testInit() {
+    m_robotContainer.resetEncoders();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }

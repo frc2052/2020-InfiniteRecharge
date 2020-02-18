@@ -34,14 +34,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void lockElevator(){
         isLocked = true;
-        lockinSolenoid.set(true);
-        lockoutSolenoid.set(false);
+        lockinSolenoid.set(false);
+        lockoutSolenoid.set(true);
     }   
 
     public void unlockElevator(){
         isLocked = false;
-        lockinSolenoid.set(false);
-        lockoutSolenoid.set(true);
+        lockinSolenoid.set(true);
+        lockoutSolenoid.set(false);
     }
 
     public void printEncoderPos() {

@@ -43,9 +43,8 @@ public class ShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("Shooter Velocity", shooterMasterMotor.getSelectedSensorVelocity());
   }
  
-  public double getVelocity(){
-    RPM = sensorUnitsToRPM(shooterMasterMotor.getSelectedSensorVelocity());
-    return RPM;
+  public double getVelocityTicks(){
+    return shooterMasterMotor.getSelectedSensorVelocity();
   }
 
   public double getSpeedPct() {
@@ -55,7 +54,7 @@ public class ShooterSubsystem extends SubsystemBase {
   //TODO: do we need to set PID values to use velocity mode? Check documentation
   public void setShooterVelocity(double speed){
     lastShootPct = 0;
-    System.out.println("SHOOTER VELOCTITY MODE--" +  shooterMasterMotor.getSelectedSensorVelocity() + "  TARGET VELOCITY--" + speed);
+    //System.out.println("SHOOTER VELOCTITY MODE--" +  shooterMasterMotor.getSelectedSensorVelocity() + "  TARGET VELOCITY--" + speed);
     shooterMasterMotor.set(ControlMode.Velocity, speed);
   }
 

@@ -56,9 +56,13 @@ public class SmartIntakeCommand extends CommandBase {
       }
     } else {
       m_conveyorSubsystem.setWantPreload(false);
+      System.out.println("LOADING");
+    } else {
+      m_conveyorSubsystem.setWantPreload(true);
+      System.out.println("NOT PRELOADING");
     }
     m_intakeSubsystem.intakeIn();
-    System.out.println("ballSensor " + middleBallSensor.get());
+    //System.out.println("ballSensor " + middleBallSensor.get());
     
   }
 

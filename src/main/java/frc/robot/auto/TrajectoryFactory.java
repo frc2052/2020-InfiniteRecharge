@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConst
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 
-
 public class TrajectoryFactory {
     private DriveTrainSubsystem m_driveTrainSubsystem;
 
@@ -51,10 +50,6 @@ public class TrajectoryFactory {
         return ramseteCommand;
     }
 
-    public double toMeters(double inches) {
-        return inches / 39.5;
-    }
-
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -73,7 +68,7 @@ public class TrajectoryFactory {
         switch(selectedPath)  {
           case StartCenterDriveBackPark:
               return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(Units.inchesToMeters(120), 0, new Rotation2d(0)), //start, B
+                    new Pose2d(Units.inchesToMeters(136), 0, new Rotation2d(0)), //start, B
                         List.of( //waypoints
                             new Translation2d(Units.inchesToMeters(120), 0)), // B
                     new Pose2d(Units.inchesToMeters(150), 0, new Rotation2d(0)), config);  //end, 30 inches away from start line

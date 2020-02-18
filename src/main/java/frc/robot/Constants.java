@@ -72,7 +72,7 @@ public final class Constants {
     }
 
     public static final class Intake{
-        public static final double kIntakeSpeed = 0.7;
+        public static final double kIntakeSpeed = 1;
     }
 
     public static final class Elevator{
@@ -82,7 +82,7 @@ public final class Constants {
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
-       public static final int kElevatorMaxHeight = 26000;
+       public static final int kElevatorMaxHeight = 25000;
     }
 
     public static final class WheelOfFortune{
@@ -119,11 +119,17 @@ public final class Constants {
         public static final double kTicksPerDegree = 4096 / 90;
         public static final double kMaxAngle = 90;
         public static final double kMinAngle = -90;
+
+        public static final double kMinTurretSpeed = .1;
+        public static final double kMaxTurretSpeed = .75;
     }
   
     public static class Autonomous {
         public static final double maxVelocity = 7 * 12;
         public static final double maxAcceleration = 120;
+
+        public static final int kLeftInitTargetTicks = 20000;
+        public static final int kRightInitTargetTicks = -20000;
     }
 
     public static final class Vision {
@@ -150,19 +156,22 @@ public final class Constants {
 
     public static final class Hood {
         public static final int kTicksPerRotation = 4096;
-        public static final double kHoodDownSpeed = -.20;
-        public static final double kHoodUpSpeed = .20;
+        public static final double kHoodDownSpeed = -.25;
+        public static final double kHoodUpSpeed = .25;
         //TODO manualy find max and min endcoder values 
         public static final double kMinHoodTicks = 0;
-        public static final double kMaxHoodTicks = 146700;
+        public static final double kMaxHoodTicks = 125695;
+
+        public static final double kMaxHoodSpeed = .35;
+        public static final double kMinHoodSpeed = .18;
     }
     
-    public static final class SmartDashboard {
+    public static final class SmartDashboardStrings {
         public static final String kHoodOverrideString = "Hood Override?";
         public static final String kTurretOverrideString = "Turret Override?";
         public static final String kShooterOverrideString = "Shooter Override?";
-        public static final String kConveyorOverrideString = "Conveyor Override?";
         public static final String kAutoBumpString = "Auto Bump?";
+        public static final String kTimeToShoot = "Auto time to shoot?";
     }
     public static final class PixyCamDriveConstants {
 
