@@ -66,9 +66,7 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
-    driveTrain.resetEncoders();
-    elevator.resetEncoder();
-    hood.resetEncoder();
+    vision.setLEDMode(1);
 
     configureTurnJoystick();
     configureTankJoystick();
@@ -81,19 +79,30 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    //megaShooterDefaultCommand();
+    // setMegaShooterDefaultCommand();
 
   }
 
-  public void megaShooterDefaultCommand() {
+  public void resetEncoders() {
+    driveTrain.resetEncoders();
+    elevator.resetEncoder();
+    hood.resetEncoder();
+    turret.resetEncoder();
+  }
+
+  public void setMegaShooterDefaultCommand(boolean isTeleop) {
     System.out.println("INITIALIZED mEGASHOOTER COMMAND");
-    shooter.setDefaultCommand(megaShooterCommand);
+    if(isTeleop) {
+      shooter.setDefaultCommand(megaShooterCommand);
+    } else {
+      shooter.setDefaultCommand(null);
+    }
   }
 
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
       new RunCommand(
-        () -> driveTrain.curvatureDrive(tankJoystick.getY(), turnJoystick.getX(), turnJoystick.getRawButton(3)), 
+        () -> driveTrain.curvatureDrive(tankJoystick.getY(), -turnJoystick.getX(), turnJoystick.getRawButton(3)), 
         driveTrain
       )
     );
@@ -118,17 +127,17 @@ public class RobotContainer {
     //buttons 1-9 are already in use in mega shooter
 //    btnJL1.whileHeld(pixyCamManualDriveCommand);
     
-    // btnJL2.whenPressed(() -> conveyor.lifterDown()); //replace this in megashooter to test it
-    // btnJL2.whenReleased(() -> conveyor.lifterStop());
+    // btnJL2.whenPressed(() -> conveyor.setWantUp(true)); //replace this in megashooter to test it
+    // btnJL2.whenReleased(() -> conveyor.setWantUp(false));
 
-    // btnJL3.whenPressed(() -> conveyor.lifterUp()); 
-    // btnJL3.whenReleased(() -> conveyor.lifterStop()); 
+    // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
+    // btnJL3.whenReleased(() -> conveyor.setWantUp(false));
 
-    btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
-    btnJL4.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
+    // btnJL4.whenReleased(() -> activeBalance.manualStop()); 
 
-    btnJL5.whenPressed(() -> activeBalance.manualRight()); 
-    btnJL5.whenReleased(() -> activeBalance.manualStop()); 
+    // btnJL5.whenPressed(() -> activeBalance.manualRight()); 
+    // btnJL5.whenReleased(() -> activeBalance.manualStop()); 
 
     btnJL6.whenPressed(() -> {}); 
     btnJL6.whenReleased(() -> {}); 
@@ -165,6 +174,8 @@ public class RobotContainer {
     JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
     // btnJR1.whileHeld(manualSpinUp); //shoot in megashooter
+    // btnJR1.whenPressed(() -> shooter.setShooterVelocity(30000 )); //29900b
+    // btnJR1.whenReleased(() -> shooter.setShooterVelocity(0));
 
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
@@ -172,7 +183,7 @@ public class RobotContainer {
     // btnJR3.whenPressed(() -> turret.printEncoderPos()); //ready in megashooter
     // btnJR3.whenReleased(() -> {}); 
 
-    btnJR4.whileHeld(visionTurretCommand);
+    //btnJR4.whileHeld(visionTurretCommand);
 
     btnJR5.whenPressed(() -> {}); 
     btnJR5.whenReleased(() -> {}); 
@@ -214,27 +225,25 @@ public class RobotContainer {
 
     btnJS1.whenPressed(() -> intake.armToggle());
 
-    // btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
-    // btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
+    btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS3.whenPressed(() -> {}); //manual shooter speed down
-    btnJS3.whenReleased(() -> {});
+    btnJS3.whenPressed(() -> elevator.unlockElevator()); 
 
     btnJS4.whenPressed(() -> elevator.setOverride(true));
     btnJS4.whenReleased(() -> elevator.setOverride(false));
 
-    btnJS5.whenPressed(() -> {});  //manual shooter speed up
-    btnJS5.whenReleased(() -> {}); 
+    btnJS5.whenPressed(() -> elevator.lockElevator());  //manual shooter speed up
 
-    // btnJS6.whenPressed(() -> intake.intakeIn()); 
+    //btnJS6.whileHeld(() -> intake.intakeIn()); 
     btnJS6.whileHeld(smartIntakeCommand); 
     btnJS6.whenReleased(() -> intake.intakeStop());
 
-    btnJS7.whenPressed(() -> intake.intakeOut()); 
+    btnJS7.whileHeld(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());
 
-    // btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); //add to megashooter once we can test that it works
-    // btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); 
+    btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
 
     // btnJS9.whenPressed(() -> turret.turnTurret(-0.5)); //add to megashooter
     // btnJS9.whenReleased(() -> turret.turnTurret(0));
@@ -259,6 +268,8 @@ public class RobotContainer {
     driveTrain.putToSmartDashboard();
     elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
+    vision.putDistanceToSmartDashboard();
+    turret.printEncoderPos();
   }
 
   /**
@@ -267,66 +278,72 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
-    final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
+    // final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+    // final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
-    double x = 0;
-    double y = 619.25;
+    // double x = 0;
+    // double y = 619.25;
 
-    NetworkTableEntry pos =
-            tab.add("Position On Line", "Middle")
-                    .getEntry();
-    NetworkTableEntry isLR =
-            tab.add("Measuring from Left Or Right", "Right")
-                    .getEntry();
-    NetworkTableEntry measurement =
-            tab.add("Distance", "0")
-                    .getEntry();
-    switch (pos.getString("middle")){
-      case "Middle":
-        y = 619.25;
-        break;
-      case "Forward":
-        y= 619.25 + 19;
-        break;
-      case "Back":
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
+    // switch (pos.getString("middle")){
+    //   case "Middle":
+    //     y = 619.25;
+    //     break;
+    //   case "Forward":
+    //     y= 619.25 + 19;
+    //     break;
+    //   case "Back":
 
-        y = 619.25 - 19;
-        break;
-    }
+    //     y = 619.25 - 19;
+    //     break;
+    // }
 
-    switch (isLR.getString("Right")){
-      case "Right":
-        x = 203.25 - measurement.getDouble(0);
-        break;
-      case "Left":
-        x= measurement.getDouble(0);
-        break;
-    }
-    driveTrain.setOdometry(x, y);
+    // switch (isLR.getString("Right")){
+    //   case "Right":
+    //     x = 203.25 - measurement.getDouble(0);
+    //     break;
+    //   case "Left":
+    //     x= measurement.getDouble(0);
+    //     break;
+    // }
+    // driveTrain.setOdometry(x, y);
 
     autoShooterControls = new AutoShooterControls();
 
-    switch(AutoModeSelector.getSelectedAuto()) { 
-      case LSG3:
-        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftGenerator3;
-      case LSG5:
-        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftShoot5;
-      case LST2:
-        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftTrench2;
-      case RST3:
-        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return rightTrench3;
-      case CSG3:
-        return null;
-      case CS:
-        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return centerShootDrivePark;
-      default:
-        return null; 
-    }
+
+    //return null;
+    return new AutoShoot(shooter, vision, hood, turret, conveyor, autoShooterControls);
+
+    // switch(AutoModeSelector.getSelectedAuto()) { 
+    //   case DM:
+    //     return null;
+    //   case LSG3:
+    //     StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftGenerator3;
+    //   case LSG5:
+    //     StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftShoot5;
+    //   case LST2:
+    //     StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftTrench2;
+    //   case RST3:
+    //     StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return rightTrench3;
+    //   case CSG3:
+    //     return null;
+    //   case CS:
+    //     CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return centerShootDrivePark;
+    //   default:
+    //     return null; 
+    // }
   }
 }

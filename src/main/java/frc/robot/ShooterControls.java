@@ -24,11 +24,11 @@ public class ShooterControls implements IShooterControls{
     }
 
     public boolean getShooterIncrease() {
-        return secondaryPanel.getRawButton(5);
+        return secondaryPanel.getY() < -.5;
     }
 
     public boolean getShooterDecrease() {
-        return secondaryPanel.getRawButton(3);
+        return secondaryPanel.getY() > .5;
     }
 
     public boolean getManualHoodUp() {
@@ -56,8 +56,9 @@ public class ShooterControls implements IShooterControls{
     }
 
     public boolean getManualConveyorDown() {
-        return secondaryPanel.getY() > 0;
+        return secondaryPanel.getX() < -.5;
     }
+
 
     public boolean getManualConveyorUp() {
         return turnJoystick.getRawButton(2);

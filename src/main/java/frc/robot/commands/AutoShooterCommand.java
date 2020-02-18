@@ -8,18 +8,24 @@
 package frc.robot.commands;
 
 import frc.robot.IShooterControls;
+import frc.robot.Constants;
 import frc.robot.auto.AutoShooterControls;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoShooterCommand extends MegaShooterCommand {
   private Timer timer = new Timer();
   private boolean m_IsFinished = false;
   private AutoShooterControls autoControls;
+  
+  private double timeToShoot;
+  private int targetTicks;
 
-  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls) {
+  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int ticks) {
     super(shooter, vision, hood, turret, conveyor, controls);
     autoControls = controls;
+    targetTicks = ticks;
   }
   
   @Override
@@ -27,16 +33,24 @@ public class AutoShooterCommand extends MegaShooterCommand {
     m_IsFinished = false;
     timer.reset();
     super.initialize();
+
+    timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboard.kTimeToShoot, 0);
+
+    if(timeToShoot == 0) {
+      timeToShoot = 10;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //executeHood();
+    executeTurret();
     super.execute();
     if(super.getIsReady() && timer.get() == 0) {
       timer.start();
     } 
-    if(timer.get() > 4) {
+    if(timer.get() > timeToShoot) {
       m_IsFinished = true;
     }
   }
@@ -54,4 +68,25 @@ public class AutoShooterCommand extends MegaShooterCommand {
   public boolean isFinished() {
     return m_IsFinished;
   }
+
+  @Override
+  public void executeTurret() {
+    if(m_vision.hasValidTarget() || targetTicks == 0) {
+      super.executeTurret();
+    } else {
+      int currentTicks = m_turret.getEncoderPos();
+      if(currentTicks < targetTicks) {
+        m_turret.turnTurret(Constants.Turret.kMaxTurretSpeed); //TODO; figure out a way to be on target if the camera fails in auto
+      } else if(currentTicks > targetTicks) {
+        m_turret.turnTurret(-Constants.Turret.kMaxTurretSpeed);
+      } else {
+        m_turret.turnTurret(0);
+      }
+    }
+  }
+
+  // @Override
+  // public void executeHood() {
+  //   m_hood.driveToEncoderPos(100000);
+  // }
 }

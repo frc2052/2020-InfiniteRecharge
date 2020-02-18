@@ -78,6 +78,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void setWantPreload(boolean isPressed) {
+    System.out.println("----------------------------PRELOAD" + isPressed);
     wantPreload = isPressed;
   }
 
@@ -87,10 +88,11 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
     if(wantConveyorUp) {
-      lifterMotor.set(ControlMode.PercentOutput, -.4);
+      lifterMotor.set(ControlMode.PercentOutput, -1);
     } else if(wantPreload) {
-      lifterMotor.set(ControlMode.PercentOutput, -.2);
+      lifterMotor.set(ControlMode.PercentOutput, -.5);
     } else if(wantConveyorDown) {
       lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
     } else {
@@ -100,28 +102,28 @@ public class ConveyorSubsystem extends SubsystemBase {
     Timer timer = new Timer();
 
     if(wantConveyorUp) {
-      double time = timer.get();
-      if(time %  5 < 2) {
-        conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      } else if( time % 5 < 2.5) {
-        conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
-      } else if(time % 5 < 4.5) {
-        conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      } else {
-        conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
-        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      } 
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.75);
+      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .4);
+      // double time = timer.get();
+      // if(time %  5 < 2) {
+      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      // } else if( time % 5 < 2.5) {
+      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+      // } else if(time % 5 < 4.5) {
+      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      // } else {
+      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      // } 
     } else if(wantConveyorDown) {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);  
     } else {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);
-      lifterMotor.set(ControlMode.PercentOutput, 0);
     }
   }
 
