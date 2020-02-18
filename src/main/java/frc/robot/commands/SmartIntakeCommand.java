@@ -16,16 +16,24 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class SmartIntakeCommand extends CommandBase {
   private IntakeSubsystem m_intakeSubsystem;
   private ConveyorSubsystem m_conveyorSubsystem;
-  private DigitalInput ballSensor;
+  private DigitalInput middleBallSensor;
+  private DigitalInput frontBallSensor;
+  private DigitalInput topBallSensor;
   /**
    * Creates a new SmartIntakeCommand.
    */
   public SmartIntakeCommand(ConveyorSubsystem conveyorSubsystem, IntakeSubsystem intakeSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    ballSensor = new DigitalInput(Constants.ConveyorSubsystem.kBallSensorID);
+    middleBallSensor = new DigitalInput(Constants.ConveyorSubsystem.kMiddleBallSensorID);
+    frontBallSensor = new DigitalInput(Constants.ConveyorSubsystem.kFrontBallSensorID);
+    topBallSensor = new DigitalInput(Constants.ConveyorSubsystem.kTopBallSensorID);
     m_conveyorSubsystem = conveyorSubsystem;
     m_intakeSubsystem = intakeSubsystem;
     addRequirements(intakeSubsystem);
+  }
+
+  public boolean seeBall(DigitalInput sensor){
+    return !sensor.get();
   }
 
   // Called when the command is initially scheduled.
@@ -36,7 +44,17 @@ public class SmartIntakeCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (ballSensor.get()) {
+    if(!seeBall(topBallSensor)){
+      if (!seeBall(middleBallSensor)) {
+        m_conveyorSubsystem.setWantPreload(true);
+      } else if (!seeBall(frontBallSensor) && seeBall(middleBallSensor)){
+        m_conveyorSubsystem.setWantPreload(false);
+      } else if (seeBall(frontBallSensor) && seeBall(middleBallSensor)){
+        m_conveyorSubsystem.setWantPreload(true);
+      } else {
+        m_conveyorSubsystem.setWantPreload(false);
+      }
+    } else {
       m_conveyorSubsystem.setWantPreload(false);
       System.out.println("LOADING");
     } else {
@@ -44,7 +62,7 @@ public class SmartIntakeCommand extends CommandBase {
       System.out.println("NOT PRELOADING");
     }
     m_intakeSubsystem.intakeIn();
-    System.out.println("ballSensor " + ballSensor.get());
+    //System.out.println("ballSensor " + middleBallSensor.get());
     
   }
 

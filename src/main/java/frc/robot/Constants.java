@@ -149,7 +149,9 @@ public final class Constants {
         public static final boolean kConveyorDirection = true;
         public static final double kConveyorSpeed = 0.75;
         //Todo: find the actual port
-        public static final int kBallSensorID = 0;
+        public static final int kMiddleBallSensorID = 0;
+        public static final int kFrontBallSensorID = 1;
+        public static final int kTopBallSensorID = 2;
     }
 
     public static final class Hood {
