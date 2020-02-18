@@ -47,7 +47,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeHood() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, true)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, false)) {
       hoodOnTarget = true;
       if(shooterControls.getManualHoodUp()) {
         System.out.println("HOOD UP");
@@ -127,9 +127,9 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(true);
     } else {
       m_conveyor.setWantDown(false);
-      if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
+      if(getIsReady() && shooterControls.getShootPressed() && !SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
         m_conveyor.setWantUp(true);
-      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, true)) {
+      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
         m_conveyor.setWantUp(true);
       } else {
         m_conveyor.setWantUp(false);
