@@ -42,10 +42,10 @@ public class VisionTurretAdjustCommand extends CommandBase {
       //turretOnTarget = Math.abs(turretCurrentAngle - turretTargetAngle) < .5;
       turret.driveToPos(turretTargetXAngle);//turn turret to target angle using motion magic
       //System.out.println(turretTargetAngle);
-      System.out.println(turretTargetXAngle);
+      //System.out.println(turretTargetXAngle);
     } else {
       turret.turnTurret(0);
-      System.out.println("-----------------------No target");
+      //System.out.println("-----------------------No target");
     }
   }
 

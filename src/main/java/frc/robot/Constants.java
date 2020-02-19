@@ -30,10 +30,8 @@ public final class Constants {
     public static final class Motors {
         public static final int kDriveRightMasterId = 1;
         public static final int kDriveRightFollowerId = 2;
-        public static final int kDriveRightFollower2Id = 3;
-        public static final int kDriveLeftMasterId = 4;
-        public static final int kDriveLeftFollowerId = 5;
-        public static final int kDriveLeftFollower2Id = 6;
+        public static final int kDriveLeftMasterId = 3;
+        public static final int kDriveLeftFollowerId = 4;
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kShooterMasterMotorID = 9;
@@ -105,6 +103,7 @@ public final class Constants {
         public static final double kShooterSpeedRPS = 5;
 
         public static final double kShooterF = (.9 * 1023) / 29900; //29900 is fastest we can run shooter
+        public static final int kShooterTargetVelocity = 30000;
     }
   
     public static final class Turret{
@@ -160,7 +159,7 @@ public final class Constants {
         public static final double kHoodUpSpeed = .25;
         //TODO manualy find max and min endcoder values 
         public static final double kMinHoodTicks = 0;
-        public static final double kMaxHoodTicks = 125695;
+        public static final int kMaxHoodTicks = 1250;
 
         public static final double kMaxHoodSpeed = .35;
         public static final double kMinHoodSpeed = .18;

@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.IShooterControls;
 import frc.robot.ShooterControls;
+import frc.robot.Constants.Shooter;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
@@ -43,7 +44,7 @@ public class MegaShooterCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("*************** MEGA SHOOTER INIT");
+    //System.out.println("*************** MEGA SHOOTER INIT");
   }
 
   public void executeHood() {
@@ -52,10 +53,9 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       double hoodTargetTicks = m_hood.calculateTicksByDistance(m_vision.getDistanceToTargetInches());
       //calculate the hood angle from the hood system
-      double hoodCurrentTicks = m_hood.getCurrentTicks();
       m_hood.driveToEncoderPos(hoodTargetTicks);
-//      System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
-//      System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
+      //System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
+      //System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
       hoodOnTarget = m_hood.isOnTarget(); // Math.abs(hoodTargetTicks - hoodCurrentTicks) < 5000;
       //turn hood to target angle 
     }
@@ -86,24 +86,25 @@ public class MegaShooterCommand extends CommandBase {
         if(currentPowerPct > 1) {
           currentPowerPct = 1;
         }
-        System.out.println("INCREASING SHOOTER" + currentPowerPct);
+        //System.out.println("INCREASING SHOOTER" + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       } else if (shooterControls.getShooterDecrease()) {
         currentPowerPct -= 0.005;
         if(currentPowerPct < 0) {
           currentPowerPct = 0;
         }
-        System.out.println("DECREASING SHOOTER" + currentPowerPct);
+        //System.out.println("DECREASING SHOOTER" + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       } else {
         //System.out.println("Pct Shooter " + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
-      double targetSpeed = 30000 ;
+      double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .95;
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
+      SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
   }
 
@@ -129,7 +130,7 @@ public class MegaShooterCommand extends CommandBase {
     } else if(shooterControls.getManualTurretRight()) {
       //System.out.println("TURNING RIGHT");
       m_turret.turnTurret(-0.5);
-    } else if(!shooterControls.getShootPressed() && !shooterControls.getReadyPressed()) {
+    } else {
       m_turret.turnTurret(0);
     }
 
@@ -139,16 +140,29 @@ public class MegaShooterCommand extends CommandBase {
     } else if(shooterControls.getManualHoodDown()) {
       m_hood.manualMoveHoodDown();
       //System.out.println("HOOD DOWN");
-    } else if(!shooterControls.getShootPressed() && !shooterControls.getReadyPressed()) {
+    } else {
       m_hood.manualStopHoodMovement();
     }
+  }
 
+  private boolean wasToggleIdleLastPressed = false;
+  private boolean shooterIdleIsOn = false;
+
+  public void toggleIdleShooter() {
+    if (shooterControls.getIdleShooterToggle() && !wasToggleIdleLastPressed) { //first time we have seen it pressed since last check
+      if (shooterIdleIsOn) {
+        shooterIdleIsOn = false;
+      } else {
+        shooterIdleIsOn = true;
+      }
+    }
+    wasToggleIdleLastPressed = shooterControls.getIdleShooterToggle();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    executeTrims();
+    toggleIdleShooter();
 
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
       m_vision.setLEDMode(3);
@@ -159,12 +173,18 @@ public class MegaShooterCommand extends CommandBase {
       executeConveyor();
     } else {
       m_vision.setLEDMode(1);
-      m_vision.updateLimelight();
-      m_shooter.setShooterPct(0);
-      m_turret.turnTurret(0);
+      m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);
-      m_hood.manualStopHoodMovement();
+      
+
+      executeTrims();
+
+      if (!shooterIdleIsOn) {
+        m_shooter.setShooterPct(0);
+      } else {
+        m_shooter.setShooterVelocity(Constants.Shooter.kShooterTargetVelocity * .5);
+      }
     }
   }
 
