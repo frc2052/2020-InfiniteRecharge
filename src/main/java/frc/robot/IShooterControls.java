@@ -30,4 +30,6 @@ public interface IShooterControls {
     public boolean getManualConveyorDown();
 
     public boolean getManualConveyorUp();
+
+    public boolean getIdleShooterToggle();
 }

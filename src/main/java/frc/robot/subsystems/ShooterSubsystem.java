@@ -51,7 +51,6 @@ public class ShooterSubsystem extends SubsystemBase {
     return lastShootPct;
   }
 
-  //TODO: do we need to set PID values to use velocity mode? Check documentation
   public void setShooterVelocity(double speed){
     lastShootPct = 0;
     //System.out.println("SHOOTER VELOCTITY MODE--" +  shooterMasterMotor.getSelectedSensorVelocity() + "  TARGET VELOCITY--" + speed);

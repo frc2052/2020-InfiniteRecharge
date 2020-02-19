@@ -20,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase {
         outerIntakeMotor.configFactoryDefault();
     }
     public void armToggle(){
-        System.out.println("ARM TOGGLE");
+        //System.out.println("ARM TOGGLE");
         if(isArmDown){
             armUp();
         } else {
@@ -38,15 +38,15 @@ public class IntakeSubsystem extends SubsystemBase {
         isArmDown = true;
     }
     public void intakeIn(){
-        System.out.println("INATKE IN");
+        //System.out.println("INATKE IN");
         outerIntakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kIntakeSpeed);
     }
     public void intakeOut(){
-        System.out.println("INATKE OUT");
+        //System.out.println("INATKE OUT");
         outerIntakeMotor.set(ControlMode.PercentOutput, -Constants.Intake.kIntakeSpeed);
     }
     public void intakeStop(){
-        System.out.println("INATKE STOP");
+        //System.out.println("INATKE STOP");
         outerIntakeMotor.set(ControlMode.PercentOutput, 0);
     }
 

@@ -91,7 +91,7 @@ public class RobotContainer {
   }
 
   public void setMegaShooterDefaultCommand(boolean isTeleop) {
-    System.out.println("INITIALIZED mEGASHOOTER COMMAND");
+    //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
     if(isTeleop) {
       shooter.setDefaultCommand(megaShooterCommand);
     } else {
@@ -133,8 +133,7 @@ public class RobotContainer {
     // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
     // btnJL3.whenReleased(() -> conveyor.setWantUp(false));
 
-    // btnJL4.whenPressed(() -> activeBalance.manualLeft()); 
-    // btnJL4.whenReleased(() -> activeBalance.manualStop()); 
+    //btnJL4.whenPressed(() -> shooter.setIdleSpeed(true)); 
 
     // btnJL5.whenPressed(() -> activeBalance.manualRight()); 
     // btnJL5.whenReleased(() -> activeBalance.manualStop()); 
@@ -225,8 +224,8 @@ public class RobotContainer {
 
     btnJS1.whenPressed(() -> intake.armToggle());
 
-    // btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
-    // btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
+    btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
     btnJS3.whenPressed(() -> elevator.unlockElevator()); 
 
@@ -242,8 +241,8 @@ public class RobotContainer {
     btnJS7.whileHeld(() -> intake.intakeOut()); 
     btnJS7.whenReleased(() -> intake.intakeStop());
 
-    // btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); 
-    // btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
+    btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); 
+    btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
 
     // btnJS9.whenPressed(() -> turret.turnTurret(-0.5)); //add to megashooter
     // btnJS9.whenReleased(() -> turret.turnTurret(0));

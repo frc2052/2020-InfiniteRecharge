@@ -67,5 +67,10 @@ public class AutoShooterControls implements IShooterControls {
     public boolean getShooterIncrease() {
         return false;
     }
+
+    @Override
+    public boolean getIdleShooterToggle() {
+        return false;
+    }
     
 }

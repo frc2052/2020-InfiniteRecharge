@@ -56,7 +56,7 @@ public class HoodSubsystem extends SubsystemBase {
   //Moves hood up at low incaments with a max postion checker
   public void manualMoveHoodUp(){ 
     //TODO check gear ratios to find better motor speed
-    System.out.println("Manual UP");
+    //System.out.println("Manual UP");
     if (angleMotor.getSelectedSensorPosition() >= Constants.Hood.kMaxHoodTicks) {
       angleMotor.set(ControlMode.PercentOutput, 0);
      } else {
@@ -67,7 +67,7 @@ public class HoodSubsystem extends SubsystemBase {
 
   //Moves Hood Down at low incraments with a min postion checker 
   public void manualMoveHoodDown(){ //TODO check gear ratios to find better motor speed
-    System.out.println("Manual Down");
+    //System.out.println("Manual Down");
     // if (angleMotor.getSelectedSensorPosition() <= Constants.Hood.kMinHoodHeight) {
     //   angleMotor.set(ControlMode.PercentOutput, 0);
     // } else {
@@ -79,7 +79,7 @@ public class HoodSubsystem extends SubsystemBase {
   //makes the motor stop
   public void manualStopHoodMovement(){
     //System.out.println("MANUAL STOP");
-    System.out.println("STOP 1");
+    //System.out.println("STOP 1");
     angleMotor.set(ControlMode.PercentOutput, 0);
     m_IsOnTarget = false;
   }
@@ -127,7 +127,7 @@ public class HoodSubsystem extends SubsystemBase {
 
       double power = 0;
       if (Math.abs(difference) < 5000) {
-        System.out.println("ON TARGET");
+        //System.out.println("ON TARGET");
         power = 0; 
         m_IsOnTarget = true;
       }else {

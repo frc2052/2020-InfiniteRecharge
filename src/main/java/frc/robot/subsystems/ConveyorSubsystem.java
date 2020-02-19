@@ -24,6 +24,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   private boolean wantPreload = false;
   private boolean wantConveyorUp = false;
   private boolean wantConveyorDown = false;
+  private Timer timer = new Timer();
   
   public ConveyorSubsystem() {   
     conveyorBottomLeftMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
@@ -41,6 +42,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Coast);
     conveyorBottomRightMotor.setNeutralMode(NeutralMode.Coast);
      
+     timer.start();
   }
   
   // public void lifterUp (){
@@ -71,14 +73,16 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   public void setWantDown(boolean isPressed) {
     wantConveyorDown = isPressed;
+    //System.out.println("--------------------SET WANT DOWN" + isPressed);
   }
 
   public void setWantUp(boolean isPressed) {
+    //System.out.println("--------------------SET WANT UP" + isPressed);
     wantConveyorUp = isPressed;
   }
 
   public void setWantPreload(boolean isPressed) {
-    System.out.println("----------------------------PRELOAD" + isPressed);
+    //System.out.println("----------------------------PRELOAD" + isPressed);
     wantPreload = isPressed;
   }
 
@@ -94,33 +98,31 @@ public class ConveyorSubsystem extends SubsystemBase {
     } else if(wantPreload) {
       lifterMotor.set(ControlMode.PercentOutput, -.5);
     } else if(wantConveyorDown) {
-      lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      lifterMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
     } else {
       lifterMotor.set(ControlMode.PercentOutput, 0);
     }
 
-    Timer timer = new Timer();
-
     if(wantConveyorUp) {
-      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.75);
-      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .4);
-      // double time = timer.get();
-      // if(time %  5 < 2) {
-      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
+      //conveyorBottomRightMotor.set(ControlMode.PercentOutput, -1);
+      //conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 1);
+      double time = timer.get();
+      if(time %  2 < 1) {
+        conveyorBottomRightMotor.set(ControlMode.PercentOutput, -1);
+        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .75);
       // } else if( time % 5 < 2.5) {
       //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
       //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
       // } else if(time % 5 < 4.5) {
       //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
       //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      // } else {
-      //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
-      //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      // } 
+      } else {
+        conveyorBottomRightMotor.set(ControlMode.PercentOutput, .75);
+        conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -1);
+      } 
     } else if(wantConveyorDown) {
-      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);  
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
+      conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);  
     } else {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);
