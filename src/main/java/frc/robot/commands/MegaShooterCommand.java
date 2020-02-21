@@ -123,7 +123,7 @@ public class MegaShooterCommand extends CommandBase {
     }
   }
 
-  public void executeTrims() {
+  public void executeManual() {
     if(shooterControls.getManualTurretLeft()) {
       //System.out.print("TURNING LEFT");
       m_turret.turnTurret(0.5);
@@ -178,7 +178,7 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(false);
       
 
-      executeTrims();
+      executeManual();
 
       if (!shooterIdleIsOn) {
         m_shooter.setShooterPct(0);

@@ -155,14 +155,14 @@ public final class Constants {
 
     public static final class Hood {
         public static final int kTicksPerRotation = 4096;
-        public static final double kHoodDownSpeed = -.25;
-        public static final double kHoodUpSpeed = .25;
+        public static final double kHoodDownSpeed = -.3;
+        public static final double kHoodUpSpeed = .3;
         //TODO manualy find max and min endcoder values 
         public static final double kMinHoodTicks = 0;
-        public static final int kMaxHoodTicks = 1250;
+        public static final int kMaxHoodTicks = 1400;
 
-        public static final double kMaxHoodSpeed = .35;
-        public static final double kMinHoodSpeed = .18;
+        public static final double kMaxHoodSpeed = .75;
+        public static final double kMinHoodSpeed = .15;
     }
     
     public static final class SmartDashboardStrings {
