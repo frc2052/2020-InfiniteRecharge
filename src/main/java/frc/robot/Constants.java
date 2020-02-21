@@ -29,9 +29,11 @@ public final class Constants {
 
     public static final class Motors {
         public static final int kDriveRightMasterId = 1;
-        public static final int kDriveRightFollowerId = 2;
-        public static final int kDriveLeftMasterId = 3;
-        public static final int kDriveLeftFollowerId = 4;
+        public static final int kDriveRightFollower1Id = 2;
+        public static final int kDriveRightFollower2Id = 3;
+        public static final int kDriveLeftMasterId = 4;
+        public static final int kDriveLeftFollower1Id = 5;
+        public static final int kDriveLeftFollower2Id = 6;
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kShooterMasterMotorID = 9;

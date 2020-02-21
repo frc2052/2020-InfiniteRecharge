@@ -190,7 +190,9 @@ public class MegaShooterCommand extends CommandBase {
 
   public boolean getIsReady() {
     //System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
-    
+    SmartDashboard.putBoolean("HoodOnTarget", hoodOnTarget);
+    SmartDashboard.putBoolean("ShooterOnTarget", speedOnTarget);
+    SmartDashboard.putBoolean("TurretOnTarget", turretOnTarget);
     return hoodOnTarget && turretOnTarget && speedOnTarget;
   }
 
