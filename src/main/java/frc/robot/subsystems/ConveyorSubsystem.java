@@ -96,7 +96,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     if(wantConveyorUp) {
       lifterMotor.set(ControlMode.PercentOutput, -1);
     } else if(wantPreload) {
-      lifterMotor.set(ControlMode.PercentOutput, -.5);
+      lifterMotor.set(ControlMode.PercentOutput, -.25);
     } else if(wantConveyorDown) {
       lifterMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
     } else {

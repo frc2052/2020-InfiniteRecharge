@@ -29,9 +29,11 @@ public final class Constants {
 
     public static final class Motors {
         public static final int kDriveRightMasterId = 1;
-        public static final int kDriveRightFollowerId = 2;
-        public static final int kDriveLeftMasterId = 3;
-        public static final int kDriveLeftFollowerId = 4;
+        public static final int kDriveRightFollower1Id = 2;
+        public static final int kDriveRightFollower2Id = 3;
+        public static final int kDriveLeftMasterId = 4;
+        public static final int kDriveLeftFollower1Id = 5;
+        public static final int kDriveLeftFollower2Id = 6;
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kShooterMasterMotorID = 9;
@@ -155,14 +157,14 @@ public final class Constants {
 
     public static final class Hood {
         public static final int kTicksPerRotation = 4096;
-        public static final double kHoodDownSpeed = -.25;
-        public static final double kHoodUpSpeed = .25;
+        public static final double kHoodDownSpeed = -.3;
+        public static final double kHoodUpSpeed = .3;
         //TODO manualy find max and min endcoder values 
         public static final double kMinHoodTicks = 0;
-        public static final int kMaxHoodTicks = 1250;
+        public static final int kMaxHoodTicks = 1400;
 
-        public static final double kMaxHoodSpeed = .35;
-        public static final double kMinHoodSpeed = .18;
+        public static final double kMaxHoodSpeed = .75;
+        public static final double kMinHoodSpeed = .15;
     }
     
     public static final class SmartDashboardStrings {

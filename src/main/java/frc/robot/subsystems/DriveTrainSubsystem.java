@@ -30,12 +30,19 @@ import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-  private WPI_TalonFX leftMaster;
-  private WPI_TalonFX leftFollower1; 
+  // private WPI_TalonFX leftMaster;
+  // private WPI_TalonFX leftFollower1;   
+  // private final WPI_TalonFX rightMaster;
+  // private final WPI_TalonFX rightFollower1;
   
-  private final WPI_TalonFX rightMaster;
-  private final WPI_TalonFX rightFollower1;
+  private WPI_TalonSRX leftMaster;
+  private VictorSPX leftFollower1; 
+  private VictorSPX leftFollower2;
   
+  private final WPI_TalonSRX rightMaster;
+  private final VictorSPX rightFollower1;
+  private final VictorSPX rightFollower2;
+
   private final Solenoid shifter;
 
   private final SpeedControllerGroup leftGroup;
@@ -47,15 +54,27 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
-    leftMaster = new WPI_TalonFX(Constants.Motors.kDriveLeftMasterId);
+    // leftMaster = new WPI_TalonFX(Constants.Motors.kDriveLeftMasterId);
+    // leftMaster.configFactoryDefault();
+    // leftFollower1 = new WPI_TalonFX(Constants.Motors.kDriveLeftFollowerId);
+    // leftFollower1.configFactoryDefault();
+    // rightMaster = new WPI_TalonFX(Constants.Motors.kDriveRightMasterId);
+    // rightMaster.configFactoryDefault();
+    // rightFollower1= new WPI_TalonFX(Constants.Motors.kDriveRightFollowerId);
+    // rightFollower1.configFactoryDefault();
+
+    leftMaster = new WPI_TalonSRX(Constants.Motors.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
-    leftFollower1 = new WPI_TalonFX(Constants.Motors.kDriveLeftFollowerId);
+    leftFollower1 = new VictorSPX(Constants.Motors.kDriveLeftFollower1Id);
     leftFollower1.configFactoryDefault();
-    
-    rightMaster = new WPI_TalonFX(Constants.Motors.kDriveRightMasterId);
+    leftFollower2 = new VictorSPX(Constants.Motors.kDriveLeftFollower2Id);
+    leftFollower2.configFactoryDefault();
+    rightMaster = new WPI_TalonSRX(Constants.Motors.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
-    rightFollower1= new WPI_TalonFX(Constants.Motors.kDriveRightFollowerId);
+    rightFollower1= new VictorSPX(Constants.Motors.kDriveRightFollower1Id);
     rightFollower1.configFactoryDefault();
+    rightFollower2 = new VictorSPX(Constants.Motors.kDriveRightFollower2Id);
+    rightFollower2.configFactoryDefault();
     
     shifter = new Solenoid(Constants.Solenoids.kShifterSolenoidID);
 
@@ -64,8 +83,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
     rightMaster.setInverted(false);
     rightFollower1.setInverted(false);
+    rightFollower2.setInverted(false);
     leftMaster.setInverted(false);
     leftFollower1.setInverted(false);
+    leftFollower2.setInverted(false);
 
     rightMaster.setSensorPhase(true);
     leftMaster.setSensorPhase(false);
@@ -74,7 +95,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
     rightFollower1.follow(rightMaster);
+    rightFollower2.follow(rightMaster);
     leftFollower1.follow(leftMaster);
+    leftFollower2.follow(leftMaster);
 
     leftGroup = new SpeedControllerGroup(leftMaster);
     rightGroup  = new SpeedControllerGroup(rightMaster);    

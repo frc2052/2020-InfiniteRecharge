@@ -123,7 +123,7 @@ public class MegaShooterCommand extends CommandBase {
     }
   }
 
-  public void executeTrims() {
+  public void executeManual() {
     if(shooterControls.getManualTurretLeft()) {
       //System.out.print("TURNING LEFT");
       m_turret.turnTurret(0.5);
@@ -178,7 +178,7 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(false);
       
 
-      executeTrims();
+      executeManual();
 
       if (!shooterIdleIsOn) {
         m_shooter.setShooterPct(0);
@@ -190,7 +190,9 @@ public class MegaShooterCommand extends CommandBase {
 
   public boolean getIsReady() {
     //System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
-    
+    SmartDashboard.putBoolean("HoodOnTarget", hoodOnTarget);
+    SmartDashboard.putBoolean("ShooterOnTarget", speedOnTarget);
+    SmartDashboard.putBoolean("TurretOnTarget", turretOnTarget);
     return hoodOnTarget && turretOnTarget && speedOnTarget;
   }
 
