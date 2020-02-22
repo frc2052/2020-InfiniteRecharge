@@ -72,9 +72,10 @@ public class VisionCalculator {
         }
         
         if(before == null || after == null){
-            return hoodTicks.get(7).getHoodTicks();
+            return hoodTicks.get(7).getHoodTicks(); //by default, return the auto line distance
         }
-        return (before.getHoodTicks() + ((after.getHoodTicks()- before.getHoodTicks()) * ((after.getInches() - inches)-12)));
+        double pct = ((inches - before.getInches()) / 12.0);
+        return (before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
     }
 
 }
