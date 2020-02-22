@@ -75,7 +75,7 @@ public class VisionCalculator {
             return hoodTicks.get(7).getHoodTicks(); //by default, return the auto line distance
         }
         double pct = ((inches - before.getInches()) / 12.0);
-        return (before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
+        return (int)(before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
     }
 
 }
