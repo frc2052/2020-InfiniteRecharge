@@ -13,6 +13,7 @@ package frc.Vision;
 public class HoodDistance {
     private int m_Inches;
     private int m_HoodTicks;
+    
     public HoodDistance(int inches, int hoodTicks){
         m_Inches = inches;
         m_HoodTicks = hoodTicks;
