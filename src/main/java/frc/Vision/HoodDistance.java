@@ -13,15 +13,20 @@ package frc.vision;
 public class HoodDistance {
     private int m_Inches;
     private int m_HoodTicks;
+    private double m_ShooterPct;
     
-    public HoodDistance(int inches, int hoodTicks){
+    public HoodDistance(int inches, int hoodTicks, double shooterPct){
         m_Inches = inches;
         m_HoodTicks = hoodTicks;
+        m_ShooterPct = shooterPct;
     }
     public int getInches(){
         return m_Inches;
     }
     public int getHoodTicks(){
         return m_HoodTicks;
+    }
+    public double getShooterPct() {
+        return m_ShooterPct;
     }
 }

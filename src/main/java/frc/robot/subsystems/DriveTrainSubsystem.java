@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -65,15 +66,15 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     leftMaster = new WPI_TalonSRX(Constants.Motors.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
-    leftFollower1 = new VictorSPX(Constants.Motors.kDriveLeftFollower1Id);
+    leftFollower1 = new WPI_VictorSPX(Constants.Motors.kDriveLeftFollower1Id);
     leftFollower1.configFactoryDefault();
-    leftFollower2 = new VictorSPX(Constants.Motors.kDriveLeftFollower2Id);
+    leftFollower2 = new WPI_VictorSPX(Constants.Motors.kDriveLeftFollower2Id);
     leftFollower2.configFactoryDefault();
     rightMaster = new WPI_TalonSRX(Constants.Motors.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
-    rightFollower1= new VictorSPX(Constants.Motors.kDriveRightFollower1Id);
+    rightFollower1= new WPI_VictorSPX(Constants.Motors.kDriveRightFollower1Id);
     rightFollower1.configFactoryDefault();
-    rightFollower2 = new VictorSPX(Constants.Motors.kDriveRightFollower2Id);
+    rightFollower2 = new WPI_VictorSPX(Constants.Motors.kDriveRightFollower2Id);
     rightFollower2.configFactoryDefault();
     
     shifter = new Solenoid(Constants.Solenoids.kShifterSolenoidID);
