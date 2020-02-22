@@ -9,6 +9,7 @@ package frc.robot.auto;
 
 import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -26,7 +27,7 @@ import frc.robot.Constants;
 public class TrajectoryFactory {
     private DriveTrainSubsystem m_driveTrainSubsystem;
 
-    public RamseteCommand getRamseteCommand(DriveTrainSubsystem driveTrain, DrivePathEnum selectedPath) {
+    public SequentialCommandGroup getRamseteCommand(DriveTrainSubsystem driveTrain, DrivePathEnum selectedPath) {
         Trajectory path = getTrajectory(selectedPath);
         m_driveTrainSubsystem = driveTrain;
 
@@ -45,9 +46,9 @@ public class TrajectoryFactory {
             m_driveTrainSubsystem::tankDriveVolts,
             m_driveTrainSubsystem
         );
-        ramseteCommand.andThen(() -> m_driveTrainSubsystem.tankDriveVolts(0, 0));
+        return ramseteCommand.andThen(() -> m_driveTrainSubsystem.tankDriveVolts(0, 0));
         
-        return ramseteCommand;
+        
     }
 
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {
@@ -66,6 +67,11 @@ public class TrajectoryFactory {
           .addConstraint(autoVoltageConstraint);
   
         switch(selectedPath)  {
+          case Drive:
+                return TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(0, 0, new Rotation2d(0)), 
+                        List.of(), 
+                    new Pose2d(Units.inchesToMeters(12), 0, new Rotation2d(0)), config);
           case StartCenterDriveBackPark:
               return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(Units.inchesToMeters(136), 0, new Rotation2d(0)), //start, B
@@ -138,6 +144,7 @@ public class TrajectoryFactory {
 
     public enum DrivePathEnum
     {
+      Drive,
       StartCenterDriveBackPark,
       StartCenterGenerator3,
       StartRightTrench3Ball,

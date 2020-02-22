@@ -119,6 +119,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
       odometry.resetPosition(newPose, getAngle());
   }
 
+  public void tankDrive(double left, double right) {
+    drive.tankDrive(left, right);
+  }
+
   
   public void setHighGear(boolean highGear) {
     shifter.set(!highGear);

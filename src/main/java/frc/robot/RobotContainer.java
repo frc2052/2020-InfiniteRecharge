@@ -16,6 +16,19 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
 import frc.robot.auto.*;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.controller.RamseteController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import java.util.List;
+import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import frc.robot.commands.*;
 
 
@@ -272,66 +285,107 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
-    final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
-    double x = 0;
-    double y = 619.25;
+    // Create a voltage constraint to ensure we don't accelerate too fast
+    var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
+                new SimpleMotorFeedforward(
+                  Constants.DriveTrain.ksVolts, 
+                  Constants.DriveTrain.kvVoltSecondsPerMeter,
+                  Constants.DriveTrain.kaVoltSecondsSquaredPerMeter
+                ),
+                Constants.DriveTrain.kinematics, 10);
+  
+        TrajectoryConfig config = new TrajectoryConfig(
+          .5,
+          .5)
+          .setKinematics(Constants.DriveTrain.kinematics)
+          .addConstraint(autoVoltageConstraint);
 
-    NetworkTableEntry pos =
-            tab.add("Position On Line", "Middle")
-                    .getEntry();
-    NetworkTableEntry isLR =
-            tab.add("Measuring from Left Or Right", "Right")
-                    .getEntry();
-    NetworkTableEntry measurement =
-            tab.add("Distance", "0")
-                    .getEntry();
-    switch (pos.getString("middle")){
-      case "Middle":
-        y = 619.25;
-        break;
-      case "Forward":
-        y= 619.25 + 19;
-        break;
-      case "Back":
+    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+      new Pose2d(0, 0, new Rotation2d(0)), 
+      List.of(), 
+      new Pose2d(0, 0.5, Rotation2d.fromDegrees(0)),
+      config);
 
-        y = 619.25 - 19;
-        break;
-    }
+    RamseteCommand command = new RamseteCommand(
+      trajectory, 
+      driveTrain::getPose, 
+      new RamseteController(Constants.DriveTrain.kRamseteB, Constants.DriveTrain.kRamseteZeta),
+      new SimpleMotorFeedforward(
+        Constants.DriveTrain.ksVolts,
+        Constants.DriveTrain.kvVoltSecondsPerMeter,
+        Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
+      Constants.DriveTrain.kinematics,
+      driveTrain::getWheelSpeeds,
+      new PIDController(8, 0, 0),
+      new PIDController(8, 0, 0),
+      driveTrain::tankDriveVolts,
+      driveTrain);
 
-    switch (isLR.getString("Right")){
-      case "Right":
-        x = 203.25 - measurement.getDouble(0);
-        break;
-      case "Left":
-        x= measurement.getDouble(0);
-        break;
-    }
-    driveTrain.setOdometry(x, y);
+      return command.andThen(() -> driveTrain.tankDrive(0, 0));
+    // final ShuffleboardTab tab = Shuffleboard.getTab("manageAuto");
+    // final NetworkTableEntry autoDelay = tab.add("Auto Delay", 0).getEntry();
 
-    switch(AutoModeSelector.getSelectedAuto()) { 
-      case DM:
-        return null;
-      case LSG3:
-        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftGenerator3;
-      case LSG5:
-        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftShoot5;
-      case LST2:
-        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return leftTrench2;
-      case RST3:
-        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return rightTrench3;
-      case CSG3:
-        return null;
-      case CS:
-        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-        return centerShootDrivePark;
-      default:
-        return null; 
-    }
+    // double x = 0;
+    // double y = 619.25;
+
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
+    // switch (pos.getString("middle")){
+    //   case "Middle":
+    //     y = 619.25;
+    //     break;
+    //   case "Forward":
+    //     y= 619.25 + 19;
+    //     break;
+    //   case "Back":
+
+    //     y = 619.25 - 19;
+    //     break;
+    // }
+
+    // switch (isLR.getString("Right")){
+    //   case "Right":
+    //     x = 203.25 - measurement.getDouble(0);
+    //     break;
+    //   case "Left":
+    //     x= measurement.getDouble(0);
+    //     break;
+    // }
+    // driveTrain.setOdometry(x, y);
+
+    // switch(AutoModeSelector.getSelectedAuto()) { 
+    //   case D:
+    //     DriveCommand drive = new DriveCommand(driveTrain);
+    //     return drive;
+    //   case DM:
+    //     return null;
+    //   case LSG3:
+    //     StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftGenerator3;
+    //   case LSG5:
+    //     StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftShoot5;
+    //   case LST2:
+    //     StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return leftTrench2;
+    //   case RST3:
+    //     StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return rightTrench3;
+    //   case CSG3:
+    //     return null;
+    //   case CS:
+    //     CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
+    //     return centerShootDrivePark;
+    //   default:
+    //     return null; 
+    // }
   }
 }
