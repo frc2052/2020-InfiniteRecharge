@@ -30,10 +30,8 @@ public final class Constants {
     public static final class Motors {
         public static final int kDriveRightMasterId = 1;
         public static final int kDriveRightFollowerId = 2;
-        public static final int kDriveRightFollower2Id = 3;
-        public static final int kDriveLeftMasterId = 4;
-        public static final int kDriveLeftFollowerId = 5;
-        public static final int kDriveLeftFollower2Id = 6;
+        public static final int kDriveLeftMasterId = 3;
+        public static final int kDriveLeftFollowerId = 4;
         public static final int kOuterIntakeMotorID = 7;
         public static final int kClimberMotorID = 8;
         public static final int kShooterMasterMotorID = 9;
@@ -50,11 +48,11 @@ public final class Constants {
     public static final class DriveTrain{
         public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(.7112);
 
-        // TODO - Find the real values. DO NOT RUN THE ROBOT WITH THESE
+       
         // See: http://docs.wpilib.org/en/latest/docs/software/wpilib-tools/robot-characterization/characterization-routine.html
-        public static final double ksVolts = 0.22;
-        public static final double kvVoltSecondsPerMeter = 1.98;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.2;
+        public static final double ksVolts = 0.53;
+        public static final double kvVoltSecondsPerMeter = 4.89;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.559;
         
         // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
         public static final double kRamseteB = 2;
@@ -72,7 +70,7 @@ public final class Constants {
     }
 
     public static final class Intake{
-        public static final double kIntakeSpeed = 0.7;
+        public static final double kIntakeSpeed = 1;
     }
 
     public static final class Elevator{
@@ -82,7 +80,7 @@ public final class Constants {
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
-       public static final int kElevatorMaxHeight = 2600;
+       public static final int kElevatorMaxHeight = 25000;
     }
 
     public static final class WheelOfFortune{
@@ -103,6 +101,9 @@ public final class Constants {
         public static final double kEmergencyUpPower = .25;
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;
+
+        public static final double kShooterF = (.9 * 1023) / 29900; //29900 is fastest we can run shooter
+        public static final int kShooterTargetVelocity = 30000;
     }
   
     public static final class Turret{
@@ -117,11 +118,17 @@ public final class Constants {
         public static final double kTicksPerDegree = 4096 / 90;
         public static final double kMaxAngle = 90;
         public static final double kMinAngle = -90;
+
+        public static final double kMinTurretSpeed = .1;
+        public static final double kMaxTurretSpeed = .75;
     }
   
     public static class Autonomous {
         public static final double maxVelocity = 7 * 12;
         public static final double maxAcceleration = 120;
+
+        public static final int kLeftInitTargetTicks = 20000;
+        public static final int kRightInitTargetTicks = -20000;
     }
 
     public static final class Vision {
@@ -131,32 +138,39 @@ public final class Constants {
         public static final double kCameraViewVertPixels = 240.0;
         public static final double kCameraMaxViewHorDegrees = 180.0;
 
-        public static final double kCameraMountingAngleY = 12.5; // mounting angle of the camera     DEGREESEE
-        public static final double kCameraMountingHeight = 36.0; // height of camera off the ground  INCHES
-        public static final double kTargetHeight = 98.25;        // height of target off the ground  INCHES
+        public static final double kCameraMountingAngleY = 28; // mounting angle of the camera     DEGREESEE
+        public static final double kCameraMountingHeight = 37.5; // height of camera off the ground  INCHES
+        public static final double kTargetHeight = 89.5;// height of target off the ground  INCHES  top is 98 bottom is 81
     }
 
     public static final class ConveyorSubsystem {      
         public static final boolean klifterdirection = true;
         public static final boolean kConveyorDirection = true;
-        public static final double kConveyorSpeed = -0.5;
+        public static final double kConveyorSpeed = 0.75;
+        //Todo: find the actual port
+        public static final int kMiddleBallSensorID = 0;
+        public static final int kFrontBallSensorID = 1;
+        public static final int kTopBallSensorID = 2;
     }
 
     public static final class Hood {
         public static final int kTicksPerRotation = 4096;
-        public static final double kHoodDownSpeed = -.10;
-        public static final double kHoodUpSpeed = .10;
+        public static final double kHoodDownSpeed = -.25;
+        public static final double kHoodUpSpeed = .25;
         //TODO manualy find max and min endcoder values 
-        public static final double kMinHoodHeight = 69;
-        public static final double kMaxHoodHeight = 69;
+        public static final double kMinHoodTicks = 0;
+        public static final int kMaxHoodTicks = 1250;
+
+        public static final double kMaxHoodSpeed = .35;
+        public static final double kMinHoodSpeed = .18;
     }
     
-    public static final class SmartDashboard {
+    public static final class SmartDashboardStrings {
         public static final String kHoodOverrideString = "Hood Override?";
         public static final String kTurretOverrideString = "Turret Override?";
         public static final String kShooterOverrideString = "Shooter Override?";
-        public static final String kConveyorOverrideString = "Conveyor Override?";
-        public static final String kShootTimeString = "Shoot Time?";
+        public static final String kAutoBumpString = "Auto Bump?";
+        public static final String kTimeToShoot = "Auto time to shoot?";
     }
     public static final class PixyCamDriveConstants {
 

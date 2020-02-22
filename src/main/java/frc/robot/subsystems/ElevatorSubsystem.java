@@ -34,14 +34,14 @@ public class ElevatorSubsystem extends SubsystemBase {
 
     public void lockElevator(){
         isLocked = true;
-        lockinSolenoid.set(true);
-        lockoutSolenoid.set(false);
+        lockinSolenoid.set(false);
+        lockoutSolenoid.set(true);
     }   
 
     public void unlockElevator(){
         isLocked = false;
-        lockinSolenoid.set(false);
-        lockoutSolenoid.set(true);
+        lockinSolenoid.set(true);
+        lockoutSolenoid.set(false);
     }
 
     public void printEncoderPos() {
@@ -49,13 +49,16 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void manualUp() {
-        System.out.print("Elevator Height: " + this.getHeightInches());
+        //System.out.print("Elevator Height: " + this.getHeightInches());
         double currentHeight = climberMotor.getSelectedSensorPosition();
         if (isLocked) {
             climberMotor.set(ControlMode.PercentOutput, 0); //not allowed to drive if lock engaged
+            System.out.println("Elevator is locked");
         } else if (currentHeight < Constants.Elevator.kElevatorMaxHeight || isOverride){
-            climberMotor.set(ControlMode.PercentOutput, .2);
+            System.out.println("Going Up");
+            climberMotor.set(ControlMode.PercentOutput, .7);
         } else {
+            System.out.println("WENT TOO FAR" + climberMotor.getSelectedSensorPosition() + "MAX HEIGHT" + Constants.Elevator.kElevatorMaxHeight);
             climberMotor.set(ControlMode.PercentOutput, 0);
         }
     }
@@ -69,8 +72,8 @@ public class ElevatorSubsystem extends SubsystemBase {
         }
         else if (currentHeight > Constants.Elevator.kElevatorMinHeight || isOverride)
         {
-            System.out.println("ElevatorGoing Down");;
-            climberMotor.set(ControlMode.PercentOutput, -.2);
+            System.out.println("Elevator Going Down");;
+            climberMotor.set(ControlMode.PercentOutput, -.7);
         }
         else 
         {
@@ -80,7 +83,6 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        //2600
         climberMotor.setSelectedSensorPosition(0);
     }
 

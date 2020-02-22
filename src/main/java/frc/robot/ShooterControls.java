@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
-public class ShooterControls {
+public class ShooterControls implements IShooterControls{
 
     private Joystick turnJoystick;
     private Joystick tankJoystick;
@@ -24,11 +24,11 @@ public class ShooterControls {
     }
 
     public boolean getShooterIncrease() {
-        return secondaryPanel.getRawButton(5);
+        return secondaryPanel.getY() < -.5;
     }
 
     public boolean getShooterDecrease() {
-        return secondaryPanel.getRawButton(3);
+        return secondaryPanel.getY() > .5;
     }
 
     public boolean getManualHoodUp() {
@@ -56,11 +56,20 @@ public class ShooterControls {
     }
 
     public boolean getManualConveyorDown() {
+        return secondaryPanel.getX() < -.5;
+    }
+
+
+    public boolean getManualConveyorUp() {
         return turnJoystick.getRawButton(2);
     }
 
-    public boolean getManualConveyorUp() {
-        return turnJoystick.getRawButton(3);
+    public boolean getLoadConveyor() {
+        return secondaryPanel.getRawButton(4);
+    }
+
+    public boolean getIdleShooterToggle() {
+        return turnJoystick.getRawButton(4);
     }
 
 }

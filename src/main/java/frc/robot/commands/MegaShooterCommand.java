@@ -9,24 +9,27 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
+import frc.robot.IShooterControls;
 import frc.robot.ShooterControls;
+import frc.robot.Constants.Shooter;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 public class MegaShooterCommand extends CommandBase {
   private ShooterSubsystem m_shooter;
-  private VisionSubsystem m_vision;
+  protected VisionSubsystem m_vision; //autoShooter needs access
   private HoodSubsystem m_hood;
-  private TurretSubsystem m_turret;
+  protected TurretSubsystem m_turret; //autoShooter needs access
   private ConveyorSubsystem m_conveyor;
 
-  private ShooterControls shooterControls;
+  private IShooterControls shooterControls;
 
   private boolean hoodOnTarget = false;
   private boolean turretOnTarget = false;
   private boolean speedOnTarget = false;
 
-  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, ShooterControls controls) {
+  public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, IShooterControls controls) {
     m_shooter = shooter;
     m_vision = vision;
     m_hood = hood;
@@ -35,127 +38,171 @@ public class MegaShooterCommand extends CommandBase {
 
     shooterControls = controls;
 
-    addRequirements(shooter, vision, hood, turret, conveyor);
+    addRequirements(shooter, hood, turret);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //System.out.println("*************** MEGA SHOOTER INIT");
   }
 
   public void executeHood() {
-    m_vision.updateLimelight();
-
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kHoodOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false)) {
       hoodOnTarget = true;
-      if(shooterControls.getManualHoodUp()) {
-        m_hood.manualMoveHoodUp();
-      } else if(shooterControls.getManualHoodDown()) {
-        m_hood.manualMoveHoodDown();
-      } else {
-        m_hood.manualStopHoodMovement();
-      }
     } else {
-      double hoodTargetAngle = m_vision.getTy();
-      //TODO: this is going to need more math
+      double hoodTargetTicks = m_hood.calculateTicksByDistance(m_vision.getDistanceToTargetInches());
       //calculate the hood angle from the hood system
-      double hoodCurrentAngle = m_hood.getCurrentAngle();
-      hoodOnTarget = Math.abs(hoodTargetAngle - hoodCurrentAngle) < .5;
+      m_hood.driveToEncoderPos(hoodTargetTicks);
+      //System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
+      //System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
+      hoodOnTarget = m_hood.isOnTarget(); // Math.abs(hoodTargetTicks - hoodCurrentTicks) < 5000;
       //turn hood to target angle 
     }
   }
 
   public void executeTurret() {
-    m_vision.updateLimelight();
-
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kTurretOverrideString, false)){
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false)){
       turretOnTarget = true;
-      if(shooterControls.getManualTurretLeft()) {
-        m_turret.turnTurret(-0.1);
-      } if(shooterControls.getManualTurretRight()) {
-        m_turret.turnTurret(0.1);
-      } else {
-        m_turret.turnTurret(0);
-      }
-    } else if(m_vision.hasValidTarget()){
+      m_turret.turnTurret(0);
+    } else if(m_vision.hasValidTarget()){  //not in manual mode
       double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
+      //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
       m_turret.driveToPos(turretTargetAngle);//turn turret to target angle
-    } else {
+    } else { //not in manual mode, doesn't see target
+      //System.out.print("NO TARGET");
       m_turret.turnTurret(0);
+      turretOnTarget = false;
     }
   }
 
   public void executeShooter() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboard.kShooterOverrideString, false)) {
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false)) {
       speedOnTarget = true;
-      double currentPowerPct = m_shooter.getSpeed();
+      double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
-        currentPowerPct += 0.5;
+        currentPowerPct += 0.005; //go up by 10% every second held
         if(currentPowerPct > 1) {
           currentPowerPct = 1;
         }
-        m_shooter.setSpeed(currentPowerPct);
+        //System.out.println("INCREASING SHOOTER" + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
       } else if (shooterControls.getShooterDecrease()) {
-        currentPowerPct -= 0.5;
+        currentPowerPct -= 0.005;
         if(currentPowerPct < 0) {
           currentPowerPct = 0;
         }
-        m_shooter.setSpeed(currentPowerPct);
+        //System.out.println("DECREASING SHOOTER" + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
       } else {
-        m_shooter.setSpeed(currentPowerPct);
+        //System.out.println("Pct Shooter " + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
-      int targetSpeed = 0; //TODO: calculate targetSpeed in shooter 
-      speedOnTarget = Math.abs(m_shooter.getSpeed() - targetSpeed) < .5;
-      //m_shooter.setSpeed(targetSpeed);
+      double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
+      // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
+      m_shooter.setShooterVelocity(targetSpeed);
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
+      SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
   }
 
+  public void executeConveyor() {
+    if(shooterControls.getManualConveyorDown()) {
+      m_conveyor.setWantDown(true);
+    } else {
+      m_conveyor.setWantDown(false);
+      if(getIsReady() && shooterControls.getShootPressed()) {
+        m_conveyor.setWantUp(true);
+      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed()) {
+        m_conveyor.setWantUp(true);
+      } else {
+        m_conveyor.setWantUp(false);
+      }
+    }
+  }
 
+  public void executeTrims() {
+    if(shooterControls.getManualTurretLeft()) {
+      //System.out.print("TURNING LEFT");
+      m_turret.turnTurret(0.5);
+    } else if(shooterControls.getManualTurretRight()) {
+      //System.out.println("TURNING RIGHT");
+      m_turret.turnTurret(-0.5);
+    } else {
+      m_turret.turnTurret(0);
+    }
+
+    if(shooterControls.getManualHoodUp()) {
+      //System.out.println("HOOD UP");
+      m_hood.manualMoveHoodUp();
+    } else if(shooterControls.getManualHoodDown()) {
+      m_hood.manualMoveHoodDown();
+      //System.out.println("HOOD DOWN");
+    } else {
+      m_hood.manualStopHoodMovement();
+    }
+  }
+
+  private boolean wasToggleIdleLastPressed = false;
+  private boolean shooterIdleIsOn = false;
+
+  public void toggleIdleShooter() {
+    if (shooterControls.getIdleShooterToggle() && !wasToggleIdleLastPressed) { //first time we have seen it pressed since last check
+      if (shooterIdleIsOn) {
+        shooterIdleIsOn = false;
+      } else {
+        shooterIdleIsOn = true;
+      }
+    }
+    wasToggleIdleLastPressed = shooterControls.getIdleShooterToggle();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    toggleIdleShooter();
+
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
-      m_vision.setLEDMode(0);
+      m_vision.setLEDMode(3);
+      m_vision.updateLimelight();
       executeHood();
       executeTurret();
       executeShooter();
-      if(hoodOnTarget && turretOnTarget && speedOnTarget && shooterControls.getShootPressed()) {
-        if(shooterControls.getManualConveyorDown() == false) {
-          m_conveyor.lifterUp();
-        } else {
-          m_conveyor.lifterDown();
-        }
-      } else if(shooterControls.getManualConveyorUp() && SmartDashboard.getBoolean(Constants.SmartDashboard.kConveyorOverrideString, false)) {
-          m_conveyor.lifterUp();
-      } else {
-        m_conveyor.lifterStop();
-      }
+      executeConveyor();
     } else {
       m_vision.setLEDMode(1);
-      m_shooter.setSpeed(0);
-      m_turret.turnTurret(0);
+      m_vision.updateLimelight(); 
+      m_conveyor.setWantUp(false);
+      m_conveyor.setWantDown(false);
+      
+
+      executeTrims();
+
+      if (!shooterIdleIsOn) {
+        m_shooter.setShooterPct(0);
+      } else {
+        m_shooter.setShooterVelocity(Constants.Shooter.kShooterTargetVelocity * .5);
+      }
     }
   }
 
-  public void setShootPressed(boolean isShoot) {
-    //shootPressed = isShoot;
-  }
-
   public boolean getIsReady() {
+    //System.out.println("HoodReady: " + hoodOnTarget + "  TurretReady: " + turretOnTarget + " SpeedReady: " + speedOnTarget);
+    
     return hoodOnTarget && turretOnTarget && speedOnTarget;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.print("Mega Shooter Stopped");
     m_hood.manualStopHoodMovement();
-    m_conveyor.lifterStop();
-    m_shooter.setSpeed(0);
-    m_turret.turnTurret(0);
-    
+    m_conveyor.setWantDown(false);
+    m_conveyor.setWantUp(false);
+    m_shooter.setShooterPct(0);
+    m_turret.turnTurret(0);    
   }
 
   // Returns true when the command should end.

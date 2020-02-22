@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import java.util.List;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
-
 
 public class TrajectoryFactory {
     private DriveTrainSubsystem m_driveTrainSubsystem;
@@ -50,7 +50,6 @@ public class TrajectoryFactory {
         return ramseteCommand;
     }
 
-
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -69,17 +68,17 @@ public class TrajectoryFactory {
         switch(selectedPath)  {
           case StartCenterDriveBackPark:
               return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(3.048, 0, new Rotation2d(0)), //start
+                    new Pose2d(Units.inchesToMeters(136), 0, new Rotation2d(0)), //start, B
                         List.of( //waypoints
-                            new Translation2d(3.048, 0)), 
-                    new Pose2d(3.81, 0, new Rotation2d(0)), config);  //end
+                            new Translation2d(Units.inchesToMeters(120), 0)), // B
+                    new Pose2d(Units.inchesToMeters(150), 0, new Rotation2d(0)), config);  //end, 30 inches away from start line
           case StartCenterGenerator3:
                 return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(3.048, 0, new Rotation2d(0)),
+                    new Pose2d(Units.inchesToMeters(120), 0, new Rotation2d(0)), //B
                         List.of(
-                            new Translation2d(5.2324, -2.0066), 
-                            new Translation2d(6.1468, -2.0066)),
-                    new Pose2d(5.3086, -1.397, new Rotation2d(0)), config);
+                            new Translation2d(Units.inchesToMeters(206), Units.inchesToMeters(-79)), // C
+                            new Translation2d(Units.inchesToMeters(242), Units.inchesToMeters(-79))), // D
+                    new Pose2d(Units.inchesToMeters(209), Units.inchesToMeters(-55), new Rotation2d(0)), config); // E
           case StartLeftGenerator3:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7018, new Rotation2d(0)),

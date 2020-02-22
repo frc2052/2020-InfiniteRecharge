@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -29,13 +30,11 @@ import frc.robot.Constants;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
-  private WPI_TalonSRX leftMaster;
-  private VictorSPX leftFollower1; 
-  private VictorSPX leftFollower2;
+  private WPI_TalonFX leftMaster;
+  private WPI_TalonFX leftFollower1; 
   
-  private final WPI_TalonSRX rightMaster;
-  private final VictorSPX rightFollower1;
-  private final VictorSPX rightFollower2;
+  private final WPI_TalonFX rightMaster;
+  private final WPI_TalonFX rightFollower1;
   
   private final Solenoid shifter;
 
@@ -48,18 +47,16 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
-    leftMaster = new WPI_TalonSRX(Constants.Motors.kDriveLeftMasterId);
+    leftMaster = new WPI_TalonFX(Constants.Motors.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
-    leftFollower1 = new VictorSPX(Constants.Motors.kDriveLeftFollowerId);
+    leftFollower1 = new WPI_TalonFX(Constants.Motors.kDriveLeftFollowerId);
     leftFollower1.configFactoryDefault();
-    leftFollower2 = new VictorSPX(Constants.Motors.kDriveLeftFollower2Id);
-    leftFollower2.configFactoryDefault();
-    rightMaster = new WPI_TalonSRX(Constants.Motors.kDriveRightMasterId);
+    
+    rightMaster = new WPI_TalonFX(Constants.Motors.kDriveRightMasterId);
     rightMaster.configFactoryDefault();
-    rightFollower1= new VictorSPX(Constants.Motors.kDriveRightFollowerId);
+    rightFollower1= new WPI_TalonFX(Constants.Motors.kDriveRightFollowerId);
     rightFollower1.configFactoryDefault();
-    rightFollower2 = new VictorSPX(Constants.Motors.kDriveRightFollower2Id);
-    rightFollower2.configFactoryDefault();
+    
     shifter = new Solenoid(Constants.Solenoids.kShifterSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
@@ -67,21 +64,17 @@ public class DriveTrainSubsystem extends SubsystemBase {
   
     rightMaster.setInverted(false);
     rightFollower1.setInverted(false);
-    rightFollower2.setInverted(false);
     leftMaster.setInverted(false);
     leftFollower1.setInverted(false);
-    leftFollower2.setInverted(false);
 
     rightMaster.setSensorPhase(true);
-    leftMaster.setSensorPhase(true);
+    leftMaster.setSensorPhase(false);
 
     rightMaster.setNeutralMode(NeutralMode.Brake);
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
     rightFollower1.follow(rightMaster);
-    rightFollower2.follow(rightMaster);
     leftFollower1.follow(leftMaster);
-    leftFollower2.follow(leftMaster);
 
     leftGroup = new SpeedControllerGroup(leftMaster);
     rightGroup  = new SpeedControllerGroup(rightMaster);    
@@ -109,7 +102,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double tank, double turn) {
+    System.out.println("Arcade Turn Value: " + turn);
     drive.arcadeDrive(tank, turn);
+  }
+
+  public void curvatureDrive(double tank, double turn, boolean quickTurn) {
+    //System.out.println("Curvature Turn Value: " + turn);
+    drive.curvatureDrive(tank, turn, quickTurn);
   }
 
   public Rotation2d  getAngle() {

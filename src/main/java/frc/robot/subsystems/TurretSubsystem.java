@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -28,6 +30,12 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     turretMotor.setSelectedSensorPosition(0, 0, 10);
   }
+
+
+  public void resetEncoder() {
+    turretMotor.setSelectedSensorPosition(0);
+  }
+
 
   public void turnTurret(double power){
     //motorPower = power;
@@ -53,18 +61,22 @@ public class TurretSubsystem extends SubsystemBase {
   
   // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
+    angle = -angle;
     isLinedUp = false;
     //System.out.println(turretMotor.getSelectedSensorPosition());
     printEncoderPos();
     //System.out.println("****************** TARGET ANGLE: " + angle);
     if(angle < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
       //too far to the negative can't keep going
+      System.out.println("TURRET TOO FAR NEGATIVE");
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else if (angle > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
       //too far to the positive can't keep going
+      System.out.println("TURRET TOO FAR POSITIVE");
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else {
-      if(Math.abs(angle) < 0.2) {
+      //System.out.println("TURRENT ANGLE OFFSET: " + angle);
+      if(Math.abs(angle) < 2) {
         turretMotor.set(ControlMode.PercentOutput, 0);
         isLinedUp = true;
       } else {
@@ -77,7 +89,17 @@ public class TurretSubsystem extends SubsystemBase {
           }
         } else if (Math.abs(angle) < 20) {
           isLinedUp = false;
-          turretMotor.set(ControlMode.PercentOutput, (angle * 0.05));
+          double targetSpeed = angle * .05;
+
+          // if(Math.abs(targetSpeed) < Constants.Turret.kMinTurretSpeed) {
+          //   if (targetSpeed < 0) {
+          //     targetSpeed = -Constants.Turret.kMinTurretSpeed;
+          //   } else {
+          //     targetSpeed = Constants.Turret.kMinTurretSpeed;
+          //   }
+          // }
+
+          turretMotor.set(ControlMode.PercentOutput, (targetSpeed ));
         }
       }
     }
@@ -87,13 +109,17 @@ public class TurretSubsystem extends SubsystemBase {
     return isLinedUp;
   }
 
+  public int getEncoderPos() {
+    return turretMotor.getSelectedSensorPosition();
+  }
+
   public double getTurretDegree() {
     double ticks = turretMotor.getSelectedSensorPosition(0);
     return ticks / Constants.Turret.kTicksPerDegree;
   }
 
   public void printEncoderPos() {
-    System.out.println("******************************* TURRET ENCODER POS" + turretMotor.getSelectedSensorPosition());
+    SmartDashboard.putNumber("TURRET ENCODER", turretMotor.getSelectedSensorPosition());
   }
 }
 
