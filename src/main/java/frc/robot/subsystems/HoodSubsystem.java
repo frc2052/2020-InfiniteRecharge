@@ -126,7 +126,7 @@ public class HoodSubsystem extends SubsystemBase {
       double difference = ticks - currentTicks;
 
       double power = 0;
-      if (Math.abs(difference) < 5000) {
+      if (Math.abs(difference) < Constants.Hood.kMaxHoodTicks * .02) {
         //System.out.println("ON TARGET");
         power = 0; 
         m_IsOnTarget = true;
@@ -134,11 +134,11 @@ public class HoodSubsystem extends SubsystemBase {
 //        if(Math.abs(difference) > 20000) {
           if (ticks > currentTicks) {
             System.out.println("TRYING TO GO FORWARDS");
-            power = .25;
+            power = .6;
             m_IsOnTarget = false;
           } else if (ticks < currentTicks) {
             System.out.println("TRYING TO GO BACKWARDS");
-            power = -.25;
+            power = -.6;
             m_IsOnTarget = false;
           }
         // } else {

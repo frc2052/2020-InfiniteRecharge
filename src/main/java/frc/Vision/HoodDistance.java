@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.Vision;
+package frc.vision;
 
 /**
  * Add your docs here.

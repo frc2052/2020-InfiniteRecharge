@@ -13,6 +13,7 @@ import frc.robot.IShooterControls;
 import frc.robot.ShooterControls;
 import frc.robot.Constants.Shooter;
 import frc.robot.subsystems.*;
+import frc.vision.VisionCalculator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -24,6 +25,7 @@ public class MegaShooterCommand extends CommandBase {
   private ConveyorSubsystem m_conveyor;
 
   private IShooterControls shooterControls;
+  private VisionCalculator visionCalculator;
 
   private boolean hoodOnTarget = false;
   private boolean turretOnTarget = false;
@@ -37,6 +39,7 @@ public class MegaShooterCommand extends CommandBase {
     m_conveyor = conveyor;
 
     shooterControls = controls;
+    visionCalculator = new VisionCalculator();
 
     addRequirements(shooter, hood, turret);
   }
@@ -51,9 +54,11 @@ public class MegaShooterCommand extends CommandBase {
     if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false)) {
       hoodOnTarget = true;
     } else {
-      double hoodTargetTicks = m_hood.calculateTicksByDistance(m_vision.getDistanceToTargetInches());
+      int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
+      int targetTicks = visionCalculator.distanceToTicks(inches);
+      System.out.println("DISTANE CALCULATED====" + inches + "   HOOD TARGET TICKS====" + targetTicks);
       //calculate the hood angle from the hood system
-      m_hood.driveToEncoderPos(hoodTargetTicks);
+      m_hood.driveToEncoderPos(targetTicks);
       //System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
       //System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
       hoodOnTarget = m_hood.isOnTarget(); // Math.abs(hoodTargetTicks - hoodCurrentTicks) < 5000;
