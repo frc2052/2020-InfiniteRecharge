@@ -48,9 +48,8 @@ public final class Constants {
 
 
     public static final class DriveTrain{
-        public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(.7112);
+        public static final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(.6); //24" is .6 meters
 
-       
         // See: http://docs.wpilib.org/en/latest/docs/software/wpilib-tools/robot-characterization/characterization-routine.html
         public static final double ksVolts = 0.53;
         public static final double kvVoltSecondsPerMeter = 4.89;
