@@ -24,6 +24,8 @@ public class ConveyorSubsystem extends SubsystemBase {
   private boolean wantPreload = false;
   private boolean wantConveyorUp = false;
   private boolean wantConveyorDown = false;
+  private boolean wantActiveBalanceRight = false;
+  private boolean wantActiveBalanceLeft = false;
   private Timer timer = new Timer();
   
   public ConveyorSubsystem() {   
@@ -44,32 +46,14 @@ public class ConveyorSubsystem extends SubsystemBase {
      
      timer.start();
   }
-  
-  // public void lifterUp (){
-  //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, .5);
-  //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.5);
-  //   lifterMotor.set(ControlMode.PercentOutput, -.4);
-  // }
 
-  // public void lifterDown (){
-  //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-  //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-  //   lifterMotor.set(ControlMode.PercentOutput, -Constants.ConveyorSubsystem.kConveyorSpeed);
-  // }
+  public void setWantActiveBalanceLeft(boolean isPressed) {
+    wantActiveBalanceLeft = isPressed;
+  }
 
-  // private void setLeftSideSpeed(double speed) {
-  //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, speed);
-  // }
-
-  // private void setRightSideSpeed(double speed) {
-  //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, speed);
-  // }
-
-  // public void lifterStop (){
-  //   conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
-  //   conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);
-  //   lifterMotor.set(ControlMode.PercentOutput, 0);
-  // }
+  public void setWantActiveBalanceRight(boolean isPressed) {
+    wantActiveBalanceRight = isPressed;
+  }
 
   public void setWantDown(boolean isPressed) {
     wantConveyorDown = isPressed;
@@ -123,6 +107,10 @@ public class ConveyorSubsystem extends SubsystemBase {
     } else if(wantConveyorDown) {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);  
+    } else if(wantActiveBalanceRight) {
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, .25);
+    } else if(wantActiveBalanceLeft) {
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.25);
     } else {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);

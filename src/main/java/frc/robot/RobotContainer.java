@@ -36,7 +36,6 @@ public class RobotContainer {
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
   private ElevatorSubsystem elevator = null;
-  private ActiveBalanceSubsytem activeBalance = null;
 
   private Joystick turnJoystick;
   private Joystick tankJoystick;
@@ -60,7 +59,6 @@ public class RobotContainer {
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
     elevator = new ElevatorSubsystem();
-    activeBalance = new ActiveBalanceSubsytem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
@@ -112,9 +110,9 @@ public class RobotContainer {
   public void configureTurnJoystick() {
     turnJoystick = new Joystick(0);
 
-    JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1);
-    JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2);
-    JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3);
+    JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1); 
+    JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2); //manual conveyor down
+    JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3); //quick turn
     JoystickButton btnJL4 = new JoystickButton(turnJoystick, 4);
     JoystickButton btnJL5 = new JoystickButton(turnJoystick, 5);
     JoystickButton btnJL6 = new JoystickButton(turnJoystick, 6);
@@ -124,19 +122,16 @@ public class RobotContainer {
     JoystickButton btnJL10 = new JoystickButton(turnJoystick, 10);
     JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
 
-    //buttons 1-9 are already in use in mega shooter
-//    btnJL1.whileHeld(pixyCamManualDriveCommand);
-    
-    // btnJL2.whenPressed(() -> conveyor.setWantUp(true)); //replace this in megashooter to test it
-    // btnJL2.whenReleased(() -> conveyor.setWantUp(false));
+    //btnJL1.whileHeld(pixyCamManualDriveCommand);
 
     // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
     // btnJL3.whenReleased(() -> conveyor.setWantUp(false));
 
-    //btnJL4.whenPressed(() -> shooter.setIdleSpeed(true)); 
+    btnJL4.whileHeld(() -> conveyor.setWantActiveBalanceLeft(true)); 
+    btnJL4.whenReleased(() -> conveyor.setWantActiveBalanceLeft(false));
 
-    // btnJL5.whenPressed(() -> activeBalance.manualRight()); 
-    // btnJL5.whenReleased(() -> activeBalance.manualStop()); 
+    btnJL5.whileHeld(() -> conveyor.setWantActiveBalanceRight(true)); 
+    btnJL5.whenReleased(() -> conveyor.setWantActiveBalanceRight(false)); 
 
     btnJL6.whenPressed(() -> {}); 
     btnJL6.whenReleased(() -> {}); 
@@ -160,10 +155,10 @@ public class RobotContainer {
   public void configureTankJoystick() {
     tankJoystick = new Joystick(1);
 
-    JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1);
+    JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1); //shoot in megashooter
     JoystickButton btnJR2 = new JoystickButton(tankJoystick, 2);
-    JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3);
-    JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4);
+    JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3); //ready in megashooter
+    JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4); //shooter idle speed
     JoystickButton btnJR5 = new JoystickButton(tankJoystick, 5);
     JoystickButton btnJR6 = new JoystickButton(tankJoystick, 6);
     JoystickButton btnJR7 = new JoystickButton(tankJoystick, 7);
@@ -172,17 +167,8 @@ public class RobotContainer {
     JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
     JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
-    // btnJR1.whileHeld(manualSpinUp); //shoot in megashooter
-    // btnJR1.whenPressed(() -> shooter.setShooterVelocity(30000 )); //29900b
-    // btnJR1.whenReleased(() -> shooter.setShooterVelocity(0));
-
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-
-    // btnJR3.whenPressed(() -> turret.printEncoderPos()); //ready in megashooter
-    // btnJR3.whenReleased(() -> {}); 
-
-    //btnJR4.whileHeld(visionTurretCommand);
 
     btnJR5.whenPressed(() -> {}); 
     btnJR5.whenReleased(() -> {}); 
