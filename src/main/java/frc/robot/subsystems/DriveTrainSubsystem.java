@@ -104,12 +104,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightGroup  = new SpeedControllerGroup(rightMaster);    
     drive = new DifferentialDrive(leftGroup, rightGroup);
 
-    // try {
-    //   navX = new AHRS(SPI.Port.kMXP);
-    //   navX.enableLogging(true);
-    // } catch (Exception e) {
-    //   DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
-    // }
+    try {
+      navX = new AHRS(SPI.Port.kMXP);
+      navX.enableLogging(true);
+    } catch (Exception e) {
+      DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
+    }
 
     odometry = new DifferentialDriveOdometry(getAngle());
   }
@@ -132,6 +132,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void curvatureDrive(double tank, double turn, boolean quickTurn) {
     //System.out.println("Curvature Turn Value: " + turn);
+    if (quickTurn) {
+      turn = turn * Constants.DriveTrain.kTurnInPlaceSpeed;
+    }
     drive.curvatureDrive(tank, turn, quickTurn);
   }
 
@@ -150,12 +153,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void putToSmartDashboard() {
     SmartDashboard.putNumber("Right Encoder", rightMaster.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Encoder", leftMaster.getSelectedSensorPosition());
+    SmartDashboard.putNumber("NavX Angle", navX.getAngle());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
     return new DifferentialDriveWheelSpeeds(
-      //(leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-      //(rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio
+      (leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
+      (rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio
     );
   }
 
@@ -171,11 +175,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // odometry.update(
-    //   getAngle(),
-    //   (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-    //   (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio  
-    // );
+    odometry.update(
+       getAngle(),
+       (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
+       (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio  
+    );
   }
 
  
