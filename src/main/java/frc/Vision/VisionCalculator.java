@@ -23,39 +23,39 @@ public class VisionCalculator {
     
     public void setupHoodCalcs()
     {
-        hoodTicks.add(new HoodDistance(36, 557));
-        hoodTicks.add(new HoodDistance(48,611));
-        hoodTicks.add(new HoodDistance(60, 688));
-        hoodTicks.add(new HoodDistance(72, 911));
-        hoodTicks.add(new HoodDistance(84, 1032));
-        hoodTicks.add(new HoodDistance(96, 1108));
-        hoodTicks.add(new HoodDistance(108, 1147));
-        hoodTicks.add(new HoodDistance(120, 1180));
-        hoodTicks.add(new HoodDistance(132, 1227));
-        hoodTicks.add(new HoodDistance(144, 1232));
-        hoodTicks.add(new HoodDistance(156, 1259));
-        hoodTicks.add(new HoodDistance(168, 1268));
-        hoodTicks.add(new HoodDistance(180, 1256));
-        hoodTicks.add(new HoodDistance(192, 1262));
-        hoodTicks.add(new HoodDistance(204, 1261));
-        hoodTicks.add(new HoodDistance(216, 1261));
-        hoodTicks.add(new HoodDistance(228, 1254));
-        hoodTicks.add(new HoodDistance(240, 1253));
-        hoodTicks.add(new HoodDistance(252, 1253));
-        hoodTicks.add(new HoodDistance(264, 1253));
-        hoodTicks.add(new HoodDistance(276, 1240));
-        hoodTicks.add(new HoodDistance(288, 1221));
-        hoodTicks.add(new HoodDistance(300, 1190));
-        hoodTicks.add(new HoodDistance(312, 1193));
-        hoodTicks.add(new HoodDistance(324, 1193));
-        hoodTicks.add(new HoodDistance(336, 1193));
-        hoodTicks.add(new HoodDistance(348, 1178));
-        hoodTicks.add(new HoodDistance(360, 1150));
-        hoodTicks.add(new HoodDistance(372, 1128));
+        hoodTicks.add(new HoodDistance(36, 557, 1));
+        hoodTicks.add(new HoodDistance(48,611, 1));
+        hoodTicks.add(new HoodDistance(60, 688, 1));
+        hoodTicks.add(new HoodDistance(72, 911, 1));
+        hoodTicks.add(new HoodDistance(84, 1032, 1));
+        hoodTicks.add(new HoodDistance(96, 1108, 1));
+        hoodTicks.add(new HoodDistance(108, 1147, 1));
+        hoodTicks.add(new HoodDistance(120, 1180, 1));
+        hoodTicks.add(new HoodDistance(132, 1227, 1));
+        hoodTicks.add(new HoodDistance(144, 1232, 1));
+        hoodTicks.add(new HoodDistance(156, 1259, 1));
+        hoodTicks.add(new HoodDistance(168, 1268, 1));
+        hoodTicks.add(new HoodDistance(180, 1256, 1));
+        hoodTicks.add(new HoodDistance(192, 1262, 1));
+        hoodTicks.add(new HoodDistance(204, 1261, 1));
+        hoodTicks.add(new HoodDistance(216, 1261, 1));
+        hoodTicks.add(new HoodDistance(228, 1254, 1));
+        hoodTicks.add(new HoodDistance(240, 1253, 1));
+        hoodTicks.add(new HoodDistance(252, 1253, 1));
+        hoodTicks.add(new HoodDistance(264, 1253, 1));
+        hoodTicks.add(new HoodDistance(276, 1240, 1));
+        hoodTicks.add(new HoodDistance(288, 1221, 1));
+        hoodTicks.add(new HoodDistance(300, 1190, 1));
+        hoodTicks.add(new HoodDistance(312, 1193, 1));
+        hoodTicks.add(new HoodDistance(324, 1193, 1));
+        hoodTicks.add(new HoodDistance(336, 1193, 1));
+        hoodTicks.add(new HoodDistance(348, 1178, 1));
+        hoodTicks.add(new HoodDistance(360, 1150, 1));
+        hoodTicks.add(new HoodDistance(372, 1128, 1));
     }
 
     public void setupPositions() {
-        //                             D        TY      TA     TS  THOR
+        //                                      D        TY      TA     TS  THOR
         visionPositions.add(new VisionDistance(3 * 12,  23.2f,  1.77f, 0f, 117f)); // 1
         visionPositions.add(new VisionDistance(4 * 12,  18.9f,  7.36f, 0f, 146f)); // 2
         visionPositions.add(new VisionDistance(5 * 12,  12.2f,  6.0f,  0f, 126f)); // 3
@@ -113,11 +113,24 @@ public class VisionCalculator {
             return visionPositions.get(8).getDistance(); //default to the initiation line position
         }
 
-        //TODO: Fix the maths
-//        float delta = before.getTY() - after.getTY();
-//        float pct = (ty - before.getTY() / delta);
+        double deltaY = before.getTY() - after.getTY();
+        double offsetY = ty - after.getTY();
+
+
+        double pct = offsetY/deltaY;
+        double deltaInches = after.getDistance() - before.getDistance();
+        double offsetInches = deltaInches * pct;
+
+        int resultingInches = (int)(before.getDistance() + offsetInches);
+
+        if(resultingInches < after.getDistance() && resultingInches > before.getDistance()) {
+            System.out.println("OFFSET INCHES====" + resultingInches + "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
+        } else {
+            System.out.println("CALCULATED HOOD INCHES WRONG===" + offsetInches +  "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
+        }
+
 //        return after.getDistance() + before.getDistance() * pct;
-        return before.getDistance();
+        return resultingInches;
     }
 
     public int distanceToTicks(int inches){
@@ -143,10 +156,23 @@ public class VisionCalculator {
             return hoodTicks.get(7).getHoodTicks(); //by default, return the auto line distance
         }
 
-        //todo: fix the maths
-        //double pct = ((inches - before.getInches()) / 12.0);
+        double deltaInches = before.getInches() - after.getInches();
+        double offsetInches = inches - after.getInches();
+
+        double pct = offsetInches / deltaInches;
+        double deltaTicks = after.getHoodTicks() - before.getHoodTicks();
+        double offsetTicks = deltaTicks * pct;
+
+        int resultingTicks = (int)(offsetTicks + before.getHoodTicks());
+
+        if(resultingTicks < after.getHoodTicks() && resultingTicks > before.getHoodTicks()) {
+            System.out.println("OFFSET TICKS====" + resultingTicks + "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
+        } else {
+            System.out.println("CALCULATED HOOD TICKS WRONG===" + resultingTicks +  "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
+        }
+
         //return (int)(before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
-        return before.getHoodTicks();
+        return (int) (before.getHoodTicks() + offsetTicks);
     }
 
 }

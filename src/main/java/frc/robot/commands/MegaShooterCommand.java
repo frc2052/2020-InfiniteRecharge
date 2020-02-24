@@ -105,6 +105,7 @@ public class MegaShooterCommand extends CommandBase {
         m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
+      
       double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
