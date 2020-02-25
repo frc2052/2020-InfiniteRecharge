@@ -172,6 +172,7 @@ public final class Constants {
         public static final String kShooterOverrideString = "Shooter Override?";
         public static final String kAutoBumpString = "Auto Bump?";
         public static final String kTimeToShoot = "Auto time to shoot?";
+        public static final String kVisionZoom = "Zoom vision?";
     }
     public static final class PixyCamDriveConstants {
 
