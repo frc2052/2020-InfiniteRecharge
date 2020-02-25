@@ -170,6 +170,11 @@ public class MegaShooterCommand extends CommandBase {
   public void execute() {
     toggleIdleShooter();
 
+    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kVisionZoom, false))
+      m_vision.setPipeline(1);
+    else
+      m_vision.setPipeline(0);
+
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
       m_vision.setLEDMode(3);
       m_vision.updateLimelight();
