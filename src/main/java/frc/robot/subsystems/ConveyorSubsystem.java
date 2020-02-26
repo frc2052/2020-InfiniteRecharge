@@ -44,7 +44,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Coast);
     conveyorBottomRightMotor.setNeutralMode(NeutralMode.Coast);
      
-     timer.start();
+    timer.start();
   }
 
   public void setWantActiveBalanceLeft(boolean isPressed) {

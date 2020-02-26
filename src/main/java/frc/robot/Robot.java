@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,6 +47,17 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
+    SmartDashboard.putNumber("Auto Delay", 0);
+    //ShuffleboardTab tab = .getTab("manageAuto");
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
   }
 
   /**
@@ -84,6 +96,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_robotContainer.resetEncoders();
+    m_robotContainer.setOdometry();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

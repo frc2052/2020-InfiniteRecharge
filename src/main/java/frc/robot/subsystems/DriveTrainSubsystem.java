@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -27,7 +28,10 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
+import frc.robot.Constants.Turret;
+import frc.robot.commands.rotateWoFtoColCommand;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
@@ -111,13 +115,12 @@ public class DriveTrainSubsystem extends SubsystemBase {
       DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
     }
 
-    odometry = new DifferentialDriveOdometry(getAngle());
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
   }
 
   public void setOdometry(double x, double y){
-
     Pose2d newPose = new Pose2d(x, y, getAngle());
-      odometry.resetPosition(newPose, getAngle());
+    odometry.resetPosition(newPose, getAngle());
   }
 
   
@@ -132,9 +135,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   public void curvatureDrive(double tank, double turn, boolean quickTurn) {
     //System.out.println("Curvature Turn Value: " + turn);
-    if (quickTurn) {
-      turn = turn * Constants.DriveTrain.kTurnInPlaceSpeed;
-    }
+    // if (quickTurn) {
+    //   turn = turn * Constants.DriveTrain.kTurnInPlaceSpeed;
+    // }
     drive.curvatureDrive(tank, turn, quickTurn);
   }
 
@@ -142,43 +145,73 @@ public class DriveTrainSubsystem extends SubsystemBase {
     if (navX == null) {
       return Rotation2d.fromDegrees(0.0);
     } else {
-      return Rotation2d.fromDegrees(navX.getAngle());
+      return Rotation2d.fromDegrees(getHeading());
     }
   }
 
   public Pose2d getPose() {
+    //System.out.println("------POSE: X: " + odometry.getPoseMeters().getTranslation().getX() + "   Y: " + odometry.getPoseMeters().getTranslation().getY() + "    ANGLE: " + odometry.getPoseMeters().getRotation().getDegrees());
     return odometry.getPoseMeters();
   }
 
   public void putToSmartDashboard() {
     SmartDashboard.putNumber("Right Encoder", rightMaster.getSelectedSensorPosition());
     SmartDashboard.putNumber("Left Encoder", leftMaster.getSelectedSensorPosition());
-    SmartDashboard.putNumber("NavX Angle", navX.getAngle());
+    SmartDashboard.putNumber("x value meters", odometry.getPoseMeters().getTranslation().getX());
+    SmartDashboard.putNumber("x value inches", Units.metersToInches(odometry.getPoseMeters().getTranslation().getX()));
+    SmartDashboard.putNumber("y value meters", odometry.getPoseMeters().getTranslation().getY());
+    SmartDashboard.putNumber("y value inches", Units.metersToInches(odometry.getPoseMeters().getTranslation().getY()));
+    SmartDashboard.putNumber("NavX Angle", getHeading());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+    double leftSpeed = (leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+    double rightSpeed = (rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+
+
+    System.out.println("-----LEFT SPEED: " + leftSpeed + " RIGHT SPEED" + rightSpeed);
+
     return new DifferentialDriveWheelSpeeds(
-      (leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-      (rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio
+      leftSpeed,
+      rightSpeed
     );
   }
 
   public void tankDriveVolts(double leftVolts, double rightVolts) {
-    leftMaster.setVoltage(leftVolts);
+    leftMaster.setVoltage(-leftVolts);
     rightMaster.setVoltage(rightVolts);
+    drive.feed();
   }
+  
 
   public void resetEncoders() {
     rightMaster.setSelectedSensorPosition(0);
     leftMaster.setSelectedSensorPosition(0);
+    setOdometry(0, 0);
+    navX.reset();
+  }
+
+  /**
+   * Returns the heading of the robot.
+   *
+   * @return the robot's heading in degrees, from -180 to 180
+   */
+  public double getHeading() {
+    return Math.IEEEremainder(navX.getAngle(), 360) * (true ? -1.0 : 1.0);
   }
 
   @Override
   public void periodic() {
+    
+    Rotation2d rot = Rotation2d.fromDegrees(getHeading());
+    double left =  (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+    double right = (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio  ; 
+    //System.out.println("----------------DEGREES" + rot.getDegrees() + " LEFT DIST: " + left + "  RIGHT DIST: " + right);
+
     odometry.update(
-       getAngle(),
-       (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio,
-       (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceInches * Constants.DriveTrain.kEncoderGearRatio  
+       rot,
+       left,
+       right  
     );
   }
 
