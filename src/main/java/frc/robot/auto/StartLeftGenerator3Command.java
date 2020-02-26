@@ -7,6 +7,7 @@
 
 package frc.robot.auto;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -24,7 +25,7 @@ public class StartLeftGenerator3Command extends SequentialCommandGroup {
 	    this.addCommands(new WaitCommand(delayTime));
       this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, Constants.Autonomous.kLeftInitTargetTicks));
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
-      RamseteCommand ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
+      Command ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftGenerator3);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));

@@ -284,15 +284,15 @@ public class RobotContainer {
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
-      new Pose2d(6, 0, new Rotation2d(Math.toRadians(0))),
+      new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
       // Pass through these two interior waypoints, making an 's' curve path
       //new ArrayList<Translation2d>(),
       List.of(
-          new Translation2d(6 -Units.feetToMeters(2), 0),
-          new Translation2d(6 - Units.feetToMeters(4), 0)
+          new Translation2d(Units.feetToMeters(2), 0),
+          new Translation2d(Units.feetToMeters(3), 0)
       ),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(6 - Units.feetToMeters(10), 0, new Rotation2d(Math.toRadians(0))),
+      new Pose2d(Units.feetToMeters(5), 0, new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
     );
@@ -333,7 +333,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     driveTrain.setHighGear(false);
 
-    return drivePathCommand();
+    //return drivePathCommand();
 
     // double x = 0;
     // double y = 619.25;
@@ -361,31 +361,31 @@ public class RobotContainer {
     // }
     // driveTrain.setOdometry(x, y);
 
-    // switch(AutoModeSelector.getSelectedAuto()) { 
-    //   case DRIVE:
-    //     DriveCommand drive = new DriveCommand(driveTrain);
-    //     return drive;
-    //   case DM:
-    //     return null;
-    //   case LSG3:
-    //     StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-    //     return leftGenerator3;
-    //   case LSG5:
-    //     StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-    //     return leftShoot5;
-    //   case LST2:
-    //     StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-    //     return leftTrench2;
-    //   case RST3:
-    //     StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-    //     return rightTrench3;
-    //   case CSG3:
-    //     return null;
-    //   case CS:
-    //     CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, autoDelay.getDouble(0), autoShooterControls);
-    //     return centerShootDrivePark;
-    //   default:
-    //     return null; 
-    // }
+    switch(AutoModeSelector.getSelectedAuto()) { 
+      case DRIVE:
+        DriveCommand drive = new DriveCommand(driveTrain);
+        return drive;
+      case DM:
+        return null;
+      case LSG3:
+        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftGenerator3;
+      case LSG5:
+        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftShoot5;
+      case LST2:
+        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftTrench2;
+      case RST3:
+        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return rightTrench3;
+      case CSG3:
+        return null;
+      case CS:
+        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return centerShootDrivePark;
+      default:
+        return null; 
+    }
   }
 }
