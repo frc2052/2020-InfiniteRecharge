@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
+
+import java.util.ArrayList;
 import java.util.List;
 import edu.wpi.first.wpilibj.trajectory.constraint.DifferentialDriveVoltageConstraint;
 import edu.wpi.first.wpilibj.util.Units;
@@ -45,8 +47,7 @@ public class TrajectoryFactory {
             m_driveTrainSubsystem::tankDriveVolts,
             m_driveTrainSubsystem
         );
-        ramseteCommand.andThen(() -> m_driveTrainSubsystem.tankDriveVolts(0, 0));
-        
+
         return ramseteCommand;
     }
 
@@ -66,6 +67,11 @@ public class TrajectoryFactory {
           .addConstraint(autoVoltageConstraint);
   
         switch(selectedPath)  {
+          case Drive:
+            return TrajectoryGenerator.generateTrajectory(
+                new Pose2d(Units.inchesToMeters(0), 0, new Rotation2d(0)),
+                    new ArrayList<Translation2d>(),
+                new Pose2d(Units.inchesToMeters(60), 0, new Rotation2d(0)), config);
           case StartCenterDriveBackPark:
               return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(Units.inchesToMeters(136), 0, new Rotation2d(0)), //start, B
@@ -138,6 +144,7 @@ public class TrajectoryFactory {
 
     public enum DrivePathEnum
     {
+      Drive,
       StartCenterDriveBackPark,
       StartCenterGenerator3,
       StartRightTrench3Ball,

@@ -35,6 +35,7 @@ public class AutoModeSelector {
     }
 
     public enum autos {
+        DRIVE("drive"),
         DM("don't move"),
         CS("center start shoot drive park"),
         CSG3("center start shoot generator 3"),

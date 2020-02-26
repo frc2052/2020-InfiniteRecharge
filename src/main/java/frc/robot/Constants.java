@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -63,7 +64,7 @@ public final class Constants {
         public static final int kCANBusConfigTimeoutMS = 10;
         public static final int kTicksPerRot = 1024;
         public static final double kEncoderGearRatio = (1.0/3)*(20.0/64);
-        public static final double kDriveWheelCircumferenceInches = 6.0 * Math.PI;
+        public static final double kDriveWheelCircumferenceMeters = Units.inchesToMeters(6.0) * Math.PI;
 
         public static final int kPDriveVel = 8;
 
@@ -125,8 +126,8 @@ public final class Constants {
     }
   
     public static class Autonomous {
-        public static final double maxVelocity = 7 * 12;
-        public static final double maxAcceleration = 120;
+        public static final double maxVelocity = .3;
+        public static final double maxAcceleration = .3;
 
         public static final int kLeftInitTargetTicks = 20000;
         public static final int kRightInitTargetTicks = -20000;
