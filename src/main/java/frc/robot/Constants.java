@@ -126,7 +126,7 @@ public final class Constants {
     }
   
     public static class Autonomous {
-        public static final double maxVelocity = .3;
+        public static final double maxVelocity = .75;
         public static final double maxAcceleration = .3;
 
         public static final int kLeftInitTargetTicks = 20000;

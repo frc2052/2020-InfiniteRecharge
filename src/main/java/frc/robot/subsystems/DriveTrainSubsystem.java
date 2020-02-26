@@ -119,9 +119,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void setOdometry(double x, double y){
-
     Pose2d newPose = new Pose2d(x, y, getAngle());
-      odometry.resetPosition(newPose, getAngle());
+    odometry.resetPosition(newPose, getAngle());
   }
 
   

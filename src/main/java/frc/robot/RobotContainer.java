@@ -259,8 +259,8 @@ public class RobotContainer {
 
   }
 
-  public void resetOdometry() {
-    
+  public void setOdometry() {
+    driveTrain.setOdometry(6, 0);
   }
 
   public Command drivePathCommand() {
@@ -279,20 +279,20 @@ public class RobotContainer {
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.DriveTrain.kinematics)
             // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
+            .addConstraint(autoVoltageConstraint).setReversed(true);
 
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
+      new Pose2d(6, 0, new Rotation2d(Math.toRadians(0))),
       // Pass through these two interior waypoints, making an 's' curve path
       //new ArrayList<Translation2d>(),
       List.of(
-          new Translation2d(1, .5),
-          new Translation2d(2, -.5)
+          new Translation2d(6 -Units.feetToMeters(2), 0),
+          new Translation2d(6 - Units.feetToMeters(4), 0)
       ),
       // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(3, 0, new Rotation2d(Math.toRadians(0))),
+      new Pose2d(6 - Units.feetToMeters(10), 0, new Rotation2d(Math.toRadians(0))),
         // Pass config
         config
     );
