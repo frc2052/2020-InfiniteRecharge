@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 import frc.robot.Constants.ConveyorSubsystem;
@@ -18,6 +19,8 @@ public class IntakeSubsystem extends SubsystemBase {
         downSolenoid = new Solenoid(Constants.Solenoids.kDownIntakeSolenoidID);
         outerIntakeMotor = new VictorSPX(Constants.Motors.kOuterIntakeMotorID);
         outerIntakeMotor.configFactoryDefault();
+
+        outerIntakeMotor.setNeutralMode(NeutralMode.Coast);
     }
     public void armToggle(){
         //System.out.println("ARM TOGGLE");

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.auto.AutoModeSelector;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -95,8 +96,10 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
     m_robotContainer.resetEncoders();
-    m_robotContainer.setOdometry();
+    //Units.inchesToMeters(138), Units.inchesToMeters(-68)
+    m_robotContainer.setOdometry(0, 0);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

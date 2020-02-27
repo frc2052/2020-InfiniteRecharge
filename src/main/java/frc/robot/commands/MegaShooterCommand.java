@@ -106,7 +106,7 @@ public class MegaShooterCommand extends CommandBase {
       }
     } else {
       
-      double targetSpeed = Constants.Shooter.kShooterTargetVelocity * .5;
+      double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
       speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
@@ -178,7 +178,7 @@ public class MegaShooterCommand extends CommandBase {
       executeShooter();
       executeConveyor();
     } else {
-      m_vision.setLEDMode(1);
+      m_vision.setLEDMode(3);
       m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);

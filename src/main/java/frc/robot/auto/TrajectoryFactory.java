@@ -57,7 +57,7 @@ public class TrajectoryFactory {
         Pose2d startPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(-68), new Rotation2d(0));
         Pose2d generatorPrep = new Pose2d(Units.inchesToMeters(242), Units.inchesToMeters(79), new Rotation2d(Math.toRadians(0)));
         Pose2d generator3End = new Pose2d(Units.inchesToMeters(209), Units.inchesToMeters(55), new Rotation2d(0));
-        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(315), -68, new Rotation2d(0));
+        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(315), Units.inchesToMeters(-68), new Rotation2d(0));
 
         Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-68));
 

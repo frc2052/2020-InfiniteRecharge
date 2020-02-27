@@ -40,9 +40,9 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomLeftMotor.setInverted(Constants.ConveyorSubsystem.kConveyorDirection);
     conveyorBottomRightMotor.setInverted(!Constants.ConveyorSubsystem.kConveyorDirection);
 
-    lifterMotor.setNeutralMode(NeutralMode.Coast);
-    conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Coast);
-    conveyorBottomRightMotor.setNeutralMode(NeutralMode.Coast);
+    lifterMotor.setNeutralMode(NeutralMode.Brake);
+    conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Brake);
+    conveyorBottomRightMotor.setNeutralMode(NeutralMode.Brake);
      
     timer.start();
   }
