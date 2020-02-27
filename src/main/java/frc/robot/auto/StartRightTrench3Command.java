@@ -29,6 +29,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     Command ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete);
     this.addCommands(par1);
+    this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchBackToFront));
     this.addCommands(new OuterIntakeStopCommand(intake));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0));
   }

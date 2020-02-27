@@ -25,19 +25,21 @@ public class IntakeSubsystem extends SubsystemBase {
     public void armToggle(){
         //System.out.println("ARM TOGGLE");
         if(isArmDown){
+            System.out.println("-----ARM GOING UP");
             armUp();
         } else {
+            System.out.println("-----ARM GOING DOWN");
             armDown();
         }
     }
     public void armUp(){
-        downSolenoid.set(false);
-        upSolenoid.set(true);
+        downSolenoid.set(true);
+        upSolenoid.set(false);
         isArmDown = false;
     }
     public void armDown(){
-        upSolenoid.set(false);
-        downSolenoid.set(true);
+        upSolenoid.set(true);
+        downSolenoid.set(false);
         isArmDown = true;
     }
     public void intakeIn(){

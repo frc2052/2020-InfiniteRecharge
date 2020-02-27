@@ -59,7 +59,7 @@ public class RobotContainer {
   private Joystick secondaryPanel;
 
   private ShooterControls shooterControls= null;
-  private AutoShooterControls autoShooterControls = null;
+  private AutoShooterControls autoShooterControls = new AutoShooterControls();
 
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
@@ -299,8 +299,8 @@ public class RobotContainer {
         config
     );
 
-    PIDController leftController = new PIDController(8, 0, 0);
-    PIDController rightController = new PIDController(8, 0, 0);
+    PIDController leftController = new PIDController(41.5, 0, 0);
+    PIDController rightController = new PIDController(41.5, 0, 0);
 
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
@@ -327,7 +327,7 @@ public class RobotContainer {
     );
 
 
-    return ramseteCommand;
+    return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
   }
 
   public void putToSmartDashboard() {
@@ -345,7 +345,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
-    return drivePathCommand();
+    //return drivePathCommand();
 
     //return drivePathCommand();
 
@@ -375,31 +375,31 @@ public class RobotContainer {
     // }
     // driveTrain.setOdometry(x, y);
 
-    // switch(AutoModeSelector.getSelectedAuto()) { 
-    //   case DRIVE:
-    //     DriveCommand drive = new DriveCommand(driveTrain);
-    //     return drive;
-    //   case DM:
-    //     return null;
-    //   case LSG3:
-    //     StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-    //     return leftGenerator3;
-    //   case LSG5:
-    //     StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-    //     return leftShoot5;
-    //   case LST2:
-    //     StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-    //     return leftTrench2;
-    //   case RST3:
-    //     StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-    //     return rightTrench3;
-    //   case CSG3:
-    //     return null;
-    //   case CS:
-    //     CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-    //     return centerShootDrivePark;
-    //   default:
-    //     return null; 
-    // }
+    switch(AutoModeSelector.getSelectedAuto()) { 
+      case DRIVE:
+        DriveCommand drive = new DriveCommand(driveTrain);
+        return drive;
+      case DM:
+        return null;
+      case LSG3:
+        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftGenerator3;
+      case LSG5:
+        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftShoot5;
+      case LST2:
+        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return leftTrench2;
+      case RST3:
+        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return rightTrench3;
+      case CSG3:
+        return null;
+      case CS:
+        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return centerShootDrivePark;
+      default:
+        return null; 
+    }
   }
 }

@@ -129,8 +129,8 @@ public final class Constants {
         public static final double maxVelocity = .75;
         public static final double maxAcceleration = .3;
 
-        public static final int kLeftInitTargetTicks = 20000;
-        public static final int kRightInitTargetTicks = -20000;
+        public static final int kLeftInitTargetTicks = 0;
+        public static final int kRightInitTargetTicks = 0;
     }
 
     public static final class Vision {

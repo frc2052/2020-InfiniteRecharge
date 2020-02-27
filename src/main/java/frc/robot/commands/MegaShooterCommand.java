@@ -155,6 +155,9 @@ public class MegaShooterCommand extends CommandBase {
   private boolean shooterIdleIsOn = false;
 
   public void toggleIdleShooter() {
+    if (shooterControls == null){
+      System.err.println("SHOOTER CONTROLS NULL");
+    }
     if (shooterControls.getIdleShooterToggle() && !wasToggleIdleLastPressed) { //first time we have seen it pressed since last check
       if (shooterIdleIsOn) {
         shooterIdleIsOn = false;

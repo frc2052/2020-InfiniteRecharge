@@ -37,15 +37,13 @@ public class AutoShooterCommand extends MegaShooterCommand {
     timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
 
     if(timeToShoot == 0) {
-      timeToShoot = 10;
+      timeToShoot = 5;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //executeHood();
-    executeTurret();
     super.execute();
     if(super.getIsReady() && timer.get() == 0) {
       timer.start();
@@ -71,18 +69,18 @@ public class AutoShooterCommand extends MegaShooterCommand {
 
   @Override
   public void executeTurret() {
-    if(m_vision.hasValidTarget() || targetTicks == 0) {
+//    if(m_vision.hasValidTarget() || targetTicks == 0) {
       super.executeTurret();
-    } else {
-      int currentTicks = m_turret.getEncoderPos();
-      if(currentTicks < targetTicks) {
-        m_turret.turnTurret(Constants.Turret.kMaxTurretSpeed); //TODO; figure out a way to be on target if the camera fails in auto
-      } else if(currentTicks > targetTicks) {
-        m_turret.turnTurret(-Constants.Turret.kMaxTurretSpeed);
-      } else {
-        m_turret.turnTurret(0);
-      }
-    }
+    // } else {
+    //   int currentTicks = m_turret.getEncoderPos();
+    //   if(currentTicks < targetTicks) {
+    //     m_turret.turnTurret(Constants.Turret.kMaxTurretSpeed); //TODO; figure out a way to be on target if the camera fails in auto
+    //   } else if(currentTicks > targetTicks) {
+    //     m_turret.turnTurret(-Constants.Turret.kMaxTurretSpeed);
+    //   } else {
+    //     m_turret.turnTurret(0);
+    //   }
+    // }
   }
 
   // @Override
