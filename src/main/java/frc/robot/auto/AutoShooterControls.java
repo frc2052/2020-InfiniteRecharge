@@ -40,13 +40,19 @@ public class AutoShooterControls implements IShooterControls {
     public boolean getManualTurretRight() {
         return false;
     }
+  
+    private boolean isReadyPressed = false;
+
+    public void setReadyPressed(boolean isPressed){
+        isReadyPressed = isPressed;
+    }
 
     @Override
     public boolean getReadyPressed() {
-        return false;
+        return isReadyPressed;
     }
 
-    private boolean isShootPressed = true;
+    private boolean isShootPressed = false;
 
     @Override
     public boolean getShootPressed() {
@@ -56,7 +62,6 @@ public class AutoShooterControls implements IShooterControls {
     public void setShootPressed(boolean isPressed){
         isShootPressed = isPressed;
     }
-
 
     @Override
     public boolean getShooterDecrease() {
