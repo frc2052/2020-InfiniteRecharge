@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.IShooterControls;
 import frc.robot.ShooterControls;
 import frc.robot.Constants.Shooter;
+import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.subsystems.*;
 import frc.vision.VisionCalculator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -56,6 +57,8 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
       int targetTicks = visionCalculator.distanceToTicks(inches);
+      int tickTrim = (int)SmartDashboard.getNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
+      targetTicks = targetTicks + tickTrim;
       System.out.println("DISTANE CALCULATED====" + inches + "   HOOD TARGET TICKS====" + targetTicks);
       //calculate the hood angle from the hood system
       m_hood.driveToEncoderPos(targetTicks);
