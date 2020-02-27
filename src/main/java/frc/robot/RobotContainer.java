@@ -13,6 +13,7 @@ import java.util.List;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
@@ -27,6 +28,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
@@ -57,7 +59,7 @@ public class RobotContainer {
   private Joystick secondaryPanel;
 
   private ShooterControls shooterControls= null;
-  private AutoShooterControls autoShooterControls = null;
+  private AutoShooterControls autoShooterControls = new AutoShooterControls();
 
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
@@ -79,7 +81,7 @@ public class RobotContainer {
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
 
-    vision.setLEDMode(1);
+    //svision.setLEDMode(1);
 
     configureTurnJoystick();
     configureTankJoystick();
@@ -259,8 +261,8 @@ public class RobotContainer {
 
   }
 
-  public void setOdometry() {
-    driveTrain.setOdometry(6, 0);
+  public void setOdometry(double x, double y) {
+    driveTrain.setOdometry(x, y);
   }
 
   public Command drivePathCommand() {
@@ -279,7 +281,7 @@ public class RobotContainer {
             // Add kinematics to ensure max speed is actually obeyed
             .setKinematics(Constants.DriveTrain.kinematics)
             // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint).setReversed(true);
+            .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -297,6 +299,9 @@ public class RobotContainer {
         config
     );
 
+    PIDController leftController = new PIDController(41.5, 0, 0);
+    PIDController rightController = new PIDController(41.5, 0, 0);
+
     RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
         driveTrain::getPose,
@@ -306,15 +311,23 @@ public class RobotContainer {
                                    Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
         Constants.DriveTrain.kinematics,
         driveTrain::getWheelSpeeds,
-        new PIDController(8, 0, 0),
-        new PIDController(8, 0, 0),
+        leftController,
+        rightController,
         // RamseteCommand passes volts to the callback
-        driveTrain::tankDriveVolts,
+        (leftVolts, rightVolts)-> {
+          driveTrain.tankDriveVolts(leftVolts, rightVolts);
+
+          SmartDashboard.putNumber("leftMeasurement", driveTrain.getWheelSpeeds().leftMetersPerSecond);
+          SmartDashboard.putNumber("leftReference", leftController.getSetpoint());
+
+          SmartDashboard.putNumber("rightMeasurement", driveTrain.getWheelSpeeds().rightMetersPerSecond);
+          SmartDashboard.putNumber("rightReference", rightController.getSetpoint());
+        },
         driveTrain
     );
 
 
-    return ramseteCommand;
+    return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
   }
 
   public void putToSmartDashboard() {
@@ -331,7 +344,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    driveTrain.setHighGear(false);
+
+    //return drivePathCommand();
 
     //return drivePathCommand();
 

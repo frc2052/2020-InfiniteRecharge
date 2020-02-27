@@ -14,14 +14,20 @@ public class AutoControlsCommand extends CommandBase {
   /**
    * Creates a new AutoControlsCommand.
    */
-  public AutoControlsCommand(AutoShooterControls controls, boolean isShootPressed, boolean isReadyPressed) {
-    controls.setShootPressed(isShootPressed);
-    controls.setReadyPressed(isReadyPressed);
+  private boolean isShoot = false;
+  private boolean isReady = false;
+  private AutoShooterControls controls = null;
+  public AutoControlsCommand(AutoShooterControls autoControls, boolean isShootPressed, boolean isReadyPressed) {
+    isShoot = isShootPressed;
+    isReady = isReadyPressed;
+    controls = autoControls;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    controls.setShootPressed(isShoot);
+    controls.setReadyPressed(isReady);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

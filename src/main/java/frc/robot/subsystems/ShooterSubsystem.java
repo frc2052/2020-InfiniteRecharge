@@ -27,6 +27,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterFollowerMotor = new VictorSPX(Constants.Motors.kShooterFollowerMotorID);
     shooterFollowerMotor.configFactoryDefault();
+
+    
     shooterFollowerMotor.setNeutralMode(NeutralMode.Coast);
 
     shooterFollowerMotor.follow(shooterMasterMotor);

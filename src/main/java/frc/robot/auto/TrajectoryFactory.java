@@ -57,9 +57,9 @@ public class TrajectoryFactory {
         Pose2d startPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(-68), new Rotation2d(0));
         Pose2d generatorPrep = new Pose2d(Units.inchesToMeters(242), Units.inchesToMeters(79), new Rotation2d(Math.toRadians(0)));
         Pose2d generator3End = new Pose2d(Units.inchesToMeters(209), Units.inchesToMeters(55), new Rotation2d(0));
-        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(315), -68, new Rotation2d(0));
+        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(281), Units.inchesToMeters(-68), new Rotation2d(0));
 
-        Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(120), Units.inchesToMeters(-68));
+        Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(242), Units.inchesToMeters(-68));
 
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -76,15 +76,15 @@ public class TrajectoryFactory {
             .addConstraint(autoVoltageConstraint);
   
         TrajectoryConfig forwardsConfig = new TrajectoryConfig( //used if there is multiple parts to a path
-            Constants.Autonomous.maxVelocity,
-            Constants.Autonomous.maxAcceleration)
+            1.25,
+            .5)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint)
-            .setEndVelocity(.75);
+            .setEndVelocity(.5);
 
         TrajectoryConfig backwardsConfig = new TrajectoryConfig(
-            Constants.Autonomous.maxVelocity,
-            Constants.Autonomous.maxAcceleration)
+            1.5,
+            .5)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint)
             .setReversed(true);
@@ -94,7 +94,7 @@ public class TrajectoryFactory {
             Constants.Autonomous.maxAcceleration)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint)
-            .setStartVelocity(3);
+            .setStartVelocity(.75);
   
         switch(selectedPath)  {
             case StartCenterDriveBackPark:

@@ -54,7 +54,7 @@ public class VisionTurretAdjustCommand extends CommandBase {
   public void end(boolean interrupted) {
     m_IsFinished = true;
     turret.turnTurret(0);
-    vision.setLEDMode(1);
+    vision.setLEDMode(3);
   }
 
   // Returns true when the command should end.

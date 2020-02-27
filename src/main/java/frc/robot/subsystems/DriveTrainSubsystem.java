@@ -98,6 +98,10 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
     rightMaster.setNeutralMode(NeutralMode.Brake);
     leftMaster.setNeutralMode(NeutralMode.Brake);
+    leftFollower1.setNeutralMode(NeutralMode.Brake);
+    leftFollower2.setNeutralMode(NeutralMode.Brake);
+    rightFollower1.setNeutralMode(NeutralMode.Brake);
+    rightFollower2.setNeutralMode(NeutralMode.Brake);
 
     rightFollower1.follow(rightMaster);
     rightFollower2.follow(rightMaster);
@@ -125,7 +129,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   
   public void setHighGear(boolean highGear) {
-    shifter.set(!highGear);
+    shifter.set(highGear);
   }
 
   public void arcadeDrive(double tank, double turn) {
@@ -165,8 +169,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    double leftSpeed = (leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
-    double rightSpeed = (rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+    double leftSpeed = ((double)leftMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+    double rightSpeed = ((double)rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
 
 
     System.out.println("-----LEFT SPEED: " + leftSpeed + " RIGHT SPEED" + rightSpeed);
@@ -202,10 +206,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
     Rotation2d rot = Rotation2d.fromDegrees(getHeading());
-    double left =  (leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
-    double right = (rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio  ; 
+    double left =  ((double)leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
+    double right = ((double)rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio  ; 
     //System.out.println("----------------DEGREES" + rot.getDegrees() + " LEFT DIST: " + left + "  RIGHT DIST: " + right);
 
     odometry.update(
