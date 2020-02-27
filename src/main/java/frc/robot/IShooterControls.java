@@ -21,15 +21,15 @@ public interface IShooterControls {
     
     boolean getManualTurretLeft();
 
-    public boolean getManualTurretRight();
+    boolean getManualTurretRight();
 
-    public boolean getReadyPressed();
+    boolean getReadyPressed();
 
-    public boolean getShootPressed();
+    boolean getShootPressed();
 
-    public boolean getManualConveyorDown();
+    boolean getManualConveyorDown();
 
-    public boolean getManualConveyorUp();
+    boolean getManualConveyorUp();
 
-    public boolean getIdleShooterToggle();
+    boolean getIdleShooterToggle();
 }
