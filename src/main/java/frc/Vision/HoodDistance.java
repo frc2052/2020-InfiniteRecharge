@@ -9,7 +9,7 @@ package frc.vision;
 
 /**
  * Add your docs here.
- */
+ */ 
 public class HoodDistance {
     private int m_Inches;
     private int m_HoodTicks;
