@@ -56,6 +56,7 @@ public class MegaShooterCommand extends CommandBase {
     } else {
       int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
       int targetTicks = visionCalculator.distanceToTicks(inches);
+      targetTicks = targetTicks - 50;
       System.out.println("DISTANE CALCULATED====" + inches + "   HOOD TARGET TICKS====" + targetTicks);
       //calculate the hood angle from the hood system
       m_hood.driveToEncoderPos(targetTicks);

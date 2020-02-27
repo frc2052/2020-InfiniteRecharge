@@ -57,6 +57,7 @@ public class AutoShooterCommand extends MegaShooterCommand {
   @Override
   public void end(boolean interrupted) {
     autoControls.setShootPressed(false);
+    autoControls.setReadyPressed(false);
     super.end(interrupted);
     m_IsFinished = true;
   }
