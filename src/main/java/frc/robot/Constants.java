@@ -175,6 +175,7 @@ public final class Constants {
         public static final String kTimeToShoot = "Auto time to shoot?";
         public static final String kDistanceToLeftWallInches = "Distance to left wall";
         public static final String kDistanceToRightWallInches = "Distance to right wall";
+        public static final String kHoodTrim = "Pulls hood back?";
     }
     public static final class PixyCamDriveConstants {
 

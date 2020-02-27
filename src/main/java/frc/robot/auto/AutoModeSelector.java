@@ -31,6 +31,7 @@ public class AutoModeSelector {
         SmartDashboard.putData("Autos", sendableChooserAutos);
         SmartDashboard.putNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
         SmartDashboard.putNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
+        SmartDashboard.putNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
     }
 
     public static double getPosOnLineInches() {
