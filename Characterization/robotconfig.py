@@ -6,7 +6,7 @@
     # 'WPI_VictorSPX'
     # Note: The first motor on each side should always be a Talon SRX/FX, as the
     # VictorSPX does not support encoder connections
-    "rightControllerTypes": ["WPI_TalonSRX", "WPI_VictorSPX0", "WPI_VictorSPX"],
+    "rightControllerTypes": ["WPI_TalonSRX", "WPI_VictorSPX", "WPI_VictorSPX"],
     "leftControllerTypes": ["WPI_TalonSRX", "WPI_VictorSPX", "WPI_VictorSPX"],
     # Note: The first id in the list of ports should be the one with an encoder
     # Ports for the left-side motors
@@ -18,12 +18,12 @@
     # Inversions for the right side motors
     "rightMotorsInverted": [False, False, False],
     # Wheel diameter (in units of your choice - will dictate units of analysis)
-    "wheelDiameter": .0152,
+    "wheelDiameter": .1524,
     # If your robot has only one encoder, set all right encoder fields to `None`
     # Encoder edges-per-revolution (*NOT* cycles per revolution!)
     # This value should be the edges per revolution *of the wheels*, and so
     # should take into account gearing between the encoder and the wheels
-    "encoderEPR": 9830.4,
+    "encoderPPR": 9830.4,
     # Whether the left encoder is inverted
     "leftEncoderInverted": True,
     # Whether the right encoder is inverted:
@@ -41,4 +41,6 @@
     # "" (NavX using default SPI, ADXRS450 using onboard CS0, or no gyro)
     "gyroPort": "",
 }
+
+
 

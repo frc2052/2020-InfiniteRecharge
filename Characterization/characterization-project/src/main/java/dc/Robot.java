@@ -20,7 +20,6 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -36,8 +35,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends TimedRobot {
 
-  static private double WHEEL_DIAMETER = 0.152;
-  static private double ENCODER_EDGES_PER_REV = 9830.4;
+  static private double WHEEL_DIAMETER = 0.1524;
+  static private double ENCODER_PULSE_PER_REV = 9830.4;
   static private int PIDIDX = 0;
 
   Joystick stick;
@@ -69,30 +68,30 @@ public class Robot extends TimedRobot {
     stick = new Joystick(0);
 
     leftMaster = new WPI_TalonSRX(4);
-    leftMaster.setInverted(true);
+    leftMaster.setInverted(false);
     leftMaster.setSensorPhase(true);
     leftMaster.setNeutralMode(NeutralMode.Brake);
 
     rightMaster = new WPI_TalonSRX(1);
-    rightMaster.setInverted(true);
+    rightMaster.setInverted(false);
     rightMaster.setSensorPhase(false);
     rightMaster.setNeutralMode(NeutralMode.Brake);
 
     WPI_VictorSPX leftSlave0 = new WPI_VictorSPX(5);
-    leftSlave0.setInverted(true);
+    leftSlave0.setInverted(false);
     leftSlave0.follow(leftMaster);
     leftSlave0.setNeutralMode(NeutralMode.Brake);
     WPI_VictorSPX leftSlave1 = new WPI_VictorSPX(6);
-    leftSlave1.setInverted(true);
+    leftSlave1.setInverted(false);
     leftSlave1.follow(leftMaster);
     leftSlave1.setNeutralMode(NeutralMode.Brake);
 
     WPI_VictorSPX rightSlave0 = new WPI_VictorSPX(2);
-    rightSlave0.setInverted(true);
+    rightSlave0.setInverted(false);
     rightSlave0.follow(rightMaster);
     rightSlave0.setNeutralMode(NeutralMode.Brake);
     WPI_VictorSPX rightSlave1 = new WPI_VictorSPX(3);
-    rightSlave1.setInverted(true);
+    rightSlave1.setInverted(false);
     rightSlave1.follow(rightMaster);
     rightSlave1.setNeutralMode(NeutralMode.Brake);
 
@@ -119,22 +118,18 @@ public class Robot extends TimedRobot {
     //
 
     double encoderConstant =
-        (1 / ENCODER_EDGES_PER_REV) * WHEEL_DIAMETER * Math.PI;
+        (1 / ENCODER_PULSE_PER_REV) * WHEEL_DIAMETER * Math.PI;
 
-    leftMaster.configSelectedFeedbackSensor(
-        FeedbackDevice.QuadEncoder,
-        PIDIDX, 10
-    );
+    leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+                                                PIDIDX, 10);
     leftEncoderPosition = ()
         -> leftMaster.getSelectedSensorPosition(PIDIDX) * encoderConstant;
     leftEncoderRate = ()
         -> leftMaster.getSelectedSensorVelocity(PIDIDX) * encoderConstant *
                10;
 
-    rightMaster.configSelectedFeedbackSensor(
-        FeedbackDevice.QuadEncoder,
-        PIDIDX, 10
-    );
+    rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder,
+                                                 PIDIDX, 10);
     rightEncoderPosition = ()
         -> rightMaster.getSelectedSensorPosition(PIDIDX) * encoderConstant;
     rightEncoderRate = ()
