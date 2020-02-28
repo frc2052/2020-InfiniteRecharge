@@ -104,8 +104,8 @@ public final class Constants {
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;
 
-        public static final double kShooterF = (.9 * 1023) / 29900; //29900 is fastest we can run shooter
-        public static final int kShooterTargetVelocity = 30000;
+        public static final double kShooterF = (.9 * 1023) / 31000; //29900 is fastest we can run shooter
+        public static final int kShooterTargetVelocity = 31000;
     }
   
     public static final class Turret{

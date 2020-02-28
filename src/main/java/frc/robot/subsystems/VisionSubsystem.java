@@ -20,6 +20,7 @@ public class VisionSubsystem extends SubsystemBase {
   private NetworkTableEntry txI = table.getEntry("tx"); // target x
   private NetworkTableEntry tyI = table.getEntry("ty"); // target y
   private NetworkTableEntry taI = table.getEntry("ta"); // can be used for distance sensing in the future
+  private NetworkTableEntry tsI = table.getEntry("ts"); // whether there are any targets
 
   private NetworkTableEntry pipelineI = table.getEntry("getpipe"); // pipeline
   private NetworkTableEntry ledModeI = table.getEntry("ledMode"); // led mode
@@ -35,6 +36,7 @@ public class VisionSubsystem extends SubsystemBase {
   private double tx; // target x
   private double ty; // target y
   private double ta; // can be used for distance sensing in the future (target area)
+  private double ts; //skew (angle) of the target
 
   private double pl; // pipeline
   private double lm; // led mode
@@ -54,6 +56,7 @@ public class VisionSubsystem extends SubsystemBase {
     this.tx = this.txI.getDouble(0.0);
     this.ty = this.tyI.getDouble(0.0);
     this.ta = this.taI.getDouble(0.0);
+    this.ts = this.tsI.getDouble(0.0);
 
     this.pl = this.pipelineI.getDouble(0.0);
     this.lm = this.ledModeI.getDouble(0.0);
@@ -77,6 +80,7 @@ public class VisionSubsystem extends SubsystemBase {
   public double getTx() {return this.tx;}
   public double getTy() {return ty;}
   public double getTa() {return this.ta;}
+  public double getTs() {return this.ts;}
 
   public int getPl() {return (int)this.pl;}
   public int getLm() {return (int)this.lm;}

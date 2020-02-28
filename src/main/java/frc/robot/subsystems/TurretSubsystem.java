@@ -76,9 +76,9 @@ public class TurretSubsystem extends SubsystemBase {
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else {
       //System.out.println("TURRENT ANGLE OFFSET: " + angle);
-      if(Math.abs(angle) < 2) {
+      isLinedUp = Math.abs(angle) < 2;
+      if(Math.abs(angle) < 0.5) {
         turretMotor.set(ControlMode.PercentOutput, 0);
-        isLinedUp = true;
       } else {
         if (Math.abs(angle) >= 20) {
           isLinedUp = false;
@@ -91,13 +91,13 @@ public class TurretSubsystem extends SubsystemBase {
           isLinedUp = false;
           double targetSpeed = angle * .05;
 
-          // if(Math.abs(targetSpeed) < Constants.Turret.kMinTurretSpeed) {
-          //   if (targetSpeed < 0) {
-          //     targetSpeed = -Constants.Turret.kMinTurretSpeed;
-          //   } else {
-          //     targetSpeed = Constants.Turret.kMinTurretSpeed;
-          //   }
-          // }
+          if(Math.abs(targetSpeed) < Constants.Turret.kMinTurretSpeed) {
+            if (targetSpeed < 0) {
+              targetSpeed = -Constants.Turret.kMinTurretSpeed;
+            } else {
+              targetSpeed = Constants.Turret.kMinTurretSpeed;
+            }
+          }
 
           turretMotor.set(ControlMode.PercentOutput, (targetSpeed ));
         }

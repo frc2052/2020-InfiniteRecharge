@@ -336,6 +336,7 @@ public class RobotContainer {
     hood.putEncoderToShuffleboard();
     vision.putDistanceToSmartDashboard();
     turret.printEncoderPos();
+    shooter.putToSmartDashboard();
   }
 
   /**

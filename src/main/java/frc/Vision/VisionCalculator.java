@@ -31,27 +31,32 @@ public class VisionCalculator {
         hoodTicks.add(new HoodDistance(96, 1108, 1));
         hoodTicks.add(new HoodDistance(108, 1147, 1));
         hoodTicks.add(new HoodDistance(120, 1180, 1));
-        hoodTicks.add(new HoodDistance(132, 1227, 1));
-        hoodTicks.add(new HoodDistance(144, 1232, 1));
-        hoodTicks.add(new HoodDistance(156, 1259, 1));
-        hoodTicks.add(new HoodDistance(168, 1268, 1));
-        hoodTicks.add(new HoodDistance(180, 1256, 1));
-        hoodTicks.add(new HoodDistance(192, 1262, 1));
-        hoodTicks.add(new HoodDistance(204, 1261, 1));
-        hoodTicks.add(new HoodDistance(216, 1261, 1));
-        hoodTicks.add(new HoodDistance(228, 1254, 1));
-        hoodTicks.add(new HoodDistance(240, 1253, 1));
-        hoodTicks.add(new HoodDistance(252, 1253, 1));
-        hoodTicks.add(new HoodDistance(264, 1253, 1));
-        hoodTicks.add(new HoodDistance(276, 1240, 1));
-        hoodTicks.add(new HoodDistance(288, 1221, 1));
-        hoodTicks.add(new HoodDistance(300, 1190, 1));
-        hoodTicks.add(new HoodDistance(312, 1193, 1));
-        hoodTicks.add(new HoodDistance(324, 1193, 1));
-        hoodTicks.add(new HoodDistance(336, 1193, 1));
-        hoodTicks.add(new HoodDistance(348, 1178, 1));
-        hoodTicks.add(new HoodDistance(360, 1150, 1));
-        hoodTicks.add(new HoodDistance(372, 1128, 1));
+        hoodTicks.add(new HoodDistance(12*11, 1227, 1));
+        hoodTicks.add(new HoodDistance(12*12, 1139, 1));
+        hoodTicks.add(new HoodDistance(12*13, 1149, 1));
+        hoodTicks.add(new HoodDistance(12*14, 1188, 1));
+        hoodTicks.add(new HoodDistance(12*15, 1188, 1));
+        hoodTicks.add(new HoodDistance(12*16, 1188, 1));
+        hoodTicks.add(new HoodDistance(12*17, 1220, 1));
+        hoodTicks.add(new HoodDistance(12*18, 1224, 1));
+        hoodTicks.add(new HoodDistance(12*19, 1223, 1));
+        hoodTicks.add(new HoodDistance(12*20, 1219, 1));
+        hoodTicks.add(new HoodDistance(12*21, 1226, 1));
+        hoodTicks.add(new HoodDistance(12*22, 1230, 1));
+        hoodTicks.add(new HoodDistance(12*23, 1209, 1));
+        hoodTicks.add(new HoodDistance(12*24, 1204, 1));
+        hoodTicks.add(new HoodDistance(12*25, 1174, 1));
+        hoodTicks.add(new HoodDistance(12*26, 1160, 1));
+        hoodTicks.add(new HoodDistance(12*27, 1173, 1));
+        hoodTicks.add(new HoodDistance(12*28, 1177, 1));
+        hoodTicks.add(new HoodDistance(12*29, 1143, 1));
+        hoodTicks.add(new HoodDistance(12*30, 1080, 1));
+        hoodTicks.add(new HoodDistance(12*31, 1011, 1));
+        hoodTicks.add(new HoodDistance(12*32, 932,1));
+        hoodTicks.add(new HoodDistance(12*33, 930,1));
+        hoodTicks.add(new HoodDistance(12*34, 904,1));
+        hoodTicks.add(new HoodDistance(12*35, 896,1));
+        hoodTicks.add(new HoodDistance(12*36, 816, 1));
     }
 
     public void setupPositions() {
@@ -64,35 +69,35 @@ public class VisionCalculator {
         visionPositions.add(new VisionDistance(8 * 12,  -1.5f,  4.4f,  0f, 92f));  // 6
         visionPositions.add(new VisionDistance(9 * 12,  -3.2f,  3.6f,  0f, 83f));  // 7
         visionPositions.add(new VisionDistance(10 * 12, -5.5f,  3.2f,  0f, 78f));  // 8
-        visionPositions.add(new VisionDistance(11 * 12, -7.0f,  2.7f,  0f, 72f));  // 9
-        visionPositions.add(new VisionDistance(12 * 12, -8.6f,  2.2f,  0f, 66f));  // 10
-        visionPositions.add(new VisionDistance(13 * 12, -9.8f,  1.8f,  0f, 62f));  // 11
-        visionPositions.add(new VisionDistance(14 * 12, -11.0f, 1.4f,  0f, 56f));  // 12
-        visionPositions.add(new VisionDistance(15 * 12, -11.9f, 1.3f,  0f, 53f));  // 13
-        visionPositions.add(new VisionDistance(16 * 12, -12.8f, 1.1f,  0f, 50f));  // 14
-        visionPositions.add(new VisionDistance(17 * 12, -13.3f, 1.0f,  0f, 48f));  // 15
-        visionPositions.add(new VisionDistance(18 * 12, -14.2f, 0.9f,  0f, 46f));  // 16
-        visionPositions.add(new VisionDistance(19 * 12, -15.0f, 0.9f,  0f, 44f));  // 17
-        visionPositions.add(new VisionDistance(20 * 12, -15.5f, 0.7f,  0f, 42f));  // 18
-        visionPositions.add(new VisionDistance(21 * 12, -16.3f, 0.7f,  0f, 40f));  // 19
-        visionPositions.add(new VisionDistance(22 * 12, -16.9f, 0.6f,  0f, 38f));  // 20
-        visionPositions.add(new VisionDistance(23 * 12, -17.1f, 0.5f,  0f, 36f));  // 21
-        visionPositions.add(new VisionDistance(24 * 12, -17.7f, 0.5f,  0f, 35f));  // 22
-        visionPositions.add(new VisionDistance(25 * 12, -18.4f, 0.5f,  0f, 34f));  // 23
-        visionPositions.add(new VisionDistance(26 * 12, -18.6f, 0.4f,	0f,	32));   // 24
-        visionPositions.add(new VisionDistance(27 * 12, -18.7f, 0.4f,	0f,	32));   // 25
-        visionPositions.add(new VisionDistance(28 * 12, -19.9f, 0.4f,	0f,	31));   // 26
-        visionPositions.add(new VisionDistance(29 * 12, -19.4f, 0.4f,	0f,	30));   // 27
-        visionPositions.add(new VisionDistance(30 * 12, -19.8f, 0.3f,	0f,	28));   // 28 *
-        visionPositions.add(new VisionDistance(31 * 12, -19.9f, 0.3f,	0f,	27));   // 29
-        visionPositions.add(new VisionDistance(32 * 12, -20.2f, 0.3f,	0f,	28));   // 30
-        visionPositions.add(new VisionDistance(33 * 12, -20.5f, 0.3f,	0f,	27));   // 31
-        visionPositions.add(new VisionDistance(34 * 12, -21.0f, 0.3f,	0f,	26));   // 32
-        visionPositions.add(new VisionDistance(35 * 12, -21.1f, 0.3f,	0f,	24));   // 33
-        visionPositions.add(new VisionDistance(36 * 12, -21.3f, 0.3f,	0f,	24));   // 34
+        visionPositions.add(new VisionDistance(11 * 12, -7.51f,  2.7f,  0f, 70f));  // 9
+        visionPositions.add(new VisionDistance(12 * 12, -9.02f,  2.2f,  0f, 66f));  // 10
+        visionPositions.add(new VisionDistance(13 * 12, -10.23f,  1.8f,  0f, 62f));  // 11
+        visionPositions.add(new VisionDistance(14 * 12, -11.52f, 1.4f,  0f, 60f));  // 12
+        visionPositions.add(new VisionDistance(15 * 12, -12.14f, 1.3f,  0f, 56f));  // 13
+        visionPositions.add(new VisionDistance(16 * 12, -13.04f, 1.1f,  0f, 52f));  // 14
+        visionPositions.add(new VisionDistance(17 * 12, -14.08f, 1.0f,  0f, 49f));  // 15
+        visionPositions.add(new VisionDistance(18 * 12, -14.9f, 0.9f,  0f, 48f));  // 16
+        visionPositions.add(new VisionDistance(19 * 12, -15.47f, 0.9f,  0f, 46f));  // 17
+        visionPositions.add(new VisionDistance(20 * 12, -15.93f, 0.7f,  0f, 44f));  // 18
+        visionPositions.add(new VisionDistance(21 * 12, -16.82f, 0.7f,  0f, 42f));  // 19
+        visionPositions.add(new VisionDistance(22 * 12, -17.05f, 0.6f,  0f, 40f));  // 20
+        visionPositions.add(new VisionDistance(23 * 12, -17.43f, 0.5f,  0f, 38f));  // 21
+        visionPositions.add(new VisionDistance(24 * 12, -18.161f, 0.5f,  0f, 37f));  // 22
+        visionPositions.add(new VisionDistance(25 * 12, -18.43f, 0.5f,  0f, 36f));  // 23
+        visionPositions.add(new VisionDistance(26 * 12, -18.75f, 0.4f,	0f,	34));   // 24
+        visionPositions.add(new VisionDistance(27 * 12, -19.15f, 0.4f,	0f,	32));   // 25
+        visionPositions.add(new VisionDistance(28 * 12, -19.54f, 0.4f,	0f,	32));   // 26
+        visionPositions.add(new VisionDistance(29 * 12, -19.74f, 0.4f,	0f,	30));   // 27
+        visionPositions.add(new VisionDistance(30 * 12, -19.89f, 0.3f,	0f,	32));   // 28 *
+        visionPositions.add(new VisionDistance(31 * 12, -20.46f, 0.3f,	0f,	30));   // 29
+        visionPositions.add(new VisionDistance(32 * 12, -20.72f, 0.3f,	0f,	30));   // 30
+        visionPositions.add(new VisionDistance(33 * 12, -21.2f, 0.3f,	0f,	28));   // 31
+        visionPositions.add(new VisionDistance(34 * 12, -21.07f, 0.3f,	0f,	26));   // 32
+        visionPositions.add(new VisionDistance(35 * 12, -21.14f, 0.3f,	0f,	26));  // 33
+        visionPositions.add(new VisionDistance(36 * 12, -21.29f, 0.3f,	0f,	24));   // 34
         visionPositions.add(new VisionDistance(37 * 12, -21.5f, 0.3f,	0f,	24));   // 35
         visionPositions.add(new VisionDistance(38 * 12, -21.6f, 0.3f,	0f,	23));   // 36
-        visionPositions.add(new VisionDistance(39 * 12, -21.7f, 0.3f,	0f,	24));   // 37
+        visionPositions.add(new VisionDistance(39 * 12, -21.9f, 0.3f,	0f,	24));   // 37
     }
 
     public int getDistance(double ty, double ta, double ts, double thor) {

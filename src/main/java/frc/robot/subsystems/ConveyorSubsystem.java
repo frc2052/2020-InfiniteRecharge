@@ -108,9 +108,9 @@ public class ConveyorSubsystem extends SubsystemBase {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);  
     } else if(wantActiveBalanceRight) {
-      conveyorBottomRightMotor.set(ControlMode.PercentOutput, .25);
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -1);
     } else if(wantActiveBalanceLeft) {
-      conveyorBottomRightMotor.set(ControlMode.PercentOutput, -.25);
+      conveyorBottomRightMotor.set(ControlMode.PercentOutput, 1);
     } else {
       conveyorBottomRightMotor.set(ControlMode.PercentOutput, 0);
       conveyorBottomLeftMotor.set(ControlMode.PercentOutput, 0);

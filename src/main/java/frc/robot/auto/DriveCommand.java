@@ -16,7 +16,7 @@ public class DriveCommand extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public DriveCommand(DriveTrainSubsystem driveTrain) {
-    this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball));
+    this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LineToTrenchMiddle));
     this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchBackToFront));
   }
 }

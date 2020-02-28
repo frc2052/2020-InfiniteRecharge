@@ -17,7 +17,7 @@ public class AutoFeed extends SequentialCommandGroup {
   public AutoFeed(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, Double delayTime) {
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new ArmDownCommand(intake));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 6400));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 6400, 10));
     this.addCommands(new OuterIntakeStopCommand(intake));
     //TODO add a drive path? note: we already have an enum, although it is default.
   }

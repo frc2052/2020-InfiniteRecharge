@@ -26,13 +26,13 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
       this.addCommands(new BumpCommand(driveTrain));
       this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, Constants.Autonomous.kLeftInitTargetTicks));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, Constants.Autonomous.kLeftInitTargetTicks, 3));
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       Command ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
       ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete);
       this.addCommands(par1);
       this.addCommands(new OuterIntakeStopCommand(intake));
       this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LeftTrenchToMiddle));
-      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 5));
   }
 }
