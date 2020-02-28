@@ -60,6 +60,7 @@ public class TrajectoryFactory {
         Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(281), Units.inchesToMeters(-68), new Rotation2d(0));
 
         Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(-68));
+        Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(-68));
 
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -138,11 +139,16 @@ public class TrajectoryFactory {
                             new Translation2d(6.5024, -5.08)),
                     new Pose2d(6.35, -4.8514, new Rotation2d(0)), forwardsConfig);
 
-            case LineToTrench:
+            case LineToTrenchMiddle:
                 return TrajectoryGenerator.generateTrajectory(
                     startPos, 
                         new ArrayList<Translation2d>(), 
-                    new Pose2d(trenchBall1, new Rotation2d(0)), forwardsConfig);
+                    new Pose2d(trenchBall2, new Rotation2d(0)), forwardsConfig);
+            case TrenchMiddleToBack:
+                return TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(trenchBall2, new Rotation2d(0)), 
+                        new ArrayList<Translation2d>(), 
+                    trenchBall3, forwardsConfig);
             case TrenchFrontToBack:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(trenchBall1, new Rotation2d(0)),
@@ -182,7 +188,9 @@ public class TrajectoryFactory {
 
     public enum DrivePathEnum
     {
-      LineToTrench,
+      LineToTrenchMiddle,
+      //TrenchFrontToMiddle,
+      TrenchMiddleToBack,
       StartCenterDriveBackPark,
       StartToGenerator,
       GeneratorBallPath,

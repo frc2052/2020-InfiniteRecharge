@@ -74,7 +74,13 @@ public class MegaShooterCommand extends CommandBase {
       turretOnTarget = true;
       m_turret.turnTurret(0);
     } else if(m_vision.hasValidTarget()){  //not in manual mode
-      double turretTargetAngle = m_vision.getTx(); //calculate target turret angle from vision
+      double skew = m_vision.getTs();
+      double adjustDegrees = 0;
+      if (Math.abs(skew)<20)
+      {        
+        adjustDegrees = skew / 4;
+      }
+      double turretTargetAngle = m_vision.getTx() + adjustDegrees; //calculate target turret angle from vision
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
       m_turret.driveToPos(turretTargetAngle);//turn turret to target angle
@@ -112,7 +118,7 @@ public class MegaShooterCommand extends CommandBase {
       double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .85;
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .9;
       SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
   }
@@ -184,7 +190,7 @@ public class MegaShooterCommand extends CommandBase {
       executeShooter();
       executeConveyor();
     } else {
-      m_vision.setLEDMode(3);
+      //m_vision.setLEDMode(1);
       m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);

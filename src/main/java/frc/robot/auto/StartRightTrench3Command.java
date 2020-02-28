@@ -26,23 +26,21 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new AutoControlsCommand(controls, false, true));
-
-    AutoReadyCommand ready1 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
-    Command drive = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LineToTrench);
-    ParallelDeadlineGroup driveShoot = new ParallelDeadlineGroup(drive, ready1);
-    this.addCommands(driveShoot); 
-    this.addCommands(new AutoControlsCommand(controls, true, true));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
+    AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
+    Command driveToMidTrench = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LineToTrenchMiddle);
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
-    Command ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchFrontToBack);
-    ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete);
-    AutoReadyCommand ready2 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
-    ParallelDeadlineGroup driveShoot2 = new ParallelDeadlineGroup(par1, ready2);
-    this.addCommands(driveShoot2);
-    this.addCommands(new ArmUpCommand(intake));
-    this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchBackToFront));
+    ParallelCommandGroup intakeDrive2Balls = new ParallelCommandGroup(intakeCmd, driveToMidTrench);
+    ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(intakeDrive2Balls, ready);
+    this.addCommands(driveReady); 
     this.addCommands(new AutoControlsCommand(controls, true, true));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 5));
+    Command driveToBackTrench = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchMiddleToBack);
+    AutoReadyCommand ready2 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
+    ParallelDeadlineGroup driveReady2 = new ParallelDeadlineGroup(driveToBackTrench, ready2);
+    this.addCommands(driveReady2);
+    this.addCommands(new AutoControlsCommand(controls, true, true));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
+    this.addCommands(new ArmUpCommand(intake));
+    this.addCommands(new OuterIntakeStopCommand(intake));
   }
 }

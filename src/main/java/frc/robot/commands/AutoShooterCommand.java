@@ -22,7 +22,7 @@ public class AutoShooterCommand extends MegaShooterCommand {
   private double timeToShoot;
   private int targetTicks;
 
-  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int ticks, int shootTime) {
+  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int ticks, double shootTime) {
     super(shooter, vision, hood, turret, conveyor, controls);
     autoControls = controls;
     targetTicks = ticks;
