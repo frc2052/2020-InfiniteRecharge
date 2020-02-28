@@ -18,37 +18,38 @@ public class BumpCommand extends CommandBase {
    */
 
   private DriveTrainSubsystem driveTrain;
+  private boolean doBump = false;
 
   public BumpCommand(DriveTrainSubsystem drive) {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false)) {
-        driveTrain = drive;
-        addRequirements(driveTrain);
-        bumpTimer = new Timer();
-        
-    }
+      driveTrain = drive;
+      addRequirements(driveTrain);        
   }
 
   @Override
   public void initialize() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false) && driveTrain != null && bumpTimer != null) {
-      driveTrain.arcadeDrive(.5, 0);
-      bumpTimer.start();
+    doBump = SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
+    bumpTimer = new Timer();
+    bumpTimer.start();
+  }
+
+  @Override
+  public void execute() {
+    if(doBump) {
+      driveTrain.arcadeDrive(.75, 0);
     }
+    super.execute();
   }
 
   @Override
   public void end(boolean interrupted) {
-    if(driveTrain != null) {
       driveTrain.arcadeDrive(0,0);
-    }
-    if(bumpTimer != null) {
       bumpTimer.stop();
-    }
   }
 
   @Override
   public boolean isFinished() {
-    return bumpTimer == null || (bumpTimer.get() >= .5);
+    System.out.println("BumpTimer: " + bumpTimer.get());
+    return !doBump || (bumpTimer.get() >= .25);
   }
 
 }

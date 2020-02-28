@@ -15,6 +15,6 @@ import frc.robot.commands.*;
 public class AutoShoot extends SequentialCommandGroup {
   
     public AutoShoot(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls) {    
-      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
     }
 }

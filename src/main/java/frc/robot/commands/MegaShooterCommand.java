@@ -112,7 +112,7 @@ public class MegaShooterCommand extends CommandBase {
       double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .85;
       SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
   }

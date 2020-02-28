@@ -23,13 +23,13 @@ public class StartLeftShoot5Command extends SequentialCommandGroup {
   public StartLeftShoot5Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, Constants.Autonomous.kLeftInitTargetTicks));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, Constants.Autonomous.kLeftInitTargetTicks, 3));
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
     Command ramsete = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftGenerator5);
     ArmDownCommand armDownCmd = new ArmDownCommand(intake);
     ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, ramsete, armDownCmd);
     this.addCommands(par1);
     this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 5));
   }
 }
