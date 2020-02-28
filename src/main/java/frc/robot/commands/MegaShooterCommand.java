@@ -79,6 +79,7 @@ public class MegaShooterCommand extends CommandBase {
       if (Math.abs(skew)<20)
       {        
         adjustDegrees = skew / 4;
+        System.out.println("------ADJUST DEGREES ===" + adjustDegrees);
       }
       double turretTargetAngle = m_vision.getTx() + adjustDegrees; //calculate target turret angle from vision
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
