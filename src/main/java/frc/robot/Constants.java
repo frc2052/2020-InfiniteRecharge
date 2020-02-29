@@ -121,7 +121,7 @@ public final class Constants {
         public static final double kMaxAngle = 90;
         public static final double kMinAngle = -90;
 
-        public static final double kMinTurretSpeed = .1;
+        public static final double kMinTurretSpeed = .07;
         public static final double kMaxTurretSpeed = .75;
     }
   
@@ -177,6 +177,7 @@ public final class Constants {
         public static final String kDistanceToRightWallInches = "Distance to right wall";
         public static final String kHoodTrim = "Pulls hood back?";
         public static final String kTurretTrim = "turret trim angle";
+        public static final String kShooterVelocityOverride = "new shooter velocity?";
     }
     public static final class PixyCamDriveConstants {
 

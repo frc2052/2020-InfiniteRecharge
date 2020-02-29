@@ -32,6 +32,10 @@ public class TrajectoryFactory {
     public Command getRamseteCommand(DriveTrainSubsystem driveTrain, DrivePathEnum selectedPath) {
         Trajectory path = getTrajectory(selectedPath);
         m_driveTrainSubsystem = driveTrain;
+        if (driveTrain == null)
+        {
+            System.err.println("DRIVE TRAIN NULL^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        }
 
         RamseteCommand ramseteCommand = new RamseteCommand(
             path,
@@ -77,8 +81,8 @@ public class TrajectoryFactory {
             .addConstraint(autoVoltageConstraint);
   
         TrajectoryConfig forwardsConfig = new TrajectoryConfig( //used if there is multiple parts to a path
-            1.25,
-            .5)
+            4,
+            1.25)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint)
             .setEndVelocity(.5);
@@ -111,7 +115,7 @@ public class TrajectoryFactory {
                     generatorPrep, forwardsConfig);
             case GeneratorBallPath:
                 return TrajectoryGenerator.generateTrajectory(
-                    generatorPrep,
+                    startPos,
                         new ArrayList<Translation2d>(), 
                     generator3End, backwardsConfig);
             case StartLeftGenerator3:

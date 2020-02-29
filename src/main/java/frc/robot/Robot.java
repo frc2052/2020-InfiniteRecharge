@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
     //ShuffleboardTab tab = .getTab("manageAuto");
     // NetworkTableEntry pos =
     //         tab.add("Position On Line", "Middle")

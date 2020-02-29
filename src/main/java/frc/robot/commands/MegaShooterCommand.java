@@ -93,35 +93,23 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-    if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false)) {
-      speedOnTarget = true;
-      double currentPowerPct = m_shooter.getSpeedPct();
-      if(shooterControls.getShooterIncrease()) {
-        currentPowerPct += 0.005; //go up by 10% every second held
-        if(currentPowerPct > 1) {
-          currentPowerPct = 1;
-        }
-        //System.out.println("INCREASING SHOOTER" + currentPowerPct);
-        m_shooter.setShooterPct(currentPowerPct);
-      } else if (shooterControls.getShooterDecrease()) {
-        currentPowerPct -= 0.005;
-        if(currentPowerPct < 0) {
-          currentPowerPct = 0;
-        }
-        //System.out.println("DECREASING SHOOTER" + currentPowerPct);
-        m_shooter.setShooterPct(currentPowerPct);
-      } else {
-        //System.out.println("Pct Shooter " + currentPowerPct);
-        m_shooter.setShooterPct(currentPowerPct);
-      }
-    } else {
       System.out.println("EXECUTE SHOOTER---------------------");
-      double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
+      double targetSpeed;
+
+      if(SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0) == 0) {
+        targetSpeed = Constants.Shooter.kShooterTargetVelocity;
+      } else {
+        targetSpeed = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
+      }
+
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .85;
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
       SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
+
+  public boolean getTotalManualMode() {
+    return SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false) && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false) && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
   }
 
   public void executeConveyor() {
@@ -129,12 +117,13 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(true);
     } else {
       m_conveyor.setWantDown(false);
-      if(getIsReady() && shooterControls.getShootPressed()) {
+      if(getIsReady() && shooterControls.getShootPressed() && !getTotalManualMode()) {
         m_conveyor.setWantUp(true);
-      } else if(shooterControls.getManualConveyorUp() && shooterControls.getShootPressed()) {
-        m_conveyor.setWantUp(true);
+      } else if(shooterControls.getManualConveyorUp()) {
+        m_conveyor.setWantManualUp(true);
       } else {
         m_conveyor.setWantUp(false);
+        m_conveyor.setWantManualUp(false);
       }
     }
   }
@@ -158,6 +147,37 @@ public class MegaShooterCommand extends CommandBase {
       //System.out.println("HOOD DOWN");
     } else {
       m_hood.manualStopHoodMovement();
+    }
+
+    boolean overrideShooter = SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false);
+    if(overrideShooter) {
+      System.out.println("Increase + " + shooterControls.getShooterIncrease());
+      speedOnTarget = true;
+      double currentPowerPct = m_shooter.getSpeedPct();
+      if(shooterControls.getShooterIncrease()) {
+        currentPowerPct += 0.005; //go up by 10% every second held
+        if(currentPowerPct > 1) {
+          currentPowerPct = 1;
+        }
+        //System.out.println("INCREASING SHOOTER" + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
+      } else if (shooterControls.getShooterDecrease()) {
+        currentPowerPct -= 0.005;
+        if(currentPowerPct < 0) {
+          currentPowerPct = 0;
+        }
+        //System.out.println("DECREASING SHOOTER" + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
+      } else {
+        //System.out.println("Pct Shooter " + currentPowerPct);
+        m_shooter.setShooterPct(currentPowerPct);
+      }
+    } else { //no shooter override
+      if (!shooterIdleIsOn) {
+        m_shooter.setShooterPct(0);
+      } else {
+        m_shooter.setShooterVelocity(Constants.Shooter.kShooterTargetVelocity * .5);
+      }
     }
   }
 
@@ -195,15 +215,8 @@ public class MegaShooterCommand extends CommandBase {
       m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);
-      
 
       executeManual();
-
-      if (!shooterIdleIsOn) {
-        m_shooter.setShooterPct(0);
-      } else {
-        m_shooter.setShooterVelocity(Constants.Shooter.kShooterTargetVelocity * .5);
-      }
     }
   }
 

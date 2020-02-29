@@ -23,6 +23,7 @@ public class ConveyorSubsystem extends SubsystemBase {
 
   private boolean wantPreload = false;
   private boolean wantConveyorUp = false;
+  private boolean wantManualConveyorUp = false;
   private boolean wantConveyorDown = false;
   private boolean wantActiveBalanceRight = false;
   private boolean wantActiveBalanceLeft = false;
@@ -65,6 +66,10 @@ public class ConveyorSubsystem extends SubsystemBase {
     wantConveyorUp = isPressed;
   }
 
+  public void setWantManualUp(boolean isPressed) {
+    wantManualConveyorUp = isPressed;
+  }
+
   public void setWantPreload(boolean isPressed) {
     //System.out.println("----------------------------PRELOAD" + isPressed);
     wantPreload = isPressed;
@@ -79,7 +84,9 @@ public class ConveyorSubsystem extends SubsystemBase {
 
     if(wantConveyorUp) {
       lifterMotor.set(ControlMode.PercentOutput, -1);
-    } else if(wantPreload) {
+    } else if(wantManualConveyorUp) {
+      lifterMotor.set(ControlMode.PercentOutput, -.5);
+    }else if(wantPreload) {
       lifterMotor.set(ControlMode.PercentOutput, -.25);
     } else if(wantConveyorDown) {
       lifterMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);
