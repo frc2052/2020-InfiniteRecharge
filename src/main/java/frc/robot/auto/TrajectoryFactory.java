@@ -81,8 +81,8 @@ public class TrajectoryFactory {
             .addConstraint(autoVoltageConstraint);
   
         TrajectoryConfig forwardsConfig = new TrajectoryConfig( //used if there is multiple parts to a path
-            4,
-            1.25)
+            5,
+            2)
             .setKinematics(Constants.DriveTrain.kinematics)
             .addConstraint(autoVoltageConstraint)
             .setEndVelocity(.5);
