@@ -75,12 +75,12 @@ public class MegaShooterCommand extends CommandBase {
       m_turret.turnTurret(0);
     } else if(m_vision.hasValidTarget()){  //not in manual mode
       double skew = m_vision.getTs();
-      double adjustDegrees = 0;
-      if (Math.abs(skew)<20)
-      {        
-        adjustDegrees = skew / 4;
-        System.out.println("------ADJUST DEGREES ===" + adjustDegrees);
-      }
+      double adjustDegrees = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
+      // if (Math.abs(skew)<20)
+      // {        
+      //   adjustDegrees = skew / 4;
+      //   System.out.println("------ADJUST DEGREES ===" + adjustDegrees);
+      // }
       double turretTargetAngle = m_vision.getTx() + adjustDegrees; //calculate target turret angle from vision
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
@@ -115,11 +115,11 @@ public class MegaShooterCommand extends CommandBase {
         m_shooter.setShooterPct(currentPowerPct);
       }
     } else {
-      
+      System.out.println("EXECUTE SHOOTER---------------------");
       double targetSpeed = Constants.Shooter.kShooterTargetVelocity;
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .9;
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .85;
       SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
   }

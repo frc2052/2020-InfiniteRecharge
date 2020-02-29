@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
     SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
     //ShuffleboardTab tab = .getTab("manageAuto");
     // NetworkTableEntry pos =
     //         tab.add("Position On Line", "Middle")
