@@ -83,10 +83,13 @@ public class ConveyorSubsystem extends SubsystemBase {
   public void periodic() {
 
     if(wantConveyorUp) {
+      System.out.println("CONVEYOR UP");
       lifterMotor.set(ControlMode.PercentOutput, -1);
     } else if(wantManualConveyorUp) {
+      System.out.println("CONVEYOR MANUAL UP");
       lifterMotor.set(ControlMode.PercentOutput, -.5);
     }else if(wantPreload) {
+      System.out.println("CONVEYOR PRELOAD");
       lifterMotor.set(ControlMode.PercentOutput, -.25);
     } else if(wantConveyorDown) {
       lifterMotor.set(ControlMode.PercentOutput, Constants.ConveyorSubsystem.kConveyorSpeed);

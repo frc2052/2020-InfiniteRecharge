@@ -93,7 +93,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-      System.out.println("EXECUTE SHOOTER---------------------");
+//      System.out.println("EXECUTE SHOOTER---------------------");
       double targetSpeed;
 
       if(SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0) == 0) {
@@ -104,8 +104,8 @@ public class MegaShooterCommand extends CommandBase {
 
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;
-      SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
+      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;      
+//      SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
 
   public boolean getTotalManualMode() {
@@ -117,7 +117,7 @@ public class MegaShooterCommand extends CommandBase {
       m_conveyor.setWantDown(true);
     } else {
       m_conveyor.setWantDown(false);
-      if(getIsReady() && shooterControls.getShootPressed() && !getTotalManualMode()) {
+      if(getIsReady() && shooterControls.getShootPressed() && !getTotalManualMode()) {        
         m_conveyor.setWantUp(true);
       } else if(shooterControls.getManualConveyorUp()) {
         m_conveyor.setWantManualUp(true);

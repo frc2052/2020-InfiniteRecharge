@@ -129,11 +129,11 @@ public class VisionCalculator {
 
         int resultingInches = (int)(before.getDistance() + offsetInches);
 
-        if(resultingInches < after.getDistance() && resultingInches > before.getDistance()) {
-            System.out.println("OFFSET INCHES====" + resultingInches + "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
-        } else {
-            System.out.println("CALCULATED HOOD INCHES WRONG===" + offsetInches +  "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
-        }
+        // if(resultingInches < after.getDistance() && resultingInches > before.getDistance()) {
+        //     System.out.println("OFFSET INCHES====" + resultingInches + "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
+        // } else {
+        //     System.out.println("CALCULATED HOOD INCHES WRONG===" + offsetInches +  "    BEFORE INCHES ===" + before.getDistance() + "    AFTER INCHES===" + after.getDistance());
+        // }
 
 //        return after.getDistance() + before.getDistance() * pct;
         return resultingInches;
@@ -171,11 +171,11 @@ public class VisionCalculator {
 
         int resultingTicks = (int)(offsetTicks + before.getHoodTicks());
 
-        if(resultingTicks < after.getHoodTicks() && resultingTicks > before.getHoodTicks()) {
-            System.out.println("OFFSET TICKS====" + resultingTicks + "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
-        } else {
-            System.out.println("CALCULATED HOOD TICKS WRONG===" + resultingTicks +  "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
-        }
+        // if(resultingTicks < after.getHoodTicks() && resultingTicks > before.getHoodTicks()) {
+        //     System.out.println("OFFSET TICKS====" + resultingTicks + "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
+        // } else {
+        //     System.out.println("CALCULATED HOOD TICKS WRONG===" + resultingTicks +  "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
+        // }
 
         //return (int)(before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
         return (int) (before.getHoodTicks() + offsetTicks);

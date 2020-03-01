@@ -150,7 +150,7 @@ public class HoodSubsystem extends SubsystemBase {
         //   }
         // }
       }
-      System.out.println("POWER ======" + power);
+//      System.out.println("POWER ======" + power);
 //      System.out.println("POWERING HOOD " + power + "  Current: " + currentTicks + " Target: " + ticks + " RAW " + angleMotor.getSelectedSensorPosition());
       angleMotor.set(ControlMode.PercentOutput, power);
     }
