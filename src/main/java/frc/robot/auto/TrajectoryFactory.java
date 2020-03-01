@@ -194,6 +194,16 @@ public class TrajectoryFactory {
                         List.of(
                             new Translation2d(6.1722, -1.7272)), 
                     new Pose2d(8.001, -1.7272, new Rotation2d(0)), forwardsConfig);
+            case Trench2ToShoot:
+            //TODO: check these points
+                return TrajectoryGenerator.generateTrajectory(
+                    new Pose2d(6.35, -4.8514, new Rotation2d(0)), 
+                        List.of(
+                            new Translation2d(3.048, -1.7018),
+                            new Translation2d(5.1086, -1.197)
+                            ), 
+                    new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(-68), new Rotation2d(0)), forwardsConfig);
+          
           default:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
@@ -219,7 +229,8 @@ public class TrajectoryFactory {
       StartLeftGenerator5,
       LeftTrenchToMiddle,
       CenterGenerator5,
-      AutoFeed
+      AutoFeed,
+      Trench2ToShoot
     }
 
 }
