@@ -63,7 +63,7 @@ public class AutoModeSelector {
         DRIVE("drive"),
         DM("don't move"),
         CS("center start shoot drive park"),
-        CSG3("center start shoot generator 3"),
+        CSG2("center start shoot generator 2"),
         LSG3("left start shoot generator 3"),
         LST2("left start shoot trench 2"),
         LSG5("left start shoot generator 5"),
