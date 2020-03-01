@@ -32,7 +32,6 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       ParallelCommandGroup intakeDrive2Balls = new ParallelCommandGroup(intakeCmd, driveToMidTrench);
       this.addCommands(intakeDrive2Balls);
-
       AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
       Command driveToShootSpot = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.Trench2ToShoot);
       ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(driveToShootSpot, ready);

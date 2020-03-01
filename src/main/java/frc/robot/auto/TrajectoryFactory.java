@@ -150,12 +150,9 @@ public class TrajectoryFactory {
                     new Pose2d(6.5278, -0.508, new Rotation2d(0)), forwardsConfig);
             case StartLeftTrench2:
                 return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(3.048, -1.7018, new Rotation2d(0)),
-                        List.of(
-                            new Translation2d(6.35, -5.334),
-                            new Translation2d(6.5024, -5.08)),
-                    new Pose2d(6.35, -4.8514, new Rotation2d(0)), forwardsConfig);
-
+                    new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(200), new Rotation2d(0)),
+                        new ArrayList<Translation2d>(),
+                    new Pose2d(Units.inchesToMeters(212), Units.inchesToMeters(200), new Rotation2d(0)), forwardsConfig);
             case LineToTrenchMiddle:
                 return TrajectoryGenerator.generateTrajectory(
                     startPos, 
@@ -197,12 +194,10 @@ public class TrajectoryFactory {
             case Trench2ToShoot:
             //TODO: check these points
                 return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(6.35, -4.8514, new Rotation2d(0)), 
+                    new Pose2d(Units.inchesToMeters(212),  Units.inchesToMeters(200), new Rotation2d(0)), 
                         List.of(
-                            new Translation2d(3.048, -1.7018),
-                            new Translation2d(5.1086, -1.197)
-                            ), 
-                    new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(-68), new Rotation2d(0)), forwardsConfig);
+                            new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(92))), 
+                    new Pose2d(Units.inchesToMeters(140), Units.inchesToMeters(75), new Rotation2d(0)), backwardsConfig);
           
           default:
                 return TrajectoryGenerator.generateTrajectory(
