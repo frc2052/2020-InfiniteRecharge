@@ -49,6 +49,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
     SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
     //ShuffleboardTab tab = .getTab("manageAuto");
     // NetworkTableEntry pos =
     //         tab.add("Position On Line", "Middle")
@@ -99,7 +101,7 @@ public class Robot extends TimedRobot {
     //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
     m_robotContainer.resetEncoders();
     //Units.inchesToMeters(138), Units.inchesToMeters(-68)
-    m_robotContainer.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(-68));
+    m_robotContainer.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(0));
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)

@@ -56,12 +56,12 @@ public class ShooterControls implements IShooterControls{
     }
 
     public boolean getManualConveyorDown() {
-        return secondaryPanel.getX() < -.5;
+        return secondaryPanel.getX() > .5;
     }
 
 
     public boolean getManualConveyorUp() {
-        return turnJoystick.getRawButton(2);
+        return secondaryPanel.getX() < -.5;
     }
 
     public boolean getLoadConveyor() {

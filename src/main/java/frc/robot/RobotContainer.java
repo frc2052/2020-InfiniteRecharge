@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -29,6 +30,7 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
@@ -77,6 +79,9 @@ public class RobotContainer {
     conveyor = new ConveyorSubsystem();
     elevator = new ElevatorSubsystem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
+
+    PowerDistributionPanel pdp = new PowerDistributionPanel();
+    SmartDashboard.putData(pdp);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
@@ -346,6 +351,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
 
+    //return null;
+
     //return drivePathCommand();
 
     //return drivePathCommand();
@@ -394,8 +401,9 @@ public class RobotContainer {
       case RST3:
         StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return rightTrench3;
-      case CSG3:
-        return null;
+      case CSG2:
+        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return startGen3;
       case CS:
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return centerShootDrivePark;
