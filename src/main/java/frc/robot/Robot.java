@@ -101,7 +101,7 @@ public class Robot extends TimedRobot {
     //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
     m_robotContainer.resetEncoders();
     //Units.inchesToMeters(138), Units.inchesToMeters(-68)
-    m_robotContainer.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(0));
+    m_robotContainer.setOdometry(3.048, -1.7018);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
