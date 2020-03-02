@@ -19,7 +19,8 @@ import frc.robot.Constants;
 public class FalconShooterSubsystem extends SubsystemBase {
 
   private WPI_TalonFX shooterMasterMotor;
-  private double lastShootPct;
+  private double lastShootPct = 0;
+  private boolean isOnTarget = false;
   
   /**
    * Creates a new FalconShooterSubsystem.
@@ -28,10 +29,8 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor = new WPI_TalonFX(Constants.Motors.kFalconShooterMotorId);
     shooterMasterMotor.configFactoryDefault();
     shooterMasterMotor.setNeutralMode(NeutralMode.Coast);
-    shooterMasterMotor.setSensorPhase(true);
     shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 
-    double fGain = 1023/20000;
     shooterMasterMotor.config_kF(0, 0.08, 10);
     shooterMasterMotor.config_kP(0, 0.02, 10);
     shooterMasterMotor.config_kI(0, 0, 10);
@@ -46,9 +45,13 @@ public class FalconShooterSubsystem extends SubsystemBase {
  
   public double getVelocityTicks(){
     //The Falcon has a "counts per revolution" of 2048.  
-    //This is double the standard revotuion of other encoders
+    //This is half the standard revotuion of other encoders
     //divide by 2 so the code will work the same if we switch back to 775 Pro shooters
     return shooterMasterMotor.getSelectedSensorVelocity() * 2;
+  }
+
+  public boolean getIsOnTarget() {
+    return isOnTarget;
   }
 
   public double getSpeedPct() {
@@ -56,17 +59,20 @@ public class FalconShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterVelocity(double speed){
-    lastShootPct = 0;
+    lastShootPct = 0;    
 
 //    System.out.println("SETTING SHOOTER VELOCITY  " + speed);
     //The Falcon has a "counts per revolution" of 2048.  
-    //This is double the standard revotuion of other encoders
+    //This is half the standard revotuion of other encoders
     //multiply by 2 so the code will work the same if we switch back to 775 Pro shooters
     
     int falconSpeed = (int)speed/2;
     int falconAdjusted = (int)(falconSpeed * .66);
 
     shooterMasterMotor.set(ControlMode.Velocity, falconAdjusted);
+
+    isOnTarget = shooterMasterMotor.getSelectedSensorVelocity() > falconAdjusted * .90;
+
 //    shooterMasterMotor.set(ControlMode.Velocity, 6000);
     //System.out.println("SHOOTER VELOCTITY MODE--" +  getVelocityTicks() + "  TARGET VELOCITY--" + speed);
   }
@@ -76,6 +82,7 @@ public class FalconShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterPct(double pct) {
+    isOnTarget = false; //can't be on target when setting by percent
     shooterMasterMotor.set(ControlMode.PercentOutput, pct);
     lastShootPct = pct;
   }

@@ -10,13 +10,9 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.IShooterControls;
-import frc.robot.ShooterControls;
-import frc.robot.Constants.Shooter;
-import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.subsystems.*;
 import frc.vision.VisionCalculator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
 
 public class MegaShooterCommand extends CommandBase {
   private ShooterSubsystem m_shooter;
@@ -53,8 +49,10 @@ public class MegaShooterCommand extends CommandBase {
 
   public void executeHood() {
     if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false)) {
+      //Hood is in manual mode, assume hood is on target
       hoodOnTarget = true;
     } else {
+      //Hood is in automatic mode
       int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
       int targetTicks = visionCalculator.distanceToTicks(inches);
       int tickTrim = (int)SmartDashboard.getNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
@@ -71,16 +69,12 @@ public class MegaShooterCommand extends CommandBase {
 
   public void executeTurret() {
     if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false)){
+      //Turret in manual mode - assume on target
       turretOnTarget = true;
-      m_turret.turnTurret(0);
-    } else if(m_vision.hasValidTarget()){  //not in manual mode
-      double skew = m_vision.getTs();
+      m_turret.turnTurret(0); //stop the turret from turning, if we switch ot manual mode while turning, it will keep turning if we don't do this
+    } else if(m_vision.hasValidTarget()){  
+      //Turret in automatic mode
       double adjustDegrees = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
-      // if (Math.abs(skew)<20)
-      // {        
-      //   adjustDegrees = skew / 4;
-      //   System.out.println("------ADJUST DEGREES ===" + adjustDegrees);
-      // }
       double turretTargetAngle = m_vision.getTx() + adjustDegrees; //calculate target turret angle from vision
       //System.out.println("AUTOMATIC MODE, HAS TARGET TURRET TARGET ANGLE---" + turretTargetAngle);
       turretOnTarget = m_turret.getIsOnTarget();
@@ -93,7 +87,6 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   public void executeShooter() {
-//      System.out.println("EXECUTE SHOOTER---------------------");
       double targetSpeed;
 
       if(SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0) == 0) {
@@ -104,12 +97,14 @@ public class MegaShooterCommand extends CommandBase {
 
       // speedOnTarget = Math.abs(m_shooter.getVelocity() - targetSpeed) < .5;
       m_shooter.setShooterVelocity(targetSpeed);
-      speedOnTarget = m_shooter.getVelocityTicks() > targetSpeed * .90;      
+      speedOnTarget = m_shooter.getIsOnTarget();      
 //      SmartDashboard.putNumber("SHOOTER VELOCITY", m_shooter.getVelocityTicks());
     }
 
   public boolean getTotalManualMode() {
-    return SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false) && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false) && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
+    return SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false) 
+      && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false) 
+      && SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
   }
 
   public void executeConveyor() {
@@ -155,7 +150,7 @@ public class MegaShooterCommand extends CommandBase {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
-        currentPowerPct += 0.005; //go up by 10% every second held
+        currentPowerPct += 0.005; //go up by this percent every second held
         if(currentPowerPct > 1) {
           currentPowerPct = 1;
         }
