@@ -31,10 +31,11 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 
-    shooterMasterMotor.config_kF(0, 0.08, 10);
-    shooterMasterMotor.config_kP(0, 0.02, 10);
-    shooterMasterMotor.config_kI(0, 0, 10);
-    shooterMasterMotor.config_kD(0, 0, 10);
+
+    shooterMasterMotor.config_kF(0, 1023.0/20660.0, 10);
+    shooterMasterMotor.config_kP(0,  0.1, 10);
+    shooterMasterMotor.config_kI(0, 0.001, 10);
+    shooterMasterMotor.config_kD(0, 5, 10);
   }
 
   public void putToSmartDashboard() {
@@ -59,6 +60,7 @@ public class FalconShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterVelocity(double speed){
+
     lastShootPct = 0;    
 
 //    System.out.println("SETTING SHOOTER VELOCITY  " + speed);

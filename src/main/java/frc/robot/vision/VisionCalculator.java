@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.vision;
+package frc.robot.vision;
 
 import java.util.ArrayList;
 

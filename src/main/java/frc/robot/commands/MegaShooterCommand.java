@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.IShooterControls;
 import frc.robot.subsystems.*;
-import frc.vision.VisionCalculator;
+import frc.robot.vision.VisionCalculator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MegaShooterCommand extends CommandBase {
