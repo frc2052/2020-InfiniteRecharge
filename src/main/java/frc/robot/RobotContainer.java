@@ -61,7 +61,7 @@ public class RobotContainer {
   private Joystick secondaryPanel;
 
   private ShooterControls shooterControls= null;
-  private final AutoShooterControls autoShooterControls = new AutoShooterControls();
+  private AutoShooterControls autoShooterControls = new AutoShooterControls();
 
   private MegaShooterCommand megaShooterCommand = null;
   private VisionTurretAdjustCommand visionTurretCommand = null;
@@ -80,7 +80,7 @@ public class RobotContainer {
     elevator = new ElevatorSubsystem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
 
-    final PowerDistributionPanel pdp = new PowerDistributionPanel();
+    PowerDistributionPanel pdp = new PowerDistributionPanel();
     SmartDashboard.putData(pdp);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
@@ -111,7 +111,7 @@ public class RobotContainer {
     shooter.resetEncoder();
   }
 
-  public void setMegaShooterDefaultCommand(final boolean isTeleop) {
+  public void setMegaShooterDefaultCommand(boolean isTeleop) {
     //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
     if(isTeleop) {
       shooter.setDefaultCommand(megaShooterCommand);
@@ -133,17 +133,17 @@ public class RobotContainer {
   public void configureTurnJoystick() {
     turnJoystick = new Joystick(0);
 
-    final JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1); 
-    final JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2); //manual conveyor down
-    final JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3); //quick turn
-    final JoystickButton btnJL4 = new JoystickButton(turnJoystick, 4);
-    final JoystickButton btnJL5 = new JoystickButton(turnJoystick, 5);
-    final JoystickButton btnJL6 = new JoystickButton(turnJoystick, 6);
-    final JoystickButton btnJL7 = new JoystickButton(turnJoystick, 7);
-    final JoystickButton btnJL8 = new JoystickButton(turnJoystick, 8);
-    final JoystickButton btnJL9 = new JoystickButton(turnJoystick, 9);
-    final JoystickButton btnJL10 = new JoystickButton(turnJoystick, 10);
-    final JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
+    JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1); 
+    JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2); //manual conveyor down
+    JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3); //quick turn
+    JoystickButton btnJL4 = new JoystickButton(turnJoystick, 4);
+    JoystickButton btnJL5 = new JoystickButton(turnJoystick, 5);
+    JoystickButton btnJL6 = new JoystickButton(turnJoystick, 6);
+    JoystickButton btnJL7 = new JoystickButton(turnJoystick, 7);
+    JoystickButton btnJL8 = new JoystickButton(turnJoystick, 8);
+    JoystickButton btnJL9 = new JoystickButton(turnJoystick, 9);
+    JoystickButton btnJL10 = new JoystickButton(turnJoystick, 10);
+    JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
 
     //btnJL1.whileHeld(pixyCamManualDriveCommand);
 
@@ -178,17 +178,17 @@ public class RobotContainer {
   public void configureTankJoystick() {
     tankJoystick = new Joystick(1);
 
-    final JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1); //shoot in megashooter
-    final JoystickButton btnJR2 = new JoystickButton(tankJoystick, 2);
-    final JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3); //ready in megashooter
-    final JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4); //shooter idle speed
-    final JoystickButton btnJR5 = new JoystickButton(tankJoystick, 5);
-    final JoystickButton btnJR6 = new JoystickButton(tankJoystick, 6);
-    final JoystickButton btnJR7 = new JoystickButton(tankJoystick, 7);
-    final JoystickButton btnJR8 = new JoystickButton(tankJoystick, 8);
-    final JoystickButton btnJR9 = new JoystickButton(tankJoystick, 9);
-    final JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
-    final JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
+    JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1); //shoot in megashooter
+    JoystickButton btnJR2 = new JoystickButton(tankJoystick, 2);
+    JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3); //ready in megashooter
+    JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4); //shooter idle speed
+    JoystickButton btnJR5 = new JoystickButton(tankJoystick, 5);
+    JoystickButton btnJR6 = new JoystickButton(tankJoystick, 6);
+    JoystickButton btnJR7 = new JoystickButton(tankJoystick, 7);
+    JoystickButton btnJR8 = new JoystickButton(tankJoystick, 8);
+    JoystickButton btnJR9 = new JoystickButton(tankJoystick, 9);
+    JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
+    JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
 
     btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
     btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
@@ -218,18 +218,18 @@ public class RobotContainer {
   public void configureSecondaryPanel() {
     secondaryPanel = new Joystick(2);
 
-    final JoystickButton btnJS1 = new JoystickButton(secondaryPanel, 1);
-    final JoystickButton btnJS2 = new JoystickButton(secondaryPanel, 2);
-    final JoystickButton btnJS3 = new JoystickButton(secondaryPanel, 3);
-    final JoystickButton btnJS4 = new JoystickButton(secondaryPanel, 4);
-    final JoystickButton btnJS5 = new JoystickButton(secondaryPanel, 5);
-    final JoystickButton btnJS6 = new JoystickButton(secondaryPanel, 6);
-    final JoystickButton btnJS7 = new JoystickButton(secondaryPanel, 7);
-    final JoystickButton btnJS8 = new JoystickButton(secondaryPanel, 8);
-    final JoystickButton btnJS9 = new JoystickButton(secondaryPanel, 9);
-    final JoystickButton btnJS10 = new JoystickButton(secondaryPanel, 10);
-    final JoystickButton btnJS11 = new JoystickButton(secondaryPanel, 11);
-    final JoystickButton btnJS12 = new JoystickButton(secondaryPanel, 12);
+    JoystickButton btnJS1 = new JoystickButton(secondaryPanel, 1);
+    JoystickButton btnJS2 = new JoystickButton(secondaryPanel, 2);
+    JoystickButton btnJS3 = new JoystickButton(secondaryPanel, 3);
+    JoystickButton btnJS4 = new JoystickButton(secondaryPanel, 4);
+    JoystickButton btnJS5 = new JoystickButton(secondaryPanel, 5);
+    JoystickButton btnJS6 = new JoystickButton(secondaryPanel, 6);
+    JoystickButton btnJS7 = new JoystickButton(secondaryPanel, 7);
+    JoystickButton btnJS8 = new JoystickButton(secondaryPanel, 8);
+    JoystickButton btnJS9 = new JoystickButton(secondaryPanel, 9);
+    JoystickButton btnJS10 = new JoystickButton(secondaryPanel, 10);
+    JoystickButton btnJS11 = new JoystickButton(secondaryPanel, 11);
+    JoystickButton btnJS12 = new JoystickButton(secondaryPanel, 12);
 
     btnJS1.whenPressed(() -> intake.armToggle());
 
@@ -267,12 +267,8 @@ public class RobotContainer {
 
   }
 
-  public void setOdometry(final double x, final double y) {
-    driveTrain.setOdometry(x, y);
-  }
-
   public Command drivePathCommand() {
-    final var autoVoltageConstraint =
+    var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
             new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts,
                                        Constants.DriveTrain.kvVoltSecondsPerMeter,
@@ -281,7 +277,7 @@ public class RobotContainer {
             10);
 
     // Create config for trajectory
-    final TrajectoryConfig config =
+    TrajectoryConfig config =
         new TrajectoryConfig(Constants.Autonomous.maxVelocity,
                              Constants.Autonomous.maxAcceleration)
             // Add kinematics to ensure max speed is actually obeyed
@@ -290,7 +286,7 @@ public class RobotContainer {
             .addConstraint(autoVoltageConstraint);
 
     // An example trajectory to follow.  All units in meters.
-    final Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
+    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
       // Start at the origin facing the +X direction
       new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
       // Pass through these two interior waypoints, making an 's' curve path
@@ -305,10 +301,10 @@ public class RobotContainer {
         config
     );
 
-    final PIDController leftController = new PIDController(41.5, 0, 0);
-    final PIDController rightController = new PIDController(41.5, 0, 0);
+    PIDController leftController = new PIDController(41.5, 0, 0);
+    PIDController rightController = new PIDController(41.5, 0, 0);
 
-    final RamseteCommand ramseteCommand = new RamseteCommand(
+    RamseteCommand ramseteCommand = new RamseteCommand(
         exampleTrajectory,
         driveTrain::getPose,
         new RamseteController(Constants.DriveTrain.kRamseteB, Constants.DriveTrain.kRamseteZeta),
@@ -386,27 +382,30 @@ public class RobotContainer {
 
     switch(AutoModeSelector.getSelectedAuto()) { 
       case DRIVE:
-        final DriveCommand drive = new DriveCommand(driveTrain);
+        DriveCommand drive = new DriveCommand(driveTrain);
         return drive;
       case DM:
         return null;
-      case LSG3:
-        final StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return leftGenerator3;
-      case LSG5:
-        final StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return leftShoot5;
+      // case LSG3:
+      //   StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return leftGenerator3;
+      // case LSG5:
+      //   StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return leftShoot5;
       case LST2:
-        final StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(-220));
+        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return leftTrench2;
       case RST3:
-        final StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
+        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return rightTrench3;
-      case CSG2:
-        final StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return startGen3;
+      // case CSG2:
+      //   StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return startGen3;
       case CS:
-        final CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        driveTrain.setOdometry(Units.inchesToMeters(138), 0);
+        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return centerShootDrivePark;
       default:
         return null; 

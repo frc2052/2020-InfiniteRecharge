@@ -32,10 +32,10 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 
     double fGain = 1023/20000;
-    shooterMasterMotor.config_kF(0, 0.08, 10);
-    shooterMasterMotor.config_kP(0, 0.02, 10);
-    shooterMasterMotor.config_kI(0, 0, 10);
-    shooterMasterMotor.config_kD(0, 0, 10);
+    shooterMasterMotor.config_kF(0, 1023.0/20660.0, 10);
+    shooterMasterMotor.config_kP(0,  0.1, 10);
+    shooterMasterMotor.config_kI(0, 0.001, 10);
+    shooterMasterMotor.config_kD(0, 5, 10);
   }
 
   public void putToSmartDashboard() {

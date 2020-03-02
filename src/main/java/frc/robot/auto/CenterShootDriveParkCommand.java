@@ -18,7 +18,7 @@ public class CenterShootDriveParkCommand extends SequentialCommandGroup {
   public CenterShootDriveParkCommand(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {    
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 4));
     this.addCommands(trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartCenterDriveBackPark));
   }
 }

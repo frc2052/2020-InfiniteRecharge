@@ -14,7 +14,7 @@ import frc.robot.ShooterControls;
 import frc.robot.Constants.Shooter;
 import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.subsystems.*;
-import frc.vision.VisionCalculator;
+import frc.robot.vision.VisionCalculator;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 
