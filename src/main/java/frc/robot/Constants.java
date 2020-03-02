@@ -45,6 +45,8 @@ public final class Constants {
         public static final int kConveyorMotorBottemRightID = 14;   
         public static final int kLifterMotorID = 15;   
         public static final int kActiveBalanceMotorID = 16;
+
+        public static final int kFalconShooterMotorId = 42;
     }
 
 
@@ -104,7 +106,6 @@ public final class Constants {
         public static final double kInchesPerRotation = 5;
         public static final double kShooterSpeedRPS = 5;
 
-        public static final double kShooterF = (.9 * 1023) / 31000; //29900 is fastest we can run shooter
         public static final int kShooterTargetVelocity = 31000;
     }
   

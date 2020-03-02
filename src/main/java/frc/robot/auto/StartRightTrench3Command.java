@@ -27,7 +27,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     this.addCommands(new WaitCommand(delayTime));
     this.addCommands(new AutoControlsCommand(controls, false, true));
     AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
-    Command driveToMidTrench = new PathCommand(driveTrain, DrivePathEnum.LineToTrenchMiddle);
+    Command driveToMidTrench = new PathCommand(driveTrain, DrivePathEnum.RightLineToTrenchMiddle);
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
     ParallelCommandGroup intakeDrive2Balls = new ParallelCommandGroup(intakeCmd, driveToMidTrench);
     ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(intakeDrive2Balls, ready);

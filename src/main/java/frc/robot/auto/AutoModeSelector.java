@@ -38,15 +38,15 @@ public class AutoModeSelector {
         double leftInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
         double rightInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
 
-        double leftWallPosInches = 120; //TODO: find the real values for these, this isn't correct
-        double rightWallPosInches = -240;
+        double leftWallPosInches = -228; //TODO: find the real values for these, this isn't correct
+        double rightWallPosInches = 96;
 
         double posOnLine;
 
-        if(leftInches != 0 && rightInches == 0) { //we have entered a number for left inches on smartdashboard and not one for the right side
-            posOnLine = leftWallPosInches - leftInches;
-        } else if(rightInches != 0 && leftInches == 0) {
-            posOnLine = rightWallPosInches + rightInches;
+        if(rightInches != 0) { // check right side first
+            posOnLine = rightWallPosInches - rightInches; //right side is positive
+        } else if(leftInches != 0) { 
+            posOnLine = leftWallPosInches + leftInches; //left side is negative
         } else {
             posOnLine = 0; //if we don't measure from anywhere, default to being at 0
         }
@@ -63,10 +63,10 @@ public class AutoModeSelector {
         DRIVE("drive"),
         DM("don't move"),
         CS("center start shoot drive park"),
-        CSG2("center start shoot generator 2"),
-        LSG3("left start shoot generator 3"),
+        //CSG2("center start shoot generator 2"),
+        //LSG3("left start shoot generator 3"),
         LST2("left start shoot trench 2"),
-        LSG5("left start shoot generator 5"),
+        //LSG5("left start shoot generator 5"),
         RST3("right start shoot trench 3");
 
         public String name;

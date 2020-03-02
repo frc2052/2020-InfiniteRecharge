@@ -108,6 +108,7 @@ public class RobotContainer {
     elevator.resetEncoder();
     hood.resetEncoder();
     turret.resetEncoder();
+    shooter.resetEncoder();
   }
 
   public void setMegaShooterDefaultCommand(boolean isTeleop) {
@@ -266,10 +267,6 @@ public class RobotContainer {
 
   }
 
-  public void setOdometry(double x, double y) {
-    driveTrain.setOdometry(x, y);
-  }
-
   public Command drivePathCommand() {
     var autoVoltageConstraint =
         new DifferentialDriveVoltageConstraint(
@@ -389,22 +386,25 @@ public class RobotContainer {
         return drive;
       case DM:
         return null;
-      case LSG3:
-        StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return leftGenerator3;
-      case LSG5:
-        StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return leftShoot5;
+      // case LSG3:
+      //   StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return leftGenerator3;
+      // case LSG5:
+      //   StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return leftShoot5;
       case LST2:
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(-220));
         StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return leftTrench2;
       case RST3:
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
         StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return rightTrench3;
-      case CSG2:
-        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-        return startGen3;
+      // case CSG2:
+      //   StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   return startGen3;
       case CS:
+        driveTrain.setOdometry(Units.inchesToMeters(138), 0);
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return centerShootDrivePark;
       default:

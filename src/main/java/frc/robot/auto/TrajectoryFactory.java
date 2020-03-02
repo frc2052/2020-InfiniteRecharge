@@ -59,16 +59,20 @@ public class TrajectoryFactory {
 
     public Trajectory getTrajectory(DrivePathEnum selectedPath) {
         //AutoModeSelector.getPosOnLineInches()
-        Pose2d startPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(0), new Rotation2d(0));
+        Pose2d startPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(AutoModeSelector.getPosOnLineInches()), new Rotation2d(0));
+        Pose2d centerStartPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(0), new Rotation2d(0));
+        Pose2d leftStartPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(-220), new Rotation2d(0));
+        Pose2d rightStartPos = new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(68), new Rotation2d(0));
+
         Pose2d generatorPrep = new Pose2d(Units.inchesToMeters(242), Units.inchesToMeters(79), new Rotation2d(Math.toRadians(0)));
         Pose2d generator3End = new Pose2d(Units.inchesToMeters(209), Units.inchesToMeters(55), new Rotation2d(0));
-        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(281), Units.inchesToMeters(-68), new Rotation2d(0));
+        Pose2d trenchBall3 = new Pose2d(Units.inchesToMeters(281), Units.inchesToMeters(68), new Rotation2d(0));
 
         Pose2d generator2Ball = new Pose2d(Units.inchesToMeters(227), Units.inchesToMeters(-6), new Rotation2d(Math.toRadians(-60)));
         
         Translation2d generator2BallPrep = new Translation2d(Units.inchesToMeters(198), Units.inchesToMeters(30));
-        Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(-68));
-        Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(-68));
+        Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(68));
+        Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(68));
 
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -108,7 +112,7 @@ public class TrajectoryFactory {
         switch(selectedPath)  {
             case StartCenterDriveBackPark:
               return TrajectoryGenerator.generateTrajectory(
-                    startPos, //start, B
+                    centerStartPos, //start, B
                         new ArrayList<Translation2d>(), //can't use a list if we have no points
                     new Pose2d(Units.inchesToMeters(168), 0, new Rotation2d(0)), startingConfig);  //end, 30 inches away from start line
             case StartToGenerator:
@@ -150,12 +154,18 @@ public class TrajectoryFactory {
                     new Pose2d(6.5278, -0.508, new Rotation2d(0)), forwardsConfig);
             case StartLeftTrench2:
                 return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(Units.inchesToMeters(138), Units.inchesToMeters(200), new Rotation2d(0)),
+                    leftStartPos,
                         new ArrayList<Translation2d>(),
-                    new Pose2d(Units.inchesToMeters(212), Units.inchesToMeters(200), new Rotation2d(0)), forwardsConfig);
-            case LineToTrenchMiddle:
+                    new Pose2d(Units.inchesToMeters(212), Units.inchesToMeters(-200), new Rotation2d(0)), forwardsConfig);
+            case Trench2ToShoot:
                 return TrajectoryGenerator.generateTrajectory(
-                    startPos, 
+                    new Pose2d(Units.inchesToMeters(212),  Units.inchesToMeters(-200), new Rotation2d(0)), 
+                        List.of(
+                            new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(-92))), 
+                    new Pose2d(Units.inchesToMeters(140), Units.inchesToMeters(-75), new Rotation2d(0)), backwardsConfig);
+            case RightLineToTrenchMiddle:
+                return TrajectoryGenerator.generateTrajectory(
+                    rightStartPos, 
                         new ArrayList<Translation2d>(), 
                     new Pose2d(trenchBall2, new Rotation2d(0)), forwardsConfig);
             case TrenchMiddleToBack:
@@ -191,14 +201,6 @@ public class TrajectoryFactory {
                         List.of(
                             new Translation2d(6.1722, -1.7272)), 
                     new Pose2d(8.001, -1.7272, new Rotation2d(0)), forwardsConfig);
-            case Trench2ToShoot:
-            //TODO: check these points
-                return TrajectoryGenerator.generateTrajectory(
-                    new Pose2d(Units.inchesToMeters(212),  Units.inchesToMeters(200), new Rotation2d(0)), 
-                        List.of(
-                            new Translation2d(Units.inchesToMeters(176), Units.inchesToMeters(92))), 
-                    new Pose2d(Units.inchesToMeters(140), Units.inchesToMeters(75), new Rotation2d(0)), backwardsConfig);
-          
           default:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
@@ -210,7 +212,7 @@ public class TrajectoryFactory {
 
     public enum DrivePathEnum
     {
-      LineToTrenchMiddle,
+      RightLineToTrenchMiddle,
       //TrenchFrontToMiddle,
       TrenchMiddleToBack,
       CenterLineToGen2,
