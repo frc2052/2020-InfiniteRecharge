@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.AutoModeSelector;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -51,6 +52,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Auto Delay", 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
+    SmartDashboard.putNumber("PID - P Value", .1);
+    SmartDashboard.putNumber("PID - I Value", .001);
+    SmartDashboard.putNumber("PID - D Value", 5);
+
     //ShuffleboardTab tab = .getTab("manageAuto");
     // NetworkTableEntry pos =
     //         tab.add("Position On Line", "Middle")

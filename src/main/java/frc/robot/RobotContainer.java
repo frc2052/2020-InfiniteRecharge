@@ -382,6 +382,7 @@ public class RobotContainer {
 
     switch(AutoModeSelector.getSelectedAuto()) { 
       case DRIVE:
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(0));
         DriveCommand drive = new DriveCommand(driveTrain);
         return drive;
       case DM:
@@ -400,9 +401,10 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
         StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
         return rightTrench3;
-      // case CSG2:
-      //   StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
-      //   return startGen3;
+      case CSG2:
+        driveTrain.setOdometry(Units.inchesToMeters(138),0);
+        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        return startGen3;
       case CS:
         driveTrain.setOdometry(Units.inchesToMeters(138), 0);
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);

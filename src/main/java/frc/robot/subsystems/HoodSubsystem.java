@@ -134,11 +134,11 @@ public class HoodSubsystem extends SubsystemBase {
 //        if(Math.abs(difference) > 20000) {
           if (ticks > currentTicks) {
             System.out.println("TRYING TO GO FORWARDS");
-            power = .6;
+            power = .8;
             m_IsOnTarget = false;
           } else if (ticks < currentTicks) {
             System.out.println("TRYING TO GO BACKWARDS");
-            power = -.6;
+            power = -.8;
             m_IsOnTarget = false;
           }
         // } else {

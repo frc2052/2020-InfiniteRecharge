@@ -73,9 +73,15 @@ public class AutoShooterControls implements IShooterControls {
         return false;
     }
 
+    private boolean isShooterIdleTogglePressed = false;
+
     @Override
     public boolean getIdleShooterToggle() {
-        return false;
+        return isShooterIdleTogglePressed;
+    }
+
+    public void setIdleShooterToggle(boolean isPressed) {
+        isShooterIdleTogglePressed = isPressed;
     }
     
 }
