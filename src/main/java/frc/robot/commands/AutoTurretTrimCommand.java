@@ -7,48 +7,36 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.auto.AutoShooterControls;
-import frc.robot.subsystems.*;
+import frc.robot.Constants;
 
-public class AutoReadyCommand extends MegaShooterCommand {
-  private AutoShooterControls autoControls;
+public class AutoTurretTrimCommand extends CommandBase {
+  private double trimDegrees;
 
-  private int readyTime = 0;
-  private Timer timer = new Timer();
-
-
-  public AutoReadyCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int timeReady) {
-    super(shooter, vision, hood, turret, conveyor, controls);
-    autoControls = controls;
-    readyTime = timeReady;
+  public AutoTurretTrimCommand(double degrees) {
+    trimDegrees = degrees;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.start();
-    autoControls.setIdleShooterToggle(true);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, trimDegrees); //negative is to the right
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(timer.get() >= 2) {
-      autoControls.setReadyPressed(true);
-    }
-    super.execute();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

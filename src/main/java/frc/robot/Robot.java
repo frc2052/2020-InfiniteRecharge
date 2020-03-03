@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.AutoModeSelector;
 import frc.robot.lib.CsvLogger;
 import frc.robot.subsystems.DriveTrainSubsystem;
@@ -49,9 +50,23 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
-    SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
+    // SmartDashboard.putNumber("PID - P Value", 1.3);
+    // SmartDashboard.putNumber("PID - I Value", 0);
+    // SmartDashboard.putNumber("PID - D Value", 0.5);
+
+    //ShuffleboardTab tab = .getTab("manageAuto");
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, true);
   }
 

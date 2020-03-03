@@ -176,7 +176,9 @@ public final class Constants {
         public static final String kTurretTrim = "turret trim angle";
         public static final String kShooterVelocityOverride = "new shooter velocity?";
         public static final String kEnableLogging = "Enable Logs";
+        public static final String kAutoDelay = "Auto Delay";
     }
+    
     public static final class PixyCamDriveConstants {
 
         public static final int minMidPixelRange = 125;

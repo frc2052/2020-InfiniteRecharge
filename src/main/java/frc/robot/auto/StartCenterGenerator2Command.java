@@ -26,13 +26,18 @@ public class StartCenterGenerator2Command extends SequentialCommandGroup {
     //this.addCommands(new AutoControlsCommand(controls, true, false));
     //this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
     AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
-    Command driveToGenerator2 = new PathCommand(driveTrain, DrivePathEnum.CenterLineToGen2);
+    Command driveToGenerator2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.CenterLineToGen2);
+    Command gen2Backup = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.Gen2Backup);
+    SequentialCommandGroup drivePath = new SequentialCommandGroup(driveToGenerator2, new WaitCommand(0.5), gen2Backup);
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
-    ParallelCommandGroup intakeDriveToGenerator = new ParallelCommandGroup(intakeCmd, driveToGenerator2);
+    ParallelCommandGroup intakeDriveToGenerator = new ParallelCommandGroup(intakeCmd, drivePath);
     ParallelDeadlineGroup driveIntakeReady = new ParallelDeadlineGroup(intakeDriveToGenerator, ready);
     this.addCommands(driveIntakeReady);
+    ArmUpCommand armUp = new ArmUpCommand(intake);
+    OuterIntakeStopCommand stopIntake = new OuterIntakeStopCommand(intake);
+    SequentialCommandGroup stopIntakeCmds = new SequentialCommandGroup(armUp, stopIntake);
+    this.addCommands(stopIntakeCmds);
     this.addCommands(new AutoControlsCommand(controls, true,false));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 8));
-    this.addCommands(new OuterIntakeStopCommand(intake));
   }
 }

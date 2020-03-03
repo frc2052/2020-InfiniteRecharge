@@ -20,12 +20,12 @@ public class AutoShooterCommand extends MegaShooterCommand {
   private AutoShooterControls autoControls;
   
   private double timeToShoot;
-  private int targetTicks;
+  private double targetAngle;
 
-  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int ticks, double shootTime) {
+  public AutoShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, double angle, double shootTime) {
     super(shooter, vision, hood, turret, conveyor, controls);
     autoControls = controls;
-    targetTicks = ticks;
+    targetAngle = angle;
     timeToShoot = shootTime;
   }
   
@@ -35,16 +35,17 @@ public class AutoShooterCommand extends MegaShooterCommand {
     timer.reset();
     super.initialize();
 
-    timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
+    //timeToShoot = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
 
     if(timeToShoot == 0) {
-      timeToShoot = 5;
+      timeToShoot = 3;
     }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //executeTurret();
     super.execute();
     if(super.getIsReady() && timer.get() == 0) {
       timer.start();
@@ -71,18 +72,11 @@ public class AutoShooterCommand extends MegaShooterCommand {
 
   @Override
   public void executeTurret() {
-//    if(m_vision.hasValidTarget() || targetTicks == 0) {
+    if(m_vision.hasValidTarget() || targetAngle == 0) {
       super.executeTurret();
-    // } else {
-    //   int currentTicks = m_turret.getEncoderPos();
-    //   if(currentTicks < targetTicks) {
-    //     m_turret.turnTurret(Constants.Turret.kMaxTurretSpeed); //TODO; figure out a way to be on target if the camera fails in auto
-    //   } else if(currentTicks > targetTicks) {
-    //     m_turret.turnTurret(-Constants.Turret.kMaxTurretSpeed);
-    //   } else {
-    //     m_turret.turnTurret(0);
-    //   }
-    // }
+    } else {
+      m_turret.driveToPos(targetAngle);
+    }
   }
 
   // @Override

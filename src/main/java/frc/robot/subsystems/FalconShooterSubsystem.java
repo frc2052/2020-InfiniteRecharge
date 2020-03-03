@@ -31,11 +31,10 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 
-
+    shooterMasterMotor.config_kP(0,  1.3, 10);
+    shooterMasterMotor.config_kI(0, 0, 10);
+    shooterMasterMotor.config_kD(0, 0.5, 10);
     shooterMasterMotor.config_kF(0, 1023.0/20660.0, 10);
-    shooterMasterMotor.config_kP(0,  0.1, 10);
-    shooterMasterMotor.config_kI(0, 0.001, 10);
-    shooterMasterMotor.config_kD(0, 5, 10);
   }
 
   public void putToSmartDashboard() {
@@ -61,6 +60,14 @@ public class FalconShooterSubsystem extends SubsystemBase {
 
   public void setShooterVelocity(double speed){
 
+
+    // double p = SmartDashboard.getNumber("PID - P Value", 1.3);
+    // double i = SmartDashboard.getNumber("PID - I Value", 0);
+    // double d = SmartDashboard.getNumber("PID - D Value", 0.5);
+    // shooterMasterMotor.config_kP(0,  p, 10);
+    // shooterMasterMotor.config_kI(0, i, 10);
+    // shooterMasterMotor.config_kD(0, d, 10);
+
     lastShootPct = 0;    
 
 //    System.out.println("SETTING SHOOTER VELOCITY  " + speed);
@@ -69,9 +76,10 @@ public class FalconShooterSubsystem extends SubsystemBase {
     //multiply by 2 so the code will work the same if we switch back to 775 Pro shooters
     
     int falconSpeed = (int)speed/2;
-    int falconAdjusted = (int)(falconSpeed * .66);
+    int falconAdjusted = (int)(falconSpeed * 1);
 
     shooterMasterMotor.set(ControlMode.Velocity, falconAdjusted);
+    //System.out.println("--------SHOOTER SPEED=" + falconAdjusted);
 
     isOnTarget = shooterMasterMotor.getSelectedSensorVelocity() > falconAdjusted * .90;
 
