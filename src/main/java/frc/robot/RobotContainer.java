@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
+import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.*;
 import frc.robot.commands.*;
 
@@ -380,6 +381,8 @@ public class RobotContainer {
     // }
     // driveTrain.setOdometry(x, y);
 
+    double delay = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
+
     switch(AutoModeSelector.getSelectedAuto()) { 
       case DRIVE:
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(0));
@@ -388,26 +391,26 @@ public class RobotContainer {
       case DM:
         return null;
       // case LSG3:
-      //   StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
       //   return leftGenerator3;
       // case LSG5:
-      //   StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+      //   StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
       //   return leftShoot5;
       case LST2:
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(-220));
-        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
         return leftTrench2;
       case RST3:
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
-        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
         return rightTrench3;
       case CSG2:
         driveTrain.setOdometry(Units.inchesToMeters(138),0);
-        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
         return startGen3;
       case CS:
         driveTrain.setOdometry(Units.inchesToMeters(138), 0);
-        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, 0.0, autoShooterControls);
+        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
         return centerShootDrivePark;
       default:
         return null; 

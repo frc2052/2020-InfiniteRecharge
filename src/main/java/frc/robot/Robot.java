@@ -49,12 +49,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
-    SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
-    SmartDashboard.putNumber("PID - P Value", .1);
-    SmartDashboard.putNumber("PID - I Value", .001);
-    SmartDashboard.putNumber("PID - D Value", 5);
+    // SmartDashboard.putNumber("PID - P Value", 1.3);
+    // SmartDashboard.putNumber("PID - I Value", 0);
+    // SmartDashboard.putNumber("PID - D Value", 0.5);
 
     //ShuffleboardTab tab = .getTab("manageAuto");
     // NetworkTableEntry pos =

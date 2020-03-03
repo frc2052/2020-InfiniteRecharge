@@ -59,9 +59,12 @@ public class FalconShooterSubsystem extends SubsystemBase {
   public void setShooterVelocity(double speed){
 
 
-    double p = SmartDashboard.getNumber("PID - P Value", .1);
-    double i = SmartDashboard.getNumber("PID - I Value", .001);
-    double d = SmartDashboard.getNumber("PID - D Value", 5);
+    // double p = SmartDashboard.getNumber("PID - P Value", 1.3);
+    // double i = SmartDashboard.getNumber("PID - I Value", 0);
+    // double d = SmartDashboard.getNumber("PID - D Value", 0.5);
+    double p = 1.3;
+    double i = 0;
+    double d = 0.5;
     shooterMasterMotor.config_kP(0,  p, 10);
     shooterMasterMotor.config_kI(0, i, 10);
     shooterMasterMotor.config_kD(0, d, 10);
