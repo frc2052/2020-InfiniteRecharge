@@ -150,14 +150,14 @@ public class MegaShooterCommand extends CommandBase {
       speedOnTarget = true;
       double currentPowerPct = m_shooter.getSpeedPct();
       if(shooterControls.getShooterIncrease()) {
-        currentPowerPct += 0.005; //go up by this percent every second held
+        currentPowerPct += 0.01; //go up by this percent every second held
         if(currentPowerPct > 1) {
           currentPowerPct = 1;
         }
         //System.out.println("INCREASING SHOOTER" + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       } else if (shooterControls.getShooterDecrease()) {
-        currentPowerPct -= 0.005;
+        currentPowerPct -= 0.01;
         if(currentPowerPct < 0) {
           currentPowerPct = 0;
         }
@@ -167,11 +167,12 @@ public class MegaShooterCommand extends CommandBase {
         //System.out.println("Pct Shooter " + currentPowerPct);
         m_shooter.setShooterPct(currentPowerPct);
       }
+      System.out.println("SHOOTER POWER PCT=====" + currentPowerPct);
     } else { //no shooter override
       if (!shooterIdleIsOn) {
         m_shooter.setShooterPct(0);
       } else {
-        m_shooter.setShooterVelocity(Constants.Shooter.kShooterTargetVelocity * .5);
+        m_shooter.setShooterPct(.4);
       }
     }
   }

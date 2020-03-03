@@ -25,21 +25,25 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
+    this.addCommands(new AutoTurretTrimCommand(-2.5));
       this.addCommands(new BumpCommand(driveTrain));
       this.addCommands(new WaitCommand(delayTime));
-      this.addCommands(new AutoControlsCommand(controls, false, true));
       Command driveToMidTrench = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
       ArmDownCommand intakeCmd = new ArmDownCommand(intake);
       ParallelCommandGroup intakeDrive2Balls = new ParallelCommandGroup(intakeCmd, driveToMidTrench);
       this.addCommands(intakeDrive2Balls);
+      this.addCommands(new WaitCommand(0.5));
       AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
+      ArmUpCommand armUp = new ArmUpCommand(intake);
+      OuterIntakeStopCommand stopIntake = new OuterIntakeStopCommand(intake);
+      SequentialCommandGroup stopIntakeCmds = new SequentialCommandGroup(armUp, stopIntake);
       Command driveToShootSpot = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.Trench2ToShoot);
-      ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(driveToShootSpot, ready);
+      Command backUpToShoot = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LeftTrenchBackup);
+      SequentialCommandGroup drivePath = new SequentialCommandGroup(driveToShootSpot, backUpToShoot);
+      ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(drivePath, stopIntakeCmds, ready);
       this.addCommands(driveReady);
       this.addCommands(new AutoControlsCommand(controls, true, true));
-      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 5));
-      this.addCommands(new ArmUpCommand(intake));
-      this.addCommands(new OuterIntakeStopCommand(intake));
+      this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 7));
       
   }
 }
