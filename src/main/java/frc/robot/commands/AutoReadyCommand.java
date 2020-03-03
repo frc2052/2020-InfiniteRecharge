@@ -7,32 +7,34 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
+import frc.robot.auto.AutoShooterControls;
+import frc.robot.subsystems.*;
 
-public class AdjustAngleFarCommand extends CommandBase {
-  private HoodSubsystem m_HoodSubsystem;
-  /**
-   * Creates a new AdjustAngleMiddleCommand.
-   */
-  public AdjustAngleFarCommand(HoodSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_HoodSubsystem = subsystem;
+public class AutoReadyCommand extends MegaShooterCommand {
+  private AutoShooterControls autoControls;
+
+  private int readyTime = 0;
+  private Timer timer = new Timer();
+
+
+  public AutoReadyCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, AutoShooterControls controls, int timeReady) {
+    super(shooter, vision, hood, turret, conveyor, controls);
+    autoControls = controls;
+    readyTime = timeReady;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    autoControls.setReadyPressed(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_HoodSubsystem.setTarget(anglePresetEnum.FAR);
-
+    super.execute();
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +45,6 @@ public class AdjustAngleFarCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_HoodSubsystem.getHeightInches() > Constants.Shooter.kFarAnglePosition - 2);
+    return false;
   }
 }

@@ -9,9 +9,10 @@ package frc.robot.auto;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
+import frc.robot.Constants.SmartDashboardStrings;
 
 public class AutoModeSelector {
-    //TODO: finish this class once we have auto modes
 
     private static SendableChooser<autos> sendableChooserAutos;
 
@@ -27,7 +28,30 @@ public class AutoModeSelector {
             }
         }
 
-        SmartDashboard.putData("Possible Autos", sendableChooserAutos);
+        SmartDashboard.putData("Autos", sendableChooserAutos);
+        SmartDashboard.putNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
+        SmartDashboard.putNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
+        SmartDashboard.putNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
+    }
+
+    public static double getPosOnLineInches() {
+        double leftInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
+        double rightInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
+
+        double leftWallPosInches = -228; //TODO: find the real values for these, this isn't correct
+        double rightWallPosInches = 96;
+
+        double posOnLine;
+
+        if(rightInches != 0) { // check right side first
+            posOnLine = rightWallPosInches - rightInches; //right side is positive
+        } else if(leftInches != 0) { 
+            posOnLine = leftWallPosInches + leftInches; //left side is negative
+        } else {
+            posOnLine = 0; //if we don't measure from anywhere, default to being at 0
+        }
+
+        return posOnLine;
     }
 
     public static autos getSelectedAuto() {
@@ -36,11 +60,13 @@ public class AutoModeSelector {
     }
 
     public enum autos {
+        DRIVE("drive"),
+        DM("don't move"),
         CS("center start shoot drive park"),
-        CSG3("center start shoot generator 3"),
-        LSG3("left start shoot generator 3"),
+        //CSG2("center start shoot generator 2"),
+        //LSG3("left start shoot generator 3"),
         LST2("left start shoot trench 2"),
-        LSG5("left start shoot generator 5"),
+        //LSG5("left start shoot generator 5"),
         RST3("right start shoot trench 3");
 
         public String name;
@@ -50,4 +76,26 @@ public class AutoModeSelector {
         }
     }
 
+    public enum posOnLine {
+        MIDDLE("Middle"),
+        FORWARD("Forward"),
+        BACK("Back");
+
+        public String name;
+        
+        posOnLine(String name) {
+            this.name = name;
+        }
+    }
+
+    public enum directionMeasured {
+        LEFT("Left"),
+        RIGHT("Right");
+
+        public String name;
+
+        directionMeasured(String name) {
+            this.name = name;
+        }
+    }
 }

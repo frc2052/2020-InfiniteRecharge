@@ -7,28 +7,40 @@
 
 package frc.robot.auto;
 
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.*;
-import frc.robot.commands.DrivePathCommand.DrivePathEnum;
+import frc.robot.Constants;
+import frc.robot.IShooterControls;
+import frc.robot.auto.TrajectoryFactory.DrivePathEnum;
 import frc.robot.subsystems.*;
 
 public class StartRightTrench3Command extends SequentialCommandGroup {
-  /**
-   * Creates a new StartRightTrench3Command.
-   */
+  public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
-  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, Double  delayTime) {
-	this.addCommands(new WaitCommand(delayTime));
-    this.addCommands(new ShootAllCommand(shooter, vision, hood));    
-	OuterIntakeInCommand intakeCmd = new OuterIntakeInCommand(intake);
-    DrivePathCommand path1 = new DrivePathCommand(driveTrain, DrivePathEnum.StartRightTrench3Ball);
-    ArmDownCommand armDownCmd = new ArmDownCommand(intake);
-    ParallelCommandGroup par1 = new ParallelCommandGroup(intakeCmd, path1, armDownCmd);
-    this.addCommands(par1);
+  public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
+    this.addCommands(new BumpCommand(driveTrain));
+    this.addCommands(new WaitCommand(delayTime));
+    this.addCommands(new AutoControlsCommand(controls, false, true));
+    AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
+    Command driveToMidTrench = new PathCommand(driveTrain, DrivePathEnum.RightLineToTrenchMiddle);
+    ArmDownCommand intakeCmd = new ArmDownCommand(intake);
+    ParallelCommandGroup intakeDrive2Balls = new ParallelCommandGroup(intakeCmd, driveToMidTrench);
+    ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(intakeDrive2Balls, ready);
+    this.addCommands(driveReady); 
+    this.addCommands(new AutoControlsCommand(controls, true, true));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 5));
+    Command driveToBackTrench = new PathCommand(driveTrain, DrivePathEnum.TrenchMiddleToBack);
+    AutoReadyCommand ready2 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
+    ParallelDeadlineGroup driveReady2 = new ParallelDeadlineGroup(driveToBackTrench, ready2);
+    this.addCommands(driveReady2);
+    this.addCommands(new AutoControlsCommand(controls, true, true));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
+    this.addCommands(new ArmUpCommand(intake));
     this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(new ShootAllCommand(shooter, vision, hood));
   }
-
 }

@@ -1,33 +1,8 @@
 package frc.robot.subsystems;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.CloseAction;
+//NOTE: to switch between a falcon shooter and dual 775 shooter, change the base class.  Both classes must implement the same methods
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+//public class ShooterSubsystem extends SevenSevenFiveShooterSubsystem {
+public class ShooterSubsystem extends FalconShooterSubsystem {
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-
-public class ShooterSubsystem extends SubsystemBase {
-  // TODO is this RPM or RPS?
-  private double RPM;
-  private TalonSRX shooterMotor = new TalonSRX(Constants.Shooter.kShooterMotorID);
-  
-  public ShooterSubsystem() {
-    // TODO reset talon to defaults
-    shooterMotor.setNeutralMode(NeutralMode.Coast);
-    shooterMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
-  }
- 
-  public double getSpeed(){
-    // TODO check if this is 4096 or something else
-    // TODO put the RPM/RPS in a constant
-    RPM = shooterMotor.getSelectedSensorVelocity()/4096;
-    return RPM;
-  }
-  public void setSpeed(double speed){
-    shooterMotor.set(ControlMode.Velocity, speed * 4096);
-  }
 }

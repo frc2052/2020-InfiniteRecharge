@@ -8,32 +8,31 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
-import frc.robot.subsystems.HoodSubsystem;
-import frc.robot.subsystems.HoodSubsystem.anglePresetEnum;
+import frc.robot.auto.AutoShooterControls;
 
-
-public class AdjustAngleMiddleCommand extends CommandBase {
-  private HoodSubsystem m_HoodSubsystem;
+public class AutoControlsCommand extends CommandBase {
   /**
-   * Creates a new AdjustAngleMiddleCommand.
+   * Creates a new AutoControlsCommand.
    */
-  public AdjustAngleMiddleCommand(HoodSubsystem subsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
-    m_HoodSubsystem = subsystem;
+  private boolean isShoot = false;
+  private boolean isReady = false;
+  private AutoShooterControls controls = null;
+  public AutoControlsCommand(AutoShooterControls autoControls, boolean isShootPressed, boolean isReadyPressed) {
+    isShoot = isShootPressed;
+    isReady = isReadyPressed;
+    controls = autoControls;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    controls.setShootPressed(isShoot);
+    controls.setReadyPressed(isReady);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_HoodSubsystem.setTarget(anglePresetEnum.MIDDLE);
-
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +43,6 @@ public class AdjustAngleMiddleCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (m_HoodSubsystem.getHeightInches() > Constants.Shooter.kMiddleAnglePosition - 2);
+    return true;
   }
 }

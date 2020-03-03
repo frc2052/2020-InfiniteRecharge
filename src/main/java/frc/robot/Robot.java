@@ -8,11 +8,14 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.auto.AutoModeSelector;
+import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -25,6 +28,9 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  VisionSubsystem vision = null;
+  DriveTrainSubsystem driveTrain = null;
+
 
 
   /**
@@ -35,18 +41,26 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-
-    //TODO: Add values to be logged for the logger
-    //org.usfirst.frc.team1736.lib.Logging.CsvLogger.addLoggingFieldBoolean();
-    //org.usfirst.frc.team1736.lib.Logging.CsvLogger.addLoggingFieldDouble();
-    //Etc, other methods can be called
     m_robotContainer = new RobotContainer();
     AutoModeSelector.putToShuffleBoard();
-    SmartDashboard.putBoolean("Conveyor Override?", false);
-    SmartDashboard.putBoolean("Shooter Override?", false);
-    SmartDashboard.putBoolean("Hood Override?", false);
-    SmartDashboard.putBoolean("Turret Override?", false);
-
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
+    SmartDashboard.putNumber("Auto Delay", 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
+    //ShuffleboardTab tab = .getTab("manageAuto");
+    // NetworkTableEntry pos =
+    //         tab.add("Position On Line", "Middle")
+    //                 .getEntry();
+    // NetworkTableEntry isLR =
+    //         tab.add("Measuring from Left Or Right", "Right")
+    //                 .getEntry();
+    // NetworkTableEntry measurement =
+    //         tab.add("Distance", "0")
+    //                 .getEntry();
   }
 
   /**
@@ -58,6 +72,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    m_robotContainer.putToSmartDashboard();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -67,13 +82,15 @@ public class Robot extends TimedRobot {
 
   /**
    * This function is called once each time the robot enters Disabled mode.
-   */
+   */ 
   @Override
   public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   @Override
   public void disabledPeriodic() {
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /**
@@ -81,15 +98,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
+    //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
+    m_robotContainer.resetEncoders();
+    //Units.inchesToMeters(138), Units.inchesToMeters(-68)
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-
-  
+    
+    //m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**
@@ -97,7 +117,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
   }
 
   @Override
@@ -106,11 +125,10 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.setMegaShooterDefaultCommand(true);
   }
 
   /**
@@ -118,11 +136,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
+    
   }
 
   @Override
   public void testInit() {
+    m_robotContainer.resetEncoders();
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
   }
@@ -132,8 +151,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.init();
-
-    org.usfirst.frc.team1736.lib.Logging.CsvLogger.logData(false);
   }
 }
