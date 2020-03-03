@@ -31,7 +31,9 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor.setNeutralMode(NeutralMode.Coast);
     shooterMasterMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor, 0, 10);
 
-
+    shooterMasterMotor.config_kP(0,  1.3, 10);
+    shooterMasterMotor.config_kI(0, 0, 10);
+    shooterMasterMotor.config_kD(0, 0.5, 10);
     shooterMasterMotor.config_kF(0, 1023.0/20660.0, 10);
   }
 
@@ -62,12 +64,9 @@ public class FalconShooterSubsystem extends SubsystemBase {
     // double p = SmartDashboard.getNumber("PID - P Value", 1.3);
     // double i = SmartDashboard.getNumber("PID - I Value", 0);
     // double d = SmartDashboard.getNumber("PID - D Value", 0.5);
-    double p = 1.3;
-    double i = 0;
-    double d = 0.5;
-    shooterMasterMotor.config_kP(0,  p, 10);
-    shooterMasterMotor.config_kI(0, i, 10);
-    shooterMasterMotor.config_kD(0, d, 10);
+    // shooterMasterMotor.config_kP(0,  p, 10);
+    // shooterMasterMotor.config_kI(0, i, 10);
+    // shooterMasterMotor.config_kD(0, d, 10);
 
     lastShootPct = 0;    
 
