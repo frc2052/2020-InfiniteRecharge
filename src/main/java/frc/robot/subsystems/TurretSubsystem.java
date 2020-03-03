@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.lib.CsvLogger;
 
 public class TurretSubsystem extends SubsystemBase {
   private TalonSRX turretMotor;
@@ -29,6 +30,9 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     turretMotor.setSelectedSensorPosition(0, 0, 10);
+
+    CsvLogger.addLoggingFieldDouble("TurretTicks", "ticks", "getEncoderPos", this);
+    CsvLogger.addLoggingFieldBoolean("TurretOnTarget", "", "getIsOnTarget", this);
   }
 
 

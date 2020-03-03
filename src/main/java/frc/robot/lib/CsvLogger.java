@@ -1,4 +1,4 @@
-package org.usfirst.frc.team1736.lib.Logging;
+package frc.robot.lib;
 
 import java.io.FileWriter;
 import java.io.IOException;
