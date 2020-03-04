@@ -27,6 +27,7 @@ public class MegaShooterCommand extends CommandBase {
   private boolean hoodOnTarget = false;
   private boolean turretOnTarget = false;
   private boolean speedOnTarget = false;
+  private boolean m_isFalconShooter = true;
 
   public MegaShooterCommand(ShooterSubsystem shooter, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, IShooterControls controls) {
     m_shooter = shooter;
@@ -34,11 +35,12 @@ public class MegaShooterCommand extends CommandBase {
     m_hood = hood;
     m_turret = turret;
     m_conveyor = conveyor;
+    m_isFalconShooter = (m_shooter instanceof FalconShooterSubsystem);
 
     shooterControls = controls;
     visionCalculator = new VisionCalculator();
 
-    addRequirements(shooter, hood, turret);
+    addRequirements(shooter, hood, turret);    
   }
 
   // Called when the command is initially scheduled.
@@ -47,17 +49,16 @@ public class MegaShooterCommand extends CommandBase {
     //System.out.println("*************** MEGA SHOOTER INIT");
   }
 
-  public void executeHood() {
+  public void executeHood(int inchesAway) {
     if(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false)) {
       //Hood is in manual mode, assume hood is on target
       hoodOnTarget = true;
     } else {
-      //Hood is in automatic mode
-      int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
-      int targetTicks = visionCalculator.distanceToTicks(inches);
+      //Hood is in automatic mode      
+      int targetTicks = visionCalculator.distanceToTicks(inchesAway);
       int tickTrim = (int)SmartDashboard.getNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
       targetTicks = targetTicks + tickTrim;
-      System.out.println("DISTANE CALCULATED====" + inches + "   HOOD TARGET TICKS====" + targetTicks);
+      System.out.println("DISTANE CALCULATED====" + inchesAway + "   HOOD TARGET TICKS====" + targetTicks);
       //calculate the hood angle from the hood system
       m_hood.driveToEncoderPos(targetTicks);
       //System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
@@ -86,11 +87,16 @@ public class MegaShooterCommand extends CommandBase {
     }
   }
 
-  public void executeShooter() {
+  public void executeShooter(int inchesAway) {
       double targetSpeed;
 
       if(SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0) == 0) {
+        //no shooter override, use standard logic
         targetSpeed = Constants.Shooter.kShooterTargetVelocity;
+        if (inchesAway > 30 * 12 && m_isFalconShooter) //more than 30 feet away, and shooter is using falcons
+        {
+          targetSpeed = targetSpeed * 1.15; //increase speed by 15%
+        }
       } else {
         targetSpeed = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
       }
@@ -202,9 +208,10 @@ public class MegaShooterCommand extends CommandBase {
     if(shooterControls.getShootPressed() || shooterControls.getReadyPressed()) {
       m_vision.setLEDMode(3);
       m_vision.updateLimelight();
-      executeHood();
+      int inches = visionCalculator.getDistance(m_vision.getTy(), m_vision.getTa(), 0, m_vision.getThor());
+      executeHood(inches);
       executeTurret();
-      executeShooter();
+      executeShooter(inches);
       executeConveyor();
     } else {
       //m_vision.setLEDMode(1);

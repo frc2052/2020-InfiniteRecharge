@@ -74,7 +74,7 @@ public final class Constants {
     }
 
     public static final class Intake{
-        public static final double kIntakeSpeed = 1;
+        public static final double kIntakeSpeed = .75;
     }
 
     public static final class Elevator{
@@ -110,8 +110,6 @@ public final class Constants {
     }
   
     public static final class Turret{
-        //public static final int kTurretMaxRight = 100;
-        //public static final int kTurretMinLeft = -100;
         public static final double kTurnLeftSpeed = -0.1;
         public static final double kTurnRightSpeed = 0.1;
 
@@ -150,7 +148,6 @@ public final class Constants {
         public static final boolean klifterdirection = true;
         public static final boolean kConveyorDirection = true;
         public static final double kConveyorSpeed = 0.75;
-        //Todo: find the actual port
         public static final int kMiddleBallSensorID = 0;
         public static final int kFrontBallSensorID = 1;
         public static final int kTopBallSensorID = 2;
@@ -160,7 +157,6 @@ public final class Constants {
         public static final int kTicksPerRotation = 4096;
         public static final double kHoodDownSpeed = -.3;
         public static final double kHoodUpSpeed = .3;
-        //TODO manualy find max and min endcoder values 
         public static final double kMinHoodTicks = 0;
         public static final int kMaxHoodTicks = 1400;
 
@@ -179,7 +175,9 @@ public final class Constants {
         public static final String kHoodTrim = "Pulls hood back?";
         public static final String kTurretTrim = "turret trim angle";
         public static final String kShooterVelocityOverride = "new shooter velocity?";
-        public static final String kAutoDelay = "Auto Delay";
+        public static final String kEnableLogging = "Enable Logs";
+        public static final String kLogEveryXRequests = "Log Interval";
+        public static final String kAutoDelay = "Auto Delay";        
     }
     
     public static final class PixyCamDriveConstants {

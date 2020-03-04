@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.lib.CsvLogger;
 
 public class FalconShooterSubsystem extends SubsystemBase {
 
@@ -35,6 +36,10 @@ public class FalconShooterSubsystem extends SubsystemBase {
     shooterMasterMotor.config_kI(0, 0, 10);
     shooterMasterMotor.config_kD(0, 0.5, 10);
     shooterMasterMotor.config_kF(0, 1023.0/20660.0, 10);
+
+    CsvLogger.addLoggingFieldDouble("ShooterVelocity", "ticks/100ms", "getVelocityTicks", this);
+    CsvLogger.addLoggingFieldBoolean("ShooterOnTarget", "", "getIsOnTarget", this);
+    CsvLogger.addLoggingFieldDouble("ShooterPct", "", "getSpeedPct", this);
   }
 
   public void putToSmartDashboard() {

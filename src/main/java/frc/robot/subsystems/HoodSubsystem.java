@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.Constants;
+import frc.robot.lib.CsvLogger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //CIOCCI VENTEREA
@@ -35,6 +36,9 @@ public class HoodSubsystem extends SubsystemBase {
     angleMotor.config_kP(0, 0, 10);
     angleMotor.config_kI(0, 0, 10);
     angleMotor.config_kD(0, 0, 10);
+
+    CsvLogger.addLoggingFieldDouble("HoodTicks", "ticks", "getCurrentTicks", this);
+    CsvLogger.addLoggingFieldBoolean("HoodOnTarget", "", "isOnTarget", this);
   }
 
   public int calculateTicksByDistance(double distance) {

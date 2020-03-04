@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.lib.CsvLogger;
 
 public class VisionSubsystem extends SubsystemBase {
   
@@ -48,7 +49,16 @@ public class VisionSubsystem extends SubsystemBase {
   private double tshort; // target shortest side
   private double tlong; // target longest side
 
-  private boolean hasValidTarget; // whether or not there are any targets visible, < 1 = no target, 1 = target
+  private boolean hasValidTarget = false; // whether or not there are any targets visible, < 1 = no target, 1 = target
+  private boolean isLedOn = false;
+
+  public VisionSubsystem() {    
+    CsvLogger.addLoggingFieldBoolean("VisionLedOn", "", "getIsLedOn", this);
+    CsvLogger.addLoggingFieldBoolean("VisionHasTarget", "", "hasValidTarget", this);
+    CsvLogger.addLoggingFieldDouble("VisionTargetX", "", "getTx", this);
+    CsvLogger.addLoggingFieldDouble("VisionTargetY", "", "getTy", this);
+    CsvLogger.addLoggingFieldDouble("VisionInchesToTarget", "", "getDistanceToTargetInches", this);
+  }
 
   public void updateLimelight() {
 
@@ -100,15 +110,19 @@ public class VisionSubsystem extends SubsystemBase {
   }
 
   public void setLEDMode(int ledMode) {
-    if(ledMode >= 0 && ledMode <= 3) // 4 led modes
-      ledModeI.setDouble((double) ledMode);
     /*
     0 = use default LED mode in pipeline
     1 = force off
     2 = force blink
     3 = force on
     */
+    isLedOn = (ledMode == 3);
+    if(ledMode >= 0 && ledMode <= 3) { // 4 led modes
+      ledModeI.setDouble((double) ledMode);
+    }
   }
+
+  public boolean getIsLedOn() { return isLedOn;}
 
   public void setCamMode(int camMode) {
     if(camMode == 0 || camMode == 1)
