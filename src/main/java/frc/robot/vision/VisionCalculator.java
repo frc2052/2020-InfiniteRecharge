@@ -52,12 +52,22 @@ public class VisionCalculator {
         hoodTicks.add(new HoodDistance(12*28, 1177, 1));
         hoodTicks.add(new HoodDistance(12*29, 1143, 1));
         hoodTicks.add(new HoodDistance(12*30, 1080, 1));
-        hoodTicks.add(new HoodDistance(12*31, 1011, 1));
-        hoodTicks.add(new HoodDistance(12*32, 932,1));
-        hoodTicks.add(new HoodDistance(12*33, 930,1));
-        hoodTicks.add(new HoodDistance(12*34, 904,1));
-        hoodTicks.add(new HoodDistance(12*35, 896,1));
-        hoodTicks.add(new HoodDistance(12*36, 816, 1));
+        // hoodTicks.add(new HoodDistance(12*31, 1011, 1));
+        // hoodTicks.add(new HoodDistance(12*32, 932,1));
+        // hoodTicks.add(new HoodDistance(12*33, 930,1));
+        // hoodTicks.add(new HoodDistance(12*34, 904,1));
+        // hoodTicks.add(new HoodDistance(12*35, 896,1));
+        // hoodTicks.add(new HoodDistance(12*36, 816, 1));
+
+        //these are values for falcon at 115% of target velocity
+        hoodTicks.add(new HoodDistance(12*31, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*32, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*33, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*34, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*35, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*36, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*37, 1266, 1));
+        hoodTicks.add(new HoodDistance(12*38, 1266, 1));
     }
 
     public void setupPositions() {
@@ -169,8 +179,7 @@ public class VisionCalculator {
         double deltaTicks = after.getHoodTicks() - before.getHoodTicks();
         double offsetTicks = deltaTicks * pct;
 
-        int resultingTicks = (int)(offsetTicks + before.getHoodTicks());
-
+        //int resultingTicks = (int)(offsetTicks + before.getHoodTicks());
         // if(resultingTicks < after.getHoodTicks() && resultingTicks > before.getHoodTicks()) {
         //     System.out.println("OFFSET TICKS====" + resultingTicks + "    BEFORE TICKS ===" + before.getHoodTicks() + "    AFTER TICKS===" + after.getHoodTicks());
         // } else {

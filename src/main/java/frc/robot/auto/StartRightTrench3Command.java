@@ -39,9 +39,9 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
     Command driveToBackTrench = new PathCommand(driveTrain, DrivePathEnum.TrenchMiddleToBack);
     AutoReadyCommand ready2 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
     ParallelDeadlineGroup driveReady2 = new ParallelDeadlineGroup(driveToBackTrench, ready2);
+    this.addCommands(driveReady2);
     this.addCommands(new ArmUpCommand(intake));
     this.addCommands(new OuterIntakeStopCommand(intake));
-    this.addCommands(driveReady2);
     this.addCommands(new AutoControlsCommand(controls, true, true));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 1.5));
     

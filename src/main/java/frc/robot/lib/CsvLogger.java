@@ -75,7 +75,17 @@ public class CsvLogger {
     static Vector<Vector<Object>> mhReferenceObjects = new Vector<Vector<Object>>();
     static double lastLeftMotorCurrent = 0;
     static double lastRightMotorCurrent = 0;
+    static int logEveryXRequests = 1;
+    static int logRequestCounter = 0;
+    static SimpleDateFormat entryDF = new SimpleDateFormat("HH:mm:ss.SSSS");
 
+    public static void setLogEveryXRequests(int count){
+        logEveryXRequests = count;
+    }
+
+    public static int getLogEveryXRequests(){
+        return logEveryXRequests;
+    }
 
     /**
      * Clears the IO buffer in memory and forces things to file. Generally a good idea to use this
@@ -203,7 +213,7 @@ public class CsvLogger {
                 log_file.write(header_txt + ", ");
             }
             // End of line
-            log_file.write("\n");
+            log_file.write("Timestamp\n");
 
         }
         // Catch ALL the errors!!!
@@ -234,6 +244,15 @@ public class CsvLogger {
         if (forceSync)
             forceSync();
 
+        if (logEveryXRequests > 1) { //we are going to skip some entries
+            logRequestCounter++;
+            if (logRequestCounter % logEveryXRequests == 0) {
+                logRequestCounter = 0; //log this request, then start counter over
+            } else {
+                return -1; //skip this log entry
+            }
+        }
+
         try {
             for (int i = 0; i < methodHandles.size(); i++) {
                 MethodHandle mh = methodHandles.get(i);
@@ -241,7 +260,7 @@ public class CsvLogger {
                 Vector<Object> mhArgs = mhReferenceObjects.get(i);
                 log_file.write(getStandardLogData(mh, mhArgs,fieldName) + ", ");
             }
-            log_file.write("\n");
+            log_file.write(entryDF.format(new Date()) + "\n");
         } catch (Exception ex) {
             DriverStation.reportError("Error writing to log file: " + ex.getMessage(), false);
             return -2;

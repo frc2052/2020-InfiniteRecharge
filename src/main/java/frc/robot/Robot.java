@@ -8,13 +8,12 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.AutoModeSelector;
+import frc.robot.commands.LoggingCommand;
 import frc.robot.lib.CsvLogger;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
@@ -27,6 +26,7 @@ import frc.robot.subsystems.VisionSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_loggingCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -57,17 +57,8 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("PID - I Value", 0);
     // SmartDashboard.putNumber("PID - D Value", 0.5);
 
-    //ShuffleboardTab tab = .getTab("manageAuto");
-    // NetworkTableEntry pos =
-    //         tab.add("Position On Line", "Middle")
-    //                 .getEntry();
-    // NetworkTableEntry isLR =
-    //         tab.add("Measuring from Left Or Right", "Right")
-    //                 .getEntry();
-    // NetworkTableEntry measurement =
-    //         tab.add("Distance", "0")
-    //                 .getEntry();
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, true);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 50);
   }
 
   /**
@@ -107,12 +98,19 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     CsvLogger.init();
+    CsvLogger.setLogEveryXRequests(getLoggingRequestPerXRequests());
+
     //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
     m_robotContainer.resetEncoders();
     //Units.inchesToMeters(138), Units.inchesToMeters(-68)
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    if (m_loggingCommand != null){ //still exists from last auto/teleop run
+      m_loggingCommand.cancel();
+    }
+    m_loggingCommand = new LoggingCommand();
+    m_loggingCommand.schedule();
 
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -126,18 +124,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
-    if (SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kEnableLogging, false))
-    {
-      CsvLogger.logData(false);
-    }
   }
 
   @Override
-  public void teleopInit() {
+  public void teleopInit() {    
     if (!CsvLogger.isLogOpen()) //if already open, we switched from auto to teleop
     {
       CsvLogger.init();
     }
+    CsvLogger.setLogEveryXRequests(getLoggingRequestPerXRequests());
+
+
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -146,6 +143,12 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     m_robotContainer.setMegaShooterDefaultCommand(true);
+
+    if (m_loggingCommand != null){ //still exists from last auto/teleop run
+      m_loggingCommand.cancel();
+    }
+    m_loggingCommand = new LoggingCommand();
+    m_loggingCommand.schedule();
   }
 
   /**
@@ -153,10 +156,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kEnableLogging, false))
-    {
-      CsvLogger.logData(false);
-    }
   }
 
   @Override
@@ -171,5 +170,15 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
+  }
+
+  private int getLoggingRequestPerXRequests() {
+    int x = (int)SmartDashboard.getNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 50);
+    if (x < 1){
+      SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, false);
+      return 50;
+    } else {
+      return x;
+    }
   }
 }
