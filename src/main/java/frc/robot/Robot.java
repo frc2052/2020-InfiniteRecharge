@@ -53,12 +53,15 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
+    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false);
     // SmartDashboard.putNumber("PID - P Value", 1.3);
     // SmartDashboard.putNumber("PID - I Value", 0);
     // SmartDashboard.putNumber("PID - D Value", 0.5);
 
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, true);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 50);
+
+    m_robotContainer.turnLEDSOff();
   }
 
   /**
@@ -90,6 +93,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledPeriodic() {
     CommandScheduler.getInstance().cancelAll();
+    m_robotContainer.changeLimeLight(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false));
   }
 
   /**

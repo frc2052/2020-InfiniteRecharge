@@ -177,7 +177,8 @@ public final class Constants {
         public static final String kShooterVelocityOverride = "new shooter velocity?";
         public static final String kEnableLogging = "Enable Logs";
         public static final String kLogEveryXRequests = "Log Interval";
-        public static final String kAutoDelay = "Auto Delay";        
+        public static final String kAutoDelay = "Auto Delay";
+        public static final String kDisabledLimeLightOn = "Limelight On (Dis)";     
     }
     
     public static final class PixyCamDriveConstants {

@@ -267,6 +267,13 @@ public class RobotContainer {
     btnJS12.whenReleased(() -> elevator.manualStop());
 
   }
+  
+  public void turnLEDSOff() {
+    limelightWasOn = true;
+    changeLimeLight(false);
+//    vision.setLEDMode(1);
+  }
+
 
   public Command drivePathCommand() {
     var autoVoltageConstraint =
@@ -414,6 +421,23 @@ public class RobotContainer {
         return centerShootDrivePark;
       default:
         return null; 
+    }
+  }
+
+  private boolean limelightWasOn = true;
+  public void changeLimeLight(boolean turnOn){
+    if (vision != null)
+    {
+      if (limelightWasOn != turnOn) {
+        if (turnOn){
+          System.out.println("TURNING LIMELIGHT --- ON");
+          vision.setLEDMode(3);
+        } else {
+          System.out.println("TURNING LIMELIGHT --- OFF");
+          vision.setLEDMode(1);
+        }
+        limelightWasOn = turnOn;
+      }
     }
   }
 }

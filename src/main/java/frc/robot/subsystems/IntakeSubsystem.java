@@ -7,12 +7,14 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import frc.robot.Constants;
 import frc.robot.Constants.ConveyorSubsystem;
+import frc.robot.lib.CsvLogger;
 
 public class IntakeSubsystem extends SubsystemBase {
   private Solenoid upSolenoid;
   private Solenoid downSolenoid;
   private VictorSPX outerIntakeMotor;
   private boolean isArmDown;
+  private double intakePct;
 
     public IntakeSubsystem() {
         upSolenoid = new Solenoid(Constants.Solenoids.kUpIntakeSolenoidID);
@@ -21,6 +23,9 @@ public class IntakeSubsystem extends SubsystemBase {
         outerIntakeMotor.configFactoryDefault();
 
         outerIntakeMotor.setNeutralMode(NeutralMode.Coast);
+
+        CsvLogger.addLoggingFieldDouble("Intake speed", "", "getIntakeSpeed", this);
+        CsvLogger.addLoggingFieldBoolean("is arm down", "", "getIsArmDown", this);
     }
     public void armToggle(){
         //System.out.println("ARM TOGGLE");
@@ -45,14 +50,28 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakeIn(){
         //System.out.println("INATKE IN");
         outerIntakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kIntakeSpeed);
+        intakePct =  Constants.Intake.kIntakeSpeed;
     }
+
+    public boolean getIsArmDown() {
+        return isArmDown;
+    }
+
+    
+
     public void intakeOut(){
         //System.out.println("INATKE OUT");
         outerIntakeMotor.set(ControlMode.PercentOutput, -Constants.Intake.kIntakeSpeed);
+        intakePct = -Constants.Intake.kIntakeSpeed;
     }
     public void intakeStop(){
         //System.out.println("INATKE STOP");
         outerIntakeMotor.set(ControlMode.PercentOutput, 0);
+        intakePct = 0;
+    }
+
+    public double getIntakeSpeed() {
+        return intakePct;
     }
 
 }

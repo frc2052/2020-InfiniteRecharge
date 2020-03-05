@@ -214,7 +214,7 @@ public class MegaShooterCommand extends CommandBase {
       executeShooter(inches);
       executeConveyor();
     } else {
-      //m_vision.setLEDMode(1);
+      m_vision.setLEDMode(1);
       m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);
