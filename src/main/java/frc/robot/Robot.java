@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("PID - D Value", 0.5);
 
     SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, true);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 50);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 25);
 
     m_robotContainer.turnLEDSOff();
   }
@@ -153,6 +153,7 @@ public class Robot extends TimedRobot {
     }
     m_loggingCommand = new LoggingCommand();
     m_loggingCommand.schedule();
+    m_robotContainer.unlockElevator();
   }
 
   /**

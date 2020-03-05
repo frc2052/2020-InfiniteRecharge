@@ -349,6 +349,10 @@ public class RobotContainer {
     shooter.putToSmartDashboard();
   }
 
+  public void unlockElevator() {
+    elevator.unlockElevator();
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
