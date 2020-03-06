@@ -23,20 +23,22 @@ public class StartRightShootTrench3Command extends SequentialCommandGroup {
   public StartRightShootTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
     this.addCommands(new AutoTurretTrimCommand(-2));
     AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
-    AutoShooterCommand shoot = new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3);
-    ParallelDeadlineGroup getReady = new ParallelDeadlineGroup(new WaitCommand(2), ready);
-    this.addCommands(getReady);
+    AutoShooterCommand shoot = new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 2.75);
+    ParallelDeadlineGroup getReady = new ParallelDeadlineGroup(new WaitCommand(1), ready);
+    //this.addCommands(getReady);
     this.addCommands(new AutoControlsCommand(controls, true, true));
     this.addCommands(shoot);
     Command driveBack = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.LineToTrenchBack);
     ArmDownCommand intakeCmd = new ArmDownCommand(intake);
     ParallelCommandGroup driveIntake = new ParallelCommandGroup(driveBack, intakeCmd);
     this.addCommands(driveIntake);
+    this.addCommands(new ArmUpCommand(intake));
+    this.addCommands(new OuterIntakeStopCommand(intake));
     AutoReadyCommand ready2 = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
     Command driveToLine = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.TrenchBackToLine);
     ParallelDeadlineGroup driveReady = new ParallelDeadlineGroup(driveToLine, ready2);
     this.addCommands(driveReady);
     this.addCommands(new AutoControlsCommand(controls, true, true));
-    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 3));
+    this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 4));
   }
 }
