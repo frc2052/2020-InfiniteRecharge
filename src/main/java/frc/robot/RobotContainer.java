@@ -415,6 +415,10 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
         StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
         return rightTrench3;
+      case RST32:
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
+        StartRightShootTrench3Command rightShootTrench3 = new StartRightShootTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
+        return rightShootTrench3;
       case CSG2:
         driveTrain.setOdometry(Units.inchesToMeters(138),0);
         StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);

@@ -7,12 +7,14 @@
 
 package frc.robot.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.auto.TrajectoryFactory.DrivePathEnum;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
@@ -21,6 +23,7 @@ public class StartCenterGenerator2Command extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartCenterGenerator2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
+    this.addCommands(new AutoHoodTrimCommand(-50));
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
     //this.addCommands(new AutoControlsCommand(controls, true, false));
@@ -39,5 +42,12 @@ public class StartCenterGenerator2Command extends SequentialCommandGroup {
     this.addCommands(stopIntakeCmds);
     this.addCommands(new AutoControlsCommand(controls, true,false));
     this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 8));
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0); //this will run even if our auto ends early-put trim back to 0 so our teleop isnt affected
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
   }
 }

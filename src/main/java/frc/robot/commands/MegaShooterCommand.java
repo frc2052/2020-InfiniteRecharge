@@ -178,13 +178,13 @@ public class MegaShooterCommand extends CommandBase {
       if (!shooterIdleIsOn) {
         m_shooter.setShooterPct(0);
       } else {
-        m_shooter.setShooterPct(.4);
+        m_shooter.setShooterPct(.5);
       }
     }
   }
 
   private boolean wasToggleIdleLastPressed = false;
-  private boolean shooterIdleIsOn = false;
+  private boolean shooterIdleIsOn = true;
 
   public void toggleIdleShooter() {
     if (shooterControls == null){

@@ -7,6 +7,7 @@
 
 package frc.robot.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
@@ -26,6 +27,7 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
 
   public StartLeftTrench2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
     this.addCommands(new AutoTurretTrimCommand(-2.5));
+//    this.addCommands(new AutoHoodTrimCommand(-50));
       this.addCommands(new BumpCommand(driveTrain));
       this.addCommands(new WaitCommand(delayTime));
       Command driveToMidTrench = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.StartLeftTrench2);
@@ -44,6 +46,12 @@ public class StartLeftTrench2Command extends SequentialCommandGroup {
       this.addCommands(driveReady);
       this.addCommands(new AutoControlsCommand(controls, true, true));
       this.addCommands(new AutoShooterCommand(shooter, vision, hood, turret, conveyor, controls, 0, 7));
-      
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    super.end(interrupted);
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0); //this will run even if our auto ends early-put trim back to 0 so our teleop isnt affected
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
   }
 }

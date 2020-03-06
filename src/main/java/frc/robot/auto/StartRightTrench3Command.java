@@ -26,6 +26,7 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
 
   public StartRightTrench3Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
     this.addCommands(new AutoTurretTrimCommand(-2));
+    this.addCommands(new AutoHoodTrimCommand(-50));
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
     AutoReadyCommand ready = new AutoReadyCommand(shooter, vision, hood, turret, conveyor, controls, 0);
@@ -51,5 +52,6 @@ public class StartRightTrench3Command extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     super.end(interrupted);
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0); //this will run even if our auto ends early-put trim back to 0 so our teleop isnt affected
+    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kHoodTrim, 0);
   }
 }
