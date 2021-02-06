@@ -23,7 +23,7 @@ public class StartCenterGenerator2Command extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public StartCenterGenerator2Command(DriveTrainSubsystem driveTrain, ShooterSubsystem shooter, IntakeSubsystem intake, VisionSubsystem vision, HoodSubsystem hood, TurretSubsystem turret, ConveyorSubsystem conveyor, Double delayTime, AutoShooterControls controls) {
-    this.addCommands(new AutoHoodTrimCommand(-50));
+    //this.addCommands(new AutoHoodTrimCommand(-50));
     this.addCommands(new BumpCommand(driveTrain));
     this.addCommands(new WaitCommand(delayTime));
     //this.addCommands(new AutoControlsCommand(controls, true, false));
