@@ -267,6 +267,13 @@ public class RobotContainer {
     btnJS12.whenReleased(() -> elevator.manualStop());
 
   }
+  
+  public void turnLEDSOff() {
+    limelightWasOn = true;
+    changeLimeLight(false);
+//    vision.setLEDMode(1);
+  }
+
 
   public Command drivePathCommand() {
     var autoVoltageConstraint =
@@ -342,6 +349,10 @@ public class RobotContainer {
     shooter.putToSmartDashboard();
   }
 
+  public void unlockElevator() {
+    elevator.unlockElevator();
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -404,6 +415,10 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
         StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
         return rightTrench3;
+      case RST32:
+        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
+        StartRightShootTrench3Command rightShootTrench3 = new StartRightShootTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
+        return rightShootTrench3;
       case CSG2:
         driveTrain.setOdometry(Units.inchesToMeters(138),0);
         StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
@@ -414,6 +429,23 @@ public class RobotContainer {
         return centerShootDrivePark;
       default:
         return null; 
+    }
+  }
+
+  private boolean limelightWasOn = true;
+  public void changeLimeLight(boolean turnOn){
+    if (vision != null)
+    {
+      if (limelightWasOn != turnOn) {
+        if (turnOn){
+          System.out.println("TURNING LIMELIGHT --- ON");
+          vision.setLEDMode(3);
+        } else {
+          System.out.println("TURNING LIMELIGHT --- OFF");
+          vision.setLEDMode(1);
+        }
+        limelightWasOn = turnOn;
+      }
     }
   }
 }

@@ -32,6 +32,7 @@ import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.Constants;
 import frc.robot.Constants.Turret;
 import frc.robot.commands.rotateWoFtoColCommand;
+import frc.robot.lib.CsvLogger;
 
 public class DriveTrainSubsystem extends SubsystemBase {
 
@@ -49,6 +50,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   private final VictorSPX rightFollower2;
 
   private final Solenoid shifter;
+
+  private boolean isHighGear;
 
   private final SpeedControllerGroup leftGroup;
   private final SpeedControllerGroup rightGroup;
@@ -120,16 +123,34 @@ public class DriveTrainSubsystem extends SubsystemBase {
     }
 
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    CsvLogger.addLoggingFieldBoolean("shifting", "", "getIsHighGear", this);
+    CsvLogger.addLoggingFieldDouble("odometry x", "", "getPoseX", this);
+    CsvLogger.addLoggingFieldDouble("odometry Y", "", "getPoseY", this);
   }
+
+  
 
   public void setOdometry(double x, double y){
     Pose2d newPose = new Pose2d(x, y, getAngle());
     odometry.resetPosition(newPose, getAngle());
   }
 
+  public double getPoseX() {
+    return Units.metersToInches(odometry.getPoseMeters().getTranslation().getX());
+  }
+
+  public double getPoseY() {
+    return Units.metersToInches(odometry.getPoseMeters().getTranslation().getY());
+  }
+
   
   public void setHighGear(boolean highGear) {
     shifter.set(highGear);
+    isHighGear = highGear;
+  }
+
+  public boolean getIsHighGear() {
+    return isHighGear;
   }
 
   public void arcadeDrive(double tank, double turn) {

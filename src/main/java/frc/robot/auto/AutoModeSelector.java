@@ -66,6 +66,7 @@ public class AutoModeSelector {
         CSG2("center start shoot generator 2"),
         //LSG3("left start shoot generator 3"),
         LST2("left start shoot trench 2"),
+        RST32("right start trench 3(bad balls)"),
         //LSG5("left start shoot generator 5"),
         RST3("right start shoot trench 3");
 

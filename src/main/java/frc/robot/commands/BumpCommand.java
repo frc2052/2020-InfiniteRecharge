@@ -49,7 +49,7 @@ public class BumpCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     System.out.println("BumpTimer: " + bumpTimer.get());
-    return !doBump || (bumpTimer.get() >= .25);
+    return !doBump || (bumpTimer.get() >= .5);
   }
 
 }

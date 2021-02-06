@@ -188,6 +188,11 @@ public class TrajectoryFactory {
                     rightStartPos, 
                         new ArrayList<Translation2d>(), 
                     new Pose2d(trenchBall2, new Rotation2d(0)), forwardsConfig);
+            case LineToTrenchBack:
+                return TrajectoryGenerator.generateTrajectory(
+                    rightStartPos, 
+                        new ArrayList<Translation2d>(),  
+                    trenchBall3, forwardsConfig);
             case TrenchMiddleToBack:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(trenchBall2, new Rotation2d(0)), 
@@ -198,11 +203,11 @@ public class TrajectoryFactory {
                     new Pose2d(trenchBall1, new Rotation2d(0)),
                         new ArrayList<Translation2d>(), 
                     trenchBall3, forwardsConfig);
-            case TrenchBackToFront:
+            case TrenchBackToLine:
                 return TrajectoryGenerator.generateTrajectory(
                     trenchBall3,
                         new ArrayList<Translation2d>(), 
-                    new Pose2d(trenchBall1, new Rotation2d(0)), backwardsConfig);
+                    new Pose2d(Units.inchesToMeters(160), Units.inchesToMeters(68), new Rotation2d(0)), backwardsConfig);
           case LeftTrenchToMiddle: //TODO: fix these values
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, -1.7272, new Rotation2d(0)),
@@ -235,6 +240,7 @@ public class TrajectoryFactory {
       RightLineToTrenchMiddle,
       LeftTrenchBackup,
       Gen2Backup,
+      LineToTrenchBack,
       //TrenchFrontToMiddle,
       TrenchMiddleToBack,
       CenterLineToGen2,
@@ -242,7 +248,7 @@ public class TrajectoryFactory {
       StartToGenerator,
       GeneratorBallPath,
       TrenchFrontToBack,
-      TrenchBackToFront,
+      TrenchBackToLine,
       StartLeftGenerator3,
       StartLeftTrench2,
       StartLeftGenerator5,

@@ -178,13 +178,13 @@ public class MegaShooterCommand extends CommandBase {
       if (!shooterIdleIsOn) {
         m_shooter.setShooterPct(0);
       } else {
-        m_shooter.setShooterPct(.4);
+        m_shooter.setShooterPct(.5);
       }
     }
   }
 
   private boolean wasToggleIdleLastPressed = false;
-  private boolean shooterIdleIsOn = false;
+  private boolean shooterIdleIsOn = true;
 
   public void toggleIdleShooter() {
     if (shooterControls == null){
@@ -214,7 +214,7 @@ public class MegaShooterCommand extends CommandBase {
       executeShooter(inches);
       executeConveyor();
     } else {
-      //m_vision.setLEDMode(1);
+      m_vision.setLEDMode(1);
       m_vision.updateLimelight(); 
       m_conveyor.setWantUp(false);
       m_conveyor.setWantDown(false);
