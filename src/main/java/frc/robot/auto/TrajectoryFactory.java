@@ -74,6 +74,32 @@ public class TrajectoryFactory {
         Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(68));
         Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(68));
 
+        Translation2d GalacticSearchARedStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(90));
+        Translation2d GalacticSearchARed1 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(90)); //c3
+        Translation2d GalacticSearchARed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
+        Translation2d GalacticSearchARed3 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(150)); //a6
+        Translation2d GalacticSearchARedEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(150));
+
+        Translation2d GalacticSearchABlueStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(30));
+        Translation2d GalacticSearchABlue1 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(30)); //e6
+        Translation2d GalacticSearchABlue2 = new Translation2d(Units.inchesToMeters(210), Units.inchesToMeters(120)); //b7
+        Translation2d GalacticSearchABlue3 = new Translation2d(Units.inchesToMeters(270), Units.inchesToMeters(90)); //c9
+        Translation2d GalacticSearchABlueEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(90));
+
+        Translation2d GalacticSearchBRedStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(120));
+        Translation2d GalacticSearchBRed1 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(120)); //b3
+        Translation2d GalacticSearchBRed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
+        Translation2d GalacticSearchBRed3 = new Translation2d(Units.inchesToMeters(210), Units.inchesToMeters(120)); //b7
+        Translation2d GalacticSearchBRedEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(120));
+
+        Translation2d GalacticSearchBBlueStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(60));
+        Translation2d GalacticSearchBBlue1 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(60)); //d6
+        Translation2d GalacticSearchBBlue2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(120)); //b8
+        Translation2d GalacticSearchBBlue3 = new Translation2d(Units.inchesToMeters(300), Units.inchesToMeters(60)); //d10
+        Translation2d GalacticSearchBBlueEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(60));
+
+
+
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
                   Constants.DriveTrain.ksVolts, 
@@ -97,7 +123,7 @@ public class TrajectoryFactory {
             .addConstraint(autoVoltageConstraint)
             .addConstraint(turnConstraint);
             //.setEndVelocity(.5);
-        
+
         TrajectoryConfig slowConfig = new TrajectoryConfig(
             1,
             .25)
