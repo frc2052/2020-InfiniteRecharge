@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,7 +18,9 @@ import frc.robot.auto.AutoModeSelector;
 import frc.robot.commands.LoggingCommand;
 import frc.robot.lib.CsvLogger;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.PixyCamSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.PixyCamSubsystem.PixyBlock;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -32,6 +36,7 @@ public class Robot extends TimedRobot {
 
   VisionSubsystem vision = null;
   DriveTrainSubsystem driveTrain = null;
+  PixyCamSubsystem pixyCam = new PixyCamSubsystem();
 
 
 
@@ -83,6 +88,21 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    ArrayList<PixyBlock> ballArray = pixyCam.read();
+    ballArray = pixyCam.sortListBySize(ballArray);
+
+    if(ballArray != null && ballArray.size() >=3){
+      PixyBlock firstBall = ballArray.get(0);
+      PixyBlock secondBall = ballArray.get(1);
+      PixyBlock thirdBall = ballArray.get(2);
+
+      System.out.println("Ball one position x: " + firstBall.centerX + " y: " + firstBall.centerY);
+      System.out.println("Ball two position x: " + secondBall.centerX + " y: " + secondBall.centerY);
+      System.out.println("Ball two position x: " + thirdBall.centerX + " y: " + thirdBall.centerY);
+
+    }
+
+    
   }
 
   /**
