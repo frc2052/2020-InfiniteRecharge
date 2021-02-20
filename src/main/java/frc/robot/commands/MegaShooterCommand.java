@@ -184,7 +184,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   private boolean wasToggleIdleLastPressed = false;
-  private boolean shooterIdleIsOn = true;
+  private boolean shooterIdleIsOn = false;
 
   public void toggleIdleShooter() {
     if (shooterControls == null){

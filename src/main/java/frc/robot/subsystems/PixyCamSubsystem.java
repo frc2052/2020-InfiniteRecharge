@@ -12,6 +12,9 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -64,6 +67,36 @@ public class PixyCamSubsystem extends SubsystemBase {
     }
     double distance = index;
     return index;
+  }
+
+  public ArrayList<PixyBlock> sortListBySize(ArrayList<PixyBlock> array){
+
+    if (array != null){
+      Collections.sort(array, new Comparator<PixyBlock>() {
+      @Override
+      public int compare(PixyBlock first, PixyBlock second) {
+        return first.height - second.height;
+      }
+      
+    });
+    Collections.reverse(array);
+    }
+  return array;
+  }
+
+  public ArrayList<PixyBlock> sortListByX(ArrayList<PixyBlock> array){
+
+    if (array != null){
+      Collections.sort(array, new Comparator<PixyBlock>() {
+      @Override
+      public int compare(PixyBlock first, PixyBlock second) {
+        return first.centerX - second.centerX;
+      }
+      
+    });
+    Collections.reverse(array);
+    }
+  return array;
   }
 
   public ArrayList<PixyBlock> read() {
