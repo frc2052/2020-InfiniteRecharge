@@ -429,12 +429,21 @@ public class RobotContainer {
         return centerShootDrivePark;
       case GS:
         GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
-        //GalacticSearchABlueCommand galacticSearchABlue= new GalacticSearch
+        GalacticSearchABlueCommand galacticSearchABlue= new GalacticSearchABlueCommand(driveTrain, intake, vision);
+        GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
+        GalacticSearchBBlueCommand galacticSearchBBlue = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
 
-        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
+        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
+
         //TODO: use pixyCam to determine what mode we run and also set the odometry to the correct starting position
 
         return galacticSearchARed;
+        //return galacticSearchABlue;
+        //return galacticSearchBRed;
+        //return galacticSearchBBlue;
       default:
         return null; 
     }
