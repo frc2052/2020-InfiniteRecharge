@@ -74,29 +74,29 @@ public class TrajectoryFactory {
         Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(68));
         Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(68));
 
-        Translation2d GalacticSearchARedStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(90));
+        Pose2d GalacticSearchARedStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(90), new Rotation2d(0));
         Translation2d GalacticSearchARed1 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(90)); //c3
         Translation2d GalacticSearchARed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
-        Translation2d GalacticSearchARed3 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(150)); //a6
-        Translation2d GalacticSearchARedEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(150));
+        Pose2d GalacticSearchARed3 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(150), new Rotation2d(0)); //a6
+        Pose2d GalacticSearchARedEndPos = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(150), new Rotation2d(0));
 
-        Translation2d GalacticSearchABlueStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(30));
-        Translation2d GalacticSearchABlue1 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(30)); //e6
+        Pose2d GalacticSearchABlueStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(30), new Rotation2d(0));
+        Pose2d GalacticSearchABlue1 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(30), new Rotation2d(0)); //e6
         Translation2d GalacticSearchABlue2 = new Translation2d(Units.inchesToMeters(210), Units.inchesToMeters(120)); //b7
         Translation2d GalacticSearchABlue3 = new Translation2d(Units.inchesToMeters(270), Units.inchesToMeters(90)); //c9
-        Translation2d GalacticSearchABlueEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(90));
+        Pose2d GalacticSearchABlueEndPos = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(90), new Rotation2d(0));
 
-        Translation2d GalacticSearchBRedStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(120));
+        Pose2d GalacticSearchBRedStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(120), new Rotation2d(0));
         Translation2d GalacticSearchBRed1 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(120)); //b3
         Translation2d GalacticSearchBRed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
-        Translation2d GalacticSearchBRed3 = new Translation2d(Units.inchesToMeters(210), Units.inchesToMeters(120)); //b7
-        Translation2d GalacticSearchBRedEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(120));
+        Pose2d GalacticSearchBRed3 = new Pose2d(Units.inchesToMeters(210), Units.inchesToMeters(120), new Rotation2d(0)); //b7
+        Pose2d GalacticSearchBRedEndPos = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(120), new Rotation2d(0));
 
-        Translation2d GalacticSearchBBlueStartPos = new Translation2d(Units.inchesToMeters(48), Units.inchesToMeters(60));
-        Translation2d GalacticSearchBBlue1 = new Translation2d(Units.inchesToMeters(180), Units.inchesToMeters(60)); //d6
+        Pose2d GalacticSearchBBlueStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(60), new Rotation2d(0));
+        Pose2d GalacticSearchBBlue1 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(60), new Rotation2d(0)); //d6
         Translation2d GalacticSearchBBlue2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(120)); //b8
         Translation2d GalacticSearchBBlue3 = new Translation2d(Units.inchesToMeters(300), Units.inchesToMeters(60)); //d10
-        Translation2d GalacticSearchBBlueEndPos = new Translation2d(Units.inchesToMeters(330), Units.inchesToMeters(60));
+        Pose2d GalacticSearchBBlueEndPos = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(60), new Rotation2d(0));
 
 
 
@@ -252,6 +252,54 @@ public class TrajectoryFactory {
                         List.of(
                             new Translation2d(6.1722, -1.7272)), 
                     new Pose2d(8.001, -1.7272, new Rotation2d(0)), forwardsConfig);
+            case GalacticSearchARed1:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchARedStartPos, 
+                        List.of(
+                            GalacticSearchARed1,
+                            GalacticSearchARed2), 
+                    GalacticSearchARed3, forwardsConfig);
+            case GalacticSearchARed2:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchARed3, 
+                        new ArrayList<Translation2d>(), 
+                    GalacticSearchARedEndPos, forwardsConfig);
+            case GalacticSearchABlue1:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchABlueStartPos, 
+                        new ArrayList<Translation2d>(), 
+                    GalacticSearchABlue1, forwardsConfig);
+            case GalacticSearchABlue2:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchABlue1, 
+                        List.of(
+                            GalacticSearchABlue2,
+                            GalacticSearchABlue3), 
+                    GalacticSearchABlueEndPos, forwardsConfig);
+            case GalacticSearchBRed1:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchBRedStartPos, 
+                        List.of(
+                            GalacticSearchBRed1,
+                            GalacticSearchBRed2), 
+                    GalacticSearchBRed3, forwardsConfig);
+            case GalacticSearchBRed2:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchBRed3, 
+                        new ArrayList<Translation2d>(), 
+                    GalacticSearchBRedEndPos, forwardsConfig);
+            case GalacticSearchBBlue1:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchBBlueStartPos, 
+                        new ArrayList<Translation2d>(), 
+                    GalacticSearchBBlue1, forwardsConfig);
+            case GalacticSearchBBlue2:
+                return TrajectoryGenerator.generateTrajectory(
+                    GalacticSearchBBlue1, 
+                        List.of(
+                            GalacticSearchBBlue2,
+                            GalacticSearchBBlue3), 
+                    GalacticSearchBBlueEndPos, forwardsConfig);
           default:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
@@ -281,7 +329,15 @@ public class TrajectoryFactory {
       LeftTrenchToMiddle,
       CenterGenerator5,
       AutoFeed,
-      Trench2ToShoot
+      Trench2ToShoot,
+      GalacticSearchARed1,
+      GalacticSearchARed2,
+      GalacticSearchABlue1,
+      GalacticSearchABlue2,
+      GalacticSearchBRed1,
+      GalacticSearchBRed2,
+      GalacticSearchBBlue1,
+      GalacticSearchBBlue2
     }
 
 }

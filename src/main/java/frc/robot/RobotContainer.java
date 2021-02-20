@@ -55,7 +55,7 @@ public class RobotContainer {
   private TurretSubsystem turret = null;
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
-  private ElevatorSubsystem elevator = null;
+  //private ElevatorSubsystem elevator = null;
 
   private Joystick turnJoystick;
   private Joystick tankJoystick;
@@ -78,7 +78,7 @@ public class RobotContainer {
     turret = new TurretSubsystem();
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
-    elevator = new ElevatorSubsystem();
+    //elevator = new ElevatorSubsystem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
 
     PowerDistributionPanel pdp = new PowerDistributionPanel();
@@ -106,7 +106,7 @@ public class RobotContainer {
 
   public void resetEncoders() {
     driveTrain.resetEncoders();
-    elevator.resetEncoder();
+    //elevator.resetEncoder();
     hood.resetEncoder();
     turret.resetEncoder();
     shooter.resetEncoder();
@@ -237,12 +237,12 @@ public class RobotContainer {
     btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
     btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS3.whenPressed(() -> elevator.unlockElevator()); 
+    //btnJS3.whenPressed(() -> elevator.unlockElevator()); 
 
-    btnJS4.whenPressed(() -> elevator.setOverride(true));
-    btnJS4.whenReleased(() -> elevator.setOverride(false));
+    //btnJS4.whenPressed(() -> elevator.setOverride(true));
+    //btnJS4.whenReleased(() -> elevator.setOverride(false));
 
-    btnJS5.whenPressed(() -> elevator.lockElevator());  //manual shooter speed up
+    //btnJS5.whenPressed(() -> elevator.lockElevator()); 
 
     //btnJS6.whileHeld(() -> intake.intakeIn()); 
     btnJS6.whileHeld(smartIntakeCommand); 
@@ -260,11 +260,11 @@ public class RobotContainer {
     // btnJS10.whenPressed(() -> turret.turnTurret(0.5));
     // btnJS10.whenReleased(() -> turret.turnTurret(0));
 
-    btnJS11.whileHeld(() -> elevator.manualDown());
-    btnJS11.whenReleased(() -> elevator.manualStop());
+    //btnJS11.whileHeld(() -> elevator.manualDown());
+    //btnJS11.whenReleased(() -> elevator.manualStop());
 
-    btnJS12.whileHeld(() -> elevator.manualUp());
-    btnJS12.whenReleased(() -> elevator.manualStop());
+    //btnJS12.whileHeld(() -> elevator.manualUp());
+    //btnJS12.whenReleased(() -> elevator.manualStop());
 
   }
   
@@ -342,7 +342,7 @@ public class RobotContainer {
 
   public void putToSmartDashboard() {
     driveTrain.putToSmartDashboard();
-    elevator.printEncoderPos();
+    //elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
     vision.putDistanceToSmartDashboard();
     turret.printEncoderPos();
@@ -350,7 +350,7 @@ public class RobotContainer {
   }
 
   public void unlockElevator() {
-    elevator.unlockElevator();
+    //elevator.unlockElevator();
   }
 
   /**
@@ -427,6 +427,14 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(138), 0);
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
         return centerShootDrivePark;
+      case GS:
+        GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
+        //GalacticSearchABlueCommand galacticSearchABlue= new GalacticSearch
+
+        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
+        //TODO: use pixyCam to determine what mode we run and also set the odometry to the correct starting position
+
+        return galacticSearchARed;
       default:
         return null; 
     }
