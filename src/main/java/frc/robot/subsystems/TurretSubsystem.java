@@ -31,7 +31,7 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     turretMotor.setSelectedSensorPosition(0, 0, 10);
 
-    CsvLogger.addLoggingFieldDouble("TurretTicks", "ticks", "getEncoderPos", this);
+    CsvLogger.addLoggingFieldDouble("TurretTicks", "ticks", "getEncoderDegree", this);
     CsvLogger.addLoggingFieldBoolean("TurretOnTarget", "", "getIsOnTarget", this);
   }
 
