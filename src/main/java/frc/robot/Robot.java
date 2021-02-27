@@ -172,11 +172,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    ArrayList<PixyBlock> ballArray = pixyCam.read();
+    /*ArrayList<PixyBlock> ballArray = pixyCam.read();
     ballArray = pixyCam.sortListByX(ballArray);
-    /*ballArray.forEach((ball)->{
-      System.out.println("Ball position x: " + ball.centerX)
-    });*/
+    
     
     
     if(ballArray != null && ballArray.size() >=3){
@@ -203,7 +201,7 @@ public class Robot extends TimedRobot {
     }
     else {
       System.out.println("Ball array is null");
-    } 
+    } */
 
   }
 

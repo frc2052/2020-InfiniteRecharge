@@ -194,7 +194,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     double rightSpeed = ((double)rightMaster.getSelectedSensorVelocity() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
 
 
-    System.out.println("-----LEFT SPEED: " + leftSpeed + " RIGHT SPEED" + rightSpeed);
+    //System.out.println("-----LEFT SPEED: " + leftSpeed + " RIGHT SPEED" + rightSpeed);
 
     return new DifferentialDriveWheelSpeeds(
       leftSpeed,
