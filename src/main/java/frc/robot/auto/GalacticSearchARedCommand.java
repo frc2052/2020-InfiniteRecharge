@@ -23,20 +23,22 @@ public class GalacticSearchARedCommand extends SequentialCommandGroup {
   public TrajectoryFactory trajectoryFactory = new TrajectoryFactory();
 
   public GalacticSearchARedCommand(DriveTrainSubsystem driveTrain, IntakeSubsystem intake, VisionSubsystem vision) {
-    // Command path1 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed1);
-    // ArmDownCommand intakeStart = new ArmDownCommand(intake);
-    // ParallelCommandGroup driveIntake = new ParallelCommandGroup(path1, intakeStart);
-    // this.addCommands(driveIntake);
-    // this.addCommands(new ShiftGearCommand(driveTrain, true));
-    // Command path2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed2);
-    // this.addCommands(path2);
-    // this.addCommands(new ArmUpCommand(intake));
-    // this.addCommands(new ShiftGearCommand(driveTrain, false));
-
     Command path1 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed1);
+    ArmDownCommand intakeStart = new ArmDownCommand(intake);
+    WaitCommand delay = new WaitCommand(.75);
+    SequentialCommandGroup delayDrive = new SequentialCommandGroup(delay, path1);
+    ParallelCommandGroup driveIntake = new ParallelCommandGroup(delayDrive, intakeStart);
+    this.addCommands(driveIntake);
+    //this.addCommands(new ShiftGearCommand(driveTrain, true));
     Command path2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed2);
-    this.addCommands(path1);
     this.addCommands(path2);
+    this.addCommands(new ArmUpCommand(intake));
+    //this.addCommands(new ShiftGearCommand(driveTrain, false));
+
+    // Command path1 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed1);
+    // Command path2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchARed2);
+    // this.addCommands(path1);
+    // this.addCommands(path2);
   }
 
   @Override

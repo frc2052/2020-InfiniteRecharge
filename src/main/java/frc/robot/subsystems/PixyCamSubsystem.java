@@ -102,15 +102,21 @@ public class PixyCamSubsystem extends SubsystemBase {
   }
   public galacticSearchEnum getGSPath(){
         ArrayList<PixyBlock> ballArray = read();
+
+        if(ballArray == null || ballArray.size() == 0) {
+          System.out.println("no balls in array");
+          return galacticSearchEnum.NOPATH;
+        }
+
         ballArray = sortListByX(ballArray);
 
         if(ballArray.size() == 3){
             PixyBlock firstBall = ballArray.get(0);
             PixyBlock secondBall = ballArray.get(1);
             PixyBlock thirdBall = ballArray.get(2);
-            System.out.println("first ball x " + firstBall.centerX);
-            System.out.println("second ball x " + secondBall.centerX);
-            System.out.println("third ball x " + thirdBall.centerX);
+            System.out.println("----------------first ball x " + firstBall.centerX);
+            System.out.println("----------------second ball x " + secondBall.centerX);
+            System.out.println("----------------third ball x " + thirdBall.centerX);
 
             //A Red 
             if((firstBall.centerX >=190 && firstBall.centerX <= 225)&& (secondBall.centerX >=100 && secondBall.centerX<=140) && thirdBall.centerX <=40){
@@ -136,7 +142,7 @@ public class PixyCamSubsystem extends SubsystemBase {
             }
             
         } else{
-            System.out.println("ball array is not 3");
+            System.out.println("---------------ball array is not 3! balls in array: " + ballArray.size());
             return galacticSearchEnum.NOPATH;
         }
 

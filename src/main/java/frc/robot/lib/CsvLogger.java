@@ -78,6 +78,7 @@ public class CsvLogger {
     static int logEveryXRequests = 1;
     static int logRequestCounter = 0;
     static SimpleDateFormat entryDF = new SimpleDateFormat("HH:mm:ss.SSSS");
+    public static boolean isDisabled = true;
 
     public static void setLogEveryXRequests(int count){
         logEveryXRequests = count;
@@ -96,6 +97,10 @@ public class CsvLogger {
      * @return 0 on flush success or -1 on failure.
      */
     public static int forceSync() {
+        if (isDisabled) {
+            return -2;
+        }
+
         if (log_open == false) {
             DriverStation.reportError("Error - Log is not yet opened, cannot sync!", false);
             return -1;
@@ -173,6 +178,9 @@ public class CsvLogger {
      * @return 0 on successful log open, -1 on failure
      */
     public static int init() {
+        if (isDisabled) {
+            return -2;
+        }
 
         if (log_open) {
             DriverStation.reportWarning("Warning - log is already open!", false);
@@ -236,6 +244,10 @@ public class CsvLogger {
      * @return 0 if log successful, -1 if log is not open, and -2 on other errors
      */
     public static int logData(boolean forceSync) {
+        if (isDisabled) {
+            return -2;
+        }
+
         if (!log_open) {
             //System.out.println("ERROR - Log is not yet opened, cannot write!");
             return -1;
@@ -274,7 +286,11 @@ public class CsvLogger {
      * cache the results and not bog down the first loop.
      */
     public static void preCacheAllMethods(){
-        try {
+         if (isDisabled) {
+            return;
+        }
+
+       try {
             for (int i = 0; i < methodHandles.size(); i++) {
                 MethodHandle mh = methodHandles.get(i);
                 String fieldName = dataFieldNames.get(i);
@@ -304,6 +320,10 @@ public class CsvLogger {
      */
     public static void addLoggingFieldDouble(String dataFieldName, String unitName,
                                              String methodName, Object reference, Object... args) {
+        if (isDisabled) {
+            return;
+        }
+                                        
         MethodType methodType = methodType(double.class);
         for (Object arg : args)
             methodType = methodType.appendParameterTypes(arg.getClass());
@@ -325,6 +345,10 @@ public class CsvLogger {
      */
     public static void addLoggingFieldDouble(String dataFieldName, String unitName,
                                              String methodName, Class<?> classRef, Object... args) {
+
+        if (isDisabled) {
+            return;
+        }
         MethodType methodType = methodType(double.class);
         for (Object arg : args)
             methodType = methodType.appendParameterTypes(arg.getClass());
@@ -348,6 +372,10 @@ public class CsvLogger {
      */
     public static void addLoggingFieldBoolean(String dataFieldName, String unitName,
                                               String methodName, Object reference, Object... args) {
+
+        if (isDisabled) {
+            return;
+        }
         MethodType methodType = methodType(boolean.class);
         for (Object arg : args)
             methodType = methodType.appendParameterTypes(arg.getClass());
@@ -369,6 +397,9 @@ public class CsvLogger {
      */
     public static void addLoggingFieldBoolean(String dataFieldName, String unitName,
                                               String methodName, Class<?> classRef, Object... args) {
+        if (isDisabled) {
+            return;
+        }
         MethodType methodType = methodType(boolean.class);
         for (Object arg : args)
             methodType = methodType.appendParameterTypes(arg.getClass());
@@ -383,6 +414,10 @@ public class CsvLogger {
      */
     private static void addLoggingField(MethodType methodType, String dataFieldName, String unitName, Class<?> classRef,
                                         String methodName, Object reference, Object... args) {
+
+        if (isDisabled) {
+            return;
+        }
         if (log_open) {
             DriverStation.reportError("Error: cannot add logging field while log file is open",false);
             return;
@@ -433,6 +468,9 @@ public class CsvLogger {
      * @return double value for double return types, 1 or 0 for boolean return types
      */
     private static double getStandardLogData(MethodHandle methodHandle, Vector<Object> args, String name) {
+        if (isDisabled) {
+            return -2.0;
+        }
         try {
             if (methodHandle.type().returnType() == double.class)
                 return (double) methodHandle.invokeWithArguments(args);

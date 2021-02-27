@@ -157,7 +157,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.setMegaShooterDefaultCommand(true);
+    //m_robotContainer.setMegaShooterDefaultCommand(true);
 
     if (m_loggingCommand != null){ //still exists from last auto/teleop run
       m_loggingCommand.cancel();

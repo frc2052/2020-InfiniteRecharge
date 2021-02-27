@@ -115,14 +115,14 @@ public class RobotContainer {
     shooter.resetEncoder();
   }
 
-  public void setMegaShooterDefaultCommand(boolean isTeleop) {
-    //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
-    if(isTeleop) {
-      shooter.setDefaultCommand(megaShooterCommand);
-    } else {
-      shooter.setDefaultCommand(null);
-    }
-  }
+  // public void setMegaShooterDefaultCommand(boolean isTeleop) {
+  //   //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
+  //   if(isTeleop) {
+  //     shooter.setDefaultCommand(megaShooterCommand);
+  //   } else {
+  //     shooter.setDefaultCommand(null);
+  //   }
+  // }
 
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
@@ -132,7 +132,6 @@ public class RobotContainer {
       )
     );
   }
-
 
   public void configureTurnJoystick() {
     turnJoystick = new Joystick(0);
@@ -276,7 +275,6 @@ public class RobotContainer {
     changeLimeLight(false);
 //    vision.setLEDMode(1);
   }
-
 
   public Command drivePathCommand() {
     var autoVoltageConstraint =
@@ -433,28 +431,31 @@ public class RobotContainer {
       case GS:
         GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
         GalacticSearchABlueCommand galacticSearchABlue = new GalacticSearchABlueCommand(driveTrain, intake, vision);
-        GalacticSearchBRedCommand galacticSearchBRedCommand = new GalacticSearchBRedCommand(driveTrain, intake, vision);
-        GalacticSearchBBlueCommand galacticSearchBBlueCommand = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
+        GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
+        GalacticSearchBBlueCommand galacticSearchBBlue = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
+
+        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+        return galacticSearchBRed;
         
-        if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
-          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
-          return galacticSearchARed;
+        // if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
+        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
+        //   return galacticSearchARed;
 
-        } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
-          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
-          return galacticSearchABlue;
+        // } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
+        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
+        //   return galacticSearchABlue;
 
-        } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
-          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
-          return galacticSearchBRedCommand;
+        // } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
+        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+        //   return galacticSearchBRed;
 
-        } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
-          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
-          return galacticSearchBBlueCommand;
+        // } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
+        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+        //   return galacticSearchBBlue;
 
-        } else{
-          return null;
-        }
+        // } else{
+        //   return null;
+        // }
 
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
