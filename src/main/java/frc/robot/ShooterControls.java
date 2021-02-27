@@ -69,7 +69,7 @@ public class ShooterControls implements IShooterControls{
     }
 
     public boolean getIdleShooterToggle() {
-        System.out.println("SHOOTER IDLE TOGGLE =" + tankJoystick.getRawButton(4));
+        //System.out.println("SHOOTER IDLE TOGGLE =" + tankJoystick.getRawButton(4));
         return tankJoystick.getRawButton(4);
     } 
 

@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.PixyCamSubsystem.galacticSearchEnum;
 import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.*;
 import frc.robot.commands.*;
@@ -69,6 +70,7 @@ public class RobotContainer {
   private ManualSpinUpCommand manualSpinUp = null;
   private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
   private SmartIntakeCommand smartIntakeCommand = null;
+  private PixyCamSubsystem pixyCam = null;
 
   public RobotContainer() {
     driveTrain = new DriveTrainSubsystem();
@@ -80,6 +82,7 @@ public class RobotContainer {
     conveyor = new ConveyorSubsystem();
     //elevator = new ElevatorSubsystem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
+    pixyCam = new PixyCamSubsystem();
 
     PowerDistributionPanel pdp = new PowerDistributionPanel();
     SmartDashboard.putData(pdp);
@@ -429,21 +432,35 @@ public class RobotContainer {
         return centerShootDrivePark;
       case GS:
         GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
-        GalacticSearchABlueCommand galacticSearchABlue= new GalacticSearchABlueCommand(driveTrain, intake, vision);
-        GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
-        GalacticSearchBBlueCommand galacticSearchBBlue = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
+        GalacticSearchABlueCommand galacticSearchABlue = new GalacticSearchABlueCommand(driveTrain, intake, vision);
+        GalacticSearchBRedCommand galacticSearchBRedCommand = new GalacticSearchBRedCommand(driveTrain, intake, vision);
+        GalacticSearchBBlueCommand galacticSearchBBlueCommand = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
+        
+        if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
+          return galacticSearchARed;
+
+        } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
+          return galacticSearchABlue;
+
+        } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+          return galacticSearchBRedCommand;
+
+        } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+          return galacticSearchBBlueCommand;
+
+        } else{
+          return null;
+        }
 
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
-        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
 
-        //TODO: use pixyCam to determine what mode we run and also set the odometry to the correct starting position
-
-        //return galacticSearchARed;
-        //return galacticSearchABlue;
-        //return galacticSearchBRed;
-        return galacticSearchBBlue;
       default:
         return null; 
     }
