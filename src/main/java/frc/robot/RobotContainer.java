@@ -441,15 +441,15 @@ public class RobotContainer {
           return galacticSearchARed;
 
         } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
-          driveTrain.setOdometry(48, 30);
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
           return galacticSearchABlue;
 
         } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
-          driveTrain.setOdometry(48, 120);
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
           return galacticSearchBRedCommand;
 
         } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
-          driveTrain.setOdometry(48, 60);
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
           return galacticSearchBBlueCommand;
 
         } else{
