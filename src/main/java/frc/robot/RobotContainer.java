@@ -456,7 +456,11 @@ public class RobotContainer {
           return null;
         }
 
-        
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
+
       default:
         return null; 
     }
