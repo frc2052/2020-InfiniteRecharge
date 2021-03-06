@@ -141,6 +141,15 @@ public class PixyCamSubsystem extends SubsystemBase {
                 
             }
             
+        }else if(ballArray.size() == 2 ) {
+          PixyBlock firstBall = ballArray.get(0);
+          PixyBlock secondBall = ballArray.get(1);
+          if( firstBall.centerX <= 145 && firstBall.centerX >= 120 && secondBall.centerX >= 60 && secondBall.centerX <= 80){
+            System.out.println("Path A Blue");
+            return galacticSearchEnum.ABLUE;
+          }
+          return galacticSearchEnum.NOPATH;
+
         } else{
             System.out.println("---------------ball array is not 3! balls in array: " + ballArray.size());
             return galacticSearchEnum.NOPATH;

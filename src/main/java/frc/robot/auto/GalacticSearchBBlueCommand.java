@@ -29,7 +29,7 @@ public class GalacticSearchBBlueCommand extends SequentialCommandGroup {
     //this.addCommands(new ShiftGearCommand(driveTrain, true));
     this.addCommands(driveIntake);
     //this.addCommands(new ShiftGearCommand(driveTrain, false));
-    Command path2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchBRed2);
+    Command path2 = trajectoryFactory.getRamseteCommand(driveTrain, DrivePathEnum.GalacticSearchBBlue2);
     //ArmDownCommand intakeStart = new ArmDownCommand(intake);
     this.addCommands(path2);
     this.addCommands(new ArmUpCommand(intake));

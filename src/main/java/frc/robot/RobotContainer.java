@@ -434,33 +434,33 @@ public class RobotContainer {
         GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
         GalacticSearchBBlueCommand galacticSearchBBlue = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
 
-        driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
-        return galacticSearchBRed;
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+        //return galacticSearchBBlue;
         
-        // if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
-        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90));
-        //   return galacticSearchARed;
+        
+        if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+          return galacticSearchARed;
+        } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
+          return galacticSearchABlue;
 
-        // } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
-        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
-        //   return galacticSearchABlue;
+        } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+          return galacticSearchBRed;
 
-        // } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
-        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
-        //   return galacticSearchBRed;
+        } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+          return galacticSearchBBlue;
 
-        // } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
-        //   driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
-        //   return galacticSearchBBlue;
+        } else{
+          return null;
+        }
 
-        // } else{
-        //   return null;
-        // }
-
-        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
-        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
-        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
-        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
 
       default:
         return null; 

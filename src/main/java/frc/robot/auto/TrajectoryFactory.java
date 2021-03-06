@@ -74,11 +74,11 @@ public class TrajectoryFactory {
         Translation2d trenchBall1 = new Translation2d(Units.inchesToMeters(200), Units.inchesToMeters(68));
         Translation2d trenchBall2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(68));
 
-        Pose2d GalacticSearchARedStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(120), new Rotation2d(0));
+        Pose2d GalacticSearchARedStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(90), new Rotation2d(0));
         Translation2d GalacticSearchARed_c3 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(90)); //c3
         //Translation2d GalacticSearchARedtest = new Translation2d(Units.inchesToMeters(105), Units.inchesToMeters(60));
         Translation2d GalacticSearchARed_d5 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
-        Pose2d GalacticSearchARed_a6 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(140), new Rotation2d(0)); //a6
+        Pose2d GalacticSearchARed_a6 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(160), new Rotation2d(0)); //a6, y was 140
         Pose2d GalacticSearchARedEndPos = new Pose2d(Units.inchesToMeters(300), Units.inchesToMeters(150), new Rotation2d(0));
 
         Pose2d GalacticSearchABlueStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(30), new Rotation2d(0));
@@ -89,7 +89,7 @@ public class TrajectoryFactory {
 
         Pose2d GalacticSearchBRedStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(120), new Rotation2d(0));
         Translation2d GalacticSearchBRed1 = new Translation2d(Units.inchesToMeters(90), Units.inchesToMeters(120)); //b3
-        Translation2d GalacticSearchBRed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(60)); //d5
+        Translation2d GalacticSearchBRed2 = new Translation2d(Units.inchesToMeters(150), Units.inchesToMeters(70)); //d5, was 150 60
         Pose2d GalacticSearchBRed3 = new Pose2d(Units.inchesToMeters(210), Units.inchesToMeters(112), new Rotation2d(0)); //b7
         Pose2d GalacticSearchBRedEndPos = new Pose2d(Units.inchesToMeters(310), Units.inchesToMeters(112), new Rotation2d(0));
 
