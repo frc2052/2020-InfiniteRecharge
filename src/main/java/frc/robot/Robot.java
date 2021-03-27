@@ -7,8 +7,8 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -37,8 +37,6 @@ public class Robot extends TimedRobot {
   VisionSubsystem vision = null;
   DriveTrainSubsystem driveTrain = null;
   PixyCamSubsystem pixyCam = null;
-
-
 
   /**
    * This function is run when the robot is first started up and should be used for any

@@ -461,7 +461,14 @@ public class RobotContainer {
         // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
         // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
         // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
-
+      case ANB:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(90));
+        AutoNavBarrelCommand autoNavBarrel = new AutoNavBarrelCommand(driveTrain);
+        return autoNavBarrel;
+      case ANS:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(30));
+        AutoNavSlalomCommand autoNavSlalom = new AutoNavSlalomCommand(driveTrain);
+        return autoNavSlalom;
       default:
         return null; 
     }

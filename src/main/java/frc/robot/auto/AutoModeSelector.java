@@ -69,7 +69,9 @@ public class AutoModeSelector {
         RST32("right start trench 3(bad balls)"),
         //LSG5("left start shoot generator 5"),
         RST3("right start shoot trench 3"),
-        GS("galactic search");
+        GS("galactic search"),
+        ANB("auto nav barrel"),
+        ANS("auto nav slalom");
 
         public String name;
 
