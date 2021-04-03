@@ -84,8 +84,8 @@ public class RobotContainer {
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
     pixyCam = new PixyCamSubsystem();
 
-    PowerDistributionPanel pdp = new PowerDistributionPanel();
-    SmartDashboard.putData(pdp);
+//    PowerDistributionPanel pdp = new PowerDistributionPanel();
+//    SmartDashboard.putData(pdp);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
@@ -429,6 +429,7 @@ public class RobotContainer {
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
         return centerShootDrivePark;
       case GS:
+        System.out.println("choosing path");
         GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
         GalacticSearchABlueCommand galacticSearchABlue = new GalacticSearchABlueCommand(driveTrain, intake, vision);
         GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
@@ -436,20 +437,29 @@ public class RobotContainer {
 
         //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
         //return galacticSearchBBlue;
+        galacticSearchEnum gsPath = galacticSearchEnum.NOPATH;
+        for(int i = 0; i<10; i++){
+
+          gsPath = pixyCam.getGSPath();
+          if(gsPath != galacticSearchEnum.NOPATH){
+            break;
+          }
+
+        }
         
-        
-        if(pixyCam.getGSPath() == galacticSearchEnum.ARED){
+        if(gsPath == galacticSearchEnum.ARED){
           driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
           return galacticSearchARed;
-        } else if (pixyCam.getGSPath() == galacticSearchEnum.ABLUE){
+        } else if (gsPath == galacticSearchEnum.ABLUE){
           driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
           return galacticSearchABlue;
 
-        } else if(pixyCam.getGSPath() == galacticSearchEnum.BRED){
+        } else if(gsPath == galacticSearchEnum.BRED){
           driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
           return galacticSearchBRed;
 
-        } else if(pixyCam.getGSPath() == galacticSearchEnum.BBLUE){
+        } else if(gsPath == galacticSearchEnum.BBLUE){
+          
           driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
           return galacticSearchBBlue;
 

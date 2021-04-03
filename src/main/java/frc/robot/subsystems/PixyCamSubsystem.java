@@ -136,7 +136,7 @@ public class PixyCamSubsystem extends SubsystemBase {
             }
             //A Blue
             else{
-                System.out.println("Path A Blue");
+                System.out.println("Path A Blue, or nothing");
                 return galacticSearchEnum.ABLUE;
                 
             }
