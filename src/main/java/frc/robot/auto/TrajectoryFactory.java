@@ -102,7 +102,7 @@ public class TrajectoryFactory {
         Pose2d GalacticSearchBBlueStartPos = new Pose2d(Units.inchesToMeters(48), Units.inchesToMeters(60), new Rotation2d(0));
         Pose2d GalacticSearchBBlue1 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(60), new Rotation2d(0)); //d6
         Translation2d GalacticSearchBBlue2 = new Translation2d(Units.inchesToMeters(240), Units.inchesToMeters(120)); //b8
-        Pose2d GalacticSearchBBlue3 = new Pose2d(Units.inchesToMeters(320), Units.inchesToMeters(60), new Rotation2d(0)); //d10
+        Pose2d GalacticSearchBBlue3 = new Pose2d(Units.inchesToMeters(320), Units.inchesToMeters(65), new Rotation2d(0)); //d10
         //Pose2d GalacticSearchBBlueEndPos = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(60), new Rotation2d(0));
 
         Pose2d AutoNavBarrel1 = new Pose2d(Units.inchesToMeters(43), Units.inchesToMeters(90), new Rotation2d(0));

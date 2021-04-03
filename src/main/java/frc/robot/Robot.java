@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -103,6 +105,14 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.changeLimeLight(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false));
+    System.out.println("path " + pixyCam.getGSPath());
+    /*ArrayList<PixyBlock> ballArray = pixyCam.read();
+
+    if(ballArray == null){
+      System.out.println("BALL ARRAY IS NULL");
+    } else{
+      System.out.println("ball count: " + ballArray.size());
+    }*/
   }
 
   /**
