@@ -122,6 +122,15 @@ public class TrajectoryFactory {
         Pose2d AutoNavSlalom5 = new Pose2d(Units.inchesToMeters(310), Units.inchesToMeters(25), new Rotation2d(Units.degreesToRadians(0)));
         Pose2d AutoNavSlalom6 = new Pose2d(Units.inchesToMeters(310), Units.inchesToMeters(35), new Rotation2d(Units.degreesToRadians(180)));
         
+        Pose2d AutoNavBounce1 = new Pose2d(Units.inchesToMeters(43), Units.inchesToMeters(90), new Rotation2d(0));
+        Pose2d AutoNavBounce2 = new Pose2d(Units.inchesToMeters(90), Units.inchesToMeters(150), new Rotation2d(Units.degreesToRadians(90)));
+        Pose2d AutoNavBounce3 = new Pose2d(Units.inchesToMeters(150), Units.inchesToMeters(30), new Rotation2d(0));
+        Pose2d AutoNavBounce4 = new Pose2d(Units.inchesToMeters(180), Units.inchesToMeters(150), new Rotation2d(Units.degreesToRadians(90)));
+        Pose2d AutoNavBounce5 = new Pose2d(Units.inchesToMeters(190), Units.inchesToMeters(60), new Rotation2d(Units.degreesToRadians(-90)));
+        Pose2d AutoNavBounce6 = new Pose2d(Units.inchesToMeters(225), Units.inchesToMeters(30), new Rotation2d(0));
+        Pose2d AutoNavBounce7 = new Pose2d(Units.inchesToMeters(270), Units.inchesToMeters(150), new Rotation2d(Units.degreesToRadians(-90)));
+        Pose2d AutoNavBounce8 = new Pose2d(Units.inchesToMeters(330), Units.inchesToMeters(90), new Rotation2d(0));
+
 
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
                 new SimpleMotorFeedforward(
@@ -353,6 +362,17 @@ public class TrajectoryFactory {
                         AutoNavSlalom4,
                         AutoNavSlalom5,
                         AutoNavSlalom6), forwardsConfig);
+            case AutoNavBounce:
+                return TrajectoryGenerator.generateTrajectory(
+                    List.of(
+                        AutoNavBounce1,
+                        AutoNavBounce2,
+                        AutoNavBounce3,
+                        AutoNavBounce4,
+                        AutoNavBounce5,
+                        AutoNavBounce6,
+                        AutoNavBounce7,
+                        AutoNavBounce8), forwardsConfig);
           default:
                 return TrajectoryGenerator.generateTrajectory(
                     new Pose2d(3.048, 0, new Rotation2d(0)),
@@ -393,7 +413,7 @@ public class TrajectoryFactory {
       GalacticSearchBBlue2,
       AutoNavBarrel, 
       AutoNavSlalom, 
-      AutoNavBounce, 
+      AutoNavBounce;
     }
 
 }

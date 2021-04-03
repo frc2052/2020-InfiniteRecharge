@@ -20,7 +20,7 @@ public class AutoModeSelector {
         sendableChooserAutos = new SendableChooser<autos>();
         
         for(int i = 0; i < autos.values().length; i++) {
-            autos mode = autos.values()[i];
+            final autos mode = autos.values()[i];
             if (i == 0) {
                 sendableChooserAutos.setDefaultOption(mode.name, mode);
             } else {
@@ -35,11 +35,11 @@ public class AutoModeSelector {
     }
 
     public static double getPosOnLineInches() {
-        double leftInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
-        double rightInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
+        final double leftInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToLeftWallInches, 0);
+        final double rightInches = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kDistanceToRightWallInches, 0);
 
-        double leftWallPosInches = -228; //TODO: find the real values for these, this isn't correct
-        double rightWallPosInches = 96;
+        final double leftWallPosInches = -228; //TODO: find the real values for these, this isn't correct
+        final double rightWallPosInches = 96;
 
         double posOnLine;
 
@@ -55,7 +55,7 @@ public class AutoModeSelector {
     }
 
     public static autos getSelectedAuto() {
-        autos selectedAuto = sendableChooserAutos.getSelected();
+        final autos selectedAuto = sendableChooserAutos.getSelected();
         return selectedAuto;
     }
 
@@ -71,11 +71,12 @@ public class AutoModeSelector {
         RST3("right start shoot trench 3"),
         GS("galactic search"),
         ANB("auto nav barrel"),
-        ANS("auto nav slalom");
+        ANS("auto nav slalom"),
+        ANBO("auto nav bounce");
 
         public String name;
 
-        autos(String name) {
+        autos(final String name) {
             this.name = name;
         }
     }
@@ -87,7 +88,7 @@ public class AutoModeSelector {
 
         public String name;
         
-        posOnLine(String name) {
+        posOnLine(final String name) {
             this.name = name;
         }
     }
@@ -98,7 +99,7 @@ public class AutoModeSelector {
 
         public String name;
 
-        directionMeasured(String name) {
+        directionMeasured(final String name) {
             this.name = name;
         }
     }

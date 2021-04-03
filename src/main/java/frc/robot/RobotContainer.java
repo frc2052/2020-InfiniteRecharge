@@ -469,6 +469,10 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(30));
         AutoNavSlalomCommand autoNavSlalom = new AutoNavSlalomCommand(driveTrain);
         return autoNavSlalom;
+      case ANBO:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(90));
+        AutoNavBounceCommand autoNavBounce = new AutoNavBounceCommand(driveTrain);
+        return autoNavBounce;
       default:
         return null; 
     }
