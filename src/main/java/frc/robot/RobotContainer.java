@@ -103,7 +103,7 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    // setMegaShooterDefaultCommand();
+    //setMegaShooterDefaultCommand(f);
 
   }
 
@@ -115,14 +115,14 @@ public class RobotContainer {
     shooter.resetEncoder();
   }
 
-  // public void setMegaShooterDefaultCommand(boolean isTeleop) {
-  //   //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
-  //   if(isTeleop) {
-  //     shooter.setDefaultCommand(megaShooterCommand);
-  //   } else {
-  //     shooter.setDefaultCommand(null);
-  //   }
-  // }
+  public void setMegaShooterDefaultCommand(boolean isTeleop) {
+    //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
+    if(isTeleop) {
+      shooter.setDefaultCommand(megaShooterCommand);
+    } else {
+      shooter.setDefaultCommand(null);
+    }
+  }
 
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
