@@ -24,21 +24,21 @@ public class VisionCalculator {
     public void setupHoodCalcs()
     {
         //hoodTicks.add(new HoodDistance(0, 485, 1));
-        hoodTicks.add(new HoodDistance(12*3, 593, 1)); ///485
-        hoodTicks.add(new HoodDistance(12*4, 666, 1)); //593
-        hoodTicks.add(new HoodDistance(12*5, 768, 1)); //666
-        hoodTicks.add(new HoodDistance(12*6, 830, 1)); //768
-        hoodTicks.add(new HoodDistance(12*7, 980, 1)); //830
-        hoodTicks.add(new HoodDistance(12*8, 1000, 1));
+        hoodTicks.add(new HoodDistance(12*3, 480, 1)); ///485
+        hoodTicks.add(new HoodDistance(12*4, 515, 1)); //593
+        hoodTicks.add(new HoodDistance(12*5, 640, 1)); //666
+        hoodTicks.add(new HoodDistance(12*6, 805, 1)); //768
+        hoodTicks.add(new HoodDistance(12*7, 930, 1)); //830
+        hoodTicks.add(new HoodDistance(12*8, 970, 1));
         hoodTicks.add(new HoodDistance(12*9, 1138, 1)); //1118
         hoodTicks.add(new HoodDistance(12*10, 1158, 1)); //1098
-        hoodTicks.add(new HoodDistance(12*11, 1188, 1)); //1108 1158
-        hoodTicks.add(new HoodDistance(12*12, 1200, 1)); //1139 1185
-        hoodTicks.add(new HoodDistance(12*13, 1210, 1)); //1149 1190
+        hoodTicks.add(new HoodDistance(12*11, 1158, 1)); //1108 1158
+        hoodTicks.add(new HoodDistance(12*12, 1170, 1)); //1139 1185
+        hoodTicks.add(new HoodDistance(12*13, 1200, 1)); //1149 1190
         hoodTicks.add(new HoodDistance(12*14, 1205, 1)); //1188 1200 <- start challenge change by 20
         hoodTicks.add(new HoodDistance(12*15, 1210, 1)); //1188
-        hoodTicks.add(new HoodDistance(12*16, 1215, 1)); //1188 <- end
-        hoodTicks.add(new HoodDistance(12*17, 1260, 1)); //1220
+        hoodTicks.add(new HoodDistance(12*16, 1230, 1)); //1188 <- end
+        hoodTicks.add(new HoodDistance(12*17, 1250, 1)); //1220
         hoodTicks.add(new HoodDistance(12*18, 1260, 1)); //1224
         hoodTicks.add(new HoodDistance(12*19, 1265, 1)); //1223
         hoodTicks.add(new HoodDistance(12*20, 1265, 1)); //1219

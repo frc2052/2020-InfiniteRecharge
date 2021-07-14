@@ -105,7 +105,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.changeLimeLight(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false));
-    System.out.println("path " + pixyCam.getGSPath());
+    //System.out.println("path " + pixyCam.getGSPath());
     /*ArrayList<PixyBlock> ballArray = pixyCam.read();
 
     if(ballArray == null){

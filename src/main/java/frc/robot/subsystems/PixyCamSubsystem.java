@@ -104,7 +104,7 @@ public class PixyCamSubsystem extends SubsystemBase {
         ArrayList<PixyBlock> ballArray = read();
 
         if(ballArray == null || ballArray.size() == 0) {
-          System.out.println("no balls in array");
+          //System.out.println("no balls in array");
           return galacticSearchEnum.NOPATH;
         }
 

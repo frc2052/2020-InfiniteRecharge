@@ -429,7 +429,7 @@ public class RobotContainer {
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
         return centerShootDrivePark;
       case GS:
-        System.out.println("choosing path");
+        //System.out.println("choosing path");
         GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
         GalacticSearchABlueCommand galacticSearchABlue = new GalacticSearchABlueCommand(driveTrain, intake, vision);
         GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
