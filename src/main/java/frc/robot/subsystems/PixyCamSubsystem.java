@@ -12,8 +12,13 @@
 package frc.robot.subsystems;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.auto.TrajectoryFactory.DrivePathEnum;
 
 public class PixyCamSubsystem extends SubsystemBase {
   private static final int[] distances = { 0, 113, 81, 62, 49, 41, 35, 30, 28, 25, 22, 21 };
@@ -64,6 +69,99 @@ public class PixyCamSubsystem extends SubsystemBase {
     }
     double distance = index;
     return index;
+  }
+
+  public ArrayList<PixyBlock> sortListBySize(ArrayList<PixyBlock> array){
+
+    if (array != null){
+      Collections.sort(array, new Comparator<PixyBlock>() {
+      @Override
+      public int compare(PixyBlock first, PixyBlock second) {
+        return first.height - second.height;
+      }
+      
+    });
+    Collections.reverse(array);
+    }
+  return array;
+  }
+
+  public ArrayList<PixyBlock> sortListByX(ArrayList<PixyBlock> array){
+
+    if (array != null){
+      Collections.sort(array, new Comparator<PixyBlock>() {
+      @Override
+      public int compare(PixyBlock first, PixyBlock second) {
+        return first.centerX - second.centerX;
+      }
+      
+    });
+    Collections.reverse(array);
+    }
+  return array;
+  }
+  public galacticSearchEnum getGSPath(){
+        ArrayList<PixyBlock> ballArray = read();
+
+        if(ballArray == null || ballArray.size() == 0) {
+          //System.out.println("no balls in array");
+          return galacticSearchEnum.NOPATH;
+        }
+
+        ballArray = sortListByX(ballArray);
+
+        if(ballArray.size() == 3){
+            PixyBlock firstBall = ballArray.get(0);
+            PixyBlock secondBall = ballArray.get(1);
+            PixyBlock thirdBall = ballArray.get(2);
+            System.out.println("----------------first ball x " + firstBall.centerX);
+            System.out.println("----------------second ball x " + secondBall.centerX);
+            System.out.println("----------------third ball x " + thirdBall.centerX);
+
+            //A Red 
+            if((firstBall.centerX >=190 && firstBall.centerX <= 225)&& (secondBall.centerX >=100 && secondBall.centerX<=140) && thirdBall.centerX <=40){
+                System.out.println("Path A Red");
+                return galacticSearchEnum.ARED;                
+            } 
+            //B Red
+            else if(firstBall.centerX >=250 && (thirdBall.centerX>=80) && secondBall.centerX >=100){
+              System.out.println("Path B Red");
+              return galacticSearchEnum.BRED;
+
+            } 
+            //B Blue
+            else if(firstBall.centerX >=120&& secondBall.centerX>120 && thirdBall.centerX <70 && thirdBall.centerX >=40){
+              System.out.println("Path B Blue");
+              return galacticSearchEnum.BBLUE;
+            }
+            //A Blue
+            else{
+                System.out.println("Path A Blue, or nothing");
+                return galacticSearchEnum.ABLUE;
+                
+            }
+            
+        }else if(ballArray.size() == 2 ) {
+          PixyBlock firstBall = ballArray.get(0);
+          PixyBlock secondBall = ballArray.get(1);
+          if( firstBall.centerX <= 145 && firstBall.centerX >= 120 && secondBall.centerX >= 60 && secondBall.centerX <= 80){
+            System.out.println("Path A Blue");
+            return galacticSearchEnum.ABLUE;
+          }
+          return galacticSearchEnum.NOPATH;
+
+        } else{
+            System.out.println("---------------ball array is not 3! balls in array: " + ballArray.size());
+            return galacticSearchEnum.NOPATH;
+        }
+
+  }
+  public enum galacticSearchEnum{
+    ARED,
+    ABLUE,
+    BRED,
+    BBLUE,
+    NOPATH
   }
 
   public ArrayList<PixyBlock> read() {

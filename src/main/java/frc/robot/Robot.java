@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import java.util.ArrayList;
+
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -16,7 +20,9 @@ import frc.robot.auto.AutoModeSelector;
 import frc.robot.commands.LoggingCommand;
 import frc.robot.lib.CsvLogger;
 import frc.robot.subsystems.DriveTrainSubsystem;
+import frc.robot.subsystems.PixyCamSubsystem;
 import frc.robot.subsystems.VisionSubsystem;
+import frc.robot.subsystems.PixyCamSubsystem.PixyBlock;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -32,8 +38,7 @@ public class Robot extends TimedRobot {
 
   VisionSubsystem vision = null;
   DriveTrainSubsystem driveTrain = null;
-
-
+  PixyCamSubsystem pixyCam = null;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -62,6 +67,8 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 25);
 
     m_robotContainer.turnLEDSOff();
+
+    pixyCam = new PixyCamSubsystem();
   }
 
   public void idleShooterOn() {
@@ -98,6 +105,14 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     CommandScheduler.getInstance().cancelAll();
     m_robotContainer.changeLimeLight(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false));
+    //System.out.println("path " + pixyCam.getGSPath());
+    /*ArrayList<PixyBlock> ballArray = pixyCam.read();
+
+    if(ballArray == null){
+      System.out.println("BALL ARRAY IS NULL");
+    } else{
+      System.out.println("ball count: " + ballArray.size());
+    }*/
   }
 
   /**
@@ -124,7 +139,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.schedule();
     }
     
-    //m_robotContainer.setMegaShooterDefaultCommand(false);
+    m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**
@@ -150,6 +165,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    
     m_robotContainer.setMegaShooterDefaultCommand(true);
 
     if (m_loggingCommand != null){ //still exists from last auto/teleop run
@@ -165,6 +181,37 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
+    /*ArrayList<PixyBlock> ballArray = pixyCam.read();
+    ballArray = pixyCam.sortListByX(ballArray);
+    
+    
+    
+    if(ballArray != null && ballArray.size() >=3){
+      PixyBlock firstBall = ballArray.get(0);
+      PixyBlock secondBall = ballArray.get(1);
+      PixyBlock thirdBall = ballArray.get(2);
+
+      System.out.println("Ball one position x: " + firstBall.centerX + " y: " + firstBall.centerY + " height " + firstBall.height);
+      System.out.println("Ball two position x: " + secondBall.centerX + " y: " + secondBall.centerY + " height " + secondBall.height);
+      System.out.println("Ball three position x: " + thirdBall.centerX + " y: " + thirdBall.centerY + " height " + thirdBall.height);
+
+    } else if (ballArray != null && ballArray.size() == 2){
+      PixyBlock firstBall = ballArray.get(0);
+      PixyBlock secondBall = ballArray.get(1);
+
+      System.out.println("Ball one position x: " + firstBall.centerX + " y: " + firstBall.centerY + " height " + firstBall.height);
+      System.out.println("Ball two position x: " + secondBall.centerX + " y: " + secondBall.centerY + " height" + secondBall.height);
+    } else if (ballArray != null && ballArray.size() ==1){
+      PixyBlock firstBall = ballArray.get(0);
+
+      System.out.println("Ball one position x " + firstBall.centerX + " y: " + firstBall.centerX + " height" + firstBall.height);
+    }  else if (ballArray != null && ballArray.size() ==0){
+      System.out.println("size is zero");
+    }
+    else {
+      System.out.println("Ball array is null");
+    } */
+
   }
 
   @Override

@@ -60,6 +60,8 @@ public class MegaShooterCommand extends CommandBase {
       targetTicks = targetTicks + tickTrim;
       System.out.println("DISTANE CALCULATED====" + inchesAway + "   HOOD TARGET TICKS====" + targetTicks);
       //calculate the hood angle from the hood system
+      SmartDashboard.putNumber("TargetHoodPos", targetTicks);
+      SmartDashboard.putNumber("Distance", inchesAway);
       m_hood.driveToEncoderPos(targetTicks);
       //System.out.println("TARGET TICKS HOOD====" + hoodTargetTicks);
       //System.out.println("HOOD CURRET ANGLE====" + hoodCurrentTicks);
@@ -184,7 +186,7 @@ public class MegaShooterCommand extends CommandBase {
   }
 
   private boolean wasToggleIdleLastPressed = false;
-  private boolean shooterIdleIsOn = true;
+  private boolean shooterIdleIsOn = false;
 
   public void toggleIdleShooter() {
     if (shooterControls == null){

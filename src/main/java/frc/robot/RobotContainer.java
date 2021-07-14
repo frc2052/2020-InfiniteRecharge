@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.PixyCamSubsystem.galacticSearchEnum;
 import frc.robot.Constants.SmartDashboardStrings;
 import frc.robot.auto.*;
 import frc.robot.commands.*;
@@ -55,7 +56,7 @@ public class RobotContainer {
   private TurretSubsystem turret = null;
   private VisionSubsystem vision = null;
   private ConveyorSubsystem conveyor = null;
-  private ElevatorSubsystem elevator = null;
+  //private ElevatorSubsystem elevator = null;
 
   private Joystick turnJoystick;
   private Joystick tankJoystick;
@@ -69,6 +70,7 @@ public class RobotContainer {
   private ManualSpinUpCommand manualSpinUp = null;
   private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
   private SmartIntakeCommand smartIntakeCommand = null;
+  private PixyCamSubsystem pixyCam = null;
 
   public RobotContainer() {
     driveTrain = new DriveTrainSubsystem();
@@ -78,11 +80,12 @@ public class RobotContainer {
     turret = new TurretSubsystem();
     vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
-    elevator = new ElevatorSubsystem();
+    //elevator = new ElevatorSubsystem();
     smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
+    pixyCam = new PixyCamSubsystem();
 
-    PowerDistributionPanel pdp = new PowerDistributionPanel();
-    SmartDashboard.putData(pdp);
+//    PowerDistributionPanel pdp = new PowerDistributionPanel();
+//    SmartDashboard.putData(pdp);
 
     visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
     manualSpinUp = new ManualSpinUpCommand(shooter);
@@ -100,13 +103,13 @@ public class RobotContainer {
     pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
 
     driveDefaultCommand();
-    // setMegaShooterDefaultCommand();
+    //setMegaShooterDefaultCommand(f);
 
   }
 
   public void resetEncoders() {
     driveTrain.resetEncoders();
-    elevator.resetEncoder();
+    //elevator.resetEncoder();
     hood.resetEncoder();
     turret.resetEncoder();
     shooter.resetEncoder();
@@ -129,7 +132,6 @@ public class RobotContainer {
       )
     );
   }
-
 
   public void configureTurnJoystick() {
     turnJoystick = new Joystick(0);
@@ -237,12 +239,12 @@ public class RobotContainer {
     btnJS2.whenPressed(() -> hood.manualMoveHoodUp());
     btnJS2.whenReleased(() -> hood.manualStopHoodMovement());
 
-    btnJS3.whenPressed(() -> elevator.unlockElevator()); 
+    //btnJS3.whenPressed(() -> elevator.unlockElevator()); 
 
-    btnJS4.whenPressed(() -> elevator.setOverride(true));
-    btnJS4.whenReleased(() -> elevator.setOverride(false));
+    //btnJS4.whenPressed(() -> elevator.setOverride(true));
+    //btnJS4.whenReleased(() -> elevator.setOverride(false));
 
-    btnJS5.whenPressed(() -> elevator.lockElevator());  //manual shooter speed up
+    //btnJS5.whenPressed(() -> elevator.lockElevator()); 
 
     //btnJS6.whileHeld(() -> intake.intakeIn()); 
     btnJS6.whileHeld(smartIntakeCommand); 
@@ -260,11 +262,11 @@ public class RobotContainer {
     // btnJS10.whenPressed(() -> turret.turnTurret(0.5));
     // btnJS10.whenReleased(() -> turret.turnTurret(0));
 
-    btnJS11.whileHeld(() -> elevator.manualDown());
-    btnJS11.whenReleased(() -> elevator.manualStop());
+    //btnJS11.whileHeld(() -> elevator.manualDown());
+    //btnJS11.whenReleased(() -> elevator.manualStop());
 
-    btnJS12.whileHeld(() -> elevator.manualUp());
-    btnJS12.whenReleased(() -> elevator.manualStop());
+    //btnJS12.whileHeld(() -> elevator.manualUp());
+    //btnJS12.whenReleased(() -> elevator.manualStop());
 
   }
   
@@ -273,7 +275,6 @@ public class RobotContainer {
     changeLimeLight(false);
 //    vision.setLEDMode(1);
   }
-
 
   public Command drivePathCommand() {
     var autoVoltageConstraint =
@@ -342,7 +343,7 @@ public class RobotContainer {
 
   public void putToSmartDashboard() {
     driveTrain.putToSmartDashboard();
-    elevator.printEncoderPos();
+    //elevator.printEncoderPos();
     hood.putEncoderToShuffleboard();
     vision.putDistanceToSmartDashboard();
     turret.printEncoderPos();
@@ -350,7 +351,7 @@ public class RobotContainer {
   }
 
   public void unlockElevator() {
-    elevator.unlockElevator();
+    //elevator.unlockElevator();
   }
 
   /**
@@ -427,6 +428,61 @@ public class RobotContainer {
         driveTrain.setOdometry(Units.inchesToMeters(138), 0);
         CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
         return centerShootDrivePark;
+      case GS:
+        //System.out.println("choosing path");
+        GalacticSearchARedCommand galacticSearchARed = new GalacticSearchARedCommand(driveTrain, intake, vision);
+        GalacticSearchABlueCommand galacticSearchABlue = new GalacticSearchABlueCommand(driveTrain, intake, vision);
+        GalacticSearchBRedCommand galacticSearchBRed = new GalacticSearchBRedCommand(driveTrain, intake, vision);
+        GalacticSearchBBlueCommand galacticSearchBBlue = new GalacticSearchBBlueCommand(driveTrain, intake, vision);
+
+        //driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+        //return galacticSearchBBlue;
+        galacticSearchEnum gsPath = galacticSearchEnum.NOPATH;
+        for(int i = 0; i<10; i++){
+
+          gsPath = pixyCam.getGSPath();
+          if(gsPath != galacticSearchEnum.NOPATH){
+            break;
+          }
+
+        }
+        
+        if(gsPath == galacticSearchEnum.ARED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+          return galacticSearchARed;
+        } else if (gsPath == galacticSearchEnum.ABLUE){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30));
+          return galacticSearchABlue;
+
+        } else if(gsPath == galacticSearchEnum.BRED){
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120));
+          return galacticSearchBRed;
+
+        } else if(gsPath == galacticSearchEnum.BBLUE){
+          
+          driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60));
+          return galacticSearchBBlue;
+
+        } else{
+          return null;
+        }
+
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(90)); //Red A start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(30)); //Blue A start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(120)); //Red B start pos
+        // driveTrain.setOdometry(Units.inchesToMeters(48), Units.inchesToMeters(60)); //Blue B start pos
+      case ANB:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(90));
+        AutoNavBarrelCommand autoNavBarrel = new AutoNavBarrelCommand(driveTrain);
+        return autoNavBarrel;
+      case ANS:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(30));
+        AutoNavSlalomCommand autoNavSlalom = new AutoNavSlalomCommand(driveTrain);
+        return autoNavSlalom;
+      case ANBO:
+        driveTrain.setOdometry(Units.inchesToMeters(43), Units.inchesToMeters(90));
+        AutoNavBounceCommand autoNavBounce = new AutoNavBounceCommand(driveTrain);
+        return autoNavBounce;
       default:
         return null; 
     }
