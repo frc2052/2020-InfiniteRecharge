@@ -65,6 +65,9 @@ public class TurretSubsystem extends SubsystemBase {
   
   // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
+    // Hack - force shoot to the left
+    angle -= 1.5;
+
     angle = -angle;
     isLinedUp = false;
     //System.out.println(turretMotor.getSelectedSensorPosition());
@@ -80,7 +83,7 @@ public class TurretSubsystem extends SubsystemBase {
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else {
       //System.out.println("TURRENT ANGLE OFFSET: " + angle);
-      isLinedUp = Math.abs(angle) < 2;
+      isLinedUp = Math.abs(angle) < 3;
       if(Math.abs(angle) < 0.5) {
         turretMotor.set(ControlMode.PercentOutput, 0);
       } else {

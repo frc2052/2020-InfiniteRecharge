@@ -24,29 +24,29 @@ public class VisionCalculator {
     public void setupHoodCalcs()
     {
         //hoodTicks.add(new HoodDistance(0, 485, 1));
-        hoodTicks.add(new HoodDistance(12*3, 485, 1));
-        hoodTicks.add(new HoodDistance(12*4, 593, 1));
-        hoodTicks.add(new HoodDistance(12*5, 666, 1));
-        hoodTicks.add(new HoodDistance(12*6, 768, 1));
-        hoodTicks.add(new HoodDistance(12*7, 830, 1));
-        hoodTicks.add(new HoodDistance(12*8, 980, 1));
-        hoodTicks.add(new HoodDistance(12*9, 1098, 1));
-        hoodTicks.add(new HoodDistance(12*10, 1098, 1));
-        hoodTicks.add(new HoodDistance(12*11, 1108, 1));
-        hoodTicks.add(new HoodDistance(12*12, 1139, 1));
-        hoodTicks.add(new HoodDistance(12*13, 1149, 1));
-        hoodTicks.add(new HoodDistance(12*14, 1188, 1));
-        hoodTicks.add(new HoodDistance(12*15, 1188, 1));
-        hoodTicks.add(new HoodDistance(12*16, 1188, 1));
-        hoodTicks.add(new HoodDistance(12*17, 1220, 1));
-        hoodTicks.add(new HoodDistance(12*18, 1224, 1));
-        hoodTicks.add(new HoodDistance(12*19, 1223, 1));
-        hoodTicks.add(new HoodDistance(12*20, 1219, 1));
-        hoodTicks.add(new HoodDistance(12*21, 1226, 1));
-        hoodTicks.add(new HoodDistance(12*22, 1230, 1));
-        hoodTicks.add(new HoodDistance(12*23, 1209, 1));
-        hoodTicks.add(new HoodDistance(12*24, 1204, 1));
-        hoodTicks.add(new HoodDistance(12*25, 1174, 1));
+        hoodTicks.add(new HoodDistance(12*3, 480, 1)); ///485
+        hoodTicks.add(new HoodDistance(12*4, 515, 1)); //593
+        hoodTicks.add(new HoodDistance(12*5, 640, 1)); //666
+        hoodTicks.add(new HoodDistance(12*6, 805, 1)); //768
+        hoodTicks.add(new HoodDistance(12*7, 930, 1)); //830
+        hoodTicks.add(new HoodDistance(12*8, 970, 1));
+        hoodTicks.add(new HoodDistance(12*9, 1138, 1)); //1118
+        hoodTicks.add(new HoodDistance(12*10, 1158, 1)); //1098
+        hoodTicks.add(new HoodDistance(12*11, 1158, 1)); //1108 1158
+        hoodTicks.add(new HoodDistance(12*12, 1170, 1)); //1139 1185
+        hoodTicks.add(new HoodDistance(12*13, 1200, 1)); //1149 1190
+        hoodTicks.add(new HoodDistance(12*14, 1205, 1)); //1188 1200 <- start challenge change by 20
+        hoodTicks.add(new HoodDistance(12*15, 1210, 1)); //1188
+        hoodTicks.add(new HoodDistance(12*16, 1230, 1)); //1188 <- end
+        hoodTicks.add(new HoodDistance(12*17, 1250, 1)); //1220
+        hoodTicks.add(new HoodDistance(12*18, 1260, 1)); //1224
+        hoodTicks.add(new HoodDistance(12*19, 1265, 1)); //1223
+        hoodTicks.add(new HoodDistance(12*20, 1265, 1)); //1219
+        hoodTicks.add(new HoodDistance(12*21, 1270, 1)); //1226
+        hoodTicks.add(new HoodDistance(12*22, 1265, 1)); //1230
+        hoodTicks.add(new HoodDistance(12*23, 1248, 1)); //1209
+        hoodTicks.add(new HoodDistance(12*24, 1238, 1)); //1204
+        hoodTicks.add(new HoodDistance(12*25, 1224, 1)); //1174
         hoodTicks.add(new HoodDistance(12*26, 1160, 1));
         hoodTicks.add(new HoodDistance(12*27, 1173, 1));
         hoodTicks.add(new HoodDistance(12*28, 1177, 1));
@@ -187,7 +187,7 @@ public class VisionCalculator {
         // }
 
         //return (int)(before.getHoodTicks() + ((after.getHoodTicks() - before.getHoodTicks()) * pct));
-        return (int) (before.getHoodTicks() + offsetTicks);
+        return (int) (before.getHoodTicks() + offsetTicks + 15);
     }
 
 }
