@@ -9,6 +9,8 @@ package frc.robot.vision;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Add your docs here.
  */
@@ -146,6 +148,8 @@ public class VisionCalculator {
         // }
 
 //        return after.getDistance() + before.getDistance() * pct;
+        SmartDashboard.putNumber("ROBOT DISTANCE", resultingInches);
+
         return resultingInches;
     }
 

@@ -40,7 +40,9 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setSelectedSensorPosition(0);
   }
 
-
+  /**
+   * TODO: This code overrides the limit and could break the robot when manual overrides are being used
+   */
   public void turnTurret(double power){
     //motorPower = power;
     turretMotor.set(ControlMode.PercentOutput, power);
@@ -66,7 +68,7 @@ public class TurretSubsystem extends SubsystemBase {
   // takes angle and drives until it gets to angle
   public void driveToPos(double angle) {
     // Hack - force shoot to the left
-    angle -= 1.5;
+    // angle -= 1.5;
 
     angle = -angle;
     isLinedUp = false;

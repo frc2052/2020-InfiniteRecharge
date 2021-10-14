@@ -84,7 +84,8 @@ public final class Constants {
        public static final int kElevatorInchesPerRotation = (int) (1.5 * Math.PI);
        public static final int kElevatorHeight = 63;
        public static final int kElevatorMinHeight = 0;
-       public static final int kElevatorMaxHeight = 23000;
+       // TODO: This value may be past what the robot can physicly achieve
+       public static final int kElevatorMaxHeight = 20500;
     }
 
     public static final class WheelOfFortune{

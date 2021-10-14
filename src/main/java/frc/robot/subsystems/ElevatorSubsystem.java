@@ -27,8 +27,7 @@ public class ElevatorSubsystem extends SubsystemBase {
       lockoutSolenoid = new Solenoid(Constants.Solenoids.kElevatorUnLockSolenoidID);
   }
 
-    public void setOverride(boolean isPressed)
-    {
+    public void setOverride(boolean isPressed) {
         isOverride = isPressed;
     }
 
