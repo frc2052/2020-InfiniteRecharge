@@ -113,7 +113,7 @@ public class TurretSubsystem extends SubsystemBase {
     return isLinedUp;
   }
 
-  public int getEncoderPos() {
+  public double getEncoderPos() {
     return turretMotor.getSelectedSensorPosition();
   }
 

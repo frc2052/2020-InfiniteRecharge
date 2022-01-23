@@ -43,7 +43,7 @@ public class rotateWoFtoColCommand extends CommandBase {
     private String m_gameData = null;
     private String getGameData() {
         if (m_gameData == null || m_gameData.length() == 0) {
-            m_gameData = DriverStation.getInstance().getGameSpecificMessage();
+            m_gameData = DriverStation.getGameSpecificMessage();
         }
         return m_gameData;
     }

@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -23,8 +25,8 @@ public class ElevatorSubsystem extends SubsystemBase {
       climberMotor.setInverted(false);
       climberMotor.setSelectedSensorPosition(0, 0, 10);
 
-      lockinSolenoid = new Solenoid(Constants.Solenoids.kElevatorLockSolenoidID);
-      lockoutSolenoid = new Solenoid(Constants.Solenoids.kElevatorUnLockSolenoidID);
+      lockinSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoids.kElevatorLockSolenoidID);
+      lockoutSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoids.kElevatorUnLockSolenoidID);
   }
 
     public void setOverride(boolean isPressed)
@@ -91,7 +93,7 @@ public class ElevatorSubsystem extends SubsystemBase {
     }
 
     public double getHeightInches() {
-        int encoderPos = climberMotor.getSelectedSensorPosition(0);
+        double encoderPos = climberMotor.getSelectedSensorPosition(0);
         double revolutions = encoderPos / (double) Constants.Elevator.kElevatorTicksPerRot;
         double inches = revolutions * Constants.Elevator.kElevatorInchesPerRotation;
         return inches;
