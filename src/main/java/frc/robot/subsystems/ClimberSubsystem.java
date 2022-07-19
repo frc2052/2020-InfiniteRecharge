@@ -67,7 +67,7 @@ public class ClimberSubsystem extends SubsystemBase {
    climberMotor.set(ControlMode.PercentOutput,0);
   }
   public double getHeightInches() {
-    int encoderPos = climberMotor.getSelectedSensorPosition(0);
+    double encoderPos = climberMotor.getSelectedSensorPosition(0);
     double revolutions = encoderPos / (double)Constants.Elevator.kElevatorTicksPerRot;
     double inches = revolutions * Constants.Elevator.kElevatorInchesPerRotation;
     return inches;

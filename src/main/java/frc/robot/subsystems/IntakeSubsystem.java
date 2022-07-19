@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -17,8 +18,8 @@ public class IntakeSubsystem extends SubsystemBase {
   private double intakePct;
 
     public IntakeSubsystem() {
-        upSolenoid = new Solenoid(Constants.Solenoids.kUpIntakeSolenoidID);
-        downSolenoid = new Solenoid(Constants.Solenoids.kDownIntakeSolenoidID);
+        upSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kUpIntakeSolenoidID);
+        downSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kDownIntakeSolenoidID);
         outerIntakeMotor = new VictorSPX(Constants.Motors.kOuterIntakeMotorID);
         outerIntakeMotor.configFactoryDefault();
 
