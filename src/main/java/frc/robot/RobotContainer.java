@@ -57,7 +57,7 @@ public class RobotContainer {
   private ConveyorSubsystem conveyor = null;
   private ElevatorSubsystem elevator = null;
 
-  private Joystick primaryJoystick = null;
+  private Joystick primaryJoystick = new Joystick(0);
 
   // private Joystick turnJoystick;
   // private Joystick tankJoystick;
@@ -121,7 +121,7 @@ public class RobotContainer {
   public void driveDefaultCommand() {
     driveTrain.setDefaultCommand(
       new RunCommand(
-        () -> driveTrain.curvatureDrive(primaryJoystick.getY(), -primaryJoystick.getX(), primaryJoystick.getRawButton(3)), 
+        () -> driveTrain.curvatureDrive(-primaryJoystick.getX(), primaryJoystick.getY(), !primaryJoystick.getRawButton(3)), 
         driveTrain
       )
     );
@@ -129,7 +129,6 @@ public class RobotContainer {
 
 
   public void configurePrimaryJoystick() {
-    primaryJoystick = new Joystick(0);
 
     JoystickButton btnJS1  = new JoystickButton(primaryJoystick, 1);
     JoystickButton btnJS2  = new JoystickButton(primaryJoystick, 2);
