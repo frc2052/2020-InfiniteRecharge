@@ -24,7 +24,6 @@ import frc.robot.subsystems.VisionSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
-//testing a commit with a new comment - delete this please
   private RobotContainer m_robotContainer;
 
   VisionSubsystem vision = null;
