@@ -10,13 +10,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.SmartDashboardStrings;
-import frc.robot.auto.AutoModeSelector;
-import frc.robot.commands.LoggingCommand;
-import frc.robot.lib.CsvLogger;
-import frc.robot.subsystems.DriveTrainSubsystem;
-import frc.robot.subsystems.VisionSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -26,15 +19,8 @@ import frc.robot.subsystems.VisionSubsystem;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private Command m_loggingCommand;
 
   private RobotContainer m_robotContainer;
-
-  VisionSubsystem vision = null;
-  DriveTrainSubsystem driveTrain = null;
-
-
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -44,24 +30,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    AutoModeSelector.putToShuffleBoard();
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kShooterOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kHoodOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kTurretOverrideString, false);
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kAutoBumpString, false);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTimeToShoot, 0);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kTurretTrim, 0);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kShooterVelocityOverride, 0);
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false);
-    // SmartDashboard.putNumber("PID - P Value", 1.3);
-    // SmartDashboard.putNumber("PID - I Value", 0);
-    // SmartDashboard.putNumber("PID - D Value", 0.5);
-
-    SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, true);
-    SmartDashboard.putNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 25);
-
-    m_robotContainer.turnLEDSOff();
   }
 
   public void idleShooterOn() {
@@ -77,7 +45,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    m_robotContainer.putToSmartDashboard();
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -91,13 +58,11 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
-    CsvLogger.close();
   }
 
   @Override
   public void disabledPeriodic() {
     CommandScheduler.getInstance().cancelAll();
-    m_robotContainer.changeLimeLight(SmartDashboard.getBoolean(Constants.SmartDashboardStrings.kDisabledLimeLightOn, false));
   }
 
   /**
@@ -105,26 +70,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    CsvLogger.init();
-    CsvLogger.setLogEveryXRequests(getLoggingRequestPerXRequests());
-
-    //Units.inchesToMeters(AutoModeSelector.getPosOnLineInches())
     m_robotContainer.resetEncoders();
-    //Units.inchesToMeters(138), Units.inchesToMeters(-68)
-
-    if (m_loggingCommand != null){ //still exists from last auto/teleop run
-      m_loggingCommand.cancel();
-    }
-    m_loggingCommand = new LoggingCommand();
-    m_loggingCommand.schedule();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-    // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
-    
-    //m_robotContainer.setMegaShooterDefaultCommand(false);
   }
 
   /**
@@ -135,14 +86,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopInit() {    
-    if (!CsvLogger.isLogOpen()) //if already open, we switched from auto to teleop
-    {
-      CsvLogger.init();
-    }
-    CsvLogger.setLogEveryXRequests(getLoggingRequestPerXRequests());
-
-
+  public void teleopInit() {
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -150,14 +94,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.setMegaShooterDefaultCommand(true);
-
-    if (m_loggingCommand != null){ //still exists from last auto/teleop run
-      m_loggingCommand.cancel();
-    }
-    m_loggingCommand = new LoggingCommand();
-    m_loggingCommand.schedule();
-    m_robotContainer.unlockElevator();
   }
 
   /**
@@ -179,15 +115,5 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void testPeriodic() {
-  }
-
-  private int getLoggingRequestPerXRequests() {
-    int x = (int)SmartDashboard.getNumber(Constants.SmartDashboardStrings.kLogEveryXRequests, 50);
-    if (x < 1){
-      SmartDashboard.putBoolean(Constants.SmartDashboardStrings.kEnableLogging, false);
-      return 50;
-    } else {
-      return x;
-    }
   }
 }

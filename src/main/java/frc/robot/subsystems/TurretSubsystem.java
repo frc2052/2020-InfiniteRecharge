@@ -12,15 +12,11 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.lib.CsvLogger;
 
 public class TurretSubsystem extends SubsystemBase {
   private TalonSRX turretMotor;
-  private int currentPos = 0;
-  private double motorPower = 0;
   
   private boolean isLinedUp;
  
@@ -30,9 +26,6 @@ public class TurretSubsystem extends SubsystemBase {
     turretMotor.setNeutralMode(NeutralMode.Brake);
     turretMotor.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 10);
     turretMotor.setSelectedSensorPosition(0, 0, 10);
-
-    CsvLogger.addLoggingFieldDouble("TurretTicks", "ticks", "getEncoderPos", this);
-    CsvLogger.addLoggingFieldBoolean("TurretOnTarget", "", "getIsOnTarget", this);
   }
 
 
@@ -42,20 +35,11 @@ public class TurretSubsystem extends SubsystemBase {
 
 
   public void turnTurret(double power){
-    //motorPower = power;
     turretMotor.set(ControlMode.PercentOutput, power);
   }
 
   @Override
   public void periodic() {
-    // currentPos = turretMotor.getSelectedSensorPosition();
-    // if (currentPos > Constants.Turret.kTurretMaxRight && motorPower > 0){
-    //   motorPower = 0;
-    // } else if (currentPos < Constants.Turret.kTurretMinLeft && motorPower < 0){
-    //   motorPower = 0;
-    // }
-    // turretMotor.set(ControlMode.PercentOutput, motorPower);
-
     if(turretMotor.getSelectedSensorVelocity() < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
       turretMotor.set(ControlMode.PercentOutput, 0);
     } else if(turretMotor.getSelectedSensorVelocity() > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
@@ -67,9 +51,7 @@ public class TurretSubsystem extends SubsystemBase {
   public void driveToPos(double angle) {
     angle = -angle;
     isLinedUp = false;
-    //System.out.println(turretMotor.getSelectedSensorPosition());
-    printEncoderPos();
-    //System.out.println("****************** TARGET ANGLE: " + angle);
+    
     if(angle < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
       //too far to the negative can't keep going
       System.out.println("TURRET TOO FAR NEGATIVE");
@@ -120,10 +102,6 @@ public class TurretSubsystem extends SubsystemBase {
   public double getTurretDegree() {
     double ticks = turretMotor.getSelectedSensorPosition(0);
     return ticks / Constants.Turret.kTicksPerDegree;
-  }
-
-  public void printEncoderPos() {
-    SmartDashboard.putNumber("TURRET ENCODER", turretMotor.getSelectedSensorPosition());
   }
 }
 

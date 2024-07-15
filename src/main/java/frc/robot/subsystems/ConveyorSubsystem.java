@@ -33,36 +33,25 @@ public class ConveyorSubsystem extends SubsystemBase {
     conveyorBottomLeftMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemLeftID);
     conveyorBottomRightMotor = new VictorSPX(Constants.Motors.kConveyorMotorBottemRightID);
     lifterMotor = new VictorSPX(Constants.Motors.kLifterMotorID);
-    lifterMotor.configFactoryDefault();
+    
     conveyorBottomLeftMotor.configFactoryDefault();
     conveyorBottomRightMotor.configFactoryDefault();
+    lifterMotor.configFactoryDefault();
   
-    lifterMotor.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
     conveyorBottomLeftMotor.setInverted(Constants.ConveyorSubsystem.kConveyorDirection);
     conveyorBottomRightMotor.setInverted(!Constants.ConveyorSubsystem.kConveyorDirection);
+    lifterMotor.setInverted(!Constants.ConveyorSubsystem.klifterdirection);
 
-    lifterMotor.setNeutralMode(NeutralMode.Brake);
     conveyorBottomLeftMotor.setNeutralMode(NeutralMode.Brake);
     conveyorBottomRightMotor.setNeutralMode(NeutralMode.Brake);
-     
-    timer.start();
-  }
-
-  public void setWantActiveBalanceLeft(boolean isPressed) {
-    wantActiveBalanceLeft = isPressed;
-  }
-
-  public void setWantActiveBalanceRight(boolean isPressed) {
-    wantActiveBalanceRight = isPressed;
+    lifterMotor.setNeutralMode(NeutralMode.Brake);
   }
 
   public void setWantDown(boolean isPressed) {
     wantConveyorDown = isPressed;
-    //System.out.println("--------------------SET WANT DOWN" + isPressed);
   }
 
   public void setWantUp(boolean isPressed) {
-    //System.out.println("--------------------SET WANT UP" + isPressed);
     wantConveyorUp = isPressed;
   }
 
@@ -71,13 +60,8 @@ public class ConveyorSubsystem extends SubsystemBase {
   }
 
   public void setWantPreload(boolean isPressed) {
-    //System.out.println("----------------------------PRELOAD" + isPressed);
     wantPreload = isPressed;
   }
-
-  // public void preLoad() {
-  //   lifterMotor.set(ControlMode.PercentOutput, -.2);
-  // }
 
   @Override
   public void periodic() {

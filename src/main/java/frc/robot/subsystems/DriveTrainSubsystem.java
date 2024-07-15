@@ -12,34 +12,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
-import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
-import frc.robot.Constants.Turret;
-import frc.robot.lib.CsvLogger;
 
 public class DriveTrainSubsystem extends SubsystemBase {
-
-  // private WPI_TalonFX leftMaster;
-  // private WPI_TalonFX leftFollower1;   
-  // private final WPI_TalonFX rightMaster;
-  // private final WPI_TalonFX rightFollower1;
   
   private WPI_TalonSRX leftMaster;
   private VictorSPX leftFollower1; 
@@ -53,23 +35,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
 
   private boolean isHighGear;
 
-  private final SpeedControllerGroup leftGroup;
-  private final SpeedControllerGroup rightGroup;
-
-  private AHRS navX = null;
-
   private DifferentialDrive drive;
-  private DifferentialDriveOdometry odometry;
 
   public DriveTrainSubsystem() {
-    // leftMaster = new WPI_TalonFX(Constants.Motors.kDriveLeftMasterId);
-    // leftMaster.configFactoryDefault();
-    // leftFollower1 = new WPI_TalonFX(Constants.Motors.kDriveLeftFollowerId);
-    // leftFollower1.configFactoryDefault();
-    // rightMaster = new WPI_TalonFX(Constants.Motors.kDriveRightMasterId);
-    // rightMaster.configFactoryDefault();
-    // rightFollower1= new WPI_TalonFX(Constants.Motors.kDriveRightFollowerId);
-    // rightFollower1.configFactoryDefault();
 
     leftMaster = new WPI_TalonSRX(Constants.Motors.kDriveLeftMasterId);
     leftMaster.configFactoryDefault();
@@ -111,39 +79,9 @@ public class DriveTrainSubsystem extends SubsystemBase {
     leftFollower1.follow(leftMaster);
     leftFollower2.follow(leftMaster);
 
-    leftGroup = new SpeedControllerGroup(leftMaster);
-    rightGroup  = new SpeedControllerGroup(rightMaster);    
-    drive = new DifferentialDrive(leftGroup, rightGroup);
-
-    try {
-      navX = new AHRS(SPI.Port.kMXP);
-      navX.enableLogging(true);
-    } catch (Exception e) {
-      DriverStation.reportError("Error instantiating navX: ", e.getStackTrace());
-    }
-
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
-    CsvLogger.addLoggingFieldBoolean("shifting", "", "getIsHighGear", this);
-    CsvLogger.addLoggingFieldDouble("odometry x", "", "getPoseX", this);
-    CsvLogger.addLoggingFieldDouble("odometry Y", "", "getPoseY", this);
+    drive = new DifferentialDrive(leftMaster, rightMaster);
   }
 
-  
-
-  public void setOdometry(double x, double y){
-    Pose2d newPose = new Pose2d(x, y, getAngle());
-    odometry.resetPosition(newPose, getAngle());
-  }
-
-  public double getPoseX() {
-    return Units.metersToInches(odometry.getPoseMeters().getTranslation().getX());
-  }
-
-  public double getPoseY() {
-    return Units.metersToInches(odometry.getPoseMeters().getTranslation().getY());
-  }
-
-  
   public void setHighGear(boolean highGear) {
     shifter.set(highGear);
     isHighGear = highGear;
@@ -154,39 +92,11 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double tank, double turn) {
-    System.out.println("Arcade Turn Value: " + turn);
     drive.arcadeDrive(tank, turn);
   }
 
   public void curvatureDrive(double tank, double turn, boolean quickTurn) {
-    //System.out.println("Curvature Turn Value: " + turn);
-    // if (quickTurn) {
-    //   turn = turn * Constants.DriveTrain.kTurnInPlaceSpeed;
-    // }
     drive.curvatureDrive(tank, turn, quickTurn);
-  }
-
-  public Rotation2d  getAngle() {
-    if (navX == null) {
-      return Rotation2d.fromDegrees(0.0);
-    } else {
-      return Rotation2d.fromDegrees(getHeading());
-    }
-  }
-
-  public Pose2d getPose() {
-    //System.out.println("------POSE: X: " + odometry.getPoseMeters().getTranslation().getX() + "   Y: " + odometry.getPoseMeters().getTranslation().getY() + "    ANGLE: " + odometry.getPoseMeters().getRotation().getDegrees());
-    return odometry.getPoseMeters();
-  }
-
-  public void putToSmartDashboard() {
-    SmartDashboard.putNumber("Right Encoder", rightMaster.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Left Encoder", leftMaster.getSelectedSensorPosition());
-    SmartDashboard.putNumber("x value meters", odometry.getPoseMeters().getTranslation().getX());
-    SmartDashboard.putNumber("x value inches", Units.metersToInches(odometry.getPoseMeters().getTranslation().getX()));
-    SmartDashboard.putNumber("y value meters", odometry.getPoseMeters().getTranslation().getY());
-    SmartDashboard.putNumber("y value inches", Units.metersToInches(odometry.getPoseMeters().getTranslation().getY()));
-    SmartDashboard.putNumber("NavX Angle", getHeading());
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
@@ -212,32 +122,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
   public void resetEncoders() {
     rightMaster.setSelectedSensorPosition(0);
     leftMaster.setSelectedSensorPosition(0);
-    setOdometry(0, 0);
-    navX.reset();
-  }
-
-  /**
-   * Returns the heading of the robot.
-   *
-   * @return the robot's heading in degrees, from -180 to 180
-   */
-  public double getHeading() {
-    return Math.IEEEremainder(navX.getAngle(), 360) * (true ? -1.0 : 1.0);
   }
 
   @Override
-  public void periodic() {
-    Rotation2d rot = Rotation2d.fromDegrees(getHeading());
-    double left =  ((double)leftMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio;
-    double right = ((double)rightMaster.getSelectedSensorPosition() / Constants.DriveTrain.kTicksPerRot) * Constants.DriveTrain.kDriveWheelCircumferenceMeters * Constants.DriveTrain.kEncoderGearRatio  ; 
-    //System.out.println("----------------DEGREES" + rot.getDegrees() + " LEFT DIST: " + left + "  RIGHT DIST: " + right);
-
-    odometry.update(
-       rot,
-       left,
-       right  
-    );
-  }
-
- 
+  public void periodic() {}
 }

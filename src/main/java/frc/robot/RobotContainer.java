@@ -7,35 +7,12 @@
 
 package frc.robot;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.math.trajectory.constraint.DifferentialDriveVoltageConstraint;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.RamseteCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.RamseteController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.*;
-import frc.robot.Constants.SmartDashboardStrings;
-import frc.robot.auto.*;
 import frc.robot.commands.*;
 
 
@@ -46,381 +23,79 @@ import frc.robot.commands.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  private DriveTrainSubsystem drivetrain;
+  private IntakeSubsystem intake;
+  private ShooterSubsystem shooter;
+  private HoodSubsystem hood;
+  private TurretSubsystem turret;
+  private ConveyorSubsystem conveyor;
 
-  private DriveTrainSubsystem driveTrain = null;
-  private IntakeSubsystem intake = null;
-  private ShooterSubsystem shooter = null;
-  private HoodSubsystem hood = null;
-  private TurretSubsystem turret = null;
-  private VisionSubsystem vision = null;
-  private ConveyorSubsystem conveyor = null;
-  private ElevatorSubsystem elevator = null;
-
-  private Joystick primaryJoystick = new Joystick(0);
-
-  // private Joystick turnJoystick;
-  // private Joystick tankJoystick;
-  // private Joystick secondaryPanel;
-
-  private ShooterControls shooterControls= null;
-  private AutoShooterControls autoShooterControls = new AutoShooterControls();
-
-  private MegaShooterCommand megaShooterCommand = null;
-  private VisionTurretAdjustCommand visionTurretCommand = null;
-  private ManualSpinUpCommand manualSpinUp = null;
-  private PixyCamManualDriveCommand pixyCamManualDriveCommand = null;
-  private SmartIntakeCommand smartIntakeCommand = null;
+  private Joystick joystick = new Joystick(0);
 
   public RobotContainer() {
-    driveTrain = new DriveTrainSubsystem();
+    drivetrain = new DriveTrainSubsystem();
     intake = new IntakeSubsystem();
     shooter = new ShooterSubsystem();
     hood = new HoodSubsystem();
     turret = new TurretSubsystem();
-    vision = new VisionSubsystem();
     conveyor = new ConveyorSubsystem();
-    elevator = new ElevatorSubsystem();
-    smartIntakeCommand = new SmartIntakeCommand(conveyor, intake);
 
-    visionTurretCommand = new VisionTurretAdjustCommand(vision, turret);
-    manualSpinUp = new ManualSpinUpCommand(shooter);
+    drivetrain.setDefaultCommand(
+      new RunCommand(
+        () -> drivetrain.curvatureDrive(-joystick.getX(), joystick.getY(), !joystick.getRawButton(3)), 
+        drivetrain
+      )
+    );
 
-    //svision.setLEDMode(1);
+    // TODO: check that these work
+    // shooter.setDefaultCommand(new ThrottleShootCommand(shooter, joystick::getThrottle));
+    // turret.setDefaultCommand(new TurretMoveCommand(joystick.getPOV(), turret));
 
-    configurePrimaryJoystick();
-
-    shooterControls = new ShooterControls(primaryJoystick);
-
-    megaShooterCommand = new MegaShooterCommand(shooter, vision, hood, turret, conveyor, shooterControls);
-
-    //pixyCamManualDriveCommand = new PixyCamManualDriveCommand(driveTrain, tankJoystick);
-
-    driveDefaultCommand();
-    // setMegaShooterDefaultCommand();
-
+    configureButtonBindings();
   }
 
   public void resetEncoders() {
-    driveTrain.resetEncoders();
-    elevator.resetEncoder();
+    drivetrain.resetEncoders();
     hood.resetEncoder();
     turret.resetEncoder();
-    shooter.resetEncoder();
   }
 
-  public void setMegaShooterDefaultCommand(boolean isTeleop) {
-    //System.out.println("INITIALIZED mEGASHOOTER COMMAND");
-    if(isTeleop) {
-      shooter.setDefaultCommand(megaShooterCommand);
-    } else {
-      shooter.setDefaultCommand(null);
-    }
-  }
+  public void configureButtonBindings() {
 
-  public void driveDefaultCommand() {
-    driveTrain.setDefaultCommand(
-      new RunCommand(
-        () -> driveTrain.curvatureDrive(-primaryJoystick.getX(), primaryJoystick.getY(), !primaryJoystick.getRawButton(3)), 
-        driveTrain
-      )
-    );
-  }
+    JoystickButton btnJS1  = new JoystickButton(joystick, 1);
+    JoystickButton btnJS2  = new JoystickButton(joystick, 2);
+    JoystickButton btnJS3  = new JoystickButton(joystick, 3);
+    JoystickButton btnJS4  = new JoystickButton(joystick, 4);
+    JoystickButton btnJS5  = new JoystickButton(joystick, 5);
+    JoystickButton btnJS6  = new JoystickButton(joystick, 6);
+    JoystickButton btnJS7  = new JoystickButton(joystick, 7);
+    JoystickButton btnJS8  = new JoystickButton(joystick, 8);
+    JoystickButton btnJS9  = new JoystickButton(joystick, 9);
+    JoystickButton btnJS10 = new JoystickButton(joystick, 10);
+    JoystickButton btnJS11 = new JoystickButton(joystick, 11);
+    JoystickButton btnJS12 = new JoystickButton(joystick, 12);
 
+    // TODO: change button bindings to be better
+    btnJS2.onTrue(new InstantCommand(() -> drivetrain.setHighGear(true))); //Shift speeds
+    btnJS2.onFalse(new InstantCommand(() -> drivetrain.setHighGear(false))); //stop shifting
 
-  public void configurePrimaryJoystick() {
-
-    JoystickButton btnJS1  = new JoystickButton(primaryJoystick, 1);
-    JoystickButton btnJS2  = new JoystickButton(primaryJoystick, 2);
-    JoystickButton btnJS3  = new JoystickButton(primaryJoystick, 3);
-    JoystickButton btnJS4  = new JoystickButton(primaryJoystick, 4);
-    JoystickButton btnJS5  = new JoystickButton(primaryJoystick, 5);
-    JoystickButton btnJS6  = new JoystickButton(primaryJoystick, 6);
-    JoystickButton btnJS7  = new JoystickButton(primaryJoystick, 7);
-    JoystickButton btnJS8  = new JoystickButton(primaryJoystick, 8);
-    JoystickButton btnJS9  = new JoystickButton(primaryJoystick, 9);
-    JoystickButton btnJS10 = new JoystickButton(primaryJoystick, 10);
-    JoystickButton btnJS11 = new JoystickButton(primaryJoystick, 11);
-    JoystickButton btnJS12 = new JoystickButton(primaryJoystick, 12);
-
-    btnJS1.whenPressed(() -> intake.armToggle());
-
-    btnJS2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJS2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-
-    btnJS6.whileHeld(smartIntakeCommand); 
-    btnJS6.whenReleased(() -> intake.intakeStop());
-
-    btnJS7.whileHeld(() -> intake.intakeOut()); 
-    btnJS7.whenReleased(() -> intake.intakeStop());
-
-    btnJS8.whenPressed(() -> hood.manualMoveHoodDown()); 
-    btnJS8.whenReleased(() -> hood.manualStopHoodMovement());
-
-    btnJS9.whenPressed(() -> hood.manualMoveHoodUp());
-    btnJS9.whenReleased(() -> hood.manualStopHoodMovement());
-  }
-
-  public void configureTurnJoystick() {
-    // turnJoystick = new Joystick(0);
-
-    // JoystickButton btnJL1 = new JoystickButton(turnJoystick, 1); 
-    // JoystickButton btnJL2 = new JoystickButton(turnJoystick, 2); //manual conveyor down
-    // JoystickButton btnJL3 = new JoystickButton(turnJoystick, 3); //quick turn
-    JoystickButton btnJL4 = new JoystickButton(primaryJoystick, 4);
-    JoystickButton btnJL5 = new JoystickButton(primaryJoystick, 5);
-    // JoystickButton btnJL6 = new JoystickButton(turnJoystick, 6);
-    // JoystickButton btnJL7 = new JoystickButton(turnJoystick, 7);
-    // JoystickButton btnJL8 = new JoystickButton(turnJoystick, 8);
-    // JoystickButton btnJL9 = new JoystickButton(turnJoystick, 9);
-    // JoystickButton btnJL10 = new JoystickButton(turnJoystick, 10);
-    // JoystickButton btnJL11 = new JoystickButton(turnJoystick, 11);
-
-    //btnJL1.whileHeld(pixyCamManualDriveCommand);
-
-    // btnJL3.whenPressed(() -> conveyor.setWantUp(true)); 
-    // btnJL3.whenReleased(() -> conveyor.setWantUp(false)); 
-
-    // btnJL6.whenPressed(() -> {}); 
-    // btnJL6.whenReleased(() -> {}); 
-
-    // btnJL7.whenPressed(() -> {}); 
-    // btnJL7.whenReleased(() -> {}); 
-
-    // btnJL8.whenPressed(() -> {}); 
-    // btnJL8.whenReleased(() -> {}); 
-
-    // btnJL9.whenPressed(() -> {}); 
-    // btnJL9.whenReleased(() -> {}); 
+    btnJS1.onTrue(new IntakeCommand(intake)); 
+    btnJS1.onFalse(new ArmUpCommand(intake));
     
-    // btnJL10.whenPressed(() -> {}); 
-    // btnJL10.whenReleased(() -> {});
+    btnJS3.whileTrue(new RunConveyorCommand(conveyor));
 
-    // btnJL11.whenPressed(() -> {});  
-    // btnJL11.whenReleased(() -> {});
+    btnJS4.whileTrue(new SpinUpShooterCommand(shooter));
+
+    btnJS8.onTrue(new InstantCommand(() -> hood.manualMoveHoodDown())); 
+    btnJS8.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
+
+    btnJS9.onTrue(new InstantCommand(() -> hood.manualMoveHoodUp()));
+    btnJS9.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
+
+    btnJS12.onTrue(new InstantCommand(() -> turret.resetEncoder()));
   }
 
-  public void configureTankJoystick() {
-    //tankJoystick = new Joystick(1);
-
-    // JoystickButton btnJR1 = new JoystickButton(tankJoystick, 1); //shoot in megashooter
-    JoystickButton btnJR2 = new JoystickButton(primaryJoystick, 2);
-    // JoystickButton btnJR3 = new JoystickButton(tankJoystick, 3); //ready in megashooter
-    // JoystickButton btnJR4 = new JoystickButton(tankJoystick, 4); //shooter idle speed
-    // JoystickButton btnJR5 = new JoystickButton(tankJoystick, 5);
-    // JoystickButton btnJR6 = new JoystickButton(tankJoystick, 6);
-    // JoystickButton btnJR7 = new JoystickButton(tankJoystick, 7);
-    // JoystickButton btnJR8 = new JoystickButton(tankJoystick, 8);
-    // JoystickButton btnJR9 = new JoystickButton(tankJoystick, 9);
-    // JoystickButton btnJR10 = new JoystickButton(tankJoystick, 10);
-    // JoystickButton btnJR11 = new JoystickButton(tankJoystick, 11);
-
-    btnJR2.whenPressed(() -> driveTrain.setHighGear(true)); //Shift speeds
-    btnJR2.whenReleased(() -> driveTrain.setHighGear(false)); //stop shifting
-
-    // btnJR5.whenPressed(() -> {}); 
-    // btnJR5.whenReleased(() -> {}); 
-
-    // btnJR6.whenPressed(() ->  {});
-    // btnJR6.whenReleased(() ->  {}); 
-
-    // btnJR7.whenPressed(() -> {}); 
-    // btnJR7.whenReleased(() -> {});
-
-    // btnJR8.whenPressed(() -> {}); 
-    // btnJR8.whenReleased(() -> {});
-
-    // btnJR9.whenPressed(() -> {}); 
-    // btnJR9.whenReleased(() -> {});
-
-    // btnJR10.whenPressed(() -> {}); 
-    // btnJR10.whenReleased(() -> {});
-
-    // btnJR11.whenPressed(() -> {}); 
-    // btnJR11.whenReleased(() -> {});
-  }
-
-  public void configureSecondaryPanel() {
-    //secondaryPanel = new Joystick(2);
-  }
-  
-  public void turnLEDSOff() {
-    limelightWasOn = true;
-    changeLimeLight(false);
-//    vision.setLEDMode(1);
-  }
-
-  public Command drivePathCommand() {
-    var autoVoltageConstraint =
-        new DifferentialDriveVoltageConstraint(
-            new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts,
-                                       Constants.DriveTrain.kvVoltSecondsPerMeter,
-                                       Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
-            Constants.DriveTrain.kinematics,
-            10);
-
-    // Create config for trajectory
-    TrajectoryConfig config =
-        new TrajectoryConfig(Constants.Autonomous.maxVelocity,
-                             Constants.Autonomous.maxAcceleration)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(Constants.DriveTrain.kinematics)
-            // Apply the voltage constraint
-            .addConstraint(autoVoltageConstraint);
-
-    // An example trajectory to follow.  All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-      // Start at the origin facing the +X direction
-      new Pose2d(0, 0, new Rotation2d(Math.toRadians(0))),
-      // Pass through these two interior waypoints, making an 's' curve path
-      //new ArrayList<Translation2d>(),
-      List.of(
-          new Translation2d(Units.feetToMeters(2), 0),
-          new Translation2d(Units.feetToMeters(3), 0)
-      ),
-      // End 3 meters straight ahead of where we started, facing forward
-      new Pose2d(Units.feetToMeters(5), 0, new Rotation2d(Math.toRadians(0))),
-        // Pass config
-        config
-    );
-
-    PIDController leftController = new PIDController(41.5, 0, 0);
-    PIDController rightController = new PIDController(41.5, 0, 0);
-
-    RamseteCommand ramseteCommand = new RamseteCommand(
-        exampleTrajectory,
-        driveTrain::getPose,
-        new RamseteController(Constants.DriveTrain.kRamseteB, Constants.DriveTrain.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.DriveTrain.ksVolts,
-                                   Constants.DriveTrain.kvVoltSecondsPerMeter,
-                                   Constants.DriveTrain.kaVoltSecondsSquaredPerMeter),
-        Constants.DriveTrain.kinematics,
-        driveTrain::getWheelSpeeds,
-        leftController,
-        rightController,
-        // RamseteCommand passes volts to the callback
-        (leftVolts, rightVolts)-> {
-          driveTrain.tankDriveVolts(leftVolts, rightVolts);
-
-          SmartDashboard.putNumber("leftMeasurement", driveTrain.getWheelSpeeds().leftMetersPerSecond);
-          SmartDashboard.putNumber("leftReference", leftController.getSetpoint());
-
-          SmartDashboard.putNumber("rightMeasurement", driveTrain.getWheelSpeeds().rightMetersPerSecond);
-          SmartDashboard.putNumber("rightReference", rightController.getSetpoint());
-        },
-        driveTrain
-    );
-
-
-    return ramseteCommand.andThen(() -> driveTrain.tankDriveVolts(0, 0));
-  }
-
-  public void putToSmartDashboard() {
-    driveTrain.putToSmartDashboard();
-    elevator.printEncoderPos();
-    hood.putEncoderToShuffleboard();
-    vision.putDistanceToSmartDashboard();
-    turret.printEncoderPos();
-    shooter.putToSmartDashboard();
-  }
-
-  public void unlockElevator() {
-    elevator.unlockElevator();
-  }
-
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
   public Command getAutonomousCommand() {
-
-    //return null;
-
-    //return drivePathCommand();
-
-    //return drivePathCommand();
-
-    // double x = 0;
-    // double y = 619.25;
-
-    // switch (pos.getString("middle")){
-    //   case "Middle":
-    //     y = 619.25;
-    //     break;
-    //   case "Forward":
-    //     y= 619.25 + 19;
-    //     break;
-    //   case "Back":
-
-    //     y = 619.25 - 19;
-    //     break;
-    // }
-
-    // switch (isLR.getString("Right")){
-    //   case "Right":
-    //     x = 203.25 - measurement.getDouble(0);
-    //     break;
-    //   case "Left":
-    //     x= measurement.getDouble(0);
-    //     break;
-    // }
-    // driveTrain.setOdometry(x, y);
-
-    double delay = SmartDashboard.getNumber(Constants.SmartDashboardStrings.kAutoDelay, 0);
-
-    switch(AutoModeSelector.getSelectedAuto()) { 
-      case DRIVE:
-        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(0));
-        DriveCommand drive = new DriveCommand(driveTrain);
-        return drive;
-      case DM:
-        return null;
-      // case LSG3:
-      //   StartLeftGenerator3Command leftGenerator3 = new StartLeftGenerator3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-      //   return leftGenerator3;
-      // case LSG5:
-      //   StartLeftShoot5Command leftShoot5 = new StartLeftShoot5Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-      //   return leftShoot5;
-      case LST2:
-        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(-220));
-        StartLeftTrench2Command leftTrench2 = new StartLeftTrench2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-        return leftTrench2;
-      case RST3:
-        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
-        StartRightTrench3Command rightTrench3 = new StartRightTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-        return rightTrench3;
-      case RST32:
-        driveTrain.setOdometry(Units.inchesToMeters(138), Units.inchesToMeters(68));
-        StartRightShootTrench3Command rightShootTrench3 = new StartRightShootTrench3Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-        return rightShootTrench3;
-      case CSG2:
-        driveTrain.setOdometry(Units.inchesToMeters(138),0);
-        StartCenterGenerator2Command startGen3 = new StartCenterGenerator2Command(driveTrain, shooter, intake, vision, hood, turret, conveyor, delay, autoShooterControls);
-        return startGen3;
-      case CS:
-        driveTrain.setOdometry(Units.inchesToMeters(138), 0);
-        CenterShootDriveParkCommand centerShootDrivePark = new CenterShootDriveParkCommand(driveTrain, shooter, vision, hood, turret, conveyor, delay, autoShooterControls);
-        return centerShootDrivePark;
-      default:
-        return null; 
-    }
-  }
-
-  private boolean limelightWasOn = true;
-  public void changeLimeLight(boolean turnOn){
-    if (vision != null)
-    {
-      if (limelightWasOn != turnOn) {
-        if (turnOn){
-          System.out.println("TURNING LIMELIGHT --- ON");
-          vision.setLEDMode(3);
-        } else {
-          System.out.println("TURNING LIMELIGHT --- OFF");
-          vision.setLEDMode(1);
-        }
-        limelightWasOn = turnOn;
-      }
-    }
+    return null;
   }
 }
