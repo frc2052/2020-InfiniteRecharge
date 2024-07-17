@@ -25,6 +25,7 @@ public class TurretMoveCommand extends Command {
   @Override
   public void initialize() {
     turret.driveToPos(angle);
+    System.out.println("driving to pos" + angle);
   }
 
   @Override

@@ -96,6 +96,13 @@ public class DriveTrainSubsystem extends SubsystemBase {
   }
 
   public void curvatureDrive(double tank, double turn, boolean quickTurn) {
+    if (Math.abs(tank) < 0.075) {
+      tank = 0;
+    }
+
+    if (Math.abs(turn) < 0.075) {
+      turn = 0;
+    }
     drive.curvatureDrive(tank, turn, quickTurn);
   }
 

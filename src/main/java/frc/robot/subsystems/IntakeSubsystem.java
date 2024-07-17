@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -14,12 +15,17 @@ public class IntakeSubsystem extends SubsystemBase {
   private VictorSPX outerIntakeMotor;
   private boolean isArmDown;
   private double intakePct;
+  private final Compressor compressor;
 
     public IntakeSubsystem() {
         upSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kUpIntakeSolenoidID);
         downSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kDownIntakeSolenoidID);
         outerIntakeMotor = new VictorSPX(Constants.Motors.kOuterIntakeMotorID);
         outerIntakeMotor.configFactoryDefault();
+
+        compressor = new Compressor(PneumaticsModuleType.CTREPCM);
+        // compressor.enableAnalog(100,120);
+        compressor.enableDigital();
 
         outerIntakeMotor.setNeutralMode(NeutralMode.Coast);
     }
@@ -33,8 +39,8 @@ public class IntakeSubsystem extends SubsystemBase {
         }
     }
     public void armUp(){
-        downSolenoid.set(true);
-        upSolenoid.set(false);
+        downSolenoid.set(false);
+        upSolenoid.set(true);
         isArmDown = false;
     }
     public void armDown(){
@@ -64,4 +70,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public double getIntakeSpeed() {
         return intakePct;
     }
+
+    @Override
+    public void periodic() {
+    }
+        
 }

@@ -42,14 +42,14 @@ public class RobotContainer {
 
     drivetrain.setDefaultCommand(
       new RunCommand(
-        () -> drivetrain.curvatureDrive(-joystick.getX(), joystick.getY(), !joystick.getRawButton(3)), 
+        () -> drivetrain.curvatureDrive(-joystick.getX(), -joystick.getY(), !joystick.getRawButton(3)), 
         drivetrain
       )
     );
 
     // TODO: check that these work
-    // shooter.setDefaultCommand(new ThrottleShootCommand(shooter, joystick::getThrottle));
-    // turret.setDefaultCommand(new TurretMoveCommand(joystick.getPOV(), turret));
+    shooter.setDefaultCommand(new ThrottleShootCommand(shooter, joystick::getThrottle));
+    turret.setDefaultCommand(new TurretMoveCommand(joystick.getPOV(), turret));
 
     configureButtonBindings();
   }
@@ -75,22 +75,21 @@ public class RobotContainer {
     JoystickButton btnJS11 = new JoystickButton(joystick, 11);
     JoystickButton btnJS12 = new JoystickButton(joystick, 12);
 
-    // TODO: change button bindings to be better
     btnJS2.onTrue(new InstantCommand(() -> drivetrain.setHighGear(true))); //Shift speeds
     btnJS2.onFalse(new InstantCommand(() -> drivetrain.setHighGear(false))); //stop shifting
 
-    btnJS1.onTrue(new IntakeCommand(intake)); 
-    btnJS1.onFalse(new ArmUpCommand(intake));
+    btnJS1.onTrue(new IntakeCommand(intake, conveyor)); 
+    btnJS1.onFalse(new ArmUpCommand(intake, conveyor));
     
-    btnJS3.whileTrue(new RunConveyorCommand(conveyor));
+    btnJS6.whileTrue(new RunConveyorCommand(conveyor));
 
-    btnJS4.whileTrue(new SpinUpShooterCommand(shooter));
+    // btnJS4.whileTrue(new SpinUpShooterCommand(shooter));
 
-    btnJS8.onTrue(new InstantCommand(() -> hood.manualMoveHoodDown())); 
+    btnJS7.onTrue(new InstantCommand(() -> hood.manualMoveHoodDown())); 
+    btnJS7.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
+
+    btnJS8.onTrue(new InstantCommand(() -> hood.manualMoveHoodUp()));
     btnJS8.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
-
-    btnJS9.onTrue(new InstantCommand(() -> hood.manualMoveHoodUp()));
-    btnJS9.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
 
     btnJS12.onTrue(new InstantCommand(() -> turret.resetEncoder()));
   }
