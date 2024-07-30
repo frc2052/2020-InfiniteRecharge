@@ -74,7 +74,7 @@ public class RobotContainer {
     btnJS2.onTrue(new InstantCommand(() -> drivetrain.setHighGear(true))); //Shift speeds
     btnJS2.onFalse(new InstantCommand(() -> drivetrain.setHighGear(false))); //stop shifting
 
-    btnJS1.onTrue(new IntakeCommand(intake, conveyor));
+    btnJS1.whileTrue(new IntakeCommand(intake, conveyor));
     
     btnJS4.whileTrue(new ThrottleShootCommand(shooter, joystick::getThrottle));
     

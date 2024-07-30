@@ -22,7 +22,13 @@ public class IntakeCommand extends Command {
   }
 
   @Override
+  public void end(boolean interrupted) {
+    intake.intakeStop();
+    conveyor.setWantBottomFeed(false);
+  }
+
+  @Override
   public boolean isFinished(){
-      return true;
+      return false;
   }
 }
