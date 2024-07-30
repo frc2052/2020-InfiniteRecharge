@@ -36,8 +36,8 @@ public class IntakeSubsystem extends SubsystemBase {
     }
     public void armDown(){
         System.out.println("-----ARM GOING DOWN");
-        upSolenoid.set(true);
-        downSolenoid.set(false);
+        downSolenoid.set(true);
+        upSolenoid.set(false);
     }
     public void intakeIn(){
         outerIntakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kIntakeSpeed);
