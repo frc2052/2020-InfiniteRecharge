@@ -9,30 +9,30 @@ import frc.robot.subsystems.TurretSubsystem;
 
 public class TurretMoveCommand extends Command {
   private final TurretSubsystem turret;
-  private double angle;
+  private final double power;
 
-  public TurretMoveCommand(double angle, TurretSubsystem turret) {
+  public TurretMoveCommand(double power, TurretSubsystem turret) {
+    this.power = power;
     this.turret = turret;
-    if(angle != -1){
-      this.angle = angle;
-    } else {
-      this.angle = angle;
-    }
-
     addRequirements(turret);
   }
 
   @Override
   public void initialize() {
-    turret.driveToPos(angle);
-    System.out.println("driving to pos" + angle);
+    turret.turnTurret(power);
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void execute() {
+    System.out.println("turret pos: " + turret.getEncoderPos());
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    turret.turnTurret(0);}
 
   @Override
   public boolean isFinished() {
-    return turret.getIsOnTarget();
+    return false;
   }
 }

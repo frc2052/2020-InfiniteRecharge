@@ -47,10 +47,6 @@ public class RobotContainer {
       )
     );
 
-    // TODO: check that these work
-    shooter.setDefaultCommand(new ThrottleShootCommand(shooter, joystick::getThrottle));
-    turret.setDefaultCommand(new TurretMoveCommand(joystick.getPOV(), turret));
-
     configureButtonBindings();
   }
 
@@ -78,12 +74,11 @@ public class RobotContainer {
     btnJS2.onTrue(new InstantCommand(() -> drivetrain.setHighGear(true))); //Shift speeds
     btnJS2.onFalse(new InstantCommand(() -> drivetrain.setHighGear(false))); //stop shifting
 
-    btnJS1.onTrue(new IntakeCommand(intake, conveyor)); 
-    btnJS1.onFalse(new ArmUpCommand(intake, conveyor));
+    btnJS1.onTrue(new IntakeCommand(intake, conveyor));
+    
+    btnJS4.whileTrue(new ThrottleShootCommand(shooter, joystick::getThrottle));
     
     btnJS6.whileTrue(new RunConveyorCommand(conveyor));
-
-    // btnJS4.whileTrue(new SpinUpShooterCommand(shooter));
 
     btnJS7.onTrue(new InstantCommand(() -> hood.manualMoveHoodDown())); 
     btnJS7.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
@@ -91,7 +86,12 @@ public class RobotContainer {
     btnJS8.onTrue(new InstantCommand(() -> hood.manualMoveHoodUp()));
     btnJS8.onFalse(new InstantCommand(() -> hood.manualStopHoodMovement()));
 
-    btnJS12.onTrue(new InstantCommand(() -> turret.resetEncoder()));
+    btnJS9.whileTrue(new TurretMoveCommand(0.3, turret));
+
+    btnJS10.whileTrue(new TurretMoveCommand(-0.3, turret));
+
+    btnJS11.onTrue(new InstantCommand(() -> intake.armDown()));
+    btnJS12.onTrue(new InstantCommand(() -> intake.armUp()));
   }
 
   public Command getAutonomousCommand() {

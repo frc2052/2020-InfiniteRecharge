@@ -18,43 +18,30 @@ public class IntakeSubsystem extends SubsystemBase {
   private final Compressor compressor;
 
     public IntakeSubsystem() {
-        upSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kUpIntakeSolenoidID);
-        downSolenoid = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kDownIntakeSolenoidID);
+        upSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoids.kUpIntakeSolenoidID);
+        downSolenoid = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoids.kDownIntakeSolenoidID);
         outerIntakeMotor = new VictorSPX(Constants.Motors.kOuterIntakeMotorID);
         outerIntakeMotor.configFactoryDefault();
 
         compressor = new Compressor(PneumaticsModuleType.CTREPCM);
-        // compressor.enableAnalog(100,120);
         compressor.enableDigital();
 
         outerIntakeMotor.setNeutralMode(NeutralMode.Coast);
     }
-    public void armToggle(){
-        if(isArmDown){
-            System.out.println("-----ARM GOING UP");
-            armUp();
-        } else {
-            System.out.println("-----ARM GOING DOWN");
-            armDown();
-        }
-    }
+
     public void armUp(){
+        System.out.println("-----ARM GOING UP");
         downSolenoid.set(false);
         upSolenoid.set(true);
-        isArmDown = false;
     }
     public void armDown(){
+        System.out.println("-----ARM GOING DOWN");
         upSolenoid.set(true);
         downSolenoid.set(false);
-        isArmDown = true;
     }
     public void intakeIn(){
         outerIntakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kIntakeSpeed);
         intakePct = Constants.Intake.kIntakeSpeed;
-    }
-
-    public boolean getIsArmDown() {
-        return isArmDown;
     }
 
     public void intakeOut(){

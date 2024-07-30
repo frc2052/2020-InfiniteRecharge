@@ -36,7 +36,9 @@ public class ThrottleShootCommand extends Command{
   }
 
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    shooter.setShooterPct(0);
+  }
 
   @Override
   public boolean isFinished() {

@@ -42,8 +42,10 @@ public class TurretSubsystem extends SubsystemBase {
   public void periodic() {
     if(turretMotor.getSelectedSensorVelocity() < 0 && turretMotor.getSelectedSensorPosition() < Constants.Turret.kTurretMinEncoderPos) {
       turretMotor.set(ControlMode.PercentOutput, 0);
+      System.out.println("hitting turret min");
     } else if(turretMotor.getSelectedSensorVelocity() > 0 && turretMotor.getSelectedSensorPosition() > Constants.Turret.kTurretMaxEncoderPos) {
       turretMotor.set(ControlMode.PercentOutput, 0);
+      System.out.println("hitting turret max");
     }
   }
   

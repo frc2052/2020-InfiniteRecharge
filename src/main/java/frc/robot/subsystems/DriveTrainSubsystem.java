@@ -52,7 +52,7 @@ public class DriveTrainSubsystem extends SubsystemBase {
     rightFollower2 = new WPI_VictorSPX(Constants.Motors.kDriveRightFollower2Id);
     rightFollower2.configFactoryDefault();
     
-    shifter = new Solenoid(PneumaticsModuleType.REVPH, Constants.Solenoids.kShifterSolenoidID);
+    shifter = new Solenoid(PneumaticsModuleType.CTREPCM, Constants.Solenoids.kShifterSolenoidID);
 
     rightMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
     leftMaster.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, Constants.DriveTrain.kVelocityControlSlot, Constants.DriveTrain.kCANBusConfigTimeoutMS);
